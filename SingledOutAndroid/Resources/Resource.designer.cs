@@ -98,31 +98,40 @@ namespace SingledOutAndroid
 			public const int buttonselector = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int facebooklogin = 2130837505;
+			public const int ellipse1 = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int googlelogin = 2130837506;
+			public const int ellipse2 = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int logonopin = 2130837507;
+			public const int ellipse3 = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int logopin = 2130837508;
+			public const int facebooklogin = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int RoundedButton = 2130837509;
+			public const int googlelogin = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int SingledOutAppIcon = 2130837510;
+			public const int logonopin = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int singledoutlogo = 2130837511;
+			public const int logopin = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int textcolour = 2130837512;
+			public const int RoundedButton = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int twitterlogin = 2130837513;
+			public const int SingledOutAppIcon = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int singledoutlogo = 2130837514;
+			
+			// aapt resource value: 0x7f02000b
+			public const int textcolour = 2130837515;
+			
+			// aapt resource value: 0x7f02000c
+			public const int twitterlogin = 2130837516;
 			
 			static Drawable()
 			{
@@ -137,44 +146,47 @@ namespace SingledOutAndroid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f080008
+			public const int childlayout1 = 2131230728;
+			
 			// aapt resource value: 0x7f080007
-			public const int childlayout1 = 2131230727;
-			
-			// aapt resource value: 0x7f080006
-			public const int containerlayout = 2131230726;
-			
-			// aapt resource value: 0x7f080002
-			public const int facebooklogin = 2131230722;
-			
-			// aapt resource value: 0x7f080003
-			public const int googleLogin = 2131230723;
-			
-			// aapt resource value: 0x7f08000b
-			public const int imageView1 = 2131230731;
-			
-			// aapt resource value: 0x7f080009
-			public const int logonopin = 2131230729;
+			public const int containerlayout = 2131230727;
 			
 			// aapt resource value: 0x7f080000
-			public const int mLlayoutBottomButtons = 2131230720;
+			public const int ellipse1 = 2131230720;
 			
-			// aapt resource value: 0x7f080008
-			public const int pin = 2131230728;
-			
-			// aapt resource value: 0x7f080001
-			public const int signIn = 2131230721;
+			// aapt resource value: 0x7f080003
+			public const int facebooklogin = 2131230723;
 			
 			// aapt resource value: 0x7f080004
-			public const int twitterLogin = 2131230724;
+			public const int googleLogin = 2131230724;
 			
-			// aapt resource value: 0x7f080005
-			public const int welcomeDescription = 2131230725;
+			// aapt resource value: 0x7f08000d
+			public const int imageView1 = 2131230733;
 			
 			// aapt resource value: 0x7f08000a
-			public const int welcomeTitle = 2131230730;
+			public const int logonopin = 2131230730;
+			
+			// aapt resource value: 0x7f080009
+			public const int pin = 2131230729;
+			
+			// aapt resource value: 0x7f080002
+			public const int signIn = 2131230722;
+			
+			// aapt resource value: 0x7f080001
+			public const int signinchildlayout = 2131230721;
+			
+			// aapt resource value: 0x7f080005
+			public const int twitterLogin = 2131230725;
+			
+			// aapt resource value: 0x7f080006
+			public const int welcomeDescription = 2131230726;
 			
 			// aapt resource value: 0x7f08000c
-			public const int welcomebutton = 2131230732;
+			public const int welcomeTitle = 2131230732;
+			
+			// aapt resource value: 0x7f08000b
+			public const int welcomechildlayout = 2131230731;
 			
 			static Id()
 			{

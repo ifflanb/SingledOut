@@ -73,11 +73,11 @@ namespace SingledOutAndroid
 
 			// Event for starting pin slide down animation after logo slide up animation ends.
 			animateLogo.AnimationEnd += (object sender, Android.Views.Animations.Animation.AnimationEndEventArgs e) => {
-				//Thread.Sleep(500);
-				var animatePin = _animationHelper.CreateViewAnimation (pin, -pinStartPos, -pinStartPos, 0, toYPosition + 70, 800);
+				var yoffset = (int)(logonopin.LayoutParameters.Height * 0.30);
+				var animatePin = _animationHelper.CreateViewAnimation (pin, -pinStartPos, -pinStartPos, 0, toYPosition + yoffset, 800);
 				// Event for playing sound after the pin has slid down.
 				animatePin.AnimationEnd += (object send, Android.Views.Animations.Animation.AnimationEndEventArgs ev) => {
-					_soundHelper.PlaySound (Resource.Raw.pindropsound, this);
+				_soundHelper.PlaySound (Resource.Raw.pindropsound, this);
 				};
 				pin.Visibility = ViewStates.Visible;
 				pin.StartAnimation (animatePin); // start pin slide down animation.

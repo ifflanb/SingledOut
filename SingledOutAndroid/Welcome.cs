@@ -21,10 +21,10 @@ namespace SingledOutAndroid
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Welcome);
 
-			var welcomebutton = FindViewById<Button> (Resource.Id.welcomebutton);
-			welcomebutton.Click += (sender, e) => {
-				StartActivity(typeof(SignIn));
-			};
+			var footerFragment = new FooterLayout ();
+			var ft = FragmentManager.BeginTransaction ();
+			ft.Add (Resource.Id.welcomechildlayout, footerFragment);
+			ft.Commit ();
 		}
 	}
 }

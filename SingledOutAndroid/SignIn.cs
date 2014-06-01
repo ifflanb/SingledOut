@@ -66,6 +66,12 @@ namespace SingledOutAndroid
 			// and attach an event to it
 			var facebookLogin = FindViewById<ImageButton>(Resource.Id.facebooklogin);					
 			facebookLogin.Click += HandleFacebookLogin;
+
+			var footerFragment = new FooterLayout ();
+			var ft = FragmentManager.BeginTransaction ();
+			ft.Add (Resource.Id.signinchildlayout, footerFragment);
+			ft.Commit ();
+
 		}
 
 		void HandleFacebookLogin (object sender, EventArgs ea) {

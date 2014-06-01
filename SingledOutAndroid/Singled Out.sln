@@ -29,10 +29,6 @@ Global
 		{CBA6F016-B2F6-4598-B076-743BDEE94715}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBA6F016-B2F6-4598-B076-743BDEE94715}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBA6F016-B2F6-4598-B076-743BDEE94715}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CBA6F016-B2F6-4598-B076-743BDEE94715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CBA6F016-B2F6-4598-B076-743BDEE94715}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CBA6F016-B2F6-4598-B076-743BDEE94715}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CBA6F016-B2F6-4598-B076-743BDEE94715}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Singled Out.csproj

@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:background="#fff">
     <LinearLayout
+        android:id="@+id/welcomechildlayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -40,14 +41,5 @@
             android:layout_marginRight="10dp"
             android:gravity="center_horizontal"
             android:textSize="16dp" />
-        <Button
-            android:id="@+id/welcomebutton"
-            android:layout_width="150dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:text="Lets Get Started!"
-            android:layout_gravity="center_horizontal"
-            android:textColor="#fff6f6f6"
-            android:background="@drawable/buttonselector" />
     </LinearLayout>
 </LinearLayout>

@@ -1,58 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#fff">
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/mLlayoutBottomButtons"
-        android:background="#ffffff"
-        android:fitsSystemWindows="true" />
-    <TextView
-        android:text="Sign In"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/signIn"
-        android:textColor="#ff000000"
-        android:gravity="center"
-        android:layout_marginTop="50.0dp"
-        android:layout_marginBottom="60.0dp"
-        android:typeface="normal"
-        android:textSize="30dp"
-        android:textStyle="normal" />
-    <ImageButton
-        android:src="@drawable/facebooklogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100.0dp"
-        android:layout_marginBottom="10.0dp"
-        android:id="@+id/facebooklogin"
-        android:background="#ffffff" />
-    <ImageButton
-        android:src="@drawable/googlelogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="160.0dp"
-        android:layout_marginBottom="10.0dp"
-        android:id="@+id/googleLogin"
-        android:background="#ffffff" />
-    <ImageButton
-        android:src="@drawable/twitterlogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="220.0dp"
-        android:layout_marginBottom="10.0dp"
-        android:id="@+id/twitterLogin"
-        android:background="#ffffff" />
+    android:background="#fff"
+    android:orientation="vertical">
     <LinearLayout
-        android:id="@+id/mLlayoutBottomButtons"
+        android:id="@+id/signinchildlayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:orientation="vertical">
+        <TextView
+            android:text="Sign In"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signIn"
+            android:textColor="#ff000000"
+            android:gravity="center"
+            android:layout_marginTop="50.0dp"
+            android:layout_marginBottom="10.0dp"
+            android:typeface="normal"
+            android:textSize="20dp"
+            android:textStyle="normal" />
+        <ImageButton
+            android:src="@drawable/facebooklogin"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:id="@+id/facebooklogin"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center" />
+        <ImageButton
+            android:src="@drawable/googlelogin"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:id="@+id/googleLogin"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center" />
+        <ImageButton
+            android:src="@drawable/twitterlogin"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:id="@+id/twitterLogin"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center" />
         <TextView
             android:text="Please sign in to Singled Out with one of the above:"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -60,9 +54,12 @@
             android:layout_height="match_parent"
             android:id="@+id/welcomeDescription"
             android:textColor="#ff000000"
+            android:layout_marginTop="40dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:textSize="16dp"
+            android:layout_gravity="bottom" />
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

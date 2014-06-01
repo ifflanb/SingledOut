@@ -61,6 +61,7 @@
     <Compile Include="Fragments\TutorialFooter.cs" />
     <Compile Include="SplashPage.cs" />
     <Compile Include="Welcome.cs" />
+    <Compile Include="FooterLayout.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -89,6 +90,9 @@
     <AndroidResource Include="Resources\drawable\logopin.png" />
     <AndroidResource Include="Resources\layout\SplashPage.axml" />
     <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\drawable\ellipse1.png" />
+    <AndroidResource Include="Resources\drawable\ellipse2.png" />
+    <AndroidResource Include="Resources\drawable\ellipse3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
