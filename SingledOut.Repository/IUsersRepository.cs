@@ -1,0 +1,22 @@
+﻿using System.Linq;
+using SingledOut.Data.Entities;
+
+namespace SingledOut.Repository
+{
+    public interface IUserRepository
+    {
+        IQueryable<User> GetAllUsers();
+
+        User GetUser(int userID);
+
+        int Insert(User user);
+
+        int Update(User originalUser, User updatedUser);
+
+        int DeleteUser(int id);
+
+        int SaveAll();
+
+        bool LoginUser(string userName, string password);
+    }
+}

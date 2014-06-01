@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#fff">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#ffffff">
+        <TextView
+            android:text="Welcome to"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/welcomeTitle"
+            android:textColor="#ff000000"
+            android:gravity="center"
+            android:layout_marginTop="50.0dp"
+            android:typeface="normal"
+            android:textSize="20dp"
+            android:textStyle="normal" />
+        <ImageView
+            android:src="@drawable/singledoutlogo"
+            android:layout_width="200dp"
+            android:layout_height="120dp"
+            android:id="@+id/imageView1"
+            android:layout_gravity="center" />
+        <TextView
+            android:text="The fun way to discover where to find and get to know other single people near you.  "
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/welcomeDescription"
+            android:textColor="#ff000000"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:textSize="16dp" />
+        <Button
+            android:id="@+id/welcomebutton"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:text="Lets Get Started!"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#fff6f6f6"
+            android:background="@drawable/buttonselector" />
+    </LinearLayout>
+</LinearLayout>
