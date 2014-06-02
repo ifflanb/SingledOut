@@ -9,6 +9,7 @@ using Facebook.Android;
 using SingledOut.Model;
 using System.Threading.Tasks;
 using SingledOutAndroid.Helpers;
+using CSS.Helpers;
 
 namespace SingledOutAndroid
 {
@@ -26,13 +27,13 @@ namespace SingledOutAndroid
 	{
 		// Put Facebook App Id here, if you don't have one go to
 		// https://developers.facebook.com/apps
-		private const string AppId = "732420766779089";
+		private const string AppId = "732420766779089";	    
+		private AnimationHelper _animationHelper;
 
-	    public SignIn()
-	    {
-	            
-	    }
-
+		public SignIn ()
+		{
+			
+		}
 		/// <summary>
 		/// Extended permissions is a comma separated list of permissions to ask the user.
 		/// </summary>
@@ -61,12 +62,14 @@ namespace SingledOutAndroid
 			// Create your application here
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.SignIn);
+			_animationHelper = new AnimationHelper ();
 
 			// Get our button from the layout resource,
 			// and attach an event to it
 			var facebookLogin = FindViewById<ImageButton>(Resource.Id.facebooklogin);					
 			facebookLogin.Click += HandleFacebookLogin;
 
+			// Add footer.
 			var footerFragment = new FooterLayout ();
 			var ft = FragmentManager.BeginTransaction ();
 			ft.Add (Resource.Id.signinchildlayout, footerFragment);

@@ -25,6 +25,17 @@ namespace SingledOutAndroid
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			var view = inflater.Inflate(Resource.Layout.Footer_Layout, container, false);
+			var imageView = view.FindViewById<ImageView> (Resource.Id.ellipse);
+			if (container.Id == Resource.Id.welcomechildlayout) {
+				imageView.SetImageResource (Resource.Drawable.ellipse1);
+			}
+			if (container.Id == Resource.Id.signinchildlayout) {
+				imageView.SetImageResource (Resource.Drawable.ellipse2);
+			}
+			if (container.Id == Resource.Id.tutorial1childlayout) {
+				imageView.SetImageResource (Resource.Drawable.ellipse3);
+			}
+
 			return view;
 		}
 	}

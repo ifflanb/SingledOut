@@ -17,8 +17,6 @@ namespace SingledOutAndroid
 		public override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
-
-
 		}
 	}
 }

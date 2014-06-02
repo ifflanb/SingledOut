@@ -21,6 +21,11 @@ namespace SingledOutAndroid
 			SetContentView (Resource.Layout.Tutorial1);
 
 			SwipeRightActivity = typeof(SignIn);
+			// Add footer.
+			var footerFragment = new FooterLayout ();
+			var ft = FragmentManager.BeginTransaction ();
+			ft.Add (Resource.Id.tutorial1childlayout, footerFragment);
+			ft.Commit ();
 		}
 	}
 }

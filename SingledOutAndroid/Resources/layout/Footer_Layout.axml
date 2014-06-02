@@ -9,6 +9,6 @@
         android:src="@drawable/ellipse1"
         android:layout_width="60dp"
         android:layout_height="10dp"
-        android:id="@+id/ellipse1"
+        android:id="@+id/ellipse"
         android:layout_gravity="center" />
 </LinearLayout>

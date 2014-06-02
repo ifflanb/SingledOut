@@ -146,47 +146,59 @@ namespace SingledOutAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f080008
-			public const int childlayout1 = 2131230728;
+			// aapt resource value: 0x7f080009
+			public const int childlayout1 = 2131230729;
 			
-			// aapt resource value: 0x7f080007
-			public const int containerlayout = 2131230727;
+			// aapt resource value: 0x7f080008
+			public const int containerlayout = 2131230728;
 			
 			// aapt resource value: 0x7f080000
-			public const int ellipse1 = 2131230720;
-			
-			// aapt resource value: 0x7f080003
-			public const int facebooklogin = 2131230723;
+			public const int ellipse = 2131230720;
 			
 			// aapt resource value: 0x7f080004
-			public const int googleLogin = 2131230724;
-			
-			// aapt resource value: 0x7f08000d
-			public const int imageView1 = 2131230733;
-			
-			// aapt resource value: 0x7f08000a
-			public const int logonopin = 2131230730;
-			
-			// aapt resource value: 0x7f080009
-			public const int pin = 2131230729;
-			
-			// aapt resource value: 0x7f080002
-			public const int signIn = 2131230722;
-			
-			// aapt resource value: 0x7f080001
-			public const int signinchildlayout = 2131230721;
+			public const int facebooklogin = 2131230724;
 			
 			// aapt resource value: 0x7f080005
-			public const int twitterLogin = 2131230725;
+			public const int googleLogin = 2131230725;
 			
-			// aapt resource value: 0x7f080006
-			public const int welcomeDescription = 2131230726;
-			
-			// aapt resource value: 0x7f08000c
-			public const int welcomeTitle = 2131230732;
+			// aapt resource value: 0x7f080011
+			public const int imageView1 = 2131230737;
 			
 			// aapt resource value: 0x7f08000b
-			public const int welcomechildlayout = 2131230731;
+			public const int logonopin = 2131230731;
+			
+			// aapt resource value: 0x7f08000a
+			public const int pin = 2131230730;
+			
+			// aapt resource value: 0x7f080003
+			public const int signIn = 2131230723;
+			
+			// aapt resource value: 0x7f080002
+			public const int signinchildlayout = 2131230722;
+			
+			// aapt resource value: 0x7f080001
+			public const int signincontainerlayout = 2131230721;
+			
+			// aapt resource value: 0x7f08000e
+			public const int tutorial1 = 2131230734;
+			
+			// aapt resource value: 0x7f08000d
+			public const int tutorial1childlayout = 2131230733;
+			
+			// aapt resource value: 0x7f08000c
+			public const int tutorial1containerlayout = 2131230732;
+			
+			// aapt resource value: 0x7f080006
+			public const int twitterLogin = 2131230726;
+			
+			// aapt resource value: 0x7f080007
+			public const int welcomeDescription = 2131230727;
+			
+			// aapt resource value: 0x7f080010
+			public const int welcomeTitle = 2131230736;
+			
+			// aapt resource value: 0x7f08000f
+			public const int welcomechildlayout = 2131230735;
 			
 			static Id()
 			{
