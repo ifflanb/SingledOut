@@ -46,6 +46,10 @@
     <Reference Include="SingledOut.Model">
       <HintPath>..\SingledOut.Model\bin\Debug\SingledOut.Model.dll</HintPath>
     </Reference>
+    <Reference Include="System.Json" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\SingledOutAndroid\packages\Newtonsoft.Json.6.0.3\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

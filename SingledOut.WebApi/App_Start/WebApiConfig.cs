@@ -30,8 +30,12 @@ namespace SingledOut.WebApi
               defaults: new { controller = "Enrollments", userName = RouteParameter.Optional }
           );
 
-            var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
-            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+           // var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
+           // jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             //Replace the controller configuration selector
             config.Services.Replace(typeof(IHttpControllerSelector), new SingledOutControllerSelector((config)));

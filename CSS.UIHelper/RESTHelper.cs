@@ -2,13 +2,40 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 using SingledOut.Model;
+using System;
 
-namespace SingledOutAndroid.Helpers
+namespace CSS.Helpers
 {
-    public static class RestHelper
+	public class RestHelper<T>
     {
+
+		public void Post(string url, T objectClass) {
+
+
+			HttpClient client = new HttpClient();
+
+			client.BaseAddress = new Uri(url);
+
+			// Add an Accept header for JSON format.
+			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+					
+			// 1. Post a new object
+			var json = JsonConvert.SerializeObject(objectClass);
+
+			var response = client.PostAsync(url, new StringContent(json)).Result;
+			if  (response.IsSuccessStatusCode)
+			{
+				// display the new employee
+
+			}
+			else
+			{
+				//Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+			}
+		}
+
 //        public static async Task<T> PostAsync<T>(string uri, T data)
 //        {
 //            var json = JsonConvert.SerializeObject(data);

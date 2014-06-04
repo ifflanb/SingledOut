@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using SingledOut.Globals;
+//using SingledOut.Globals;
 using SingledOut.Model;
 
 namespace SingledOut.UnitTests.WebApi.Controller
@@ -42,12 +42,12 @@ namespace SingledOut.UnitTests.WebApi.Controller
             //
             // Act.
             //
-            using (var httpClient = new HttpClient())
-            {
-                var postBody = json;
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                response = httpClient.PostAsync(Constants.ApiUrlUsers, new StringContent(postBody, Encoding.UTF8, "application/json"));
-            }
+            //using (var httpClient = new HttpClient())
+            //{
+            //    var postBody = json;
+            //    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //    response = httpClient.PostAsync(Constants.ApiUrlUsers, new StringContent(postBody, Encoding.UTF8, "application/json"));
+            //}
 
             //
             // Assert.

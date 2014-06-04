@@ -20,11 +20,6 @@ namespace Facebook.Android
 	[Activity (Label = "FBWebViewAuthActivity")]			
 	public class FBWebViewAuthActivity : Activity
 	{
-		FacebookClient fb;
-		string url;
-		string appId;
-		string extendedPermissions;
-
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingledOut.Data", "SingledOut.Data\SingledOut.Data.csproj", "{ECFE2A09-A622-4932-BF16-A2F9AFFAAD8F}"
 EndProject
@@ -14,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingledOut.Services", "SingledOut.Services\SingledOut.Services.csproj", "{FB3E1B55-32D1-4170-9993-7B8ADA89EE28}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingledOut.UnitTests", "SingledOut.UnitTests\SingledOut.UnitTests.csproj", "{AC83AE84-D5B8-4A15-B976-C37B63382FBE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingledOut.Globals", "SingledOut.Globals\SingledOut.Globals.csproj", "{159FEBAF-5938-4967-AF62-AC8BB370681A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +45,6 @@ Global
 		{AC83AE84-D5B8-4A15-B976-C37B63382FBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC83AE84-D5B8-4A15-B976-C37B63382FBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC83AE84-D5B8-4A15-B976-C37B63382FBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{159FEBAF-5938-4967-AF62-AC8BB370681A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{159FEBAF-5938-4967-AF62-AC8BB370681A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{159FEBAF-5938-4967-AF62-AC8BB370681A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{159FEBAF-5938-4967-AF62-AC8BB370681A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

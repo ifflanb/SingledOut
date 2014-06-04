@@ -50,11 +50,14 @@
     <Reference Include="SingledOut.Model">
       <HintPath>..\SingledOut.Model\bin\Debug\SingledOut.Model.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.Auth.Android">
+      <HintPath>..\CSS.Authentication\lib\android\Xamarin.Auth.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FBWebViewAuthActivity.cs" />
     <Compile Include="BaseActivity.cs" />
     <Compile Include="SignIn.cs" />
     <Compile Include="Tutorial1.cs" />

@@ -56,10 +56,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SingledOut.Globals\SingledOut.Globals.csproj">
-      <Project>{159febaf-5938-4967-af62-ac8bb370681a}</Project>
-      <Name>SingledOut.Globals</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SingledOut.Model\SingledOut.Model.csproj">
       <Project>{0591b084-b08b-4530-b105-83ce83b81c27}</Project>
       <Name>SingledOut.Model</Name>

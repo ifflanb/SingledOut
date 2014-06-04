@@ -1,15 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\CSS.UIHelper\RESTHelper.cs">
     <Files>
-      <File FileName="Welcome.cs" Line="28" Column="4" />
-      <File FileName="SignIn.cs" Line="76" Column="3" />
-      <File FileName="FooterLayout.cs" Line="22" Column="39" />
+      <File FileName="SignIn.cs" Line="111" Column="1" />
+      <File FileName="..\CSS.UIHelper\RESTHelper.cs" Line="23" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Repos\SingledOut\CSS.Authentication\Facebook.cs" line="70" column="1" />
+      <Breakpoint file="C:\Repos\SingledOut\CSS.Authentication\Facebook.cs" line="31" column="1" />
+      <Breakpoint file="C:\Repos\SingledOut\CSS.Authentication\Facebook.cs" line="42" column="1" />
+      <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\SignIn.cs" line="111" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Singled_220Out MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="emulator-5554" />
+  <MonoDevelop.Ide.ItemProperties.Singled_220Out MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="FA34NW903113" />
 </Properties>
