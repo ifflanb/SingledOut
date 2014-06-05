@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Web.Http;
+using Newtonsoft.Json;
 using SingledOut.Model;
 using SingledOut.Repository;
 using SingledOut.WebApi.Filters;
@@ -61,7 +64,7 @@ namespace SingledOut.WebApi.Controllers
 
                 if (_userRepository.Insert(entity) > 0)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, _userModelFactory.Create(entity,Request));
+                    return Request.CreateResponse(HttpStatusCode.Created, _userModelFactory.Create(entity, Request));
                 }
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not save to the database.");
             }

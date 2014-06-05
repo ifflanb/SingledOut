@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NUnit.Framework;
-//using SingledOut.Globals;
 using SingledOut.Model;
 
 namespace SingledOut.UnitTests.WebApi.Controller
@@ -35,24 +34,51 @@ namespace SingledOut.UnitTests.WebApi.Controller
             // Arrange.
             //
             var data = CreateDummyUserModel();
-
-            var json = JsonConvert.SerializeObject(data);
-            Task<HttpResponseMessage> response;
-
-            //
-            // Act.
-            //
-            //using (var httpClient = new HttpClient())
-            //{
-            //    var postBody = json;
-            //    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //    response = httpClient.PostAsync(Constants.ApiUrlUsers, new StringContent(postBody, Encoding.UTF8, "application/json"));
-            //}
-
+            PostAsync("http://localhost/SingledOut.WebApi/api/users", data);
+   
             //
             // Assert.
             //
-            Assert.That(response.Result.IsSuccessStatusCode, Is.EqualTo(true));
+            //Assert.That(response.Result.IsSuccessStatusCode, Is.EqualTo(true));
         }
+
+        public HttpResponseMessage PostAsync(string uri, object data)
+        {
+            var httpClient = new HttpClient();
+            var json = JsonConvert.SerializeObject(data);
+
+            HttpContent cont = new StringContent(json);
+            cont.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = httpClient.PostAsync(uri, cont).Result;
+
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        //public HttpResponseMessage UploadNewClass(UserModel newClass, string url)
+        //{
+        //    try
+        //    {
+        //        // Serialize new class object to a Json string
+        //        var json = JsonConvert.SerializeObject(newClass, Formatting.Indented);
+
+        //        // Setup web client
+        //        var client = new WebClient {Encoding = Encoding.ASCII};
+        //        client.Headers.Add(HttpRequestHeader.ContentType, "application/json"); // tell the API we want Json returned
+
+        //        // Upload Json string via POST method and return bytes
+        //        var returnData = client.UploadData(url, "POST", Encoding.Default.GetBytes(json));
+
+        //        // Return string data as boolean
+        //        return returnData;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("Rest Exception: " + ex.Message);
+        //        return false;
+        //    }
+        //}
     }
 }

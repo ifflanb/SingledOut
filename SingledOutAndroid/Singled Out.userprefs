@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="..\CSS.UIHelper\RESTHelper.cs">
     <Files>
-      <File FileName="SignIn.cs" Line="111" Column="1" />
-      <File FileName="..\CSS.UIHelper\RESTHelper.cs" Line="23" Column="6" />
+      <File FileName="SignIn.cs" Line="124" Column="1" />
+      <File FileName="..\CSS.UIHelper\RESTHelper.cs" Line="17" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -11,7 +11,6 @@
       <Breakpoint file="C:\Repos\SingledOut\CSS.Authentication\Facebook.cs" line="70" column="1" />
       <Breakpoint file="C:\Repos\SingledOut\CSS.Authentication\Facebook.cs" line="31" column="1" />
       <Breakpoint file="C:\Repos\SingledOut\CSS.Authentication\Facebook.cs" line="42" column="1" />
-      <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\SignIn.cs" line="111" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

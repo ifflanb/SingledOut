@@ -5,36 +5,52 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SingledOut.Model;
 using System;
+using System.Json;
 
 namespace CSS.Helpers
 {
 	public class RestHelper<T>
     {
 
-		public void Post(string url, T objectClass) {
+		public HttpResponseMessage PostAsync(string uri, object data)
+		{
+			var httpClient = new HttpClient();
+			var json = JsonConvert.SerializeObject(data);
 
+			HttpContent cont = new StringContent(json);
+			cont.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-			HttpClient client = new HttpClient();
+			var response = httpClient.PostAsync(uri, cont).Result;
 
-			client.BaseAddress = new Uri(url);
+			response.EnsureSuccessStatusCode();
 
-			// Add an Accept header for JSON format.
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-					
-			// 1. Post a new object
-			var json = JsonConvert.SerializeObject(objectClass);
-
-			var response = client.PostAsync(url, new StringContent(json)).Result;
-			if  (response.IsSuccessStatusCode)
-			{
-				// display the new employee
-
-			}
-			else
-			{
-				//Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-			}
+			return response;
 		}
+
+//		public void Post(string url, T objectClass) {
+//
+//
+//			HttpClient client = new HttpClient();
+//
+//			client.BaseAddress = new Uri(url);
+//
+//			// Add an Accept header for JSON format.
+//			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+//					
+//			// 1. Post a new object
+//			var json = JsonConvert.SerializeObject(objectClass);
+//
+//			var response = client.PostAsync(url, new StringContent(json)).Result;
+//			if  (response.IsSuccessStatusCode)
+//			{
+//				// display the new employee
+//
+//			}
+//			else
+//			{
+//				//Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+//			}
+//		}
 
 //        public static async Task<T> PostAsync<T>(string uri, T data)
 //        {

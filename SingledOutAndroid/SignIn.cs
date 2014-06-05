@@ -15,7 +15,7 @@ namespace SingledOutAndroid
 {
 	public class Constants
 	{
-		public const string ApiUrlRoot = "http://localhost/SingledOut.WebApi/api/";
+		public const string ApiUrlRoot = "http://10.1.1.10/SingledOut.WebApi/api/";
 		public const string ApiUrlUsers = ApiUrlRoot + "users";
 		public const string ApiUrlQuestions = ApiUrlRoot + "questions";
 		public const string ApiUrlAnswers = ApiUrlRoot + "answers";
@@ -118,7 +118,7 @@ namespace SingledOutAndroid
 		                    UpdateDate = DateTime.UtcNow
 		                };					
 
-						_restHelper.Post(Constants.ApiUrlUsers, userModel);
+						_restHelper.PostAsync(Constants.ApiUrlUsers, userModel);
 					}
 
 					builder.SetPositiveButton ("Ok", (o, e) => { });
