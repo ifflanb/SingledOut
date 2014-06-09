@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/signincontainerlayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFF">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#FFF"
+        android:id="@+id/signinchildlayout">
+        <TextView
+            android:text="Sign In"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signIn"
+            android:textColor="#ff000000"
+            android:gravity="center"
+            android:layout_marginTop="50.0dp"
+            android:layout_marginBottom="10.0dp"
+            android:typeface="normal"
+            android:textSize="20dp"
+            android:textStyle="normal" />
+    <!--        <ImageButton
+            android:src="@drawable/facebooklogin"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/facebooklogin"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center" />-->
+        <com.facebook.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            facebook:confirm_logout="false"
+            facebook:fetch_user_info="true"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center" />
+        <ImageButton
+            android:src="@drawable/googlelogin"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/googleLogin"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center" />
+        <ImageButton
+            android:src="@drawable/twitterlogin"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/twitterLogin"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center" />
+        <TextView
+            android:text="Please sign in to Singled Out with one of the above:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/welcomeDescription"
+            android:textColor="#ff000000"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:textSize="16dp"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+</LinearLayout>

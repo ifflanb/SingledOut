@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tutorial1containerlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/tutorial2childlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:text="Tutorial 2"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tutorial2"
+            android:textColor="#ff000000"
+            android:gravity="center"
+            android:layout_marginTop="50.0dp"
+            android:layout_marginBottom="10.0dp"
+            android:typeface="normal"
+            android:textSize="20dp"
+            android:textStyle="normal" />
+        <TextView
+            android:text="This is the second part of the tutorial ..."
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/tutorial2Description"
+            android:textColor="#ff000000"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:textSize="16dp"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
+</LinearLayout>

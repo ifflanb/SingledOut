@@ -10,40 +10,45 @@ using Android.Util;
 using System.Threading;
 using System.Threading.Tasks;
 using CSS.Helpers;
+using Android.Content.PM;
+using Java.Security;
 
 namespace SingledOutAndroid
 {
-	[Activity (Theme = "@style/Theme.Splash", MainLauncher = true, 
-		ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait, 
-		NoHistory = true)]			
-	public class SplashPage : Activity
+	[Activity (Theme = "@style/Theme.Splash", MainLauncher = true)]			
+	public class SplashPage : BaseActivity
 	{
 		private AnimationHelper _animationHelper;
 		private SoundHelper _soundHelper;
-		private System.Timers.Timer _timer;
 
-		protected override void OnCreate (Bundle bundle)
+		public SplashPage ()
 		{
 			_animationHelper = new AnimationHelper ();
 			_soundHelper = new SoundHelper ();
+		}
 
+		protected override void OnCreate (Bundle bundle)
+		{
 			base.OnCreate (bundle);
+
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.SplashPage);
 
 			// Start the animation.
 			RunAnimation();
-			// Wait 5 seconds after the animation before opening the next page.
-			_timer = new System.Timers.Timer();
-			_timer.Interval = 4000;
-			_timer.Elapsed +=(object sender, System.Timers.ElapsedEventArgs e) => StartWelcomeActivity();
-			_timer.Start ();	
-		}
 
-		private void StartWelcomeActivity()
-		{
-			_timer.Stop ();
-			StartActivity (typeof(Welcome));
+			// Check if this is the first visit to the app.
+			// If it is show the welcome page.
+			if (GetUserPreference ("Visits") != null && GetUserPreference ("Visits") == "1") {
+				if (!string.IsNullOrEmpty(GetUserPreference ("FacebookAccessToken"))) {
+					StartActivityAfterPause (typeof(CheckIn));
+				}
+			} 
+			else 
+			{
+				SetUserPreference ("Visits", "1");
+				StartActivityAfterPause (typeof(Welcome));
+			}
 		}
 
 		/// <summary>
@@ -62,9 +67,10 @@ namespace SingledOutAndroid
 
 			var toYPosition = halfWayUpScreen - (logonopin.LayoutParameters.Height);
 			_animationHelper.SetLayoutHeight (childLayout, halfWayUpScreen + 100); // Set the height of the layout to half screen size.
+			IInterpolator interpolator = new BounceInterpolator();
 
 			// Creates the logo slide up animation.
-			var animateLogo = _animationHelper.CreateViewAnimation (logonopin, 0, 0, halfWayUpScreen, toYPosition, 1000);
+			var animateLogo = _animationHelper.CreateViewAnimation (logonopin, 0, 0, halfWayUpScreen, toYPosition, 900);
 
 			// Event for playing sound during logo slide up animation.
 			animateLogo.AnimationStart += (object sender, Android.Views.Animations.Animation.AnimationStartEventArgs evt) => {
@@ -73,8 +79,12 @@ namespace SingledOutAndroid
 
 			// Event for starting pin slide down animation after logo slide up animation ends.
 			animateLogo.AnimationEnd += (object sender, Android.Views.Animations.Animation.AnimationEndEventArgs e) => {
-				var yoffset = (int)(logonopin.LayoutParameters.Height * 0.30);
+				var yoffset = (int)(logonopin.LayoutParameters.Height * 0.29);
 				var animatePin = _animationHelper.CreateViewAnimation (pin, -pinStartPos, -pinStartPos, 0, toYPosition + yoffset, 800);
+				animatePin.Interpolator = interpolator;
+
+
+
 				// Event for playing sound after the pin has slid down.
 				animatePin.AnimationEnd += (object send, Android.Views.Animations.Animation.AnimationEndEventArgs ev) => {
 				_soundHelper.PlaySound (Resource.Raw.pindropsound, this);

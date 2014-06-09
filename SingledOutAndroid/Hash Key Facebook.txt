@@ -1,0 +1,12 @@
+sdgHureSw90Jx7R/Mh0Ptu/6AFU
+
+			PackageInfo info = this.PackageManager.GetPackageInfo ("SingledOutAndroid.SingledOutAndroid", PackageInfoFlags.Signatures);
+
+			foreach (Android.Content.PM.Signature signature in info.Signatures)
+			{
+				MessageDigest md = MessageDigest.GetInstance("SHA");
+				md.Update(signature.ToByteArray());
+
+				string keyhash = Convert.ToBase64String(md.Digest());
+				Console.WriteLine("KeyHash:",  keyhash);
+			}

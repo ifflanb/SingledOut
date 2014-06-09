@@ -11,7 +11,7 @@ using Android.Widget;
 
 namespace SingledOutAndroid
 {
-	[Activity (Label = "Tutorial - Step 1")]			
+	[Activity (Label = "Tutorial - Step 1", Theme = "@android:style/Theme.NoTitleBar", NoHistory=true)]			
 	public class Tutorial1 : BaseActivity
 	{
 		protected override void OnCreate (Bundle bundle)
@@ -20,7 +20,8 @@ namespace SingledOutAndroid
 
 			SetContentView (Resource.Layout.Tutorial1);
 
-			SwipeRightActivity = typeof(SignIn);
+			SwipeLeftActivity = typeof(Tutorial2);
+
 			// Add footer.
 			var footerFragment = new FooterLayout ();
 			var ft = FragmentManager.BeginTransaction ();

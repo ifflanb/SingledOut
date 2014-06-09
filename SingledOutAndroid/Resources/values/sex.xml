@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sex_prompt">Choose a planet</string>
+    <string-array name="sex_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+</resources>

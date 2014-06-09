@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/signincontainerlayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+    <TextView
+        android:text="Please complete the following details:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerDescription"
+        android:textColor="#ff000000"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center_horizontal"
+        android:textSize="16dp" />
+    <TextView
+        android:text="User Name:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/lblUsername" />
+    <EditText
+        android:inputType="textPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/txtUsername" />
+    <TextView
+        android:text="Password:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/lblPassword" />
+    <EditText
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/txtPassword" />
+    <TextView
+        android:text="First Name:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/lblFirstName" />
+    <EditText
+        android:inputType="textPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/txtFirstName" />
+    <TextView
+        android:text="Surname:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/lblSurname" />
+    <EditText
+        android:inputType="textPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/txtSurname" />
+    <TextView
+        android:text="Sex:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/lblSex" />
+    <Spinner
+        android:id="@+id/spnSex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:prompt="@string/sex_prompt" />
+</LinearLayout>

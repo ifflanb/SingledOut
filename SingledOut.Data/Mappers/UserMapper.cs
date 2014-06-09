@@ -20,9 +20,7 @@ namespace SingledOut.Data.Mappers
             this.Property(c => c.Sex).IsRequired();
             this.Property(c => c.Username).HasMaxLength(255);
             this.Property(c => c.Password).HasMaxLength(255);
-            this.Property(c => c.FacebookAccessToken).IsRequired();
-            this.Property(c => c.FacebookAccessToken).HasMaxLength(255);
-            this.Property(c => c.FacebookUserName).IsRequired();
+            this.Property(c => c.FacebookAccessToken).IsMaxLength();
             this.Property(c => c.FacebookUserName).HasMaxLength(255);
             this.Property(c => c.CreatedDate).IsRequired();
             this.Property(c => c.UpdateDate).IsRequired();

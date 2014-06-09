@@ -1,9 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\CSS.UIHelper\RESTHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SignIn.cs">
     <Files>
-      <File FileName="SignIn.cs" Line="124" Column="1" />
-      <File FileName="..\CSS.UIHelper\RESTHelper.cs" Line="17" Column="1" />
+      <File FileName="SignIn.cs" Line="171" Column="60" />
+      <File FileName="c:\Repos\SingledOut\CSS.UIHelper\RESTHelper.cs" Line="12" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -11,6 +11,188 @@
       <Breakpoint file="C:\Repos\SingledOut\CSS.Authentication\Facebook.cs" line="70" column="1" />
       <Breakpoint file="C:\Repos\SingledOut\CSS.Authentication\Facebook.cs" line="31" column="1" />
       <Breakpoint file="C:\Repos\SingledOut\CSS.Authentication\Facebook.cs" line="42" column="1" />
+      <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\HelloFacebookSampleActivity.cs" line="321" column="1" />
+      <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\HelloFacebookSampleActivity.cs" line="326" column="1" />
+      <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\HelloFacebookSampleActivity.cs" line="365" column="1" />
+      <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\HelloFacebookSampleActivity.cs" line="370" column="1" />
+      <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\HelloFacebookSampleActivity.cs" line="220" column="1" />
+      <Catchpoint exceptionName="Facebook.FacebookApiException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Facebook.FacebookOAuthException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Facebook.WebExceptionWrapper" includeSubclasses="True" />
+      <Catchpoint exceptionName="Xamarin.Facebook.FacebookAuthorizationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Xamarin.Facebook.FacebookDialogException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Xamarin.Facebook.FacebookException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Xamarin.Facebook.FacebookServiceException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Xamarin.Facebook.XAndroid.DialogError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Xamarin.Facebook.XAndroid.FacebookError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Accounts.AccountsException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Accounts.AuthenticatorException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Accounts.NetworkErrorException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Accounts.OperationCanceledException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.App.Fragment+InstantiationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.App.PendingIntent+CanceledException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Content.ActivityNotFoundException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Content.IntentFilter+MalformedMimeTypeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Content.IntentSender+SendIntentException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Content.OperationApplicationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Content.PM.PackageManager+NameNotFoundException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Content.ReceiverCallNotAllowedException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Content.Res.Resources+NotFoundException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Database.CursorIndexOutOfBoundsException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Database.SQLException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Database.StaleDataException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Graphics.SurfaceTexture+OutOfResourcesException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Media.DeniedByServerException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Media.MediaCodec+CryptoException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Media.MediaCryptoException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Media.MediaDrmException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Media.NotProvisionedException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Media.ResourceBusyException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Media.UnsupportedSchemeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Net.ParseException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Net.Sip.SipException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Nfc.FormatException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Nfc.TagLostException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Opengl.GLException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.OS.BadParcelableException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.OS.DeadObjectException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.OS.NetworkOnMainThreadException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.OS.OperationCanceledException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.OS.ParcelFileDescriptor+FileDescriptorDetachedException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.OS.ParcelFormatException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.OS.RemoteException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.OS.TransactionTooLargeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Provider.Settings+SettingNotFoundException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Renderscripts.RSDriverException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Renderscripts.RSIllegalArgumentException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Renderscripts.RSInvalidStateException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Renderscripts.RSRuntimeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Security.KeyChainException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Support.V4.App.Fragment+InstantiationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Test.AssertionFailedError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Test.ComparisonFailure" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Util.AndroidException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Util.AndroidRuntimeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Util.Base64DataException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Util.MalformedJsonException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Util.NoSuchPropertyException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Util.TimeFormatException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Views.InflateException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Views.KeyCharacterMap+UnavailableException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Views.Surface+OutOfResourcesException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Views.SurfaceHolderBadSurfaceTypeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Views.WindowManagerBadTokenException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Views.WindowManagerInvalidDisplayException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Android.Widget.RemoteViews+ActionException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Dalvik.SystemInterop.AllocationLimitError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Dalvik.SystemInterop.PotentialDeadlockError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Dalvik.SystemInterop.StaleDexCacheError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Facebook.FacebookApiLimitException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Interop.JavaLocationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.CharConversionException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.EOFException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.FileNotFoundException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.InterruptedIOException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.InvalidClassException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.InvalidObjectException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.IOError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.IOException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.NotActiveException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.NotSerializableException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.ObjectStreamException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.ObjectStreamExceptionInvoker" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.OptionalDataException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.StreamCorruptedException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.SyncFailedException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.UnsupportedEncodingException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.UTFDataFormatException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.IO.WriteAbortedException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.AbstractMethodError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.Annotation.AnnotationFormatError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.Annotation.AnnotationTypeMismatchException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.Annotation.IncompleteAnnotationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.ArithmeticException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.ArrayIndexOutOfBoundsException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.ArrayStoreException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.AssertionError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.ClassCastException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.ClassCircularityError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.ClassFormatError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.ClassNotFoundException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.CloneNotSupportedException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.EnumConstantNotPresentException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.Error" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.Exception" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.ExceptionInInitializerError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.IllegalAccessError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.IllegalAccessException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.IllegalArgumentException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.IllegalMonitorStateException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.IllegalStateException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.IllegalThreadStateException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.IncompatibleClassChangeError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.IndexOutOfBoundsException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.InstantiationError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.InstantiationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.InternalError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.InterruptedException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.LinkageError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.NegativeArraySizeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.NoClassDefFoundError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.NoSuchFieldError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.NoSuchFieldException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.NoSuchMethodError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.NoSuchMethodException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.NullPointerException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.NumberFormatException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.OutOfMemoryError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.Reflect.GenericSignatureFormatError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.Reflect.InvocationTargetException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.Reflect.MalformedParameterizedTypeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.Reflect.UndeclaredThrowableException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.ReflectiveOperationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.RuntimeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.SecurityException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.StackOverflowError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.StringIndexOutOfBoundsException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.ThreadDeath" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.Throwable" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.TypeNotPresentException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.UnknownError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.UnsatisfiedLinkError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.UnsupportedClassVersionError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.UnsupportedOperationException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.VerifyError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.VirtualMachineError" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Lang.VirtualMachineErrorInvoker" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.BindException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.ConnectException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.HttpRetryException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.MalformedURLException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.NoRouteToHostException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.PortUnreachableException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.ProtocolException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.SocketException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.SocketTimeoutException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.UnknownHostException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.UnknownServiceException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Net.URISyntaxException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.BufferOverflowException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.BufferUnderflowException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.AlreadyConnectedException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.AsynchronousCloseException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.CancelledKeyException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.ClosedByInterruptException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.ClosedChannelException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.ClosedSelectorException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.ConnectionPendingException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.FileLockInterruptionException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.IllegalBlockingModeException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.IllegalSelectorException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.NoConnectionPendingException" includeSubclasses="True" />
+      <Catchpoint exceptionName="Java.Nio.Channels.NonReadableChannelException" includeSubclasses="True" />
+      <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\HelloFacebookSampleActivity.cs" line="151" column="1" />
+      <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\SignIn.cs" line="163" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -42,45 +42,43 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Mono.Android" />
-    <Reference Include="Facebook">
-      <HintPath>ThirdParty\Facebook.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Json" />
+    <Reference Include="Xamarin.Facebook">
+      <HintPath>..\..\..\Users\Ben\Documents\GitHub\monodroid-samples\Facebook\Xamarin.Facebook\bin\Debug\Xamarin.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Support.v4" />
     <Reference Include="SingledOut.Model">
       <HintPath>..\SingledOut.Model\bin\Debug\SingledOut.Model.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Auth.Android">
-      <HintPath>..\CSS.Authentication\lib\android\Xamarin.Auth.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BaseActivity.cs" />
-    <Compile Include="SignIn.cs" />
     <Compile Include="Tutorial1.cs" />
     <Compile Include="Fragments\TutorialFooter.cs" />
     <Compile Include="SplashPage.cs" />
     <Compile Include="Welcome.cs" />
     <Compile Include="FooterLayout.cs" />
+    <Compile Include="SignIn.cs" />
+    <Compile Include="CheckIn.cs" />
+    <Compile Include="Tutorial2.cs" />
+    <Compile Include="BaseActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\facebooklogin.png" />
     <AndroidResource Include="Resources\drawable\googlelogin.png" />
     <AndroidResource Include="Resources\drawable\twitterlogin.png" />
     <AndroidResource Include="Resources\layout\Welcome.axml" />
-    <AndroidResource Include="Resources\layout\SignIn.axml" />
     <AndroidResource Include="Resources\drawable\RoundedButton.xml" />
-    <AndroidResource Include="Resources\drawable\SingledOutAppIcon.png" />
     <AndroidResource Include="Resources\drawable\singledoutlogo.png" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\drawable\buttonselector.xml" />
@@ -96,6 +94,16 @@
     <AndroidResource Include="Resources\drawable\ellipse1.png" />
     <AndroidResource Include="Resources\drawable\ellipse2.png" />
     <AndroidResource Include="Resources\drawable\ellipse3.png" />
+    <AndroidResource Include="Resources\layout\SignIn.axml" />
+    <AndroidResource Include="Resources\layout\CheckIn.axml" />
+    <AndroidResource Include="Resources\layout\Tutorial2.axml" />
+    <AndroidResource Include="Resources\drawable\slide_in_left.xml" />
+    <AndroidResource Include="Resources\drawable\slide_out_left.xml" />
+    <AndroidResource Include="Resources\drawable\singledoutlogin.png" />
+    <AndroidResource Include="Resources\values\dialog.xml" />
+    <AndroidResource Include="Resources\layout\RegistrationDialog.axml" />
+    <AndroidResource Include="Resources\values\sex.xml" />
+    <AndroidResource Include="Resources\drawable\logopindialog.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

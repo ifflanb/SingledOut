@@ -71,7 +71,7 @@ namespace SingledOut.WebApi.ModelFactory
                     CreatedDate = model.CreatedDate,
                     UpdateDate = model.UpdateDate,
                     Username = model.Username,
-                    Password = !string.IsNullOrEmpty(model.Password) ? _security.CreateHash(model.Password) : string.Empty
+                    Password = model.Password //!string.IsNullOrEmpty(model.Password) ? _security.CreateHash(model.Password) : string.Empty
                     //UserQuestions = _userQuestionRepository.GetUserQuestion(model.UserQuestions.)
                     //CourseTutor = _repo.GetTutor(model.Tutor.Id)
 

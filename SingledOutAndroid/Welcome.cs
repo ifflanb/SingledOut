@@ -8,8 +8,7 @@ using Android.OS;
 
 namespace SingledOutAndroid
 {
-	[Activity (Label = "Welcome", 
-		ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+	[Activity (Label = "Welcome", Theme = "@android:style/Theme.NoTitleBar")]
 	public class Welcome : BaseActivity
 	{
 		protected override void OnCreate (Bundle bundle)

@@ -18,9 +18,10 @@
             android:id="@+id/welcomeTitle"
             android:textColor="#ff000000"
             android:gravity="center"
-            android:layout_marginTop="50.0dp"
+            android:layout_marginTop="70.0dp"
+            android:layout_marginBottom="40.0dp"
             android:typeface="normal"
-            android:textSize="20dp"
+            android:textSize="25dp"
             android:textStyle="normal" />
         <ImageView
             android:src="@drawable/singledoutlogo"
@@ -36,9 +37,9 @@
             android:id="@+id/welcomeDescription"
             android:textColor="#ff000000"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
             android:gravity="center_horizontal"
             android:textSize="16dp"
             android:layout_gravity="bottom" />

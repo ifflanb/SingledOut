@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:id="@+id/signincontainerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="#ffffff"
     android:orientation="vertical">
     <LinearLayout
         android:id="@+id/signinchildlayout"
@@ -20,17 +21,25 @@
             android:id="@+id/signIn"
             android:textColor="#ff000000"
             android:gravity="center"
-            android:layout_marginTop="50.0dp"
-            android:layout_marginBottom="10.0dp"
+            android:layout_marginTop="70.0dp"
+            android:layout_marginBottom="40.0dp"
             android:typeface="normal"
-            android:textSize="20dp"
+            android:textSize="25dp"
             android:textStyle="normal" />
-        <ImageButton
-            android:src="@drawable/facebooklogin"
-            android:layout_width="240dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="10dp"
+        <com.facebook.widget.LoginButton
             android:id="@+id/facebooklogin"
+            android:layout_width="240dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerInside"
+            facebook:login_text=""
+            facebook:logout_text="" />
+    <!--        <com.google.android.gms.common.SignInButton
+            android:id="@+id/googlelogin"
+            android:layout_width="240dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
             android:background="#ffffff"
             android:scaleType="fitCenter"
             android:layout_gravity="center" />
@@ -51,6 +60,15 @@
             android:id="@+id/twitterLogin"
             android:background="#ffffff"
             android:scaleType="fitCenter"
+            android:layout_gravity="center" />-->
+        <ImageButton
+            android:src="@drawable/singledoutlogin"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/singledoutlogin"
+            android:background="#ffffff"
+            android:scaleType="fitCenter"
             android:layout_gravity="center" />
         <TextView
             android:text="Please sign in to Singled Out with one of the above:"
@@ -61,8 +79,8 @@
             android:textColor="#ff000000"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
             android:gravity="center_horizontal"
             android:textSize="16dp"
             android:layout_gravity="bottom" />

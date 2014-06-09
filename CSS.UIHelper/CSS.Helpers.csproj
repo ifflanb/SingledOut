@@ -43,9 +43,6 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="SingledOut.Model">
-      <HintPath>..\SingledOut.Model\bin\Debug\SingledOut.Model.dll</HintPath>
-    </Reference>
     <Reference Include="System.Json" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\SingledOutAndroid\packages\Newtonsoft.Json.6.0.3\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
@@ -56,6 +53,7 @@
     <Compile Include="SoundHelper.cs" />
     <Compile Include="AnimationHelper.cs" />
     <Compile Include="RESTHelper.cs" />
+    <Compile Include="SecurityHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

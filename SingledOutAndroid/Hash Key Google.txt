@@ -1,0 +1,18 @@
+C:\Windows\system32>"C:\Program Files\Java\jdk1.6.0_39\bin\keytool.exe" -exportc
+ert -alias androiddebugkey -keystore "C:\Users\Ben\AppData\Local\Xamarin\Mono fo
+r Android\debug.keystore" -list -v
+Enter keystore password:
+Alias name: androiddebugkey
+Creation date: 10/05/2014
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=Android Debug, O=Android, C=US
+Issuer: CN=Android Debug, O=Android, C=US
+Serial number: 536dfa36
+Valid from: Sat May 10 22:06:46 NZST 2014 until: Thu Aug 06 22:06:46 NZST 2043
+Certificate fingerprints:
+         MD5:  C2:A9:F5:4E:D9:71:83:AB:B9:1B:9A:AF:86:79:E9:D0
+         SHA1: B1:D8:07:BA:B7:92:C3:D3:89:C7:B4:7F:32:13:8F:B6:EF:FA:00:55
+         Signature algorithm name: SHA1withRSA
+         Version: 3
