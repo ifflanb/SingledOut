@@ -39,9 +39,13 @@ namespace SingledOutAndroid
 
 			// Check if this is the first visit to the app.
 			// If it is show the welcome page.
-			if (GetUserPreference ("Visits") != null && GetUserPreference ("Visits") == "1") {
-				if (!string.IsNullOrEmpty(GetUserPreference ("FacebookAccessToken"))) {
+			if (GetUserPreference("Visits") != null && GetUserPreference("Visits") == "1") 
+			{
+				if (!string.IsNullOrEmpty (GetUserPreference ("FacebookAccessToken")) ||
+				    !string.IsNullOrEmpty (GetUserPreference ("SingledOutUsername"))) {
 					StartActivityAfterPause (typeof(CheckIn));
+				} else {
+					StartActivityAfterPause (typeof(SignIn));
 				}
 			} 
 			else 
@@ -50,6 +54,7 @@ namespace SingledOutAndroid
 				StartActivityAfterPause (typeof(Welcome));
 			}
 		}
+
 
 		/// <summary>
 		/// Runs the animation.

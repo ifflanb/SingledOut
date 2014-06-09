@@ -38,9 +38,6 @@ namespace CSS.Helpers
 				throw ex;
 			}
 
-
-			response.EnsureSuccessStatusCode();
-
 			return response;
 		}
 

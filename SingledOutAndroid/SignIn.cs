@@ -17,6 +17,7 @@ using Java.Security;
 using System.Json;
 using SingledOut.Model;
 using CSS.Helpers;
+using System.Net;
 
 [assembly:Permission (Name = Android.Manifest.Permission.Internet)]
 [assembly:Permission (Name = Android.Manifest.Permission.WriteExternalStorage)]
@@ -36,6 +37,7 @@ namespace SingledOutAndroid
 		private UiLifecycleHelper uiHelper;
 		private Session.IStatusCallback callback;
 		private SecurityHelper _securityHelper;
+		AlertDialog _dialog;
 
 		enum PendingAction
 		{
@@ -61,7 +63,6 @@ namespace SingledOutAndroid
 
 			uiHelper = new UiLifecycleHelper (this, callback);
 			uiHelper.OnCreate (savedInstanceState);
-
 
 			if (savedInstanceState != null) {
 				string name = savedInstanceState.GetString (PENDING_ACTION_BUNDLE_KEY);
@@ -99,14 +100,20 @@ namespace SingledOutAndroid
 
 			singledOutLoginButtn.Click += (object sender, EventArgs e) => {
 				var registerDialog = new AlertDialog.Builder(this);
-				registerDialog.SetView(LayoutInflater.Inflate(Resource.Layout.RegistrationDialog, null));
-				var dialog = registerDialog.Create();
-				dialog.SetTitle("Singled Out Registration");
-				dialog.SetIcon(Resource.Drawable.logopindialog);
-				dialog.SetCanceledOnTouchOutside(true);
-				dialog.SetButton("Create Account", CreateAccountClick);
-				dialog.Show();
-				PopulateDialog(dialog);
+
+				using (var alert = new AlertDialog.Builder (this)) {
+					alert.SetView (LayoutInflater.Inflate(Resource.Layout.RegistrationDialog, null));
+					alert.SetCancelable (false);
+					_dialog = alert.Create ();
+					_dialog.SetTitle("Singled Out Registration");
+					_dialog.SetIcon(Resource.Drawable.logopindialog);
+					_dialog.SetCanceledOnTouchOutside(true);
+					_dialog.Show();
+
+					Button btnCreateAccount = (Button)_dialog.FindViewById (Resource.Id.btnCreateAccount);
+					btnCreateAccount.Click += CreateAccountClick;
+					PopulateDialog(_dialog);
+				}
 			};
 
 			// End of Singled Out login stuff
@@ -118,17 +125,13 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
-		private void CreateAccountClick (object sender, DialogClickEventArgs e)
+		private void CreateAccountClick (object sender, EventArgs e)
 		{
-			var toast = Toast.MakeText (this, "Account Created!", ToastLength.Long);
-			toast.SetGravity (GravityFlags.Center | GravityFlags.Center, 0, 0);
-
-			AlertDialog dialog = (AlertDialog)sender;
-			var txtFirstName = dialog.FindViewById<EditText>(Resource.Id.txtFirstName);
-			var txtSurname = dialog.FindViewById<EditText>(Resource.Id.txtSurname);
-			var txtUsername = dialog.FindViewById<EditText>(Resource.Id.txtUsername);
-			var txtPassword = dialog.FindViewById<EditText>(Resource.Id.txtPassword);
-			var spnSex = dialog.FindViewById<Spinner>(Resource.Id.spnSex);
+			var txtFirstName = _dialog.FindViewById<EditText>(Resource.Id.txtFirstName);
+			var txtSurname = _dialog.FindViewById<EditText>(Resource.Id.txtSurname);
+			var txtUsername = _dialog.FindViewById<EditText>(Resource.Id.txtUsername);
+			var txtPassword = _dialog.FindViewById<EditText>(Resource.Id.txtPassword);
+			var spnSex = _dialog.FindViewById<Spinner>(Resource.Id.spnSex);
 
 			var userModel = new UserModel {
 				FirstName =  txtFirstName.Text,
@@ -141,11 +144,13 @@ namespace SingledOutAndroid
 			};	
 
 			if (SaveSingledOutDetails (userModel)) {
-
+				var toast = Toast.MakeText (this, "Account Created!", ToastLength.Long);
+				toast.SetGravity (GravityFlags.Center | GravityFlags.Center, 0, 0);
 				toast.Show ();
-				StartActivity(typeof(Tutorial1));
+				_dialog.Dismiss ();
+				StartActivity (typeof(Tutorial1));
 				OverridePendingTransition (Resource.Drawable.slide_in_left, Resource.Drawable.slide_out_left);
-			}
+			} 
 		}
 
 		/// <summary>
@@ -161,22 +166,31 @@ namespace SingledOutAndroid
 			try
 			{
 				var responseMessage = restHelper.PostAsync(url , user);
-				if(responseMessage.StatusCode == System.Net.HttpStatusCode.Created)
+				if(responseMessage.StatusCode == HttpStatusCode.Created)
 				{
 					var result = responseMessage.Content.ReadAsStringAsync().Result;
-					var json = _restHelper.DeserializeObject<UserModel>(result);
+					var obj = _restHelper.DeserializeObject<Object>(result);
 
-					if (string.IsNullOrEmpty(GetUserPreference ("SingledOutUsername"))) {
-						SetUserPreference ("SingledOutUsername", json.Username);
-						SetUserPreference ("SingledOutID", json.ID.ToString());
-					} 
+//					if (string.IsNullOrEmpty(GetUserPreference ("SingledOutUsername"))) {
+//						SetUserPreference ("SingledOutUsername", obj["Username"]);
+//							SetUserPreference ("SingledOutID", obj["ID"]);
+//					} 
 
 					saved = true;
+				}
+				else if(responseMessage.StatusCode == HttpStatusCode.Forbidden)
+				{
+					// need to update on the main thread to change the border color
+					var lblValidation = _dialog.FindViewById<TextView>(Resource.Id.lblValidation);
+					lblValidation.Visibility = ViewStates.Visible;
+					lblValidation.Text = responseMessage.ReasonPhrase;
 				}
 			}
 			catch (Exception ex)
 			{
-				throw;
+				var lblValidation = _dialog.FindViewById<TextView>(Resource.Id.lblValidation);
+				lblValidation.Visibility = ViewStates.Visible;
+				lblValidation.Text = "we're sorry but an unknow error has occurred";
 			}
 			return saved;
 		}

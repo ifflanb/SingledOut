@@ -7,7 +7,7 @@
     android:background="#ffffff"
     android:orientation="vertical">
     <TextView
-        android:text="Please complete the following details:"
+        android:text="Account Details:"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,36 +19,16 @@
         android:layout_marginRight="15dp"
         android:gravity="center_horizontal"
         android:textSize="16dp" />
-    <TextView
-        android:text="User Name:"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/lblUsername" />
     <EditText
         android:inputType="textPersonName"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
-        android:id="@+id/txtUsername" />
-    <TextView
-        android:text="Password:"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/lblPassword" />
-    <EditText
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:id="@+id/txtPassword" />
+        android:id="@+id/lblValidation"
+        android:textColor="#ffe90d0d"
+        android:textStyle="bold"
+        android:visibility="gone" />
     <TextView
         android:text="First Name:"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -80,6 +60,36 @@
         android:layout_marginLeft="20.0dp"
         android:id="@+id/txtSurname" />
     <TextView
+        android:text="User Name:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/lblUsername" />
+    <EditText
+        android:inputType="textPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/txtUsername" />
+    <TextView
+        android:text="Password:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/lblPassword" />
+    <EditText
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/txtPassword" />
+    <TextView
         android:text="Sex:"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
@@ -94,4 +104,11 @@
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:prompt="@string/sex_prompt" />
+    <Button
+        android:text="Create Account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/btnCreateAccount" />
 </LinearLayout>
