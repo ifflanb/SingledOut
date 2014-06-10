@@ -31,9 +31,29 @@ namespace SingledOut.Repository
 
         public int Insert(User user)
         {
-            _ctx.Users.Add(user);
-         //   user.Password = _security.CreateHash(user.Password);
-            var result = SaveAll();
+            var result = 0;
+
+            // Check if the username or Facebook username already exists.
+            var existingUser = false;
+            if (!string.IsNullOrEmpty(user.Username))
+            {
+                existingUser = GetAllUsers().Any(o => o.Username == user.Username);
+            }
+            if (!string.IsNullOrEmpty(user.FacebookUserName))
+            {
+                existingUser = GetAllUsers().Any(o => o.FacebookUserName == user.FacebookUserName);
+            }
+
+            if (!existingUser)
+            {
+                _ctx.Users.Add(user);
+                result = SaveAll();
+            }
+            else
+            {
+                result = -1;
+            }
+            
             return result;
         }
 

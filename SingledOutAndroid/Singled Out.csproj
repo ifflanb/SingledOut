@@ -104,6 +104,7 @@
     <AndroidResource Include="Resources\layout\RegistrationDialog.axml" />
     <AndroidResource Include="Resources\values\sex.xml" />
     <AndroidResource Include="Resources\drawable\logopindialog.png" />
+    <AndroidResource Include="Resources\drawable\validationBox.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

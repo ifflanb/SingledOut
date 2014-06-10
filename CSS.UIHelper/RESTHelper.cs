@@ -49,8 +49,9 @@ namespace CSS.Helpers
 
 		public T DeserializeObject<T>(string json)
 		{
-			var objectClass = JsonConvert.DeserializeObject(json);
-			return (T)objectClass;
+			var objectClass = JsonConvert.DeserializeObject<T>(json);
+
+			return objectClass;
 		}
     }
 }

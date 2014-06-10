@@ -49,7 +49,7 @@ namespace SingledOut.WebApi.ModelFactory
                 CreatedDate = user.CreatedDate,
                 UpdateDate = user.UpdateDate,
                 Username = user.Username,
-                Password = user.Password
+                //Password = user.Password
                 //UserQuestions = _userQuestionModelFactory.Create(user.UserQuestions),
                 //UserLocations = _userLocationModelFactory.Create(user.UserLocations),
                 //UserAnswers = _userAnswerModelFactory.Create(user.UserAnswers)

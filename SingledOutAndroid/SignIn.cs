@@ -18,6 +18,10 @@ using System.Json;
 using SingledOut.Model;
 using CSS.Helpers;
 using System.Net;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 
 [assembly:Permission (Name = Android.Manifest.Permission.Internet)]
 [assembly:Permission (Name = Android.Manifest.Permission.WriteExternalStorage)]
@@ -38,6 +42,7 @@ namespace SingledOutAndroid
 		private Session.IStatusCallback callback;
 		private SecurityHelper _securityHelper;
 		AlertDialog _dialog;
+		ProgressBar _spinner;
 
 		enum PendingAction
 		{
@@ -81,10 +86,6 @@ namespace SingledOutAndroid
 			controlsContainer = (ViewGroup)FindViewById (Resource.Id.signinchildlayout);
 
 			Android.Support.V4.App.FragmentManager fm = SupportFragmentManager;
-//			Android.Support.V4.App.Fragment fragment = fm.FindFragmentById (Resource.Id.fragment_container);
-//			if (fragment != null) {
-//				controlsContainer.Visibility = ViewStates.Gone;
-//			}
 
 			fm.BackStackChanged += delegate {
 				if (fm.BackStackEntryCount == 0) {
@@ -96,28 +97,34 @@ namespace SingledOutAndroid
 			// End of Facebook login stuff
 
 			// Start of Singled Out login stuff
+
 			var singledOutLoginButtn =  (ImageButton)FindViewById (Resource.Id.singledoutlogin);
-
-			singledOutLoginButtn.Click += (object sender, EventArgs e) => {
-				var registerDialog = new AlertDialog.Builder(this);
-
-				using (var alert = new AlertDialog.Builder (this)) {
-					alert.SetView (LayoutInflater.Inflate(Resource.Layout.RegistrationDialog, null));
-					alert.SetCancelable (false);
-					_dialog = alert.Create ();
-					_dialog.SetTitle("Singled Out Registration");
-					_dialog.SetIcon(Resource.Drawable.logopindialog);
-					_dialog.SetCanceledOnTouchOutside(true);
-					_dialog.Show();
-
-					Button btnCreateAccount = (Button)_dialog.FindViewById (Resource.Id.btnCreateAccount);
-					btnCreateAccount.Click += CreateAccountClick;
-					PopulateDialog(_dialog);
-				}
-			};
+			singledOutLoginButtn.Click += SingledOutRegistration;
 
 			// End of Singled Out login stuff
+		}
 
+		/// <summary>
+		/// Singleds the out registration.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		private void SingledOutRegistration(object sender, EventArgs e)
+		{		
+			var registerDialog = new AlertDialog.Builder(this);
+			using (var alert = new AlertDialog.Builder (this)) {
+				alert.SetView (LayoutInflater.Inflate(Resource.Layout.RegistrationDialog, null));
+				alert.SetCancelable (false);
+				_dialog = alert.Create ();
+				_dialog.SetTitle("Singled Out Registration");
+				_dialog.SetIcon(Resource.Drawable.logopindialog);
+				_dialog.SetCanceledOnTouchOutside(true);
+				_dialog.Show();
+
+				Button btnCreateAccount = (Button)_dialog.FindViewById (Resource.Id.btnCreateAccount);
+				btnCreateAccount.Click += CreateAccountClick;
+				PopulateDialog(_dialog);
+			}
 		}
 
 		/// <summary>
@@ -125,14 +132,18 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
-		private void CreateAccountClick (object sender, EventArgs e)
+		private async void CreateAccountClick (object sender, EventArgs e)
 		{
 			var txtFirstName = _dialog.FindViewById<EditText>(Resource.Id.txtFirstName);
 			var txtSurname = _dialog.FindViewById<EditText>(Resource.Id.txtSurname);
 			var txtUsername = _dialog.FindViewById<EditText>(Resource.Id.txtUsername);
 			var txtPassword = _dialog.FindViewById<EditText>(Resource.Id.txtPassword);
 			var spnSex = _dialog.FindViewById<Spinner>(Resource.Id.spnSex);
+			var lblValidation = _dialog.FindViewById<TextView>(Resource.Id.lblValidation);
+			lblValidation.Visibility = ViewStates.Gone;
+			lblValidation.Text = string.Empty;
 
+			// Create a UserModel from the form fields.
 			var userModel = new UserModel {
 				FirstName =  txtFirstName.Text,
 				Surname = txtSurname.Text,
@@ -143,56 +154,66 @@ namespace SingledOutAndroid
 				UpdateDate = DateTime.UtcNow
 			};	
 
-			if (SaveSingledOutDetails (userModel)) {
-				var toast = Toast.MakeText (this, "Account Created!", ToastLength.Long);
-				toast.SetGravity (GravityFlags.Center | GravityFlags.Center, 0, 0);
-				toast.Show ();
-				_dialog.Dismiss ();
-				StartActivity (typeof(Tutorial1));
-				OverridePendingTransition (Resource.Drawable.slide_in_left, Resource.Drawable.slide_out_left);
-			} 
+			// Start progress indicator.
+			_spinner = (ProgressBar)_dialog.FindViewById(Resource.Id.progressSpinner);
+			_spinner.Visibility = ViewStates.Visible;
+
+			try
+			{
+				// Create task to Save Singled Out Details.
+				var task = Task<HttpResponseMessage>.Factory.StartNew (() => SaveSingledOutDetails (userModel));
+				// await so that this task will run in the background.
+				await task;
+			
+				// Return here after SaveSingledOutDetails has completed.
+				if(task.Result.StatusCode == HttpStatusCode.Created)
+				{
+					// Get json from response message.
+					var result =  task.Result.Content.ReadAsStringAsync().Result;
+					var json = JsonObject.Parse(result).ToString().Replace("{{", "{").Replace("}}","}");
+					// Deserialize the Json.
+					var returnUserModel = _restHelper.DeserializeObject<UserModel>(json);
+
+					// Save the user preference for the user name and id.
+					if (string.IsNullOrEmpty(GetUserPreference ("SingledOutUsername"))) {
+						SetUserPreference ("SingledOutUsername", returnUserModel.Username);
+						SetUserPreference ("SingledOutID", returnUserModel.ID.ToString());
+					} 
+
+					var toast = Toast.MakeText (this, "Account Created!", ToastLength.Long);
+					toast.SetGravity (GravityFlags.Center | GravityFlags.Center, 0, 0);
+					toast.Show ();
+					_dialog.Dismiss ();
+					StartActivity (typeof(Tutorial1));
+					OverridePendingTransition (Resource.Drawable.slide_in_left, Resource.Drawable.slide_out_left);
+				}
+				else if(task.Result.StatusCode == HttpStatusCode.Forbidden)
+				{
+					// need to update on the main thread to change the border color
+					lblValidation.Visibility = ViewStates.Visible;
+					lblValidation.Text = task.Result.ReasonPhrase;
+				}
+			}
+			catch (Exception)
+			{
+				lblValidation.Visibility = ViewStates.Visible;
+				lblValidation.Text = "An unknown error occurred!";
+				_spinner.Visibility = ViewStates.Gone;
+			}
+
+			// Stop progress indicator.
+			_spinner.Visibility = ViewStates.Gone;
 		}
 
 		/// <summary>
 		/// Saves the singled out details.
 		/// </summary>
 		/// <param name="user">User.</param>
-		private bool SaveSingledOutDetails(UserModel user)
+		private HttpResponseMessage SaveSingledOutDetails(UserModel user)
 		{
-			var saved = false;
 			var restHelper = new CSS.Helpers.RestHelper ();
 			var url = string.Concat(this.GetString(Resource.String.apirooturl),this.GetString(Resource.String.apiurlusers));
-
-			try
-			{
-				var responseMessage = restHelper.PostAsync(url , user);
-				if(responseMessage.StatusCode == HttpStatusCode.Created)
-				{
-					var result = responseMessage.Content.ReadAsStringAsync().Result;
-					var obj = _restHelper.DeserializeObject<Object>(result);
-
-//					if (string.IsNullOrEmpty(GetUserPreference ("SingledOutUsername"))) {
-//						SetUserPreference ("SingledOutUsername", obj["Username"]);
-//							SetUserPreference ("SingledOutID", obj["ID"]);
-//					} 
-
-					saved = true;
-				}
-				else if(responseMessage.StatusCode == HttpStatusCode.Forbidden)
-				{
-					// need to update on the main thread to change the border color
-					var lblValidation = _dialog.FindViewById<TextView>(Resource.Id.lblValidation);
-					lblValidation.Visibility = ViewStates.Visible;
-					lblValidation.Text = responseMessage.ReasonPhrase;
-				}
-			}
-			catch (Exception ex)
-			{
-				var lblValidation = _dialog.FindViewById<TextView>(Resource.Id.lblValidation);
-				lblValidation.Visibility = ViewStates.Visible;
-				lblValidation.Text = "we're sorry but an unknow error has occurred";
-			}
-			return saved;
+			return restHelper.PostAsync(url , user);
 		}
 
 		/// <summary>

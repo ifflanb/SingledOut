@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SignIn.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs">
     <Files>
-      <File FileName="SignIn.cs" Line="160" Column="33" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" Line="169" Column="1" />
+      <File FileName="..\CSS.UIHelper\RESTHelper.cs" Line="54" Column="11" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -192,10 +193,15 @@
       <Catchpoint exceptionName="Java.Nio.Channels.NonReadableChannelException" includeSubclasses="True" />
       <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\HelloFacebookSampleActivity.cs" line="151" column="1" />
       <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\SignIn.cs" line="163" column="1" />
+      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" line="183" column="1" />
+      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" line="169" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="SignIn.cs" line="179" offsetX="732" offsetY="2848" expression="responseMessage.Content" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <DisabledProjects>
+    <String>..\SingledOut.Model\SingledOut.Model.csproj</String>
+  </DisabledProjects>
   <MonoDevelop.Ide.ItemProperties.Singled_220Out MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="FA34NW903113" />
 </Properties>

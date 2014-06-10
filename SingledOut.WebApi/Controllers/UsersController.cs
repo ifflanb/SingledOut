@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -59,10 +60,20 @@ namespace SingledOut.WebApi.Controllers
 
                 if (entity == null) Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read user from body");
 
-                if (_userRepository.Insert(entity) > 0)
+                var result = _userRepository.Insert(entity);
+                if (result > 0)
                 {
                     return Request.CreateResponse(HttpStatusCode.Created, _userModelFactory.Create(entity, Request));
                 }
+                if (result == -1) // account already exists.
+                {
+                    return new HttpResponseMessage(HttpStatusCode.Forbidden)
+                                                {
+                                                    Content = new StringContent("This user name already exists."),
+                                                    ReasonPhrase = "User name already exists"
+                                                };
+                }
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not save to the database.");
             }
             catch (Exception ex)
