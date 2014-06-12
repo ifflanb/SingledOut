@@ -28,22 +28,6 @@ namespace SingledOutAndroid
 		{
 		}
 		
-		public partial class Array
-		{
-			
-			// aapt resource value: 0x7f0a0000
-			public const int sex_array = 2131361792;
-			
-			static Array()
-			{
-				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
-			}
-			
-			private Array()
-			{
-			}
-		}
-		
 		public partial class Attribute
 		{
 			
@@ -336,43 +320,46 @@ namespace SingledOutAndroid
 			public const int ellipse3 = 2130837538;
 			
 			// aapt resource value: 0x7f020023
-			public const int facebooklogin = 2130837539;
+			public const int exclamation = 2130837539;
 			
 			// aapt resource value: 0x7f020024
-			public const int googlelogin = 2130837540;
+			public const int facebooklogin = 2130837540;
 			
 			// aapt resource value: 0x7f020025
-			public const int logonopin = 2130837541;
+			public const int googlelogin = 2130837541;
 			
 			// aapt resource value: 0x7f020026
-			public const int logopin = 2130837542;
+			public const int logonopin = 2130837542;
 			
 			// aapt resource value: 0x7f020027
-			public const int logopindialog = 2130837543;
+			public const int logopin = 2130837543;
 			
 			// aapt resource value: 0x7f020028
-			public const int RoundedButton = 2130837544;
+			public const int logopindialog = 2130837544;
 			
 			// aapt resource value: 0x7f020029
-			public const int singledoutlogin = 2130837545;
+			public const int RoundedButton = 2130837545;
 			
 			// aapt resource value: 0x7f02002a
-			public const int singledoutlogo = 2130837546;
+			public const int singledoutlogin = 2130837546;
 			
 			// aapt resource value: 0x7f02002b
-			public const int slide_in_left = 2130837547;
+			public const int singledoutlogo = 2130837547;
 			
 			// aapt resource value: 0x7f02002c
-			public const int slide_out_left = 2130837548;
+			public const int slide_in_left = 2130837548;
 			
 			// aapt resource value: 0x7f02002d
-			public const int textcolour = 2130837549;
+			public const int slide_out_left = 2130837549;
 			
 			// aapt resource value: 0x7f02002e
-			public const int twitterlogin = 2130837550;
+			public const int textcolour = 2130837550;
 			
 			// aapt resource value: 0x7f02002f
-			public const int validationBox = 2130837551;
+			public const int twitterlogin = 2130837551;
+			
+			// aapt resource value: 0x7f020030
+			public const int validationBox = 2130837552;
 			
 			static Drawable()
 			{
@@ -387,8 +374,8 @@ namespace SingledOutAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f05002a
-			public const int btnCreateAccount = 2131034154;
+			// aapt resource value: 0x7f05002c
+			public const int btnCreateAccount = 2131034156;
 			
 			// aapt resource value: 0x7f050005
 			public const int checkin = 2131034117;
@@ -402,8 +389,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f050003
 			public const int checkincontainerlayout = 2131034115;
 			
-			// aapt resource value: 0x7f050032
-			public const int childlayout1 = 2131034162;
+			// aapt resource value: 0x7f050034
+			public const int childlayout1 = 2131034164;
 			
 			// aapt resource value: 0x7f050009
 			public const int com_facebook_login_activity_progress_bar = 2131034121;
@@ -462,17 +449,17 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f05001a
 			public const int com_facebook_usersettingsfragment_profile_name = 2131034138;
 			
-			// aapt resource value: 0x7f050031
-			public const int containerlayout = 2131034161;
+			// aapt resource value: 0x7f050033
+			public const int containerlayout = 2131034163;
 			
 			// aapt resource value: 0x7f05001c
 			public const int ellipse = 2131034140;
 			
-			// aapt resource value: 0x7f05002e
-			public const int facebooklogin = 2131034158;
+			// aapt resource value: 0x7f050030
+			public const int facebooklogin = 2131034160;
 			
-			// aapt resource value: 0x7f05003e
-			public const int imageView1 = 2131034174;
+			// aapt resource value: 0x7f050040
+			public const int imageView1 = 2131034176;
 			
 			// aapt resource value: 0x7f050002
 			public const int large = 2131034114;
@@ -480,11 +467,11 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f050020
 			public const int lblFirstName = 2131034144;
 			
+			// aapt resource value: 0x7f050028
+			public const int lblGender = 2131034152;
+			
 			// aapt resource value: 0x7f050026
 			public const int lblPassword = 2131034150;
-			
-			// aapt resource value: 0x7f050028
-			public const int lblSex = 2131034152;
 			
 			// aapt resource value: 0x7f050022
 			public const int lblSurname = 2131034146;
@@ -495,8 +482,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f05001f
 			public const int lblValidation = 2131034143;
 			
-			// aapt resource value: 0x7f050034
-			public const int logonopin = 2131034164;
+			// aapt resource value: 0x7f050036
+			public const int logonopin = 2131034166;
 			
 			// aapt resource value: 0x7f050001
 			public const int normal = 2131034113;
@@ -504,11 +491,20 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f050018
 			public const int picker_subtitle = 2131034136;
 			
-			// aapt resource value: 0x7f050033
-			public const int pin = 2131034163;
+			// aapt resource value: 0x7f050035
+			public const int pin = 2131034165;
+			
+			// aapt resource value: 0x7f05002d
+			public const int progressSpinner = 2131034157;
 			
 			// aapt resource value: 0x7f05002b
-			public const int progressSpinner = 2131034155;
+			public const int radio_female = 2131034155;
+			
+			// aapt resource value: 0x7f05002a
+			public const int radio_male = 2131034154;
+			
+			// aapt resource value: 0x7f050029
+			public const int rbGender = 2131034153;
 			
 			// aapt resource value: 0x7f05001e
 			public const int registerDescription = 2131034142;
@@ -516,44 +512,41 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f050017
 			public const int search_box = 2131034135;
 			
-			// aapt resource value: 0x7f05002d
-			public const int signIn = 2131034157;
+			// aapt resource value: 0x7f05002f
+			public const int signIn = 2131034159;
 			
-			// aapt resource value: 0x7f05002c
-			public const int signinchildlayout = 2131034156;
+			// aapt resource value: 0x7f05002e
+			public const int signinchildlayout = 2131034158;
 			
 			// aapt resource value: 0x7f05001d
 			public const int signincontainerlayout = 2131034141;
 			
-			// aapt resource value: 0x7f05002f
-			public const int singledoutlogin = 2131034159;
+			// aapt resource value: 0x7f050031
+			public const int singledoutlogin = 2131034161;
 			
 			// aapt resource value: 0x7f050000
 			public const int small = 2131034112;
 			
-			// aapt resource value: 0x7f050029
-			public const int spnSex = 2131034153;
-			
-			// aapt resource value: 0x7f050037
-			public const int tutorial1 = 2131034167;
-			
-			// aapt resource value: 0x7f050038
-			public const int tutorial1Description = 2131034168;
-			
-			// aapt resource value: 0x7f050036
-			public const int tutorial1childlayout = 2131034166;
-			
-			// aapt resource value: 0x7f050035
-			public const int tutorial1containerlayout = 2131034165;
+			// aapt resource value: 0x7f050039
+			public const int tutorial1 = 2131034169;
 			
 			// aapt resource value: 0x7f05003a
-			public const int tutorial2 = 2131034170;
+			public const int tutorial1Description = 2131034170;
+			
+			// aapt resource value: 0x7f050038
+			public const int tutorial1childlayout = 2131034168;
+			
+			// aapt resource value: 0x7f050037
+			public const int tutorial1containerlayout = 2131034167;
+			
+			// aapt resource value: 0x7f05003c
+			public const int tutorial2 = 2131034172;
+			
+			// aapt resource value: 0x7f05003d
+			public const int tutorial2Description = 2131034173;
 			
 			// aapt resource value: 0x7f05003b
-			public const int tutorial2Description = 2131034171;
-			
-			// aapt resource value: 0x7f050039
-			public const int tutorial2childlayout = 2131034169;
+			public const int tutorial2childlayout = 2131034171;
 			
 			// aapt resource value: 0x7f050021
 			public const int txtFirstName = 2131034145;
@@ -567,14 +560,14 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f050025
 			public const int txtUsername = 2131034149;
 			
-			// aapt resource value: 0x7f050030
-			public const int welcomeDescription = 2131034160;
+			// aapt resource value: 0x7f050032
+			public const int welcomeDescription = 2131034162;
 			
-			// aapt resource value: 0x7f05003d
-			public const int welcomeTitle = 2131034173;
+			// aapt resource value: 0x7f05003f
+			public const int welcomeTitle = 2131034175;
 			
-			// aapt resource value: 0x7f05003c
-			public const int welcomechildlayout = 2131034172;
+			// aapt resource value: 0x7f05003e
+			public const int welcomechildlayout = 2131034174;
 			
 			static Id()
 			{
@@ -684,26 +677,26 @@ namespace SingledOutAndroid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f060024
-			public const int apirooturl = 2131099684;
-			
-			// aapt resource value: 0x7f060027
-			public const int apiurlanswers = 2131099687;
+			// aapt resource value: 0x7f060023
+			public const int apirooturl = 2131099683;
 			
 			// aapt resource value: 0x7f060026
-			public const int apiurlquestions = 2131099686;
+			public const int apiurlanswers = 2131099686;
 			
 			// aapt resource value: 0x7f060025
-			public const int apiurlusers = 2131099685;
+			public const int apiurlquestions = 2131099685;
 			
-			// aapt resource value: 0x7f060020
-			public const int app_id = 2131099680;
+			// aapt resource value: 0x7f060024
+			public const int apiurlusers = 2131099684;
+			
+			// aapt resource value: 0x7f06001f
+			public const int app_id = 2131099679;
+			
+			// aapt resource value: 0x7f060019
+			public const int app_name = 2131099673;
 			
 			// aapt resource value: 0x7f06001a
-			public const int app_name = 2131099674;
-			
-			// aapt resource value: 0x7f06001b
-			public const int cancelled = 2131099675;
+			public const int cancelled = 2131099674;
 			
 			// aapt resource value: 0x7f06000f
 			public const int com_facebook_choose_friends = 2131099663;
@@ -780,29 +773,32 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f06000a
 			public const int com_facebook_usersettingsfragment_not_logged_in = 2131099658;
 			
-			// aapt resource value: 0x7f060022
-			public const int error = 2131099682;
-			
 			// aapt resource value: 0x7f060021
-			public const int exception = 2131099681;
+			public const int error = 2131099681;
 			
-			// aapt resource value: 0x7f060023
-			public const int facebook_permissions = 2131099683;
+			// aapt resource value: 0x7f060020
+			public const int exception = 2131099680;
 			
-			// aapt resource value: 0x7f06001e
-			public const int hello_user = 2131099678;
+			// aapt resource value: 0x7f060022
+			public const int facebook_permissions = 2131099682;
+			
+			// aapt resource value: 0x7f060028
+			public const int female = 2131099688;
 			
 			// aapt resource value: 0x7f06001d
-			public const int ok = 2131099677;
+			public const int hello_user = 2131099677;
+			
+			// aapt resource value: 0x7f060027
+			public const int male = 2131099687;
 			
 			// aapt resource value: 0x7f06001c
-			public const int permission_not_granted = 2131099676;
+			public const int ok = 2131099676;
 			
-			// aapt resource value: 0x7f060019
-			public const int sex_prompt = 2131099673;
+			// aapt resource value: 0x7f06001b
+			public const int permission_not_granted = 2131099675;
 			
-			// aapt resource value: 0x7f06001f
-			public const int success = 2131099679;
+			// aapt resource value: 0x7f06001e
+			public const int success = 2131099678;
 			
 			static String()
 			{

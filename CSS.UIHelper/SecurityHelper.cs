@@ -1,5 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using System;
+using System.Linq;
 
 namespace CSS.Helpers
 {
@@ -17,6 +19,8 @@ namespace CSS.Helpers
 			data = x.ComputeHash(data);
 			return Encoding.ASCII.GetString(data);
 		}
+
+
 	}
 }
 

@@ -22,6 +22,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using Android.Graphics.Drawables;
+using System.Linq;
 
 [assembly:Permission (Name = Android.Manifest.Permission.Internet)]
 [assembly:Permission (Name = Android.Manifest.Permission.WriteExternalStorage)]
@@ -43,10 +45,16 @@ namespace SingledOutAndroid
 		private SecurityHelper _securityHelper;
 		AlertDialog _dialog;
 		ProgressBar _spinner;
+		private EditText _txtFirstName;
+		private EditText _txtSurname;
+		private EditText _txtUsername;
+		private EditText _txtPassword;
+		private RadioGroup _rbGender;
+		private Drawable _warning;
+		private TextView _lblValidation;
 
-		enum PendingAction
-		{
-			NONE,
+		private	enum PendingAction
+		{	NONE,
 			POST_PHOTO,
 			POST_STATUS_UPDATE
 		}
@@ -101,7 +109,103 @@ namespace SingledOutAndroid
 			var singledOutLoginButtn =  (ImageButton)FindViewById (Resource.Id.singledoutlogin);
 			singledOutLoginButtn.Click += SingledOutRegistration;
 
-			// End of Singled Out login stuff
+			// End of Singled Out login stuff	
+
+		}
+
+		/// <summary>
+		/// Validates an Edit Text.
+		/// </summary>
+		/// <returns><c>true</c>, if first name was validated, <c>false</c> otherwise.</returns>
+		/// <param name="warning">Warning.</param>
+		private bool ValidateEditTextRequired(Drawable warning, EditText editText, string editTextName)
+		{
+			// Check first name is not empty.
+			if (string.IsNullOrEmpty (editText.Text)) {
+				editText.SetError (string.Format("{0} is required.", editTextName), warning);
+				return false;
+			} else {
+				editText.Error = null;
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Validates an Edit Text Minimum Length.
+		/// </summary>
+		/// <returns><c>true</c>, if first name was validated, <c>false</c> otherwise.</returns>
+		/// <param name="warning">Warning.</param>
+		private bool ValidateEditTextMinimumLength(Drawable warning, EditText editText, int minLength, string editTextName)
+		{
+			// Check first name is not empty.
+			if (editText.Text.Length < minLength) {
+				editText.SetError (string.Format("{0} must be at least {1} letters.", editTextName, minLength), warning);
+				return false;
+			} else {
+				editText.Error = null;
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Validates the edit text password strength.
+		/// </summary>
+		/// <returns><c>true</c>, if edit text password strength was validated, <c>false</c> otherwise.</returns>
+		/// <param name="warning">Warning.</param>
+		/// <param name="editText">Edit text.</param>
+		private bool ValidateEditTextPasswordStrength(Drawable warning, EditText editText)
+		{
+			// Check first name is not empty.
+			if (editText.Text.Length < 6 || !editText.Text.Any(char.IsDigit)) {
+				editText.SetError ("Password must contain minimum of 6 letters and one number.", warning);
+				return false;
+			} else {
+				editText.Error = null;
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Validates an Edit Text Password.
+		/// </summary>
+		/// <returns><c>true</c>, if first name was validated, <c>false</c> otherwise.</returns>
+		/// <param name="warning">Warning.</param>
+		private bool ValidateRadioButtonSelectionRequired(Drawable warning, RadioGroup radioGroup, string name, int radioBtnToSetErrorOn)
+		{
+			// Check first name is not empty.
+			var radioButton = _dialog.FindViewById<RadioButton> (radioBtnToSetErrorOn);
+			if (radioGroup.CheckedRadioButtonId == -1) {
+				var errorMessage = string.Format("{0} is required",name);
+				radioButton.SetError (errorMessage, _warning);
+				return false;
+			} else {
+				radioButton.Error = null;
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Validate this instance.
+		/// </summary>
+		public bool Validate()
+		{
+			var isValid = true;
+
+			isValid = ValidateEditTextRequired (_warning, _txtFirstName, "First name");
+
+			// Check surname name is not empty.
+			isValid = ValidateEditTextRequired (_warning, _txtSurname, "Surname");
+
+			// Check username length
+			isValid = ValidateEditTextMinimumLength (_warning, _txtUsername, 6, "User name");
+
+			// Check password strength.
+			isValid = ValidateEditTextPasswordStrength (_warning, _txtPassword);
+
+			// Check gender is selected.
+			isValid = ValidateRadioButtonSelectionRequired (_warning, _rbGender, "Gender", Resource.Id.radio_female);
+
+			return isValid;
 		}
 
 		/// <summary>
@@ -123,7 +227,54 @@ namespace SingledOutAndroid
 
 				Button btnCreateAccount = (Button)_dialog.FindViewById (Resource.Id.btnCreateAccount);
 				btnCreateAccount.Click += CreateAccountClick;
-				PopulateDialog(_dialog);
+
+				// Wire up validation control listeners.
+				_warning = (Drawable)Resources.GetDrawable(Resource.Drawable.exclamation);
+				_warning.SetBounds(0, 0, _warning.IntrinsicWidth/3, _warning.IntrinsicHeight/3);
+
+				_txtFirstName = _dialog.FindViewById<EditText>(Resource.Id.txtFirstName);
+				_txtSurname = _dialog.FindViewById<EditText>(Resource.Id.txtSurname);
+				_txtUsername = _dialog.FindViewById<EditText>(Resource.Id.txtUsername);
+				_txtPassword = _dialog.FindViewById<EditText>(Resource.Id.txtPassword);
+				_rbGender = _dialog.FindViewById<RadioGroup>(Resource.Id.rbGender);
+
+				_txtFirstName.TextChanged += TextChangedRequiredValidation;
+				_txtSurname.TextChanged += TextChangedRequiredValidation;
+				_txtUsername.TextChanged += TextChangedMinimumLengthValidation;
+				_txtPassword.TextChanged += TextChangedPasswordStrength;				
+				_rbGender.CheckedChange += CheckChangedRequired;
+			}
+		}
+
+		protected void CheckChangedRequired(object sender, RadioGroup.CheckedChangeEventArgs e)
+		{
+			ValidateRadioButtonSelectionRequired (_warning, ((RadioGroup)sender), "Gender", Resource.Id.radio_female);
+		}
+
+		protected void TextChangedPasswordStrength(object sender, Android.Text.TextChangedEventArgs e)
+		{
+			var editText = ((EditText)sender);
+			if(e.Text.Count() > 0 && editText.Error != null)
+			{
+				ValidateEditTextPasswordStrength (_warning, editText);
+			}
+		}
+
+		protected void TextChangedMinimumLengthValidation(object sender, Android.Text.TextChangedEventArgs e)
+		{
+			var editText = ((EditText)sender);
+			if(e.Text.Count() > 0 && editText.Error != null)
+			{
+				ValidateEditTextMinimumLength (_warning, editText, 6, editText.Hint);
+			}
+		}
+
+		protected void TextChangedRequiredValidation(object sender, Android.Text.TextChangedEventArgs e)
+		{
+			var editText = ((EditText)sender);
+			if(e.Text.Count() > 0 && editText.Error != null)
+			{
+				ValidateEditTextRequired(_warning, editText, editText.Hint);
 			}
 		}
 
@@ -134,23 +285,29 @@ namespace SingledOutAndroid
 		/// <param name="e">E.</param>
 		private async void CreateAccountClick (object sender, EventArgs e)
 		{
-			var txtFirstName = _dialog.FindViewById<EditText>(Resource.Id.txtFirstName);
-			var txtSurname = _dialog.FindViewById<EditText>(Resource.Id.txtSurname);
-			var txtUsername = _dialog.FindViewById<EditText>(Resource.Id.txtUsername);
-			var txtPassword = _dialog.FindViewById<EditText>(Resource.Id.txtPassword);
-			var spnSex = _dialog.FindViewById<Spinner>(Resource.Id.spnSex);
-			var lblValidation = _dialog.FindViewById<TextView>(Resource.Id.lblValidation);
-			lblValidation.Visibility = ViewStates.Gone;
-			lblValidation.Text = string.Empty;
+			_lblValidation = _dialog.FindViewById<TextView>(Resource.Id.lblValidation);
+			SetValidationMessage (string.Empty);
+
+			// Do validation.
+			var isValid = Validate();
+			if(!isValid)
+			{
+				return;
+			}
+
+			// Returns an integer which represents the selected radio button's ID
+			int selected = _rbGender.CheckedRadioButtonId;
+			// Gets a reference to the "selected" radio button
+			RadioButton rb = (RadioButton)_dialog.FindViewById(selected);
 
 			// Create a UserModel from the form fields.
 			var userModel = new UserModel {
-				FirstName =  txtFirstName.Text,
-				Surname = txtSurname.Text,
-				Sex = spnSex.SelectedItem.ToString(),
+				FirstName =  _txtFirstName.Text,
+				Surname = _txtSurname.Text,
+				Sex = rb.Text,
 				CreatedDate = DateTime.UtcNow,
-				Username = txtUsername.Text,
-				Password = !string.IsNullOrEmpty(txtPassword.Text) ? _securityHelper.CreateHash(txtPassword.Text) : string.Empty,
+				Username = _txtUsername.Text,
+				Password = !string.IsNullOrEmpty(_txtPassword.Text) ? _securityHelper.CreateHash(_txtPassword.Text) : string.Empty,
 				UpdateDate = DateTime.UtcNow
 			};	
 
@@ -190,19 +347,27 @@ namespace SingledOutAndroid
 				else if(task.Result.StatusCode == HttpStatusCode.Forbidden)
 				{
 					// need to update on the main thread to change the border color
-					lblValidation.Visibility = ViewStates.Visible;
-					lblValidation.Text = task.Result.ReasonPhrase;
+					SetValidationMessage (task.Result.ReasonPhrase);
 				}
 			}
 			catch (Exception)
 			{
-				lblValidation.Visibility = ViewStates.Visible;
-				lblValidation.Text = "An unknown error occurred!";
+				SetValidationMessage ("An unknown error occurred!");			
 				_spinner.Visibility = ViewStates.Gone;
 			}
 
 			// Stop progress indicator.
 			_spinner.Visibility = ViewStates.Gone;
+		}
+
+		/// <summary>
+		/// Sets the validation message.
+		/// </summary>
+		/// <param name="message">Message.</param>
+		private void SetValidationMessage(string message)
+		{
+			_lblValidation.Visibility = string.IsNullOrEmpty(message) ? ViewStates.Gone : ViewStates.Visible;
+			_lblValidation.Text = message;
 		}
 
 		/// <summary>
@@ -215,22 +380,6 @@ namespace SingledOutAndroid
 			var url = string.Concat(this.GetString(Resource.String.apirooturl),this.GetString(Resource.String.apiurlusers));
 			return restHelper.PostAsync(url , user);
 		}
-
-		/// <summary>
-		/// Populates the dialog.
-		/// </summary>
-		/// <param name="dialog">Dialog.</param>
-		private void PopulateDialog(AlertDialog dialog)
-		{
-			Spinner spnSex = dialog.FindViewById<Spinner>(Resource.Id.spnSex);
-			//Spinner spnSex = dialog.FindViewById<Spinner> (Resource.Id.spnSex);
-			var adapter = ArrayAdapter.CreateFromResource (
-				this, Resource.Array.sex_array, Android.Resource.Layout.SimpleSpinnerItem);
-
-			adapter.SetDropDownViewResource (Android.Resource.Layout.SimpleSpinnerDropDownItem);
-			spnSex.Adapter = adapter;
-		}
-
 
 		class MyStatusCallback : Java.Lang.Object, Session.IStatusCallback
 		{

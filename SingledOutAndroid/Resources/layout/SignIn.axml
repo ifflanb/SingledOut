@@ -65,10 +65,10 @@
             android:src="@drawable/singledoutlogin"
             android:layout_width="240dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="21.8dp"
             android:id="@+id/singledoutlogin"
             android:background="#ffffff"
-            android:scaleType="fitCenter"
+            android:scaleType="centerInside"
             android:layout_gravity="center" />
         <TextView
             android:text="Please sign in to Singled Out with one of the above:"

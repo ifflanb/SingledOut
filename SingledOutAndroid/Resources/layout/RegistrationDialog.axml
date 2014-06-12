@@ -24,7 +24,7 @@
         android:inputType="textPersonName"
         android:background="@drawable/validationBox"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="30dp"
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:id="@+id/lblValidation"
@@ -34,7 +34,8 @@
         android:drawableTop="#fff30c0c"
         android:drawableRight="#F30C0C"
         android:drawableBottom="#F30C0C"
-        android:layout_below="@+id/registerDescription" />
+        android:layout_below="@+id/registerDescription"
+        android:textSize="12dp" />
     <TextView
         android:text="First Name:"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -51,6 +52,7 @@
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:id="@+id/txtFirstName"
+        android:hint="First name"
         android:layout_below="@+id/lblFirstName" />
     <TextView
         android:text="Surname:"
@@ -68,6 +70,7 @@
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:id="@+id/txtSurname"
+        android:hint="Surname"
         android:layout_below="@+id/lblSurname" />
     <TextView
         android:text="User Name:"
@@ -85,6 +88,7 @@
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:id="@+id/txtUsername"
+        android:hint="User name"
         android:layout_below="@+id/lblUsername" />
     <TextView
         android:text="Password:"
@@ -99,27 +103,40 @@
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:id="@+id/txtPassword"
+        android:hint="Password"
         android:layout_below="@+id/lblPassword" />
     <TextView
-        android:text="Sex:"
+        android:text="Gender:"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="match_parent"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
-        android:id="@+id/lblSex"
+        android:id="@+id/lblGender"
         android:layout_below="@+id/txtPassword" />
-    <Spinner
-        android:id="@+id/spnSex"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20.0dp"
+    <RadioGroup
+        android:id="@+id/rbGender"
         android:layout_marginLeft="20.0dp"
-        android:prompt="@string/sex_prompt"
-        android:layout_below="@+id/lblSex" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/lblGender">
+        <RadioButton
+            android:id="@+id/radio_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/male"
+            android:textColor="#C1C1C1" />
+        <RadioButton
+            android:id="@+id/radio_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/female"
+            android:textColor="#C1C1C1" />
+    </RadioGroup>
     <Button
         android:text="Create Account"
         android:layout_width="match_parent"
@@ -127,7 +144,7 @@
         android:layout_marginRight="45.0dp"
         android:layout_marginLeft="45.0dp"
         android:id="@+id/btnCreateAccount"
-        android:layout_below="@+id/spnSex"
+        android:layout_below="@+id/rbGender"
         android:textStyle="bold" />
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
