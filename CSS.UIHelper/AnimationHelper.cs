@@ -49,7 +49,7 @@ namespace CSS.Helpers
 		/// Gets the screen height without status bar.
 		/// </summary>
 		/// <returns>The screen height without status bar.</returns>
-		public int GetScreenHeightWithoutStatusBar(LinearLayout layout, Activity activity)
+		public int GetScreenHeightWithoutStatusBar(RelativeLayout layout, Activity activity)
 		{
 			var dm = new DisplayMetrics ();
 			activity.WindowManager.DefaultDisplay.GetMetrics (dm);

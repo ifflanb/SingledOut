@@ -148,8 +148,8 @@
         android:textStyle="bold" />
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:id="@+id/progressSpinner"

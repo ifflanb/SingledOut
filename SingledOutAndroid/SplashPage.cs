@@ -64,7 +64,7 @@ namespace SingledOutAndroid
 			ImageView logonopin = (ImageView)FindViewById<ImageView> (Resource.Id.logonopin);
 			ImageView pin = (ImageView)FindViewById<ImageView> (Resource.Id.pin);
 			LinearLayout childLayout = (LinearLayout)FindViewById (Resource.Id.childlayout1);
-			LinearLayout containerlayout = (LinearLayout)FindViewById (Resource.Id.containerlayout);
+			RelativeLayout containerlayout = (RelativeLayout)FindViewById (Resource.Id.containerlayout);
 
 			var pinStartPos = (int)(logonopin.LayoutParameters.Width * 0.35); // .35 is a guess...may not work for all screeens.
 			var screenHeight = _animationHelper.GetScreenHeightWithoutStatusBar (containerlayout, this);

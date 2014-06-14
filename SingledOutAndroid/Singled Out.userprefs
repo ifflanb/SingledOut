@@ -1,9 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SignIn.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="SignIn.cs" Line="159" Column="1" />
-      <File FileName="..\CSS.UIHelper\SecurityHelper.cs" Line="28" Column="19" />
+      <File FileName="SignIn.cs" Line="46" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
