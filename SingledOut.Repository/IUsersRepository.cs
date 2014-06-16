@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using SingledOut.Data.Entities;
+using SingledOut.SearchParameters;
 
 namespace SingledOut.Repository
 {
@@ -18,5 +19,7 @@ namespace SingledOut.Repository
         int SaveAll();
 
         bool LoginUser(string userName, string password);
+
+        IQueryable<User> Search(UsersSearchParameters sp);
     }
 }

@@ -13,6 +13,12 @@ namespace SingledOut.WebApi
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
+               name: "UsersSearch",
+               routeTemplate: "api/userssearch/{sp}",
+               defaults: new { controller = "userssearch", sp = RouteParameter.Optional }
+           );
+
+            config.Routes.MapHttpRoute(
                name: "Users",
                routeTemplate: "api/users/{id}",
                defaults: new { controller = "users", id = RouteParameter.Optional }

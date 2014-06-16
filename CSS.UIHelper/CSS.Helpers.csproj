@@ -47,6 +47,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\SingledOutAndroid\packages\Newtonsoft.Json.6.0.3\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SingledOut.SearchParameters">
+      <HintPath>..\SingledOut.SearchParameters\bin\Debug\SingledOut.SearchParameters.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +57,7 @@
     <Compile Include="AnimationHelper.cs" />
     <Compile Include="RESTHelper.cs" />
     <Compile Include="SecurityHelper.cs" />
+    <Compile Include="UriBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

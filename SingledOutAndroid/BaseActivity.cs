@@ -12,6 +12,7 @@ using Xamarin.FacebookBinding;
 using System.Timers;
 using Android.Content.PM;
 using Android.Support.V4.App;
+using Android.Views.InputMethods;
 
 namespace SingledOutAndroid
 {				
@@ -36,6 +37,14 @@ namespace SingledOutAndroid
 
 		}
 
+		protected void ShowKeyboard(EditText editText)
+		{
+			InputMethodManager imm = (InputMethodManager) this.GetSystemService(Context.InputMethodService);
+			if (imm != null) {
+				// only will trigger it if no physical keyboard is open
+				imm.ShowSoftInput(editText, 0);
+			}
+		}
 		/// <summary>
 		/// Starts the activity after pause.
 		/// </summary>

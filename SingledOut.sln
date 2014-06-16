@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingledOut.Services", "Sing
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingledOut.UnitTests", "SingledOut.UnitTests\SingledOut.UnitTests.csproj", "{AC83AE84-D5B8-4A15-B976-C37B63382FBE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingledOut.SearchParameters", "SingledOut.SearchParameters\SingledOut.SearchParameters.csproj", "{D835E796-5CF9-48C2-B898-F05EAD78B003}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{AC83AE84-D5B8-4A15-B976-C37B63382FBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC83AE84-D5B8-4A15-B976-C37B63382FBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC83AE84-D5B8-4A15-B976-C37B63382FBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D835E796-5CF9-48C2-B898-F05EAD78B003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D835E796-5CF9-48C2-B898-F05EAD78B003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D835E796-5CF9-48C2-B898-F05EAD78B003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D835E796-5CF9-48C2-B898-F05EAD78B003}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

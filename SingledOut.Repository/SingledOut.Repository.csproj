@@ -66,6 +66,10 @@
       <Project>{ecfe2a09-a622-4932-bf16-a2f9affaad8f}</Project>
       <Name>SingledOut.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SingledOut.SearchParameters\SingledOut.SearchParameters.csproj">
+      <Project>{d835e796-5cf9-48c2-b898-f05ead78b003}</Project>
+      <Name>SingledOut.SearchParameters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SingledOut.Services\SingledOut.Services.csproj">
       <Project>{fb3e1b55-32d1-4170-9993-7b8ada89ee28}</Project>
       <Name>SingledOut.Services</Name>
@@ -75,9 +79,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

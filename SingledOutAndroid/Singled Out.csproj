@@ -106,6 +106,8 @@
     <AndroidResource Include="Resources\drawable\validationBox.xml" />
     <AndroidResource Include="Resources\drawable\exclamation.png" />
     <AndroidResource Include="Resources\drawable\mobilespacelogo.png" />
+    <AndroidResource Include="Resources\drawable\singledoutloginclicked.png" />
+    <AndroidResource Include="Resources\drawable\singledoutsignin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using SingledOut.Data;
 using SingledOut.Data.Entities;
+using SingledOut.SearchParameters;
 using SingledOut.Services.Services;
 
 namespace SingledOut.Repository
@@ -17,6 +18,49 @@ namespace SingledOut.Repository
         {
             _ctx = ctx;
             _security = security;
+        }
+
+        public IQueryable<User> Search(UsersSearchParameters sp)
+        {
+            var query = from o in _ctx.Users
+                        select o;
+
+            if (!string.IsNullOrEmpty(sp.FacebookUserName))
+            {
+                query = from o in query
+                    where o.FacebookUserName == sp.FacebookUserName 
+                    select o;
+            }
+
+            //if (!string.IsNullOrEmpty(sp.Username))
+            //{
+            //    query = from o in query
+            //            where o.Username == sp.Username
+            //            select o;
+            //}
+
+            //if (!string.IsNullOrEmpty(sp.Sex))
+            //{
+            //    query = from o in query
+            //            where o.FacebookUserName == sp.Sex
+            //            select o;
+            //}
+
+            //if (!string.IsNullOrEmpty(sp.Surname))
+            //{
+            //    query = from o in query
+            //            where o.FacebookUserName == sp.Surname
+            //            select o;
+            //}
+
+            //if (!string.IsNullOrEmpty(sp.FirstName))
+            //{
+            //    query = from o in query
+            //            where o.FacebookUserName == sp.FirstName
+            //            select o;
+            //}
+
+            return query.AsQueryable();
         }
 
         public IQueryable<User> GetAllUsers()

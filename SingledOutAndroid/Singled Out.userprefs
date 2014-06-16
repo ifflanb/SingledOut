@@ -197,8 +197,5 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="SignIn.cs" line="179" offsetX="732" offsetY="2848" expression="responseMessage.Content" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
-  <DisabledProjects>
-    <String>..\SingledOut.Model\SingledOut.Model.csproj</String>
-  </DisabledProjects>
   <MonoDevelop.Ide.ItemProperties.Singled_220Out MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="FA34NW903113" />
 </Properties>

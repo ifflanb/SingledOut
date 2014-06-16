@@ -14,18 +14,17 @@
         android:orientation="vertical"
         android:layout_alignParentBottom="true">
         <TextView
-            android:text="Sign In"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Please sign in to Singled Out with one of the below options:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/signIn"
+            android:layout_height="60dp"
+            android:id="@+id/registerDescription"
             android:textColor="#ff000000"
-            android:gravity="center"
-            android:layout_marginTop="70.0dp"
-            android:layout_marginBottom="40.0dp"
-            android:typeface="normal"
-            android:textSize="25dp"
-            android:textStyle="normal" />
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:gravity="center_horizontal"
+            android:textSize="16dp" />
         <com.facebook.widget.LoginButton
             android:id="@+id/facebooklogin"
             android:layout_width="240dp"
@@ -42,16 +41,7 @@
             android:layout_marginBottom="10dp"
             android:background="#ffffff"
             android:scaleType="fitCenter"
-            android:layout_gravity="center" />
-        <ImageButton
-            android:src="@drawable/googlelogin"
-            android:layout_width="240dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/googleLogin"
-            android:background="#ffffff"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center" />
+            android:layout_gravity="center" />        
         <ImageButton
             android:src="@drawable/twitterlogin"
             android:layout_width="240dp"
@@ -64,25 +54,32 @@
         <ImageButton
             android:src="@drawable/singledoutlogin"
             android:layout_width="240dp"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="21.8dp"
             android:id="@+id/singledoutlogin"
-            android:background="#ffffff"
             android:scaleType="centerInside"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:background="@drawable/buttonselector" />
         <TextView
-            android:text="Please sign in to Singled Out with one of the above:"
+            android:text="Already have a SIngled Out account? Sign in here:"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/welcomeDescription"
+            android:id="@+id/signinDescription"
             android:textColor="#ff000000"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="35dp"
             android:layout_marginRight="35dp"
             android:gravity="center_horizontal"
-            android:textSize="16dp"
-            android:layout_gravity="bottom" />
+            android:textSize="16dp" />
+        <ImageButton
+            android:src="@drawable/singledoutsignin"
+            android:layout_width="240dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="21.8dp"
+            android:id="@+id/singledoutsignin"
+            android:scaleType="centerInside"
+            android:layout_gravity="center"
+            android:background="@drawable/buttonselector" />
     </LinearLayout>
 </LinearLayout>

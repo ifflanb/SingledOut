@@ -41,6 +41,33 @@ namespace CSS.Helpers
 			return response;
 		}
 
+		public HttpResponseMessage SearchAsync(string uri)
+		{
+			var httpClient = new HttpClient();
+
+			HttpResponseMessage response;
+
+			try
+			{
+				uri = string.Concat(uri);
+				response = httpClient.GetAsync(uri).Result;
+			}
+			catch (AggregateException ex)
+			{
+				throw ex;
+			}
+			catch (WebException ex)
+			{
+				throw ex;
+			}       
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
+			return response;
+		}
+
 		public string SerializeObject(object data)
 		{
 			var json = JsonConvert.SerializeObject(data);

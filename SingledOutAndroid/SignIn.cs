@@ -30,7 +30,7 @@ using System.Linq;
 [assembly:MetaData ("com.facebook.sdk.ApplicationId", Value ="@string/app_id")]
 namespace SingledOutAndroid
 {
-	[Activity (Label = "@string/app_name", Theme = "@android:style/Theme.NoTitleBar")]	
+	[Activity (Label = "Sign In", Theme = "@android:style/Theme.NoTitleBar")]	
 	public class SignIn : BaseActivity
 	{
 		private static readonly string[] PERMISSIONS = new String [] { "publish_actions" };
@@ -123,6 +123,8 @@ namespace SingledOutAndroid
 			// Check first name is not empty.
 			if (string.IsNullOrEmpty (editText.Text)) {
 				editText.SetError (string.Format("{0} is required.", editTextName), warning);
+				editText.RequestFocus();
+				ShowKeyboard (editText);
 				return false;
 			} else {
 				editText.Error = null;
@@ -140,6 +142,8 @@ namespace SingledOutAndroid
 			// Check first name is not empty.
 			if (editText.Text.Length < minLength) {
 				editText.SetError (string.Format("{0} must be at least {1} letters.", editTextName, minLength), warning);
+				editText.RequestFocus();
+				ShowKeyboard (editText);
 				return false;
 			} else {
 				editText.Error = null;
@@ -158,6 +162,8 @@ namespace SingledOutAndroid
 			// Check first name is not empty.
 			if (editText.Text.Length < 6 || !editText.Text.Any(char.IsDigit)) {
 				editText.SetError ("Password must contain minimum of 6 letters and one number.", warning);
+				editText.RequestFocus ();
+				ShowKeyboard (editText);
 				return false;
 			} else {
 				editText.Error = null;
@@ -191,19 +197,29 @@ namespace SingledOutAndroid
 		{
 			var isValid = true;
 
-			isValid = ValidateEditTextRequired (_warning, _txtFirstName, "First name");
+			if (!ValidateEditTextRequired (_warning, _txtFirstName, "First name")) {
+				return false;
+			}
 
 			// Check surname name is not empty.
-			isValid = ValidateEditTextRequired (_warning, _txtSurname, "Surname");
+			if (!ValidateEditTextRequired (_warning, _txtSurname, "Surname")) {
+				return false;
+			}
 
 			// Check username length
-			isValid = ValidateEditTextMinimumLength (_warning, _txtUsername, 6, "User name");
+			if (!ValidateEditTextMinimumLength (_warning, _txtUsername, 6, "User name")) {
+				return false;
+			}
 
 			// Check password strength.
-			isValid = ValidateEditTextPasswordStrength (_warning, _txtPassword);
+			if (!ValidateEditTextPasswordStrength (_warning, _txtPassword)) {
+				return false;
+			}
 
 			// Check gender is selected.
-			isValid = ValidateRadioButtonSelectionRequired (_warning, _rbGender, "Gender", Resource.Id.radio_female);
+			if (!ValidateRadioButtonSelectionRequired (_warning, _rbGender, "Gender", Resource.Id.radio_female)) {
+				return false;
+			}
 
 			return isValid;
 		}
@@ -377,7 +393,7 @@ namespace SingledOutAndroid
 		private HttpResponseMessage SaveSingledOutDetails(UserModel user)
 		{
 			var restHelper = new CSS.Helpers.RestHelper ();
-			var url = string.Concat(this.GetString(Resource.String.apirooturl),this.GetString(Resource.String.apiurlusers));
+			var url = string.Concat(this.GetString(Resource.String.apihost), this.GetString(Resource.String.apipath), this.GetString(Resource.String.apiurlusers));
 			return restHelper.PostAsync(url , user);
 		}
 
@@ -448,7 +464,7 @@ namespace SingledOutAndroid
 				};					
 
 				var restHelper = new CSS.Helpers.RestHelper ();
-				var url = string.Concat(owner.GetString(Resource.String.apirooturl),owner.GetString(Resource.String.apiurlusers));
+				var url = string.Concat(owner.GetString(Resource.String.apihost), owner.GetString(Resource.String.apipath),owner.GetString(Resource.String.apiurlusers));
 				restHelper.PostAsync(url , userModel);
 			}
 		}

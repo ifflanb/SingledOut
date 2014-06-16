@@ -46,14 +46,15 @@
         android:id="@+id/lblFirstName"
         android:layout_below="@+id/lblValidation" />
     <EditText
-        android:inputType="textPersonName"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:id="@+id/txtFirstName"
         android:hint="First name"
-        android:layout_below="@+id/lblFirstName" />
+        android:layout_below="@+id/lblFirstName"
+        android:inputType="textCapWords"
+        android:selectAllOnFocus="true" />
     <TextView
         android:text="Surname:"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -64,14 +65,15 @@
         android:id="@+id/lblSurname"
         android:layout_below="@+id/txtFirstName" />
     <EditText
-        android:inputType="textPersonName"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:id="@+id/txtSurname"
         android:hint="Surname"
-        android:layout_below="@+id/lblSurname" />
+        android:layout_below="@+id/lblSurname"
+        android:inputType="textCapWords"
+        android:selectAllOnFocus="true" />
     <TextView
         android:text="User Name:"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -89,7 +91,8 @@
         android:layout_marginLeft="20.0dp"
         android:id="@+id/txtUsername"
         android:hint="User name"
-        android:layout_below="@+id/lblUsername" />
+        android:layout_below="@+id/lblUsername"
+        android:selectAllOnFocus="true" />
     <TextView
         android:text="Password:"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -107,7 +110,8 @@
         android:layout_marginRight="20dp"
         android:id="@+id/txtPassword"
         android:hint="Password"
-        android:layout_below="@+id/lblPassword" />
+        android:layout_below="@+id/lblPassword"
+        android:selectAllOnFocus="true" />
     <TextView
         android:text="Gender:"
         android:textAppearance="?android:attr/textAppearanceSmall"
