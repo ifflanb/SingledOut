@@ -141,6 +141,27 @@
             android:text="@string/female"
             android:textColor="#C1C1C1" />
     </RadioGroup>
+    <CheckBox
+        android:id="@+id/chkTermsCondition"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rbGender"
+        android:layout_marginLeft="20.0dp"
+        android:textColor="#C1C1C1"
+        android:checked="false" />
+    <TextView
+        android:text="@string/terms"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:id="@+id/lblTermsConditions"
+        android:layout_below="@+id/rbGender"
+        android:textColor="#ff3328cf"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignBottom="@+id/chkTermsCondition"
+        android:layout_toRightOf="@+id/chkTermsCondition"
+        android:layout_alignBaseline="@+id/chkTermsCondition" />
     <Button
         android:text="Create Account"
         android:layout_width="match_parent"
@@ -148,7 +169,7 @@
         android:layout_marginRight="45.0dp"
         android:layout_marginLeft="45.0dp"
         android:id="@+id/btnCreateAccount"
-        android:layout_below="@+id/rbGender"
+        android:layout_below="@+id/chkTermsCondition"
         android:textStyle="bold" />
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"

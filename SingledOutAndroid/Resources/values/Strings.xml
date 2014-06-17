@@ -17,5 +17,6 @@
     <string name="apiurlquestions">questions</string>
     <string name="apiurlanswers">answers</string> 
     <string name="male">Male</string>
-    <string name="female">Female</string>  
+    <string name="female">Female</string>
+    <string name="terms">Accept Terms and Conditions</string>  
 </resources>

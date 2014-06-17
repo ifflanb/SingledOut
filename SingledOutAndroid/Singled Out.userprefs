@@ -2,7 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="SignIn.cs" Line="46" Column="14" />
+      <File FileName="SignIn.cs" Line="232" Column="3" />
+      <File FileName="..\CSS.UIHelper\RESTHelper.cs" Line="51" Column="5" />
+      <File FileName="..\CSS.UIHelper\UriBuilder.cs" Line="22" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -192,6 +194,7 @@
       <Catchpoint exceptionName="Java.Nio.Channels.NonReadableChannelException" includeSubclasses="True" />
       <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\HelloFacebookSampleActivity.cs" line="151" column="1" />
       <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\SignIn.cs" line="163" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\CSS.UIHelper\UriBuilder.cs" line="21" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
