@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -13,6 +12,10 @@ using System.Timers;
 using Android.Content.PM;
 using Android.Support.V4.App;
 using Android.Views.InputMethods;
+using Android.Graphics.Drawables;
+using Android.Content;
+using Android.Content.Res;
+using CSS.Helpers;
 
 namespace SingledOutAndroid
 {				
@@ -23,6 +26,7 @@ namespace SingledOutAndroid
 		private const int SWIPE_THRESHOLD_VELOCITY = 200;
 		private Timer _timer;
 		private GestureDetector _gestureDetector;
+		private UriCreator _uriCreator;
 
 		/// <summary>
 		/// Raises the create event.
@@ -34,17 +38,25 @@ namespace SingledOutAndroid
 			this.RequestedOrientation = ScreenOrientation.Portrait;
 
 			_gestureDetector = new GestureDetector(this);
-
+			_uriCreator = new UriCreator (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 		}
 
-		protected void ShowKeyboard(EditText editText)
-		{
-			InputMethodManager imm = (InputMethodManager) this.GetSystemService(Context.InputMethodService);
-			if (imm != null) {
-				// only will trigger it if no physical keyboard is open
-				imm.ShowSoftInput(editText, 0);
+		protected UriCreator UriCreator {
+			get {
+				return _uriCreator;
 			}
 		}
+		/// <summary>
+		/// Gets the validation warning drawable.
+		/// </summary>
+		/// <returns>The validation warning drawable.</returns>
+		protected Drawable GetValidationWarningDrawable()
+		{
+			var warning = (Drawable)Resources.GetDrawable(Resource.Drawable.exclamation);
+			warning.SetBounds(0, 0, warning.IntrinsicWidth/3, warning.IntrinsicHeight/3);
+			return warning;
+		}
+
 		/// <summary>
 		/// Starts the activity after pause.
 		/// </summary>

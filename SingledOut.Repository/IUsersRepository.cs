@@ -18,7 +18,7 @@ namespace SingledOut.Repository
 
         int SaveAll();
 
-        bool LoginUser(string userName, string password);
+        bool LoginUser(string email, string password);
 
         IQueryable<User> Search(UsersSearchParameters sp);
     }

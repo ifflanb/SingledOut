@@ -32,8 +32,8 @@ namespace SingledOut.WebApi
 
             config.Routes.MapHttpRoute(
               name: "Enrollments",
-              routeTemplate: "api/courses/{courseId}/students/{userName}",
-              defaults: new { controller = "Enrollments", userName = RouteParameter.Optional }
+              routeTemplate: "api/courses/{courseId}/students/{var}",
+              defaults: new { controller = "Enrollments", var = RouteParameter.Optional }
           );
 
            // var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();

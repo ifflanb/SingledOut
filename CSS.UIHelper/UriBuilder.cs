@@ -12,7 +12,7 @@ using SingledOut.SearchParameters;
 
 namespace CSS.Helpers
 {
-	public class UriCreator<T>
+	public class UriCreator
 	{
 		private UriBuilder _uriBuilder;
 
@@ -41,9 +41,9 @@ namespace CSS.Helpers
 			{
 				_uriBuilder.Query = string.Concat("Sex=", sp.Sex);
 			}
-			if(!string.IsNullOrEmpty(sp.Username))
+			if(!string.IsNullOrEmpty(sp.Email))
 			{
-				_uriBuilder.Query = string.Concat("Username=", sp.Username);
+				_uriBuilder.Query = string.Concat("Email=", sp.Email);
 			}
 			if(!string.IsNullOrEmpty(_uriBuilder.Query))
 			{

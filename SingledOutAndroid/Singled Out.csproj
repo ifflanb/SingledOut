@@ -52,6 +52,9 @@
     <Reference Include="SingledOut.Model">
       <HintPath>..\SingledOut.Model\bin\Debug\SingledOut.Model.dll</HintPath>
     </Reference>
+    <Reference Include="SingledOut.SearchParameters">
+      <HintPath>..\SingledOut.SearchParameters\bin\Debug\SingledOut.SearchParameters.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -61,10 +64,13 @@
     <Compile Include="SplashPage.cs" />
     <Compile Include="Welcome.cs" />
     <Compile Include="FooterLayout.cs" />
-    <Compile Include="SignIn.cs" />
     <Compile Include="CheckIn.cs" />
     <Compile Include="Tutorial2.cs" />
     <Compile Include="BaseActivity.cs" />
+    <Compile Include="SignIn.cs" />
+    <Compile Include="Registration.cs" />
+    <Compile Include="TermsConditions.cs" />
+    <Compile Include="Login.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -101,7 +107,6 @@
     <AndroidResource Include="Resources\drawable\slide_out_left.xml" />
     <AndroidResource Include="Resources\drawable\singledoutlogin.png" />
     <AndroidResource Include="Resources\values\dialog.xml" />
-    <AndroidResource Include="Resources\layout\RegistrationDialog.axml" />
     <AndroidResource Include="Resources\drawable\logopindialog.png" />
     <AndroidResource Include="Resources\drawable\validationBox.xml" />
     <AndroidResource Include="Resources\drawable\exclamation.png" />
@@ -109,6 +114,9 @@
     <AndroidResource Include="Resources\drawable\singledoutloginclicked.png" />
     <AndroidResource Include="Resources\drawable\singledoutsignin.png" />
     <AndroidResource Include="Resources\drawable\singledoutregister.png" />
+    <AndroidResource Include="Resources\layout\Registration.axml" />
+    <AndroidResource Include="Resources\layout\TermsConditions.axml" />
+    <AndroidResource Include="Resources\layout\Login.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -119,5 +127,8 @@
       <Project>{CBA6F016-B2F6-4598-B076-743BDEE94715}</Project>
       <Name>CSS.Helpers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Terms.html" />
   </ItemGroup>
 </Project>

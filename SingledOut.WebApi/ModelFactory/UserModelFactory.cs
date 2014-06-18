@@ -48,7 +48,7 @@ namespace SingledOut.WebApi.ModelFactory
                 Sex = user.Sex,
                 CreatedDate = user.CreatedDate,
                 UpdateDate = user.UpdateDate,
-                Username = user.Username,
+                Email = user.Email,
                 //Password = user.Password
                 //UserQuestions = _userQuestionModelFactory.Create(user.UserQuestions),
                 //UserLocations = _userLocationModelFactory.Create(user.UserLocations),
@@ -70,7 +70,7 @@ namespace SingledOut.WebApi.ModelFactory
                     FacebookAccessToken = model.FacebookAccessToken,
                     CreatedDate = model.CreatedDate,
                     UpdateDate = model.UpdateDate,
-                    Username = model.Username,
+                    Email = model.Email,
                     Password = model.Password //!string.IsNullOrEmpty(model.Password) ? _security.CreateHash(model.Password) : string.Empty
                     //UserQuestions = _userQuestionRepository.GetUserQuestion(model.UserQuestions.)
                     //CourseTutor = _repo.GetTutor(model.Tutor.Id)

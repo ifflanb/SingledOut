@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:id="@+id/signincontainerlayout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="#ffffff"
     android:orientation="vertical">
     <TextView
@@ -14,17 +14,17 @@
         android:id="@+id/registerDescription"
         android:textColor="#ff000000"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="30dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:gravity="center_horizontal"
-        android:textSize="16dp"
+        android:textSize="18dp"
         android:layout_alignParentTop="true" />
     <EditText
         android:inputType="textPersonName"
         android:background="@drawable/validationBox"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:id="@+id/lblValidation"
@@ -35,7 +35,7 @@
         android:drawableRight="#F30C0C"
         android:drawableBottom="#F30C0C"
         android:layout_below="@+id/registerDescription"
-        android:textSize="12dp" />
+        android:textSize="14dp" />
     <TextView
         android:text="First Name:"
         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -47,7 +47,7 @@
         android:layout_below="@+id/lblValidation" />
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:id="@+id/txtFirstName"
@@ -66,7 +66,7 @@
         android:layout_below="@+id/txtFirstName" />
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:id="@+id/txtSurname"
@@ -75,23 +75,23 @@
         android:inputType="textCapWords"
         android:selectAllOnFocus="true" />
     <TextView
-        android:text="User Name:"
+        android:text="Email Address:"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
-        android:id="@+id/lblUsername"
+        android:id="@+id/lblEmail"
         android:layout_below="@+id/txtSurname" />
     <EditText
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
-        android:id="@+id/txtUsername"
-        android:hint="User name"
-        android:layout_below="@+id/lblUsername"
+        android:id="@+id/txtEmail"
+        android:hint="Email Address"
+        android:layout_below="@+id/lblEmail"
         android:selectAllOnFocus="true" />
     <TextView
         android:text="Password:"
@@ -101,11 +101,11 @@
         android:layout_marginRight="20.0dp"
         android:layout_marginLeft="20.0dp"
         android:id="@+id/lblPassword"
-        android:layout_below="@+id/txtUsername" />
+        android:layout_below="@+id/txtEmail" />
     <EditText
         android:inputType="textPassword"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:id="@+id/txtPassword"
@@ -143,7 +143,7 @@
     </RadioGroup>
     <CheckBox
         android:id="@+id/chkTermsCondition"
-        android:layout_width="45dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rbGender"
         android:layout_marginLeft="20.0dp"
@@ -151,7 +151,7 @@
         android:checked="false" />
     <TextView
         android:text="@string/terms"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20.0dp"
@@ -159,9 +159,10 @@
         android:layout_below="@+id/rbGender"
         android:textColor="#ff3328cf"
         android:layout_alignWithParentIfMissing="false"
-        android:layout_alignBottom="@+id/chkTermsCondition"
         android:layout_toRightOf="@+id/chkTermsCondition"
-        android:layout_alignBaseline="@+id/chkTermsCondition" />
+        android:layout_alignBaseline="@+id/chkTermsCondition"
+        android:clickable="true"
+        android:layout_marginBottom="20dp" />
     <Button
         android:text="Create Account"
         android:layout_width="match_parent"
@@ -169,8 +170,8 @@
         android:layout_marginRight="45.0dp"
         android:layout_marginLeft="45.0dp"
         android:id="@+id/btnCreateAccount"
-        android:layout_below="@+id/chkTermsCondition"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true" />
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="100dip"

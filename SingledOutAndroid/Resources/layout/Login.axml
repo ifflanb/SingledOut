@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/signincontainerlayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+    <TextView
+        android:text="Login:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/loginDescription"
+        android:textColor="#ff000000"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center_horizontal"
+        android:textSize="18dp"
+        android:layout_alignParentTop="true" />
+    <EditText
+        android:background="@drawable/validationBox"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/lblValidation"
+        android:textColor="#ffe90d0d"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:drawableTop="#fff30c0c"
+        android:drawableRight="#F30C0C"
+        android:drawableBottom="#F30C0C"
+        android:layout_below="@+id/loginDescription"
+        android:textSize="14dp" />
+    <TextView
+        android:text="Email Address:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/lblEmail"
+        android:layout_below="@+id/lblValidation" />
+    <EditText
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/txtEmail"
+        android:hint="Email Address"
+        android:layout_below="@+id/lblEmail"
+        android:selectAllOnFocus="true" />
+    <TextView
+        android:text="Password:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20.0dp"
+        android:layout_marginLeft="20.0dp"
+        android:id="@+id/lblPassword"
+        android:layout_below="@+id/txtEmail" />
+    <EditText
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/txtPassword"
+        android:hint="Password"
+        android:layout_below="@+id/lblPassword"
+        android:selectAllOnFocus="true" />
+    <Button
+        android:text="Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="45.0dp"
+        android:layout_marginLeft="45.0dp"
+        android:id="@+id/btnLogin"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true" />
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/progressSpinner"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical|center_horizontal" />
+</RelativeLayout>

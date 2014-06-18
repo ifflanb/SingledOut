@@ -82,7 +82,7 @@ namespace SingledOut.UnitTests.WebApi.Controller
             
             //HttpContent cont = new ;
             //cont.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            uri = string.Concat(uri, "/?FacebookUserName=", sp.FacebookUserName);
+            uri = string.Concat(uri, "/?Facebookvar=", sp.FacebookUserName);
             var response = httpClient.GetAsync(uri).Result;
 
             return response;

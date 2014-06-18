@@ -58,6 +58,8 @@
     <Compile Include="RESTHelper.cs" />
     <Compile Include="SecurityHelper.cs" />
     <Compile Include="UriBuilder.cs" />
+    <Compile Include="ValidationHelper.cs" />
+    <Compile Include="UIHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

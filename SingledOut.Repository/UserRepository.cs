@@ -79,9 +79,9 @@ namespace SingledOut.Repository
 
             // Check if the username or Facebook username already exists.
             var existingUser = false;
-            if (!string.IsNullOrEmpty(user.Username))
+            if (!string.IsNullOrEmpty(user.Email))
             {
-                existingUser = GetAllUsers().Any(o => o.Username == user.Username);
+                existingUser = GetAllUsers().Any(o => o.Email == user.Email);
             }
             if (!string.IsNullOrEmpty(user.FacebookUserName))
             {
@@ -115,9 +115,9 @@ namespace SingledOut.Repository
             return SaveAll();
         }
 
-        public bool LoginUser(string userName, string password)
+        public bool LoginUser(string email, string password)
         {
-            var user = _ctx.Users.SingleOrDefault(s => s.Username == userName);
+            var user = _ctx.Users.SingleOrDefault(s => s.Email == email);
 
             if (user != null)
             {
