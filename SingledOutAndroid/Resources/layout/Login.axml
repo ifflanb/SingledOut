@@ -2,105 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:id="@+id/signincontainerlayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ECF3F9"
-    android:orientation="vertical">
+    style="@style/parentlayout">
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
         android:id="@+id/signincontainerinnerlayout"
-        android:layout_margin="20dp"
-        android:background="@drawable/roundedlayout"
-        android:padding="8dp">
+        style="@style/childlayout">
         <TextView
             android:text="Login"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/loginDescription"
-            android:textColor="#0645BF"
-            android:layout_marginBottom="20dp"
-            android:gravity="center_horizontal"
-            android:textSize="19dp"
-            android:layout_centerHorizontal="true"
-            android:padding="5dp"
-            android:drawableBottom="@drawable/line" />
+            android:drawableBottom="@drawable/line"
+            style="@style/titletext" />
         <EditText
-            android:background="@drawable/validationBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20.0dp"
-            android:layout_marginLeft="20.0dp"
             android:id="@+id/lblValidation"
-            android:textColor="#ffe90d0d"
-            android:textStyle="bold"
-            android:visibility="gone"
-            android:drawableTop="#fff30c0c"
-            android:drawableRight="#F30C0C"
-            android:drawableBottom="#F30C0C"
             android:layout_below="@+id/loginDescription"
-            android:textSize="14dp" />
-        <TextView
-            android:text="Email Address:"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#0645BF"
-            android:id="@+id/lblEmail"
-            android:layout_below="@+id/lblValidation"
-            android:paddingLeft="4dp" />
+            style="@style/edittextvalidation" />
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/txtEmailAddress"
             android:hint="Email Address"
-            android:layout_below="@+id/lblEmail"
-            android:inputType="textCapWords"
-            android:selectAllOnFocus="true"
-            android:textColorHint="#c1c1c1"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp" />
-        <TextView
-            android:text="Password:"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#0645BF"
-            android:id="@+id/lblPassword"
-            android:layout_below="@+id/txtEmailAddress" />
+            android:layout_below="@+id/lblValidation"
+            style="@style/edittextemail" />
         <EditText
-            android:inputType="textPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/txtPassword"
             android:hint="Password"
-            android:layout_below="@+id/lblPassword"
-            android:selectAllOnFocus="true"
-            android:textColorHint="#c1c1c1"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp" />
+            android:layout_below="@+id/txtEmailAddress"
+            style="@style/edittextpassword" />
         <Button
             android:text="Login"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
             android:id="@+id/btnLogin"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:textColor="#ffffff"
-            android:background="@drawable/roundedbutton"
-            android:layout_marginBottom="10dp"
             android:layout_below="@+id/txtPassword"
-            android:layout_centerInParent="true" />
+            style="@style/buttonlight" />
         <TextView
             android:text="Forgotten your password?"
-            android:textSize="14dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/lblForgottenPassword"
-            android:textColor="#0645BF"
             android:layout_below="@+id/btnLogin"
-            android:clickable="true" />
+            style="@style/hyperlinktext" />
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="100dip"

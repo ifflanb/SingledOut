@@ -46,7 +46,7 @@ namespace SingledOutAndroid
 			SwipeRightActivity = typeof(SignIn);
 
 			_validationHelper = new ValidationHelper (this, GetValidationWarningDrawable());
-			_txtEmail = FindViewById<EditText>(Resource.Id.txtEmail);
+			_txtEmail = FindViewById<EditText>(Resource.Id.txtEmailAddress);
 			_txtPassword = FindViewById<EditText>(Resource.Id.txtPassword);
 
 			var btnLogin = (Button)FindViewById (Resource.Id.btnLogin);
