@@ -84,7 +84,6 @@
     <AndroidResource Include="Resources\drawable\googlelogin.png" />
     <AndroidResource Include="Resources\drawable\twitterlogin.png" />
     <AndroidResource Include="Resources\layout\Welcome.axml" />
-    <AndroidResource Include="Resources\drawable\RoundedButton.xml" />
     <AndroidResource Include="Resources\drawable\singledoutlogo.png" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\drawable\buttonselector.xml" />
@@ -117,6 +116,11 @@
     <AndroidResource Include="Resources\layout\Registration.axml" />
     <AndroidResource Include="Resources\layout\TermsConditions.axml" />
     <AndroidResource Include="Resources\layout\Login.axml" />
+    <AndroidResource Include="Resources\drawable\line.xml" />
+    <AndroidResource Include="Resources\drawable\roundedlayout.xml" />
+    <AndroidResource Include="Resources\drawable\roundedbutton.xml" />
+    <AndroidResource Include="Resources\drawable\facebookloginrounded.png" />
+    <AndroidResource Include="Resources\drawable\roundedbuttondark.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

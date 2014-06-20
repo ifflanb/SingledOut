@@ -20,7 +20,7 @@ using SingledOut.Model;
 
 namespace SingledOutAndroid
 {
-	[Activity (Label = "Login", NoHistory=true)]			
+	[Activity (NoHistory=true, Theme = "@android:style/Theme.NoTitleBar")]			
 	public class Login : BaseActivity
 	{
 		private TextView _lblValidation;
@@ -42,6 +42,8 @@ namespace SingledOutAndroid
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.Login);
+
+			SwipeRightActivity = typeof(SignIn);
 
 			_validationHelper = new ValidationHelper (this, GetValidationWarningDrawable());
 			_txtEmail = FindViewById<EditText>(Resource.Id.txtEmail);

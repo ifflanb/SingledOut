@@ -66,10 +66,10 @@ namespace SingledOutAndroid
 
 			facebookLoginButton = (LoginButton)FindViewById (Resource.Id.facebooklogin);
 			facebookLoginButton.UserInfoChangedCallback = new MyUserInfoChangedCallback (this);
-			facebookLoginButton.SetBackgroundResource(Resource.Drawable.facebooklogin);
+			facebookLoginButton.SetBackgroundResource(Resource.Drawable.facebookloginrounded);
 			facebookLoginButton.SetCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0); 
 
-			controlsContainer = (ViewGroup)FindViewById (Resource.Id.signinchildlayout);
+			controlsContainer = (ViewGroup)FindViewById (Resource.Id.signincontainerinnerlayout);
 
 			Android.Support.V4.App.FragmentManager fm = SupportFragmentManager;
 
@@ -84,10 +84,10 @@ namespace SingledOutAndroid
 
 			// Start of Singled Out login stuff
 
-			var singledOutRegisterButtn =  (ImageButton)FindViewById (Resource.Id.singledoutregister);
+			var singledOutRegisterButtn =  (Button)FindViewById (Resource.Id.singledoutregister);
 			singledOutRegisterButtn.Click += SingledOutRegistration;
 
-			var singledOutLoginButtn =  (ImageButton)FindViewById (Resource.Id.singledoutlogin);
+			var singledOutLoginButtn =  (Button)FindViewById (Resource.Id.singledoutlogin);
 			singledOutLoginButtn.Click += SingledOutLogin;
 			// End of Singled Out login stuff	
 		}

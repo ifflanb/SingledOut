@@ -22,7 +22,7 @@ using Java.Util.Regex;
 
 namespace SingledOutAndroid
 {
-	[Activity (Label = "Registration", NoHistory=true)]			
+	[Activity (NoHistory=true, Theme = "@android:style/Theme.NoTitleBar")]			
 	public class Registration : BaseActivity
 	{
 		ProgressBar _spinner;
@@ -49,6 +49,8 @@ namespace SingledOutAndroid
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.Registration);
+
+			SwipeRightActivity = typeof(SignIn);
 
 			Button btnCreateAccount = (Button)FindViewById (Resource.Id.btnCreateAccount);
 			btnCreateAccount.Click += CreateAccountClick;

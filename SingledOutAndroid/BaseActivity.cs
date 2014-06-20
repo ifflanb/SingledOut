@@ -41,6 +41,10 @@ namespace SingledOutAndroid
 			_uriCreator = new UriCreator (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 		}
 
+		/// <summary>
+		/// Gets the URI creator.
+		/// </summary>
+		/// <value>The URI creator.</value>
 		protected UriCreator UriCreator {
 			get {
 				return _uriCreator;
@@ -109,8 +113,10 @@ namespace SingledOutAndroid
 		///  key.
 		/// </summary>
 		public override void OnBackPressed(){
-			base.OnBackPressed();
-			OverridePendingTransition (Resource.Drawable.slide_out_left, Resource.Drawable.slide_in_left);
+			//base.OnBackPressed();
+			if (SwipeRightActivity != null) {
+				SwipeRight ();
+			}
 		}
 
 		/// <summary>
@@ -128,6 +134,7 @@ namespace SingledOutAndroid
 		public void SwipeRight()
 		{
 			StartActivity(new Intent(ApplicationContext, SwipeRightActivity));
+			OverridePendingTransition (Resource.Drawable.slide_out_left, Resource.Drawable.slide_in_left);
 			OverridePendingTransition (Resource.Drawable.slide_out_left, Resource.Drawable.slide_in_left);
 		}
 

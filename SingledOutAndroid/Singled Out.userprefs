@@ -1,12 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Ben\Documents\SingledOut\CSS.UIHelper\UriBuilder.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Registration.cs" Line="139" Column="18" />
+      <File FileName="Registration.cs" Line="139" Column="1" />
       <File FileName="Login.cs" Line="128" Column="1" />
-      <File FileName="BaseActivity.cs" Line="42" Column="1" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\CSS.UIHelper\UriBuilder.cs" Line="48" Column="1" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SplashPage.cs" Line="35" Column="1" />
+      <File FileName="SignIn.cs" Line="160" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -197,6 +195,7 @@
       <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\HelloFacebookSampleActivity.cs" line="151" column="1" />
       <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\SignIn.cs" line="163" column="1" />
       <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="128" column="45" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" line="87" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

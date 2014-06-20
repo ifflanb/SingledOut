@@ -29,7 +29,7 @@ namespace SingledOutAndroid
 			if (container.Id == Resource.Id.welcomechildlayout) {
 				imageView.SetImageResource (Resource.Drawable.ellipse1);
 			}
-			if (container.Id == Resource.Id.signinchildlayout) {
+			if (container.Id == Resource.Id.signincontainerinnerlayout) {
 				imageView.SetImageResource (Resource.Drawable.ellipse2);
 			}
 			if (container.Id == Resource.Id.tutorial1childlayout) {

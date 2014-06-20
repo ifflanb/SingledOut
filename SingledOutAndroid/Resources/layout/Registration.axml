@@ -2,183 +2,193 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:id="@+id/signincontainerlayout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECF3F9"
     android:orientation="vertical">
-    <TextView
-        android:text="Account Details:"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/registerDescription"
-        android:textColor="#ff000000"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:gravity="center_horizontal"
-        android:textSize="18dp"
-        android:layout_alignParentTop="true" />
-    <EditText
-        android:inputType="textPersonName"
-        android:background="@drawable/validationBox"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/lblValidation"
-        android:textColor="#ffe90d0d"
-        android:textStyle="bold"
-        android:visibility="gone"
-        android:drawableTop="#fff30c0c"
-        android:drawableRight="#F30C0C"
-        android:drawableBottom="#F30C0C"
-        android:layout_below="@+id/registerDescription"
-        android:textSize="14dp" />
-    <TextView
-        android:text="First Name:"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/lblFirstName"
-        android:layout_below="@+id/lblValidation" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/txtFirstName"
-        android:hint="First name"
-        android:layout_below="@+id/lblFirstName"
-        android:inputType="textCapWords"
-        android:selectAllOnFocus="true" />
-    <TextView
-        android:text="Surname:"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/lblSurname"
-        android:layout_below="@+id/txtFirstName" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/txtSurname"
-        android:hint="Surname"
-        android:layout_below="@+id/lblSurname"
-        android:inputType="textCapWords"
-        android:selectAllOnFocus="true" />
-    <TextView
-        android:text="Email Address:"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/lblEmail"
-        android:layout_below="@+id/txtSurname" />
-    <EditText
-        android:inputType="textEmailAddress"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/txtEmail"
-        android:hint="Email Address"
-        android:layout_below="@+id/lblEmail"
-        android:selectAllOnFocus="true" />
-    <TextView
-        android:text="Password:"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/lblPassword"
-        android:layout_below="@+id/txtEmail" />
-    <EditText
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:id="@+id/txtPassword"
-        android:hint="Password"
-        android:layout_below="@+id/lblPassword"
-        android:selectAllOnFocus="true" />
-    <TextView
-        android:text="Gender:"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20.0dp"
-        android:layout_marginLeft="20.0dp"
-        android:id="@+id/lblGender"
-        android:layout_below="@+id/txtPassword" />
-    <RadioGroup
-        android:id="@+id/rbGender"
-        android:layout_marginLeft="20.0dp"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/lblGender">
-        <RadioButton
-            android:id="@+id/radio_male"
+        android:id="@+id/signincontainerinnerlayout"
+        android:layout_margin="20dp"
+        android:background="@drawable/roundedlayout"
+        android:padding="8dp">
+        <TextView
+            android:text="Account Details"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/registerDescription"
+            android:textColor="#0645BF"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            android:textSize="19dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            android:drawableBottom="@drawable/line" />
+        <EditText
+            android:inputType="textPersonName"
+            android:background="@drawable/validationBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblValidation"
+            android:textColor="#ffe90d0d"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:drawableTop="#fff30c0c"
+            android:drawableRight="#F30C0C"
+            android:drawableBottom="#F30C0C"
+            android:layout_below="@+id/registerDescription"
+            android:textSize="14dp" />
+        <TextView
+            android:text="First Name:"
+            android:textColor="#0645BF"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/male"
-            android:textColor="#C1C1C1" />
-        <RadioButton
-            android:id="@+id/radio_female"
+            android:id="@+id/lblFirstName"
+            android:layout_below="@+id/lblValidation"
+            android:paddingLeft="4dp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtFirstName"
+            android:hint="First name"
+            android:layout_below="@+id/lblFirstName"
+            android:inputType="textCapWords"
+            android:selectAllOnFocus="true"
+            android:textColorHint="#c1c1c1"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp" />
+        <TextView
+            android:text="Surname:"
+            android:textColor="#0645BF"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/female"
-            android:textColor="#C1C1C1" />
-    </RadioGroup>
-    <CheckBox
-        android:id="@+id/chkTermsCondition"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rbGender"
-        android:layout_marginLeft="20.0dp"
-        android:textColor="#C1C1C1"
-        android:checked="false" />
-    <TextView
-        android:text="@string/terms"
-        android:textSize="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20.0dp"
-        android:id="@+id/lblTermsConditions"
-        android:layout_below="@+id/rbGender"
-        android:textColor="#ff3328cf"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_toRightOf="@+id/chkTermsCondition"
-        android:layout_alignBaseline="@+id/chkTermsCondition"
-        android:clickable="true"
-        android:layout_marginBottom="20dp" />
-    <Button
-        android:text="Create Account"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="45.0dp"
-        android:layout_marginLeft="45.0dp"
-        android:id="@+id/btnCreateAccount"
-        android:textStyle="bold"
-        android:layout_alignParentBottom="true" />
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="100dip"
-        android:layout_height="100dip"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:id="@+id/progressSpinner"
-        android:visibility="gone"
-        android:layout_gravity="center_vertical|center_horizontal" />
+            android:id="@+id/lblSurname"
+            android:layout_below="@+id/txtFirstName"
+            android:paddingLeft="4dp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtSurname"
+            android:hint="Surname"
+            android:layout_below="@+id/lblSurname"
+            android:inputType="textCapWords"
+            android:selectAllOnFocus="true"
+            android:textColorHint="#c1c1c1"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp" />
+        <TextView
+            android:text="Email Address:"
+            android:textColor="#0645BF"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblEmail"
+            android:layout_below="@+id/txtSurname"
+            android:paddingLeft="4dp" />
+        <EditText
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEmail"
+            android:hint="Email Address"
+            android:layout_below="@+id/lblEmail"
+            android:selectAllOnFocus="true"
+            android:textColorHint="#c1c1c1"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp" />
+        <TextView
+            android:text="Password:"
+            android:textColor="#0645BF"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblPassword"
+            android:layout_below="@+id/txtEmail"
+            android:paddingLeft="4dp" />
+        <EditText
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPassword"
+            android:hint="Password"
+            android:layout_below="@+id/lblPassword"
+            android:selectAllOnFocus="true"
+            android:textColorHint="#c1c1c1"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp" />
+        <TextView
+            android:text="Gender:"
+            android:textColor="#0645BF"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblGender"
+            android:layout_below="@+id/txtPassword"
+            android:paddingLeft="4dp" />
+        <RadioGroup
+            android:id="@+id/rbGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/lblGender">
+            <RadioButton
+                android:id="@+id/radio_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male"
+                android:textColor="#0645BF"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="8dp" />
+            <RadioButton
+                android:id="@+id/radio_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female"
+                android:textColor="#0645BF" />
+        </RadioGroup>
+        <CheckBox
+            android:id="@+id/chkTermsCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rbGender"
+            android:textColor="#0645BF"
+            android:checked="false"
+            android:layout_marginLeft="4dp" />
+        <TextView
+            android:text="@string/terms"
+            android:textSize="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblTermsConditions"
+            android:layout_below="@+id/rbGender"
+            android:textColor="#0645BF"
+            android:layout_toRightOf="@+id/chkTermsCondition"
+            android:layout_alignBaseline="@+id/chkTermsCondition"
+            android:clickable="true" />
+        <Button
+            android:text="Create Account"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/btnCreateAccount"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/roundedbutton"
+            android:layout_marginBottom="10dp" />
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/progressSpinner"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical|center_horizontal" />
+    </RelativeLayout>
 </RelativeLayout>
