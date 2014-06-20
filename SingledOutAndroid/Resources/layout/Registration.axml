@@ -62,6 +62,7 @@
         <Button
             android:text="Create Account"
             android:id="@+id/btnCreateAccount"
+            android:layout_below="@+id/lblTermsConditions"
             style="@style/buttonlight" />
         <ProgressBar
             android:id="@+id/progressSpinner"

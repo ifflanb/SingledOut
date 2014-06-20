@@ -64,7 +64,7 @@
 
     <style name="edittextvalidation">
     	<item name="android:inputType">textPersonName</item>
-    	<item name="android:background">@drawable/validationBox</item>
+    	<item name="android:background">@drawable/validationbox</item>
     	<item name="android:layout_width">match_parent</item>
     	<item name="android:layout_height">wrap_content</item>
     	<item name="android:textColor">#ffe90d0d</item>
@@ -103,7 +103,7 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
-	<style name="checkbox"> 
+	<style name="checkbox" parent="@android:style/Widget.CompoundButton.CheckBox"> 
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textColor">#0645BF</item>
@@ -112,12 +112,12 @@
     </style>
 
    	<style name="radiogroup"> 
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:orientation">horizontal</item>
     </style>
 
-   	<style name="radiobutton"> 
+   	<style name="radiobutton" parent="@android:style/Widget.CompoundButton.RadioButton"> 
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textColor">#0645BF</item>

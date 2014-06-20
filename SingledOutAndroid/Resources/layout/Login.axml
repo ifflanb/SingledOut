@@ -34,15 +34,10 @@
             android:text="Forgotten your password?"
             android:id="@+id/lblForgottenPassword"
             android:layout_below="@+id/btnLogin"
-            style="@style/hyperlinktext" />
+            style="@style/hyperlinktext"
+            android:gravity="center_horizontal" />
         <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="100dip"
-            android:layout_height="100dip"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:id="@+id/progressSpinner"
-            android:visibility="gone"
-            android:layout_gravity="center_vertical|center_horizontal" />
+            style="@style/progressspinner" />
     </RelativeLayout>
 </RelativeLayout>
