@@ -41,7 +41,6 @@ namespace SingledOutAndroid
 
 		public Registration ()
 		{
-			_restHelper = new RestHelper (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 			_securityHelper = new SecurityHelper ();
 		}
 
@@ -50,6 +49,7 @@ namespace SingledOutAndroid
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.Registration);
+			_restHelper = new RestHelper (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 
 			SwipeRightActivity = typeof(SignIn);
 

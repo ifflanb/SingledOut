@@ -19,8 +19,6 @@ namespace MobileSpace.Helpers
 			data = x.ComputeHash(data);
 			return Encoding.ASCII.GetString(data);
 		}
-
-
 	}
 }
 

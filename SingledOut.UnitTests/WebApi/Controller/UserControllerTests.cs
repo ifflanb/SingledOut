@@ -2,6 +2,8 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -23,12 +25,14 @@ namespace SingledOut.UnitTests.WebApi.Controller
                 CreatedDate = DateTime.UtcNow,
                 FacebookAccessToken = "1234567890",
                 FacebookUserName = "ifflanb",
-                UpdateDate = DateTime.UtcNow
+                UpdateDate = DateTime.UtcNow,
+                Email = "ifflanb@yahoo.com",
+                Password = CreateHash("testpassword1")
             };
             return userModel;
         }
 
-        [Test]
+       [Test]
         public void Test_That_GET_Users_Is_Successful()
         {
             //
@@ -70,9 +74,60 @@ namespace SingledOut.UnitTests.WebApi.Controller
             HttpContent cont = new StringContent(json);
             cont.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            var response = httpClient.PostAsync(uri, cont).Result;
-           
+            HttpResponseMessage response = null;
 
+            try
+            {
+                response = httpClient.PostAsync(uri, cont).Result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return response;
+        }
+
+        [Test]
+        public void Test_That_Login_Is_Successful()
+        {
+            //
+            // Arrange.
+            //
+            var response = Login("http://localhost/SingledOut.WebApi/api/users/Login", "ifflanb@yahoo.com", "testpassword1");
+
+            //
+            // Assert.
+            //
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Accepted));
+        }
+
+        public AuthenticationHeaderValue CreateBasicHeader(string username, string password)
+        {
+            //password = CreateHash(password);
+            byte[] byteArray = Encoding.UTF8.GetBytes(username + ":" + password);
+            return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+        }
+
+        public string CreateHash(string unHashed)
+        {
+            var x = new MD5CryptoServiceProvider();
+            var data = Encoding.ASCII.GetBytes(unHashed);
+            data = x.ComputeHash(data);
+            return Encoding.ASCII.GetString(data);
+        }
+
+        public HttpResponseMessage Login(string uri, string username, string password)
+        {
+            var httpClient = new HttpClient();
+
+            //var byteArray = Encoding.ASCII.GetBytes("username:password1234");
+            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+            httpClient.DefaultRequestHeaders.Authorization = CreateBasicHeader(username, password);
+			
+			var response = httpClient.GetAsync(uri).Result;
+            
             return response;
         }
 

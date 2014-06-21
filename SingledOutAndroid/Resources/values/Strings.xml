@@ -10,10 +10,10 @@
     <string name="exception">Exception: %1$s</string>
     <string name="error">Error</string>
     <string name="facebook_permissions">email,user_about_me,read_stream,publish_stream</string>
-    <string name="apihost">http://10.1.1.10/</string>
+    <string name="apihost">10.1.1.10/</string>
     <string name="apipath">SingledOut.WebApi/api/</string>
     <string name="apiurlusers">users</string>
-    <string name="apiurllogin">login</string>
+    <string name="apiurllogin">login/</string>
     <string name="apiurluserssearch">userssearch</string>
     <string name="apiurlquestions">questions</string>
     <string name="apiurlanswers">answers</string> 

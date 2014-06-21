@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
-using System.Web.Routing;
 using SingledOut.Model;
 using SingledOut.Repository;
-using SingledOut.SearchParameters;
 using SingledOut.WebApi.Filters;
 using SingledOut.WebApi.Interfaces;
 
@@ -26,9 +25,13 @@ namespace SingledOut.WebApi.Controllers
         }
 
         [SingledOutAuthorization]
+        [HttpGet]
         public HttpResponseMessage Login()
         {
-            var result = Request.CreateResponse(HttpStatusCode.Accepted);
+            var email = Thread.CurrentPrincipal.Identity.Name;
+            var user = Get().Single(o => o.Email == email);
+
+            var result = Request.CreateResponse(HttpStatusCode.Accepted, user);
             return result;
         }
 

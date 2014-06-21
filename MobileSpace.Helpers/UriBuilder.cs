@@ -15,10 +15,13 @@ namespace MobileSpace.Helpers
 	public class UriCreator
 	{
 		private UriBuilder _uriBuilder;
+		private string _rootPath;
+		private string _hostPath;
 
 		public UriCreator (String host, String root)
 		{
-			_uriBuilder = BuildRootPath(host, root);
+			_hostPath = host;
+			_rootPath = root;
 		}
 
 		/// <summary>
@@ -26,12 +29,12 @@ namespace MobileSpace.Helpers
 		/// </summary>
 		/// <returns>The root path.</returns>
 		/// <param name="host">Host.</param>
-		/// <param name="root">Root.</param>
-		public UriBuilder BuildRootPath(string host, string root)
+		/// <param name="path">Path.</param>
+		public UriBuilder BuildRootPath(string path)
 		{
 			var uriBuilder = new UriBuilder {
-				Host = host,
-				Path = root
+				Host = _hostPath,
+				Path = path
 			};
 			return uriBuilder;
 		}			
@@ -40,9 +43,11 @@ namespace MobileSpace.Helpers
 		/// Builds the login.
 		/// </summary>
 		/// <returns>The login.</returns>
-		public Uri Login(string path)
+		public Uri Login(string loginPath)
 		{
-			_uriBuilder.Query = path;
+			var path = string.Concat(_rootPath, loginPath);
+			_uriBuilder = BuildRootPath(path);
+
 			return _uriBuilder.Uri;
 		}
 

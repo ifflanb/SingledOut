@@ -33,7 +33,6 @@ namespace SingledOutAndroid
 
 		public Login ()
 		{
-			_restHelper = new RestHelper(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 			_securityHelper = new SecurityHelper ();
 		}
 
@@ -42,6 +41,8 @@ namespace SingledOutAndroid
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.Login);
+
+			_restHelper = new RestHelper(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 
 			SwipeRightActivity = typeof(SignIn);
 
@@ -82,7 +83,7 @@ namespace SingledOutAndroid
 				await task;
 
 				// Return here after login has completed.
-				if(task.Result.StatusCode == HttpStatusCode.OK)
+				if(task.Result.StatusCode == HttpStatusCode.Accepted)
 				{
 					// Get json from response message.
 					var result =  task.Result.Content.ReadAsStringAsync().Result;
@@ -121,7 +122,7 @@ namespace SingledOutAndroid
 
 		private HttpResponseMessage LoginToSingledOut(string username, string password)
 		{
-			var uri = string.Concat (Resources.GetString (Resource.String.apiurlusers), Resources.GetString (Resource.String.apiurllogin));
+			var uri = string.Concat (Resources.GetString (Resource.String.apiurlusers),"/", Resources.GetString (Resource.String.apiurllogin));
 			var response = _restHelper.Login (uri, username, password);
 			return response;
 		}

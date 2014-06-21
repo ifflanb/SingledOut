@@ -1,9 +1,5 @@
-﻿using System.Linq;
-using System.Net.Http.Formatting;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Http.Dispatcher;
-using Newtonsoft.Json.Serialization;
-using SingledOut.WebApi.Filters;
 using SingledOut.WebApi.Services;
 
 namespace SingledOut.WebApi
@@ -12,6 +8,12 @@ namespace SingledOut.WebApi
     {
         public static void Register(HttpConfiguration config)
         {
+            config.Routes.MapHttpRoute(
+                   name: "UsersLogin",
+                   routeTemplate: "api/users/Login",
+                   defaults: new { controller = "users", action = "Login" }
+                );
+
             config.Routes.MapHttpRoute(
                name: "UsersSearch",
                routeTemplate: "api/userssearch/{sp}",
