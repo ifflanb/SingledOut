@@ -127,12 +127,12 @@
     <Folder Include="Resources\raw\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CSS.UIHelper\CSS.Helpers.csproj">
-      <Project>{CBA6F016-B2F6-4598-B076-743BDEE94715}</Project>
-      <Name>CSS.Helpers</Name>
-    </ProjectReference>
+    <AndroidAsset Include="Assets\Terms.html" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Terms.html" />
+    <ProjectReference Include="..\MobileSpace.Helpers\MobileSpace.Helpers.csproj">
+      <Project>{CBA6F016-B2F6-4598-B076-743BDEE94715}</Project>
+      <Name>MobileSpace.Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

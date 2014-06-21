@@ -40,15 +40,13 @@ namespace SingledOut.WebApi.Filters
                     var userName = credArray[0];
                     var password = credArray[1];
 
-                    //if (IsResourceOwner(userName, actionContext))
-                    //{
-                        if (UserRepository.LoginUser(userName, password))
-                        {
-                            var currentPrincipal = new GenericPrincipal(new GenericIdentity(userName), null);
-                            Thread.CurrentPrincipal = currentPrincipal;
-                            return;
-                        }
-                    //}
+                    if (UserRepository.LoginUser(userName, password))
+                    {
+                        var currentPrincipal = new GenericPrincipal(new GenericIdentity(userName), null);
+                        Thread.CurrentPrincipal = currentPrincipal;
+                            
+                        return;
+                    }
                 }
             }
 

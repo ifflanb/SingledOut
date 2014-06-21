@@ -15,7 +15,7 @@ using Android.Views.InputMethods;
 using Android.Graphics.Drawables;
 using Android.Content;
 using Android.Content.Res;
-using CSS.Helpers;
+using MobileSpace.Helpers;
 
 namespace SingledOutAndroid
 {				

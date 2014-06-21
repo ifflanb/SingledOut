@@ -12,7 +12,7 @@ using Android.Graphics.Drawables;
 using Android;
 using Android.Content.Res;
 
-namespace CSS.Helpers
+namespace MobileSpace.Helpers
 {
 	public class ValidationHelper
 	{
@@ -47,6 +47,26 @@ namespace CSS.Helpers
 			}
 			else {
 				editText.Error = null;
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Validates the edit text repeat password.
+		/// </summary>
+		/// <returns><c>true</c>, if edit text repeat password was validated, <c>false</c> otherwise.</returns>
+		/// <param name="password">Password.</param>
+		/// <param name="repeatPassword">Repeat password.</param>
+		public bool ValidateEditTextRepeatPassword(EditText password, EditText repeatPassword)
+		{
+			// Check first name is not empty.
+			if (password.Text != repeatPassword.Text) {
+				repeatPassword.SetError ("Re-entered password must match password.", _warning);
+				repeatPassword.RequestFocus ();
+				_uiHelper.ShowKeyboard (repeatPassword, _activity);
+				return false;
+			} else {
+				repeatPassword.Error = null;
 				return true;
 			}
 		}

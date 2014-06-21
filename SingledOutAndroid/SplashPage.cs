@@ -9,13 +9,13 @@ using Android.Views.Animations;
 using Android.Util;
 using System.Threading;
 using System.Threading.Tasks;
-using CSS.Helpers;
+using MobileSpace.Helpers;
 using Android.Content.PM;
 using Java.Security;
 
 namespace SingledOutAndroid
 {
-	[Activity (Theme = "@style/Theme.Splash", MainLauncher = true)]			
+	[Activity (MainLauncher = true, Theme = "@style/Theme.Splash")]			
 	public class SplashPage : BaseActivity
 	{
 		private AnimationHelper _animationHelper;

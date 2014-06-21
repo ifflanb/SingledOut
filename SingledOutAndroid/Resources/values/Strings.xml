@@ -13,6 +13,7 @@
     <string name="apihost">http://10.1.1.10/</string>
     <string name="apipath">SingledOut.WebApi/api/</string>
     <string name="apiurlusers">users</string>
+    <string name="apiurllogin">login</string>
     <string name="apiurluserssearch">userssearch</string>
     <string name="apiurlquestions">questions</string>
     <string name="apiurlanswers">answers</string> 

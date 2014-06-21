@@ -24,7 +24,7 @@ namespace SingledOutAndroid
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.TermsConditions);
-
+			SwipeRightActivity = typeof(Registration);
 			LoadWebView ();
 		}
 

@@ -11,7 +11,7 @@ using Android.Widget;
 using Android.Views.Animations;
 using Android.Util;
 
-namespace CSS.Helpers
+namespace MobileSpace.Helpers
 {			
 	public class AnimationHelper : Activity
 	{

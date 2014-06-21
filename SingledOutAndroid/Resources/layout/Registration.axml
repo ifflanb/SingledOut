@@ -35,9 +35,14 @@
             android:hint="Password"
             android:layout_below="@+id/txtEmail"
             style="@style/edittextpassword" />
+        <EditText
+            android:id="@+id/txtRepeatPassword"
+            android:hint="Re-Enter Password"
+            android:layout_below="@+id/txtPassword"
+            style="@style/edittextpassword" />
         <RadioGroup
             android:id="@+id/rbGender"
-            android:layout_below="@+id/txtPassword"
+            android:layout_below="@+id/txtRepeatPassword"
             style="@style/radiogroup">
             <RadioButton
                 android:id="@+id/radio_male"
@@ -62,7 +67,7 @@
         <Button
             android:text="Create Account"
             android:id="@+id/btnCreateAccount"
-            android:layout_below="@+id/lblTermsConditions"
+            android:layout_below="@+id/chkTermsCondition"
             style="@style/buttonlight" />
         <ProgressBar
             android:id="@+id/progressSpinner"

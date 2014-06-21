@@ -1,10 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="BaseActivity.cs">
     <Files>
-      <File FileName="Registration.cs" Line="139" Column="1" />
-      <File FileName="Login.cs" Line="128" Column="1" />
-      <File FileName="SignIn.cs" Line="160" Column="1" />
+      <File FileName="BaseActivity.cs" Line="18" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -195,11 +193,18 @@
       <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\HelloFacebookSampleActivity.cs" line="151" column="1" />
       <Breakpoint file="C:\Repos\SingledOut\SingledOutAndroid\SignIn.cs" line="163" column="1" />
       <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="128" column="45" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" line="87" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="73" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="120" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="115" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="105" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="95" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="SignIn.cs" line="179" offsetX="732" offsetY="2848" expression="responseMessage.Content" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <DisabledProjects>
+    <String>..\CSS.UIHelper\MobileSpace.Helpers.csproj</String>
+  </DisabledProjects>
   <MonoDevelop.Ide.ItemProperties.Singled_220Out MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="FA34NW903113" />
 </Properties>

@@ -2,7 +2,7 @@
 using Android.Media;
 using Android.App;
 
-namespace CSS.Helpers
+namespace MobileSpace.Helpers
 {
 	public class SoundHelper
 	{

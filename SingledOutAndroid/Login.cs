@@ -10,7 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using CSS.Helpers;
+using MobileSpace.Helpers;
 using SingledOut.SearchParameters;
 using System.Threading.Tasks;
 using System.Net.Http;
@@ -20,7 +20,7 @@ using SingledOut.Model;
 
 namespace SingledOutAndroid
 {
-	[Activity (NoHistory=true, Theme = "@android:style/Theme.NoTitleBar")]			
+	[Activity (Label = "Login", NoHistory=true, Theme = "@android:style/Theme.NoTitleBar")]			
 	public class Login : BaseActivity
 	{
 		private TextView _lblValidation;
@@ -33,7 +33,7 @@ namespace SingledOutAndroid
 
 		public Login ()
 		{
-			_restHelper = new RestHelper();
+			_restHelper = new RestHelper(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 			_securityHelper = new SecurityHelper ();
 		}
 
@@ -70,12 +70,6 @@ namespace SingledOutAndroid
 				return;
 			}
 
-			var sp = new UsersSearchParameters {
-				Email = _txtEmail.Text,
-				Password = _securityHelper.CreateHash(_txtPassword.Text)
-			};
-
-
 			// Start progress indicator.
 			_spinner = (ProgressBar)FindViewById(Resource.Id.progressSpinner);
 			_spinner.Visibility = ViewStates.Visible;
@@ -83,7 +77,7 @@ namespace SingledOutAndroid
 			try
 			{
 				// Create task to login to Singled Out.
-				var task = Task<HttpResponseMessage>.Factory.StartNew (() => LoginToSingledOut (sp));
+				var task = Task<HttpResponseMessage>.Factory.StartNew (() => LoginToSingledOut (_txtEmail.Text, _txtPassword.Text));
 				// await so that this task will run in the background.
 				await task;
 
@@ -125,10 +119,10 @@ namespace SingledOutAndroid
 			_spinner.Visibility = ViewStates.Gone;	
 		}
 
-		private HttpResponseMessage LoginToSingledOut(UsersSearchParameters sp)
+		private HttpResponseMessage LoginToSingledOut(string username, string password)
 		{
-			var uri = UriCreator.Build(sp).ToString();
-			var response = _restHelper.SearchAsync (uri);
+			var uri = string.Concat (Resources.GetString (Resource.String.apiurlusers), Resources.GetString (Resource.String.apiurllogin));
+			var response = _restHelper.Login (uri, username, password);
 			return response;
 		}
 

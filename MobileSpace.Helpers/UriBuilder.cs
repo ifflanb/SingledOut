@@ -10,20 +10,48 @@ using Android.Views;
 using Android.Widget;
 using SingledOut.SearchParameters;
 
-namespace CSS.Helpers
+namespace MobileSpace.Helpers
 {
 	public class UriCreator
 	{
 		private UriBuilder _uriBuilder;
 
-		public UriCreator(String host, String path)
+		public UriCreator (String host, String root)
 		{
-			_uriBuilder = new UriBuilder();
-			_uriBuilder.Host = host;
-			_uriBuilder.Path = path;
+			_uriBuilder = BuildRootPath(host, root);
 		}
 
-		public Uri Build(UsersSearchParameters sp)
+		/// <summary>
+		/// Builds the root path.
+		/// </summary>
+		/// <returns>The root path.</returns>
+		/// <param name="host">Host.</param>
+		/// <param name="root">Root.</param>
+		public UriBuilder BuildRootPath(string host, string root)
+		{
+			var uriBuilder = new UriBuilder {
+				Host = host,
+				Path = root
+			};
+			return uriBuilder;
+		}			
+
+		/// <summary>
+		/// Builds the login.
+		/// </summary>
+		/// <returns>The login.</returns>
+		public Uri Login(string path)
+		{
+			_uriBuilder.Query = path;
+			return _uriBuilder.Uri;
+		}
+
+		/// <summary>
+		/// Builds the search.
+		/// </summary>
+		/// <returns>The search.</returns>
+		/// <param name="sp">Sp.</param>
+		public Uri BuildSearch(UsersSearchParameters sp)
 		{
 			if(!string.IsNullOrEmpty(sp.FacebookUserName))
 			{
@@ -49,10 +77,9 @@ namespace CSS.Helpers
 			{
 				_uriBuilder.Query = string.Concat("?", _uriBuilder.Query);
 			}
-
 				
 			return _uriBuilder.Uri;
-		}
+		}	
 	}
 }
 

@@ -3,7 +3,7 @@ using System.Text;
 using System;
 using System.Linq;
 
-namespace CSS.Helpers
+namespace MobileSpace.Helpers
 {
 	public class SecurityHelper
 	{

@@ -25,6 +25,14 @@ namespace SingledOut.WebApi.Controllers
             _userModelFactory = userModelFactory;
         }
 
+        [SingledOutAuthorization]
+        public HttpResponseMessage Login()
+        {
+            var result = Request.CreateResponse(HttpStatusCode.Accepted);
+            return result;
+        }
+
+
    //     [SingledOutAuthorization]
         public IEnumerable<UserModel> Get()
         {

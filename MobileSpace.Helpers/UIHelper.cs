@@ -10,7 +10,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Views.InputMethods;
 
-namespace CSS.Helpers
+namespace MobileSpace.Helpers
 {
 	public class UIHelper
 	{

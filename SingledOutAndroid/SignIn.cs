@@ -13,7 +13,7 @@ using Xamarin.FacebookBinding.Widget;
 using Xamarin.FacebookBinding.Model;
 using Android.Widget;
 using SingledOut.Model;
-using CSS.Helpers;
+using MobileSpace.Helpers;
 
 [assembly:Permission (Name = Android.Manifest.Permission.Internet)]
 [assembly:Permission (Name = Android.Manifest.Permission.WriteExternalStorage)]
@@ -103,12 +103,16 @@ namespace SingledOutAndroid
 			SwipeLeft();
 		}
 
+		/// <summary>
+		/// Singleds the out login.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		private void SingledOutLogin(object sender, EventArgs e)
 		{	
 			SwipeLeftActivity = typeof(Login);
 			SwipeLeft();
 		}
-
 
 		class MyStatusCallback : Java.Lang.Object, Session.IStatusCallback
 		{
@@ -146,16 +150,20 @@ namespace SingledOutAndroid
 					var accessToken = "";
 					var session = Session.ActiveSession;
 					if (session.IsOpened) {
-						accessToken = session.AccessToken;
+						accessToken = session.AccessToken;					
+
+						var jsonUser = user.InnerJSONObject;
+						SaveFacebookDetails (jsonUser, accessToken);
+
+						if (string.IsNullOrEmpty(owner.GetUserPreference ("FacebookAccessToken"))) {
+							owner.SetUserPreference ("FacebookAccessToken", accessToken);
+							owner.SetUserPreference ("FacebookUsername", jsonUser.GetString("id"));
+						} 
+
+						// Change to Tutorial page.
+						owner.SwipeLeftActivity = typeof(Tutorial1);
+						owner.SwipeLeft();
 					}
-
-					var jsonUser = user.InnerJSONObject;
-					SaveFacebookDetails (jsonUser, accessToken);
-
-					if (string.IsNullOrEmpty(owner.GetUserPreference ("FacebookAccessToken"))) {
-						owner.SetUserPreference ("FacebookAccessToken", accessToken);
-						owner.SetUserPreference ("FacebookUsername", jsonUser.GetString("id"));
-					} 
 				}
 			}
 
@@ -176,7 +184,7 @@ namespace SingledOutAndroid
 					UpdateDate = DateTime.UtcNow
 				};					
 
-				var restHelper = new RestHelper ();
+				var restHelper = new RestHelper (owner.Resources.GetString(Resource.String.apihost), owner.Resources.GetString(Resource.String.apipath));
 				var url = string.Concat(owner.GetString(Resource.String.apihost), owner.GetString(Resource.String.apipath),owner.GetString(Resource.String.apiurlusers));
 				restHelper.PostAsync(url , userModel);
 			}
@@ -201,7 +209,6 @@ namespace SingledOutAndroid
 		{
 			base.OnSaveInstanceState (outState);
 			uiHelper.OnSaveInstanceState (outState);
-
 			outState.PutString (PENDING_ACTION_BUNDLE_KEY, pendingAction.ToString ());
 		}
 
@@ -221,10 +228,6 @@ namespace SingledOutAndroid
 		{
 			base.OnActivityResult (requestCode, resultCode, data);
 			uiHelper.OnActivityResult (requestCode, (int)resultCode, data);
-			if (Session.ActiveSession.IsOpened) {
-				StartActivity(typeof(Tutorial1));
-				OverridePendingTransition (Resource.Drawable.slide_in_left, Resource.Drawable.slide_out_left);
-			}
 		}
 
 		/// <summary>

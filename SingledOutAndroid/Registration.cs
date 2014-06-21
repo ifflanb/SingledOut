@@ -17,12 +17,12 @@ using System.Net;
 using System.Net.Http;
 using System.IO;
 using SingledOut.Model;
-using CSS.Helpers;
+using MobileSpace.Helpers;
 using Java.Util.Regex;
 
 namespace SingledOutAndroid
 {
-	[Activity (NoHistory=true, Theme = "@android:style/Theme.NoTitleBar")]			
+	[Activity (Label = "Register", Theme = "@android:style/Theme.NoTitleBar")]	
 	public class Registration : BaseActivity
 	{
 		ProgressBar _spinner;
@@ -30,6 +30,7 @@ namespace SingledOutAndroid
 		private EditText _txtSurname;
 		private EditText _txtEmail;
 		private EditText _txtPassword;
+		private EditText _txtRepeatPassword;
 		private RadioGroup _rbGender;
 		private TextView _lblValidation;
 		private CheckBox _ckTerms;
@@ -40,7 +41,7 @@ namespace SingledOutAndroid
 
 		public Registration ()
 		{
-			_restHelper = new RestHelper ();
+			_restHelper = new RestHelper (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 			_securityHelper = new SecurityHelper ();
 		}
 
@@ -60,16 +61,21 @@ namespace SingledOutAndroid
 			_txtSurname = FindViewById<EditText>(Resource.Id.txtSurname);
 			_txtEmail = FindViewById<EditText>(Resource.Id.txtEmail);
 			_txtPassword = FindViewById<EditText>(Resource.Id.txtPassword);
+			_txtRepeatPassword = FindViewById<EditText>(Resource.Id.txtRepeatPassword);
 			_rbGender = FindViewById<RadioGroup>(Resource.Id.rbGender);
 			_ckTerms = FindViewById<CheckBox>(Resource.Id.chkTermsCondition);
 			_lblTerms = FindViewById<TextView> (Resource.Id.lblTermsConditions);
 			_lblTerms.Click += TermsClick;
 			_lblTerms.MovementMethod = new LinkMovementMethod ();
 
+			// Restore and saved state.
+			RestoreState ();
+
 			_txtFirstName.TextChanged += TextChangedRequiredValidation;
 			_txtSurname.TextChanged += TextChangedRequiredValidation;
 			_txtEmail.TextChanged += TextChangedMinimumLengthValidation;
-			_txtPassword.TextChanged += TextChangedPasswordStrength;				
+			_txtPassword.TextChanged += TextChangedPasswordStrength;		
+			_txtRepeatPassword.TextChanged += TextChangedPasswordStrength;	
 			_rbGender.CheckedChange += CheckChangedRequired;
 			_ckTerms.CheckedChange += CheckboxCheckChangedRequired;
 		}
@@ -158,9 +164,58 @@ namespace SingledOutAndroid
 
 		public void TermsClick(Object sender, EventArgs e) 
 		{
+			// Save the registration form state so that when the user returns 
+			// the fields are still filled out.
+			SaveState ();
 			SwipeLeftActivity = typeof(TermsConditions);
 			SwipeLeft ();
 		} 
+
+		/// <summary>
+		/// Saves the state.
+		/// </summary>
+		private void SaveState() {
+			SetUserPreference("Reg_Firstname", !string.IsNullOrEmpty(_txtFirstName.Text)? _txtFirstName.Text:string.Empty);
+			SetUserPreference("Reg_Surname", !string.IsNullOrEmpty(_txtSurname.Text)?_txtSurname.Text:string.Empty);
+			SetUserPreference("Reg_Email", !string.IsNullOrEmpty(_txtEmail.Text)?_txtEmail.Text:string.Empty);
+			SetUserPreference("Reg_Password", !string.IsNullOrEmpty(_txtPassword.Text)?_txtPassword.Text:string.Empty);
+			SetUserPreference("Reg_RepeatPassword", !string.IsNullOrEmpty(_txtRepeatPassword.Text)?_txtRepeatPassword.Text:string.Empty);
+			SetUserPreference("Reg_GenderMale", _rbGender.CheckedRadioButtonId == Resource.Id.radio_male?"1":"-1");
+			SetUserPreference("Reg_GenderFemale", _rbGender.CheckedRadioButtonId == Resource.Id.radio_female?"1":"-1");
+		}
+
+		/// <summary>
+		/// Restores the state of the instance.
+		/// </summary>
+		/// <param name="savedInstanceState">Saved instance state.</param>
+		private void RestoreState()
+		{
+			if (!string.IsNullOrEmpty(GetUserPreference ("Reg_Firstname"))) {
+				_txtFirstName.Text = GetUserPreference("Reg_Firstname");
+			}
+			if (!string.IsNullOrEmpty(GetUserPreference ("Reg_Surname"))) {
+				_txtSurname.Text = GetUserPreference ("Reg_Surname");
+			}
+			if (!string.IsNullOrEmpty(GetUserPreference ("Reg_Email"))) {
+				_txtEmail.Text = GetUserPreference ("Reg_Email");
+			}
+			if (!string.IsNullOrEmpty(GetUserPreference ("Reg_Password"))) {
+				_txtPassword.Text = GetUserPreference ("Reg_Password");
+			}
+			if (!string.IsNullOrEmpty(GetUserPreference ("Reg_RepeatPassword"))) {
+				_txtRepeatPassword.Text = GetUserPreference ("Reg_RepeatPassword");
+			}
+			if (!string.IsNullOrEmpty(GetUserPreference ("Reg_GenderMale")) && GetUserPreference ("Reg_GenderMale") != "-1") {
+				if (GetUserPreference ("Reg_GenderMale") == "1") {
+					_rbGender.Check (Resource.Id.radio_male);
+				}
+			}
+			if (!string.IsNullOrEmpty(GetUserPreference ("Reg_GenderFemale")) && GetUserPreference ("Reg_GenderFemale") != "-1") {
+				if (GetUserPreference ("Reg_GenderFemale") == "1") {
+					_rbGender.Check (Resource.Id.radio_female);
+				}
+			}
+		}
 
 		/// <summary>
 		/// Saves the singled out details.
@@ -168,9 +223,8 @@ namespace SingledOutAndroid
 		/// <param name="user">User.</param>
 		private HttpResponseMessage SaveSingledOutDetails(UserModel user)
 		{
-			var restHelper = new CSS.Helpers.RestHelper ();
 			var url = string.Concat(this.GetString(Resource.String.apihost), this.GetString(Resource.String.apipath), this.GetString(Resource.String.apiurlusers));
-			return restHelper.PostAsync(url , user);
+			return _restHelper.PostAsync(url , user);
 		}
 
 		protected void CheckboxCheckChangedRequired(object sender, CheckBox.CheckedChangeEventArgs e)
@@ -189,6 +243,16 @@ namespace SingledOutAndroid
 			if(e.Text.Count() > 0 && editText.Error != null)
 			{
 				_validationHelper.ValidateEditTextPasswordStrength (editText);
+			}
+		}
+
+		protected void TextChangedRepeatPassword(object sender, Android.Text.TextChangedEventArgs e)
+		{
+			var repeatPassword = ((EditText)sender);
+			var password = _txtPassword;
+			if(e.Text.Count() > 0 && repeatPassword.Error != null)
+			{
+				_validationHelper.ValidateEditTextRepeatPassword (password, repeatPassword);
 			}
 		}
 
@@ -237,6 +301,11 @@ namespace SingledOutAndroid
 				return false;
 			}
 
+			// Check repeat password.
+			if (!_validationHelper.ValidateEditTextRepeatPassword (_txtPassword, _txtRepeatPassword)) {
+				return false;
+			}
+		
 			// Check gender is selected.
 			if (!_validationHelper.ValidateRadioButtonSelectionRequired (_rbGender, "Gender", Resource.Id.radio_female)) {
 				return false;
