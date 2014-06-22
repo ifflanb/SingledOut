@@ -19,6 +19,7 @@ using System.IO;
 using SingledOut.Model;
 using MobileSpace.Helpers;
 using Java.Util.Regex;
+using Newtonsoft.Json;
 
 namespace SingledOutAndroid
 {
@@ -131,20 +132,16 @@ namespace SingledOutAndroid
 					var result =  task.Result.Content.ReadAsStringAsync().Result;
 					var json = JsonObject.Parse(result).ToString().Replace("{{", "{").Replace("}}","}");
 					// Deserialize the Json.
-					var returnUserModel = _restHelper.DeserializeObject<UserModel>(json);
+					var returnUserModel = JsonConvert.DeserializeObject<UserModel>(json);
 
 					// Save the user preference for the user name and id.
 					if (string.IsNullOrEmpty(GetUserPreference ("SingledOutEmail"))) {
 						SetUserPreference ("SingledOutEmail", returnUserModel.Email);
-						SetUserPreference ("SingledOutID", returnUserModel.ID.ToString());
+						SetUserPreference ("SingledOutUser", json);
 					} 
 
-					var toast = Toast.MakeText (this, "Account Created!", ToastLength.Long);
-					toast.SetGravity (GravityFlags.Center | GravityFlags.Center, 0, 0);
-					toast.Show ();
-
 					SwipeLeftActivity = typeof(Tutorial1);
-					SwipeLeft();
+					SwipeLeft("Registration");
 				}
 				else if(task.Result.StatusCode == HttpStatusCode.Forbidden)
 				{
@@ -185,6 +182,19 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Clears the state.
+		/// </summary>
+		private void ClearState() {
+			SetUserPreference ("Reg_Firstname", string.Empty);
+			SetUserPreference("Reg_Surname", string.Empty);
+			SetUserPreference("Reg_Email", string.Empty);
+			SetUserPreference("Reg_Password", string.Empty);
+			SetUserPreference("Reg_RepeatPassword", string.Empty);
+			SetUserPreference("Reg_GenderMale", string.Empty);
+			SetUserPreference("Reg_GenderFemale", string.Empty);
+		}
+
+		/// <summary>
 		/// Restores the state of the instance.
 		/// </summary>
 		/// <param name="savedInstanceState">Saved instance state.</param>
@@ -215,6 +225,9 @@ namespace SingledOutAndroid
 					_rbGender.Check (Resource.Id.radio_female);
 				}
 			}
+
+			// Clear all the state fields.
+			ClearState ();
 		}
 
 		/// <summary>

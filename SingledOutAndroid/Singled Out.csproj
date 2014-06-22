@@ -56,6 +56,9 @@
     <Reference Include="SingledOut.SearchParameters">
       <HintPath>..\SingledOut.SearchParameters\bin\Debug\SingledOut.SearchParameters.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.6.0.3\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -122,6 +125,9 @@
     <AndroidResource Include="Resources\drawable\roundedbutton.xml" />
     <AndroidResource Include="Resources\drawable\facebookloginrounded.png" />
     <AndroidResource Include="Resources\drawable\roundedbuttondark.xml" />
+    <AndroidResource Include="Resources\drawable\SlideDownAnimation.xml" />
+    <AndroidResource Include="Resources\drawable\SlideUpAnimation.xml" />
+    <AndroidResource Include="Resources\drawable\notificationbox.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

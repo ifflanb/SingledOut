@@ -2,10 +2,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using System;
-using System.Json;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace MobileSpace.Helpers
 {
@@ -29,7 +28,7 @@ namespace MobileSpace.Helpers
 		public HttpResponseMessage PostAsync(string uri, object data)
 		{
 			var httpClient = new HttpClient();
-			var json = SerializeObject (data);
+			var json = JsonConvert.SerializeObject (data);
 
 			HttpContent cont = new StringContent(json);
 			cont.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -121,30 +120,6 @@ namespace MobileSpace.Helpers
 			}
 
 			return response;
-		}
-
-		/// <summary>
-		/// Serializes the object.
-		/// </summary>
-		/// <returns>The object.</returns>
-		/// <param name="data">Data.</param>
-		public string SerializeObject(object data)
-		{
-			var json = JsonConvert.SerializeObject(data);
-			return json;
-		}
-
-		/// <summary>
-		/// Deserializes the object.
-		/// </summary>
-		/// <returns>The object.</returns>
-		/// <param name="json">Json.</param>
-		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public T DeserializeObject<T>(string json)
-		{
-			var objectClass = JsonConvert.DeserializeObject<T>(json);
-
-			return objectClass;
 		}
     }
 }

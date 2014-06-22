@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using SingledOut.Model;
@@ -24,9 +23,9 @@ namespace SingledOut.UnitTests.WebApi.Controller
                 Sex = "M",
                 CreatedDate = DateTime.UtcNow,
                 FacebookAccessToken = "1234567890",
-                FacebookUserName = "ifflanb",
+                FacebookUserName = "ifflanb2",
                 UpdateDate = DateTime.UtcNow,
-                Email = "ifflanb@yahoo.com",
+                Email = "ifflanb2@yahoo.com",
                 Password = CreateHash("testpassword1")
             };
             return userModel;
@@ -74,16 +73,7 @@ namespace SingledOut.UnitTests.WebApi.Controller
             HttpContent cont = new StringContent(json);
             cont.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = null;
-
-            try
-            {
-                response = httpClient.PostAsync(uri, cont).Result;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            HttpResponseMessage response = httpClient.PostAsync(uri, cont).Result;
 
             return response;
         }

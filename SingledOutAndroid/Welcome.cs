@@ -24,6 +24,9 @@ namespace SingledOutAndroid
 			var ft = FragmentManager.BeginTransaction ();
 			ft.Add (Resource.Id.welcomechildlayout, footerFragment);
 			ft.Commit ();
+
+			// Set that they have visited now so we don't show this page again.
+			SetUserPreference ("Visits", "1");
 		}
 	}
 }

@@ -16,6 +16,9 @@ using Android.Graphics.Drawables;
 using Android.Content;
 using Android.Content.Res;
 using MobileSpace.Helpers;
+using Newtonsoft.Json;
+using SingledOut.Model;
+using Android.Views.Animations;
 
 namespace SingledOutAndroid
 {				
@@ -42,6 +45,66 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Gets a value indicating whether this instance is first visit.
+		/// </summary>
+		/// <value><c>true</c> if this instance is first visit; otherwise, <c>false</c>.</value>
+		public bool IsFirstVisit {
+			get {
+				var isFirstVisit = false;
+				if (GetUserPreference ("Visits") == null || GetUserPreference ("Visits") != "1") {
+					isFirstVisit = true;
+				}
+				return isFirstVisit;
+			}
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether the user is authenticated.
+		/// </summary>
+		/// <value><c>true</c> if this instance is authenticated; otherwise, <c>false</c>.</value>
+		public bool IsAuthenticated {
+			get {
+				var isAutheticated = false;
+				if (!string.IsNullOrEmpty (GetUserPreference ("FacebookAccessToken")) ||
+					!string.IsNullOrEmpty (GetUserPreference ("SingledOutEmail"))) {
+					isAutheticated = true;
+				}
+				return isAutheticated;
+			}
+		}
+
+		/// <summary>
+		/// Gets the current user.
+		/// </summary>
+		/// <value>The current user.</value>
+		public UserModel CurrentUser {
+			get {
+				UserModel userModel = null; 
+				if (IsAuthenticated) {
+					var json = GetUserPreference ("SingledOutUser");
+					userModel = JsonConvert.DeserializeObject<UserModel> (json);
+				}
+				return userModel;
+			}		
+		}
+
+		/// <summary>
+		/// Gets the ignore pages for authentication.
+		/// </summary>
+		/// <value>The ignore pages for authentication.</value>
+		public List<Type> IgnorePagesForAuthentication
+		{
+			get {
+				var typesToIgnore = new List<Type> {
+					typeof(Login) ,
+					typeof(Registration),
+					typeof(SignIn)
+				};
+				return typesToIgnore;
+			}
+		}
+
+		/// <summary>
 		/// Gets the URI creator.
 		/// </summary>
 		/// <value>The URI creator.</value>
@@ -65,12 +128,12 @@ namespace SingledOutAndroid
 		/// Starts the activity after pause.
 		/// </summary>
 		/// <param name="activity">Activity.</param>
-		protected void StartActivityAfterPause(Type activity)
+		protected void StartActivityAfterPause(Type activity, string callingActivity = "")
 		{
 			// Wait 5 seconds after the animation before opening the next page.
 			_timer = new System.Timers.Timer();
 			_timer.Interval = 4000;
-			_timer.Elapsed +=(object sender, System.Timers.ElapsedEventArgs e) => StopTimerAndStartActivity(activity);
+			_timer.Elapsed +=(object sender, System.Timers.ElapsedEventArgs e) => StopTimerAndStartActivity(activity, callingActivity);
 			_timer.Start ();
 		}
 
@@ -78,10 +141,11 @@ namespace SingledOutAndroid
 		/// Stops the timer and start activity.
 		/// </summary>
 		/// <param name="activity">Activity.</param>
-		private void StopTimerAndStartActivity(Type activity)
+		private void StopTimerAndStartActivity(Type activity, string callingActivity = "")
 		{
 			_timer.Stop ();
-			StartActivity (activity);
+			SwipeLeftActivity = activity;
+			SwipeLeft (callingActivity);
 		}
 
 		/// <param name="e">The touch screen event being processed.</param>
@@ -114,18 +178,43 @@ namespace SingledOutAndroid
 		/// </summary>
 		public override void OnBackPressed(){
 			//base.OnBackPressed();
-			if (SwipeRightActivity != null) {
-				SwipeRight ();
+			if (IsAuthenticated || IgnorePagesForAuthentication.Contains(SwipeRightActivity)) {
+				if (SwipeRightActivity != null) {
+					SwipeRight ();
+				}
+			} 
+			else
+			{
+				StartActivity(new Intent(ApplicationContext, typeof(SignIn)));
+			}
+		}
+
+		/// <summary>
+		/// Return the name of the activity that invoked this activity.
+		/// </summary>
+		/// <value>To be added.</value>
+		public string LastActivity {
+			get {
+				var callingActivity = Intent.GetStringExtra("CallingActivity");
+				return callingActivity;
 			}
 		}
 
 		/// <summary>
 		/// Swipes the left.
 		/// </summary>
-		public void SwipeLeft()
+		public void SwipeLeft(string callingActivity = "")
 		{
-			StartActivity(new Intent(ApplicationContext, SwipeLeftActivity));
-			OverridePendingTransition (Resource.Drawable.slide_in_left, Resource.Drawable.slide_out_left);
+			if (IsAuthenticated || IgnorePagesForAuthentication.Contains(SwipeLeftActivity)){
+				var intent = new Intent (ApplicationContext, SwipeLeftActivity);
+				intent.PutExtra ("CallingActivity", callingActivity);
+				StartActivity (intent);
+				OverridePendingTransition (Resource.Drawable.slide_in_left, Resource.Drawable.slide_out_left);
+			}
+			else
+			{
+				StartActivity(new Intent(ApplicationContext, typeof(SignIn)));
+			}
 		}
 
 		/// <summary>
@@ -133,9 +222,14 @@ namespace SingledOutAndroid
 		/// </summary>
 		public void SwipeRight()
 		{
-			StartActivity(new Intent(ApplicationContext, SwipeRightActivity));
-			OverridePendingTransition (Resource.Drawable.slide_out_left, Resource.Drawable.slide_in_left);
-			OverridePendingTransition (Resource.Drawable.slide_out_left, Resource.Drawable.slide_in_left);
+			if (IsAuthenticated || IgnorePagesForAuthentication.Contains(SwipeRightActivity)) {
+				StartActivity (new Intent (ApplicationContext, SwipeRightActivity));
+				OverridePendingTransition (Resource.Drawable.slide_out_left, Resource.Drawable.slide_in_left);
+			}
+			else
+			{
+				StartActivity(new Intent(ApplicationContext, typeof(SignIn)));
+			}
 		}
 
 		/// <summary>
@@ -236,6 +330,28 @@ namespace SingledOutAndroid
 			var prefs = Application.Context.GetSharedPreferences(this.Resources.GetString(Resource.String.app_name), FileCreationMode.Private);              
 			var userPref = prefs.GetString(Key, null);
 			return userPref;
+		}
+
+		/// <summary>
+		/// Shows the notification box.
+		/// </summary>
+		/// <param name="message">Message.</param>
+		protected void ShowNotificationBox(string message)
+		{
+			// Load the welcome back animation.
+			var welcomeBack = FindViewById<TextView> (Resource.Id.notification);
+			welcomeBack.Text = message;
+			Animation slideDown = AnimationUtils.LoadAnimation(ApplicationContext, Resource.Drawable.SlideDownAnimation);
+			Animation slideUp = AnimationUtils.LoadAnimation(ApplicationContext, Resource.Drawable.SlideUpAnimation);
+			slideUp.StartOffset = 4000;
+			slideUp.AnimationEnd += delegate {
+				welcomeBack.Visibility = ViewStates.Invisible;
+			};
+			slideDown.AnimationEnd += delegate {
+				welcomeBack.StartAnimation(slideUp);
+			};
+			welcomeBack.Visibility = ViewStates.Visible;
+			welcomeBack.StartAnimation(slideDown);
 		}
 	}
 }

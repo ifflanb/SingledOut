@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Net;
 using System.Json;
 using SingledOut.Model;
+using Newtonsoft.Json;
 
 namespace SingledOutAndroid
 {
@@ -89,25 +90,21 @@ namespace SingledOutAndroid
 					var result =  task.Result.Content.ReadAsStringAsync().Result;
 					var json = JsonObject.Parse(result).ToString().Replace("{{", "{").Replace("}}","}");
 					// Deserialize the Json.
-					var returnUserModel = _restHelper.DeserializeObject<UserModel>(json);
+					var returnUserModel = JsonConvert.DeserializeObject<UserModel>(json);
 
 					// Save the user preference for the user name and id.
 					if (string.IsNullOrEmpty(GetUserPreference ("SingledOutEmail"))) {
 						SetUserPreference ("SingledOutEmail", returnUserModel.Email);
-						SetUserPreference ("SingledOutID", returnUserModel.ID.ToString());
-					} 
-
-					var toast = Toast.MakeText (this, "Login Successful!", ToastLength.Long);
-					toast.SetGravity (GravityFlags.Center | GravityFlags.Center, 0, 0);
-					toast.Show ();
+						SetUserPreference ("SingledOutUser", json);
+					} 				
 
 					SwipeLeftActivity = typeof(CheckIn);
-					SwipeLeft();
+					SwipeLeft("Login");
 				}
-				else 
+				else if (task.Result.StatusCode == HttpStatusCode.Unauthorized)
 				{
 					// need to update on the main thread to change the border color
-					_validationHelper.SetValidationMessage (_lblValidation, task.Result.ReasonPhrase);
+					_validationHelper.SetValidationMessage (_lblValidation, "Email or password does not exist.");
 				}
 			}
 			catch (Exception)

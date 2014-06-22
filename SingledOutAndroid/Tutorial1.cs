@@ -27,6 +27,11 @@ namespace SingledOutAndroid
 			var ft = FragmentManager.BeginTransaction ();
 			ft.Add (Resource.Id.tutorial1childlayout, footerFragment);
 			ft.Commit ();
+
+			// Show welcome back message.
+			if (LastActivity == "Registration") {
+				ShowNotificationBox (string.Concat ("Welcome to Singled Out ", CurrentUser.FirstName, "!"));
+			}
 		}
 	}
 }

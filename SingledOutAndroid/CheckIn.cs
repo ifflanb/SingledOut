@@ -10,6 +10,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Views.Animations;
+using System.Threading;
 
 namespace SingledOutAndroid
 {
@@ -23,6 +25,11 @@ namespace SingledOutAndroid
 			SetContentView (Resource.Layout.CheckIn);
 
 			SwipeRightActivity = typeof(Tutorial2);
+
+			// Show welcome back message.
+			if (LastActivity == "Login" || LastActivity == "SplashPage") {
+				ShowNotificationBox (string.Concat ("Welcome back ", CurrentUser.FirstName, "!"));
+			}
 		}
 	}
 }

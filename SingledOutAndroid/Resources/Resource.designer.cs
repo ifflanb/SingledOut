@@ -350,43 +350,52 @@ namespace SingledOutAndroid
 			public const int mobilespacelogo = 2130837547;
 			
 			// aapt resource value: 0x7f02002c
-			public const int roundedbutton = 2130837548;
+			public const int notificationbox = 2130837548;
 			
 			// aapt resource value: 0x7f02002d
-			public const int roundedbuttondark = 2130837549;
+			public const int roundedbutton = 2130837549;
 			
 			// aapt resource value: 0x7f02002e
-			public const int roundedlayout = 2130837550;
+			public const int roundedbuttondark = 2130837550;
 			
 			// aapt resource value: 0x7f02002f
-			public const int singledoutlogin = 2130837551;
+			public const int roundedlayout = 2130837551;
 			
 			// aapt resource value: 0x7f020030
-			public const int singledoutloginclicked = 2130837552;
+			public const int singledoutlogin = 2130837552;
 			
 			// aapt resource value: 0x7f020031
-			public const int singledoutlogo = 2130837553;
+			public const int singledoutloginclicked = 2130837553;
 			
 			// aapt resource value: 0x7f020032
-			public const int singledoutregister = 2130837554;
+			public const int singledoutlogo = 2130837554;
 			
 			// aapt resource value: 0x7f020033
-			public const int singledoutsignin = 2130837555;
+			public const int singledoutregister = 2130837555;
 			
 			// aapt resource value: 0x7f020034
-			public const int slide_in_left = 2130837556;
+			public const int singledoutsignin = 2130837556;
 			
 			// aapt resource value: 0x7f020035
-			public const int slide_out_left = 2130837557;
+			public const int slide_in_left = 2130837557;
 			
 			// aapt resource value: 0x7f020036
-			public const int textcolour = 2130837558;
+			public const int slide_out_left = 2130837558;
 			
 			// aapt resource value: 0x7f020037
-			public const int twitterlogin = 2130837559;
+			public const int SlideDownAnimation = 2130837559;
 			
 			// aapt resource value: 0x7f020038
-			public const int validationBox = 2130837560;
+			public const int SlideUpAnimation = 2130837560;
+			
+			// aapt resource value: 0x7f020039
+			public const int textcolour = 2130837561;
+			
+			// aapt resource value: 0x7f02003a
+			public const int twitterlogin = 2130837562;
+			
+			// aapt resource value: 0x7f02003b
+			public const int validationBox = 2130837563;
 			
 			static Drawable()
 			{
@@ -401,215 +410,218 @@ namespace SingledOutAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050030
-			public const int btnCreateAccount = 2131034160;
+			// aapt resource value: 0x7f050031
+			public const int btnCreateAccount = 2131034161;
 			
-			// aapt resource value: 0x7f050023
-			public const int btnLogin = 2131034147;
-			
-			// aapt resource value: 0x7f050005
-			public const int checkin = 2131034117;
+			// aapt resource value: 0x7f050024
+			public const int btnLogin = 2131034148;
 			
 			// aapt resource value: 0x7f050006
-			public const int checkinDescription = 2131034118;
+			public const int checkin = 2131034118;
 			
-			// aapt resource value: 0x7f050004
-			public const int checkinchildlayout = 2131034116;
+			// aapt resource value: 0x7f050007
+			public const int checkinDescription = 2131034119;
+			
+			// aapt resource value: 0x7f050005
+			public const int checkinchildlayout = 2131034117;
 			
 			// aapt resource value: 0x7f050003
 			public const int checkincontainerlayout = 2131034115;
 			
-			// aapt resource value: 0x7f050038
-			public const int childlayout1 = 2131034168;
+			// aapt resource value: 0x7f050039
+			public const int childlayout1 = 2131034169;
 			
-			// aapt resource value: 0x7f05002e
-			public const int chkTermsCondition = 2131034158;
-			
-			// aapt resource value: 0x7f050009
-			public const int com_facebook_login_activity_progress_bar = 2131034121;
-			
-			// aapt resource value: 0x7f050008
-			public const int com_facebook_picker_activity_circle = 2131034120;
-			
-			// aapt resource value: 0x7f05000b
-			public const int com_facebook_picker_checkbox = 2131034123;
-			
-			// aapt resource value: 0x7f05000f
-			public const int com_facebook_picker_checkbox_stub = 2131034127;
-			
-			// aapt resource value: 0x7f050013
-			public const int com_facebook_picker_divider = 2131034131;
-			
-			// aapt resource value: 0x7f050012
-			public const int com_facebook_picker_done_button = 2131034130;
-			
-			// aapt resource value: 0x7f05000c
-			public const int com_facebook_picker_image = 2131034124;
-			
-			// aapt resource value: 0x7f050010
-			public const int com_facebook_picker_list_section_header = 2131034128;
-			
-			// aapt resource value: 0x7f050007
-			public const int com_facebook_picker_list_view = 2131034119;
-			
-			// aapt resource value: 0x7f05000d
-			public const int com_facebook_picker_profile_pic_stub = 2131034125;
+			// aapt resource value: 0x7f05002f
+			public const int chkTermsCondition = 2131034159;
 			
 			// aapt resource value: 0x7f05000a
-			public const int com_facebook_picker_row_activity_circle = 2131034122;
+			public const int com_facebook_login_activity_progress_bar = 2131034122;
 			
-			// aapt resource value: 0x7f05000e
-			public const int com_facebook_picker_title = 2131034126;
+			// aapt resource value: 0x7f050009
+			public const int com_facebook_picker_activity_circle = 2131034121;
 			
-			// aapt resource value: 0x7f050015
-			public const int com_facebook_picker_title_bar = 2131034133;
+			// aapt resource value: 0x7f05000c
+			public const int com_facebook_picker_checkbox = 2131034124;
+			
+			// aapt resource value: 0x7f050010
+			public const int com_facebook_picker_checkbox_stub = 2131034128;
 			
 			// aapt resource value: 0x7f050014
-			public const int com_facebook_picker_title_bar_stub = 2131034132;
+			public const int com_facebook_picker_divider = 2131034132;
+			
+			// aapt resource value: 0x7f050013
+			public const int com_facebook_picker_done_button = 2131034131;
+			
+			// aapt resource value: 0x7f05000d
+			public const int com_facebook_picker_image = 2131034125;
 			
 			// aapt resource value: 0x7f050011
-			public const int com_facebook_picker_top_bar = 2131034129;
+			public const int com_facebook_picker_list_section_header = 2131034129;
+			
+			// aapt resource value: 0x7f050008
+			public const int com_facebook_picker_list_view = 2131034120;
+			
+			// aapt resource value: 0x7f05000e
+			public const int com_facebook_picker_profile_pic_stub = 2131034126;
+			
+			// aapt resource value: 0x7f05000b
+			public const int com_facebook_picker_row_activity_circle = 2131034123;
+			
+			// aapt resource value: 0x7f05000f
+			public const int com_facebook_picker_title = 2131034127;
 			
 			// aapt resource value: 0x7f050016
-			public const int com_facebook_placepickerfragment_search_box_stub = 2131034134;
+			public const int com_facebook_picker_title_bar = 2131034134;
 			
-			// aapt resource value: 0x7f05001b
-			public const int com_facebook_usersettingsfragment_login_button = 2131034139;
+			// aapt resource value: 0x7f050015
+			public const int com_facebook_picker_title_bar_stub = 2131034133;
 			
-			// aapt resource value: 0x7f050019
-			public const int com_facebook_usersettingsfragment_logo_image = 2131034137;
+			// aapt resource value: 0x7f050012
+			public const int com_facebook_picker_top_bar = 2131034130;
 			
-			// aapt resource value: 0x7f05001a
-			public const int com_facebook_usersettingsfragment_profile_name = 2131034138;
-			
-			// aapt resource value: 0x7f050037
-			public const int containerlayout = 2131034167;
+			// aapt resource value: 0x7f050017
+			public const int com_facebook_placepickerfragment_search_box_stub = 2131034135;
 			
 			// aapt resource value: 0x7f05001c
-			public const int ellipse = 2131034140;
+			public const int com_facebook_usersettingsfragment_login_button = 2131034140;
 			
-			// aapt resource value: 0x7f050036
-			public const int facebooklogin = 2131034166;
+			// aapt resource value: 0x7f05001a
+			public const int com_facebook_usersettingsfragment_logo_image = 2131034138;
 			
-			// aapt resource value: 0x7f05003b
-			public const int imageView1 = 2131034171;
+			// aapt resource value: 0x7f05001b
+			public const int com_facebook_usersettingsfragment_profile_name = 2131034139;
+			
+			// aapt resource value: 0x7f050038
+			public const int containerlayout = 2131034168;
+			
+			// aapt resource value: 0x7f05001d
+			public const int ellipse = 2131034141;
+			
+			// aapt resource value: 0x7f050037
+			public const int facebooklogin = 2131034167;
+			
+			// aapt resource value: 0x7f05003c
+			public const int imageView1 = 2131034172;
 			
 			// aapt resource value: 0x7f050002
 			public const int large = 2131034114;
 			
-			// aapt resource value: 0x7f050024
-			public const int lblForgottenPassword = 2131034148;
+			// aapt resource value: 0x7f050025
+			public const int lblForgottenPassword = 2131034149;
 			
-			// aapt resource value: 0x7f05002f
-			public const int lblTermsConditions = 2131034159;
+			// aapt resource value: 0x7f050030
+			public const int lblTermsConditions = 2131034160;
+			
+			// aapt resource value: 0x7f050021
+			public const int lblValidation = 2131034145;
 			
 			// aapt resource value: 0x7f050020
-			public const int lblValidation = 2131034144;
+			public const int loginDescription = 2131034144;
 			
-			// aapt resource value: 0x7f05001f
-			public const int loginDescription = 2131034143;
+			// aapt resource value: 0x7f05003b
+			public const int logonopin = 2131034171;
 			
-			// aapt resource value: 0x7f05003a
-			public const int logonopin = 2131034170;
-			
-			// aapt resource value: 0x7f050033
-			public const int noAccountYet = 2131034163;
+			// aapt resource value: 0x7f050034
+			public const int noAccountYet = 2131034164;
 			
 			// aapt resource value: 0x7f050001
 			public const int normal = 2131034113;
 			
-			// aapt resource value: 0x7f050035
-			public const int orHere = 2131034165;
+			// aapt resource value: 0x7f050004
+			public const int notification = 2131034116;
 			
-			// aapt resource value: 0x7f050018
-			public const int picker_subtitle = 2131034136;
+			// aapt resource value: 0x7f050036
+			public const int orHere = 2131034166;
 			
-			// aapt resource value: 0x7f050039
-			public const int pin = 2131034169;
+			// aapt resource value: 0x7f050019
+			public const int picker_subtitle = 2131034137;
 			
-			// aapt resource value: 0x7f050025
-			public const int progressSpinner = 2131034149;
-			
-			// aapt resource value: 0x7f05002d
-			public const int radio_female = 2131034157;
-			
-			// aapt resource value: 0x7f05002c
-			public const int radio_male = 2131034156;
-			
-			// aapt resource value: 0x7f05002b
-			public const int rbGender = 2131034155;
+			// aapt resource value: 0x7f05003a
+			public const int pin = 2131034170;
 			
 			// aapt resource value: 0x7f050026
-			public const int registerDescription = 2131034150;
+			public const int progressSpinner = 2131034150;
 			
-			// aapt resource value: 0x7f050017
-			public const int search_box = 2131034135;
+			// aapt resource value: 0x7f05002e
+			public const int radio_female = 2131034158;
 			
-			// aapt resource value: 0x7f050031
-			public const int signinTitle = 2131034161;
+			// aapt resource value: 0x7f05002d
+			public const int radio_male = 2131034157;
 			
-			// aapt resource value: 0x7f05001e
-			public const int signincontainerinnerlayout = 2131034142;
+			// aapt resource value: 0x7f05002c
+			public const int rbGender = 2131034156;
 			
-			// aapt resource value: 0x7f05001d
-			public const int signincontainerlayout = 2131034141;
+			// aapt resource value: 0x7f050027
+			public const int registerDescription = 2131034151;
+			
+			// aapt resource value: 0x7f050018
+			public const int search_box = 2131034136;
 			
 			// aapt resource value: 0x7f050032
-			public const int singledoutlogin = 2131034162;
+			public const int signinTitle = 2131034162;
 			
-			// aapt resource value: 0x7f050034
-			public const int singledoutregister = 2131034164;
+			// aapt resource value: 0x7f05001f
+			public const int signincontainerinnerlayout = 2131034143;
+			
+			// aapt resource value: 0x7f05001e
+			public const int signincontainerlayout = 2131034142;
+			
+			// aapt resource value: 0x7f050033
+			public const int singledoutlogin = 2131034163;
+			
+			// aapt resource value: 0x7f050035
+			public const int singledoutregister = 2131034165;
 			
 			// aapt resource value: 0x7f050000
 			public const int small = 2131034112;
 			
-			// aapt resource value: 0x7f05003e
-			public const int tutorial1 = 2131034174;
-			
 			// aapt resource value: 0x7f05003f
-			public const int tutorial1Description = 2131034175;
-			
-			// aapt resource value: 0x7f05003d
-			public const int tutorial1childlayout = 2131034173;
-			
-			// aapt resource value: 0x7f05003c
-			public const int tutorial1containerlayout = 2131034172;
-			
-			// aapt resource value: 0x7f050041
-			public const int tutorial2 = 2131034177;
-			
-			// aapt resource value: 0x7f050042
-			public const int tutorial2Description = 2131034178;
+			public const int tutorial1 = 2131034175;
 			
 			// aapt resource value: 0x7f050040
-			public const int tutorial2childlayout = 2131034176;
+			public const int tutorial1Description = 2131034176;
 			
-			// aapt resource value: 0x7f050029
-			public const int txtEmail = 2131034153;
+			// aapt resource value: 0x7f05003e
+			public const int tutorial1childlayout = 2131034174;
 			
-			// aapt resource value: 0x7f050021
-			public const int txtEmailAddress = 2131034145;
+			// aapt resource value: 0x7f05003d
+			public const int tutorial1containerlayout = 2131034173;
 			
-			// aapt resource value: 0x7f050027
-			public const int txtFirstName = 2131034151;
-			
-			// aapt resource value: 0x7f050022
-			public const int txtPassword = 2131034146;
-			
-			// aapt resource value: 0x7f05002a
-			public const int txtRepeatPassword = 2131034154;
-			
-			// aapt resource value: 0x7f050028
-			public const int txtSurname = 2131034152;
-			
-			// aapt resource value: 0x7f050045
-			public const int welcomeDescription = 2131034181;
-			
-			// aapt resource value: 0x7f050044
-			public const int welcomeTitle = 2131034180;
+			// aapt resource value: 0x7f050042
+			public const int tutorial2 = 2131034178;
 			
 			// aapt resource value: 0x7f050043
-			public const int welcomechildlayout = 2131034179;
+			public const int tutorial2Description = 2131034179;
+			
+			// aapt resource value: 0x7f050041
+			public const int tutorial2childlayout = 2131034177;
+			
+			// aapt resource value: 0x7f05002a
+			public const int txtEmail = 2131034154;
+			
+			// aapt resource value: 0x7f050022
+			public const int txtEmailAddress = 2131034146;
+			
+			// aapt resource value: 0x7f050028
+			public const int txtFirstName = 2131034152;
+			
+			// aapt resource value: 0x7f050023
+			public const int txtPassword = 2131034147;
+			
+			// aapt resource value: 0x7f05002b
+			public const int txtRepeatPassword = 2131034155;
+			
+			// aapt resource value: 0x7f050029
+			public const int txtSurname = 2131034153;
+			
+			// aapt resource value: 0x7f050046
+			public const int welcomeDescription = 2131034182;
+			
+			// aapt resource value: 0x7f050045
+			public const int welcomeTitle = 2131034181;
+			
+			// aapt resource value: 0x7f050044
+			public const int welcomechildlayout = 2131034180;
 			
 			static Id()
 			{
