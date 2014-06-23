@@ -128,6 +128,7 @@
     <AndroidResource Include="Resources\drawable\SlideDownAnimation.xml" />
     <AndroidResource Include="Resources\drawable\SlideUpAnimation.xml" />
     <AndroidResource Include="Resources\drawable\notificationbox.xml" />
+    <AndroidResource Include="Resources\drawable\erroricon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

@@ -25,7 +25,6 @@ namespace SingledOutAndroid
 	public class Login : BaseActivity
 	{
 		private TextView _lblValidation;
-		private RestHelper _restHelper;
 		private ValidationHelper _validationHelper;
 		private EditText _txtPassword;
 		private EditText _txtEmail;
@@ -42,8 +41,6 @@ namespace SingledOutAndroid
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.Login);
-
-			_restHelper = new RestHelper(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 
 			SwipeRightActivity = typeof(SignIn);
 
@@ -79,32 +76,35 @@ namespace SingledOutAndroid
 			try
 			{
 				// Create task to login to Singled Out.
-				var task = Task<HttpResponseMessage>.Factory.StartNew (() => LoginToSingledOut (_txtEmail.Text, _txtPassword.Text));
-				// await so that this task will run in the background.
-				await task;
-
-				// Return here after login has completed.
-				if(task.Result.StatusCode == HttpStatusCode.Accepted)
+				var task = FactoryStartNew (() => LoginToSingledOut (_txtEmail.Text, _txtPassword.Text));
+				if(task != null)
 				{
-					// Get json from response message.
-					var result =  task.Result.Content.ReadAsStringAsync().Result;
-					var json = JsonObject.Parse(result).ToString().Replace("{{", "{").Replace("}}","}");
-					// Deserialize the Json.
-					var returnUserModel = JsonConvert.DeserializeObject<UserModel>(json);
+					// await so that this task will run in the background.
+					await task;
 
-					// Save the user preference for the user name and id.
-					if (string.IsNullOrEmpty(GetUserPreference ("SingledOutEmail"))) {
-						SetUserPreference ("SingledOutEmail", returnUserModel.Email);
-						SetUserPreference ("SingledOutUser", json);
-					} 				
+					// Return here after login has completed.
+					if(task.Result.StatusCode == HttpStatusCode.Accepted)
+					{
+						// Get json from response message.
+						var result =  task.Result.Content.ReadAsStringAsync().Result;
+						var json = JsonObject.Parse(result).ToString().Replace("{{", "{").Replace("}}","}");
+						// Deserialize the Json.
+						var returnUserModel = JsonConvert.DeserializeObject<UserModel>(json);
 
-					SwipeLeftActivity = typeof(CheckIn);
-					SwipeLeft("Login");
-				}
-				else if (task.Result.StatusCode == HttpStatusCode.Unauthorized)
-				{
-					// need to update on the main thread to change the border color
-					_validationHelper.SetValidationMessage (_lblValidation, "Email or password does not exist.");
+						// Save the user preference for the user name and id.
+						if (string.IsNullOrEmpty(GetUserPreference ("SingledOutEmail"))) {
+							SetUserPreference ("SingledOutEmail", returnUserModel.Email);
+							SetUserPreference ("SingledOutUser", json);
+						} 				
+
+						SwipeLeftActivity = typeof(CheckIn);
+						SwipeLeft("Login");
+					}
+					else if (task.Result.StatusCode == HttpStatusCode.Unauthorized)
+					{
+						// need to update on the main thread to change the border color
+						_validationHelper.SetValidationMessage (_lblValidation, "Email or password does not exist.");
+					}
 				}
 			}
 			catch (Exception)
@@ -117,10 +117,16 @@ namespace SingledOutAndroid
 			_spinner.Visibility = ViewStates.Gone;	
 		}
 
+		/// <summary>
+		/// Logins to singled out.
+		/// </summary>
+		/// <returns>The to singled out.</returns>
+		/// <param name="username">Username.</param>
+		/// <param name="password">Password.</param>
 		private HttpResponseMessage LoginToSingledOut(string username, string password)
 		{
 			var uri = string.Concat (Resources.GetString (Resource.String.apiurlusers),"/", Resources.GetString (Resource.String.apiurllogin));
-			var response = _restHelper.Login (uri, username, password);
+			var response = RestHelper.Login (uri, username, password);
 			return response;
 		}
 

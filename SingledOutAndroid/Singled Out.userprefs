@@ -1,21 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\MobileSpace.Helpers\UriBuilder.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\ConnectionDetector.cs">
     <Files>
-      <File FileName="Tutorial1.cs" Line="35" Column="4" />
-      <File FileName="BaseActivity.cs" Line="343" Column="31" />
-      <File FileName="Registration.cs" Line="240" Column="1" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\ValidationHelper.cs" Line="172" Column="39" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RESTHelper.cs" Line="31" Column="1" />
-      <File FileName="..\MobileSpace.Helpers\UriBuilder.cs" Line="24" Column="21" />
+      <File FileName="BaseActivity.cs" Line="82" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\ConnectionDetector.cs" Line="35" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RESTHelper.cs" line="48" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Registration.cs" line="129" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Registration.cs" line="91" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Registration.cs" line="239" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Registration.cs" line="127" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RESTHelper.cs" line="30" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\BaseActivity.cs" line="56" column="1" />
+      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\ConnectionDetector.cs" line="35" column="1" />
+      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\ConnectionDetector.cs" line="26" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

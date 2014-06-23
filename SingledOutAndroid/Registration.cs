@@ -36,7 +36,6 @@ namespace SingledOutAndroid
 		private TextView _lblValidation;
 		private CheckBox _ckTerms;
 		private TextView _lblTerms;
-		private RestHelper _restHelper;
 		private SecurityHelper _securityHelper;
 		private ValidationHelper _validationHelper;
 
@@ -50,7 +49,6 @@ namespace SingledOutAndroid
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.Registration);
-			_restHelper = new RestHelper (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 
 			SwipeRightActivity = typeof(SignIn);
 
@@ -121,32 +119,35 @@ namespace SingledOutAndroid
 			try
 			{
 				// Create task to Save Singled Out Details.
-				var task = Task<HttpResponseMessage>.Factory.StartNew (() => SaveSingledOutDetails (userModel));
-				// await so that this task will run in the background.
-				await task;
-
-				// Return here after SaveSingledOutDetails has completed.
-				if(task.Result.StatusCode == HttpStatusCode.Created)
+				var task = FactoryStartNew (() => SaveSingledOutDetails (userModel));
+				if(task != null)
 				{
-					// Get json from response message.
-					var result =  task.Result.Content.ReadAsStringAsync().Result;
-					var json = JsonObject.Parse(result).ToString().Replace("{{", "{").Replace("}}","}");
-					// Deserialize the Json.
-					var returnUserModel = JsonConvert.DeserializeObject<UserModel>(json);
+					// await so that this task will run in the background.
+					await task;
 
-					// Save the user preference for the user name and id.
-					if (string.IsNullOrEmpty(GetUserPreference ("SingledOutEmail"))) {
-						SetUserPreference ("SingledOutEmail", returnUserModel.Email);
-						SetUserPreference ("SingledOutUser", json);
-					} 
+					// Return here after SaveSingledOutDetails has completed.
+					if(task.Result.StatusCode == HttpStatusCode.Created)
+					{
+						// Get json from response message.
+						var result =  task.Result.Content.ReadAsStringAsync().Result;
+						var json = JsonObject.Parse(result).ToString().Replace("{{", "{").Replace("}}","}");
+						// Deserialize the Json.
+						var returnUserModel = JsonConvert.DeserializeObject<UserModel>(json);
 
-					SwipeLeftActivity = typeof(Tutorial1);
-					SwipeLeft("Registration");
-				}
-				else if(task.Result.StatusCode == HttpStatusCode.Forbidden)
-				{
-					// need to update on the main thread to change the border color
-					_validationHelper.SetValidationMessage (_lblValidation, task.Result.ReasonPhrase);
+						// Save the user preference for the user name and id.
+						if (string.IsNullOrEmpty(GetUserPreference ("SingledOutEmail"))) {
+							SetUserPreference ("SingledOutEmail", returnUserModel.Email);
+							SetUserPreference ("SingledOutUser", json);
+						} 
+
+						SwipeLeftActivity = typeof(Tutorial1);
+						SwipeLeft("Registration");
+					}
+					else if(task.Result.StatusCode == HttpStatusCode.Forbidden)
+					{
+						// need to update on the main thread to change the border color
+						_validationHelper.SetValidationMessage (_lblValidation, task.Result.ReasonPhrase);
+					}
 				}
 			}
 			catch (Exception)
@@ -236,8 +237,8 @@ namespace SingledOutAndroid
 		/// <param name="user">User.</param>
 		private HttpResponseMessage SaveSingledOutDetails(UserModel user)
 		{
-			var url = string.Concat(this.GetString(Resource.String.apihost), this.GetString(Resource.String.apipath), this.GetString(Resource.String.apiurlusers));
-			return _restHelper.PostAsync(url , user);
+			var uri = string.Concat (Resources.GetString (Resource.String.apiurlusers));
+			return RestHelper.PostAsync(uri , user);
 		}
 
 		protected void CheckboxCheckChangedRequired(object sender, CheckBox.CheckedChangeEventArgs e)

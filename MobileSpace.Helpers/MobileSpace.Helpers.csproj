@@ -60,6 +60,7 @@
     <Compile Include="UriBuilder.cs" />
     <Compile Include="ValidationHelper.cs" />
     <Compile Include="UIHelper.cs" />
+    <Compile Include="ConnectionDetector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

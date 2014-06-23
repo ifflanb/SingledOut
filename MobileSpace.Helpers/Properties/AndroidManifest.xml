@@ -2,4 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="MobileSpace.Helpers">
 	<uses-sdk />
 	<application android:label="MobileSpace.Helpers"></application>
+	<service android:name="MobileSpace.Helpers">
+		<intent-filter>
+			<action android:name="MobileSpace.Helpers.ConnectionDetector" />
+		</intent-filter>
+	</service>
 </manifest>

@@ -19,6 +19,9 @@ using MobileSpace.Helpers;
 using Newtonsoft.Json;
 using SingledOut.Model;
 using Android.Views.Animations;
+using Android.Net;
+using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace SingledOutAndroid
 {				
@@ -30,6 +33,7 @@ namespace SingledOutAndroid
 		private Timer _timer;
 		private GestureDetector _gestureDetector;
 		private UriCreator _uriCreator;
+		private RestHelper _restHelper;
 
 		/// <summary>
 		/// Raises the create event.
@@ -42,6 +46,55 @@ namespace SingledOutAndroid
 
 			_gestureDetector = new GestureDetector(this);
 			_uriCreator = new UriCreator (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
+		}
+
+		/// <summary>
+		/// Factories the start new.
+		/// </summary>
+		/// <returns>The start new.</returns>
+		/// <param name="func">Func.</param>
+		protected Task<HttpResponseMessage> FactoryStartNew(Func<HttpResponseMessage> func)
+		{
+			Task<HttpResponseMessage> httpResponseMessage = null;
+
+			if (IsNetworkAvailable ()) {
+				httpResponseMessage = Task<HttpResponseMessage>.Factory.StartNew (func);
+			}
+			else 
+			{
+				var dialogBuilder = new AlertDialog.Builder (this);						
+				dialogBuilder.SetTitle ("No Internet Connection");
+				dialogBuilder.SetIcon (Resource.Drawable.erroricon);
+				dialogBuilder.SetMessage ("No Internet Connection. Please connect and try again.");
+				dialogBuilder.SetPositiveButton("OK", delegate { dialogBuilder.Dispose(); });
+				var dialog = dialogBuilder.Create();
+				dialog.Show ();	
+				httpResponseMessage = null;
+			}
+			return httpResponseMessage;
+		}
+
+		/// <summary>
+		/// Gets the rest helper.
+		/// </summary>
+		/// <value>The rest helper.</value>
+		public RestHelper RestHelper 
+		{
+			get {					
+				if (_restHelper == null) {
+					_restHelper = new RestHelper (Resources.GetString (Resource.String.apihost), Resources.GetString (Resource.String.apipath));
+				} 
+				return _restHelper;					
+			}
+		}
+		/// <summary>
+		/// Determines whether this instance is network available.
+		/// </summary>
+		/// <returns><c>true</c> if this instance is network available; otherwise, <c>false</c>.</returns>
+		private bool IsNetworkAvailable() 
+		{
+			var connectionDetector = new ConnectionDetector(ApplicationContext);
+			return connectionDetector.IsConnectedToInternet();
 		}
 
 		/// <summary>
@@ -98,7 +151,8 @@ namespace SingledOutAndroid
 				var typesToIgnore = new List<Type> {
 					typeof(Login) ,
 					typeof(Registration),
-					typeof(SignIn)
+					typeof(SignIn),
+					typeof(Welcome)
 				};
 				return typesToIgnore;
 			}

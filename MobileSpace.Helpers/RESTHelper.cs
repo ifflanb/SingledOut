@@ -25,15 +25,16 @@ namespace MobileSpace.Helpers
 		/// <returns>The async.</returns>
 		/// <param name="uri">URI.</param>
 		/// <param name="data">Data.</param>
-		public HttpResponseMessage PostAsync(string uri, object data)
+		public HttpResponseMessage PostAsync(string path, object data)
 		{
 			var httpClient = new HttpClient();
 			var json = JsonConvert.SerializeObject (data);
+			HttpResponseMessage response;
 
 			HttpContent cont = new StringContent(json);
 			cont.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-			HttpResponseMessage response;
+			var uri = _uriCreator.Login(path);
 
 			try
 			{
@@ -46,11 +47,8 @@ namespace MobileSpace.Helpers
 			catch (WebException ex)
 			{
 				throw ex;
-			}       
-			catch (Exception ex)
-			{
-				throw ex;
-			}
+			}      
+
 
 			return response;
 		}
@@ -82,7 +80,19 @@ namespace MobileSpace.Helpers
 			httpClient.DefaultRequestHeaders.Authorization = CreateBasicHeader(username, password);
 
 			var uri = _uriCreator.Login(path);
-			response = httpClient.GetAsync(uri).Result;	
+
+			try
+			{
+				response = httpClient.GetAsync(uri).Result;	
+			}
+			catch (AggregateException ex)
+			{
+				throw ex;
+			}
+			catch (WebException ex)
+			{
+				throw ex;
+			}    
 
 			return response;
 		}

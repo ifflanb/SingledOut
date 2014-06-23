@@ -323,79 +323,82 @@ namespace SingledOutAndroid
 			public const int ellipse3 = 2130837538;
 			
 			// aapt resource value: 0x7f020023
-			public const int exclamation = 2130837539;
+			public const int erroricon = 2130837539;
 			
 			// aapt resource value: 0x7f020024
-			public const int facebooklogin = 2130837540;
+			public const int exclamation = 2130837540;
 			
 			// aapt resource value: 0x7f020025
-			public const int facebookloginrounded = 2130837541;
+			public const int facebooklogin = 2130837541;
 			
 			// aapt resource value: 0x7f020026
-			public const int googlelogin = 2130837542;
+			public const int facebookloginrounded = 2130837542;
 			
 			// aapt resource value: 0x7f020027
-			public const int line = 2130837543;
+			public const int googlelogin = 2130837543;
 			
 			// aapt resource value: 0x7f020028
-			public const int logonopin = 2130837544;
+			public const int line = 2130837544;
 			
 			// aapt resource value: 0x7f020029
-			public const int logopin = 2130837545;
+			public const int logonopin = 2130837545;
 			
 			// aapt resource value: 0x7f02002a
-			public const int logopindialog = 2130837546;
+			public const int logopin = 2130837546;
 			
 			// aapt resource value: 0x7f02002b
-			public const int mobilespacelogo = 2130837547;
+			public const int logopindialog = 2130837547;
 			
 			// aapt resource value: 0x7f02002c
-			public const int notificationbox = 2130837548;
+			public const int mobilespacelogo = 2130837548;
 			
 			// aapt resource value: 0x7f02002d
-			public const int roundedbutton = 2130837549;
+			public const int notificationbox = 2130837549;
 			
 			// aapt resource value: 0x7f02002e
-			public const int roundedbuttondark = 2130837550;
+			public const int roundedbutton = 2130837550;
 			
 			// aapt resource value: 0x7f02002f
-			public const int roundedlayout = 2130837551;
+			public const int roundedbuttondark = 2130837551;
 			
 			// aapt resource value: 0x7f020030
-			public const int singledoutlogin = 2130837552;
+			public const int roundedlayout = 2130837552;
 			
 			// aapt resource value: 0x7f020031
-			public const int singledoutloginclicked = 2130837553;
+			public const int singledoutlogin = 2130837553;
 			
 			// aapt resource value: 0x7f020032
-			public const int singledoutlogo = 2130837554;
+			public const int singledoutloginclicked = 2130837554;
 			
 			// aapt resource value: 0x7f020033
-			public const int singledoutregister = 2130837555;
+			public const int singledoutlogo = 2130837555;
 			
 			// aapt resource value: 0x7f020034
-			public const int singledoutsignin = 2130837556;
+			public const int singledoutregister = 2130837556;
 			
 			// aapt resource value: 0x7f020035
-			public const int slide_in_left = 2130837557;
+			public const int singledoutsignin = 2130837557;
 			
 			// aapt resource value: 0x7f020036
-			public const int slide_out_left = 2130837558;
+			public const int slide_in_left = 2130837558;
 			
 			// aapt resource value: 0x7f020037
-			public const int SlideDownAnimation = 2130837559;
+			public const int slide_out_left = 2130837559;
 			
 			// aapt resource value: 0x7f020038
-			public const int SlideUpAnimation = 2130837560;
+			public const int SlideDownAnimation = 2130837560;
 			
 			// aapt resource value: 0x7f020039
-			public const int textcolour = 2130837561;
+			public const int SlideUpAnimation = 2130837561;
 			
 			// aapt resource value: 0x7f02003a
-			public const int twitterlogin = 2130837562;
+			public const int textcolour = 2130837562;
 			
 			// aapt resource value: 0x7f02003b
-			public const int validationBox = 2130837563;
+			public const int twitterlogin = 2130837563;
+			
+			// aapt resource value: 0x7f02003c
+			public const int validationBox = 2130837564;
 			
 			static Drawable()
 			{
@@ -900,11 +903,11 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f090005
 			public const int buttonlight = 2131296261;
 			
-			// aapt resource value: 0x7f090012
-			public const int checkbox = 2131296274;
+			// aapt resource value: 0x7f090013
+			public const int checkbox = 2131296275;
 			
-			// aapt resource value: 0x7f090011
-			public const int childlayout = 2131296273;
+			// aapt resource value: 0x7f090012
+			public const int childlayout = 2131296274;
 			
 			// aapt resource value: 0x7f090000
 			public const int com_facebook_loginview_default_style = 2131296256;
@@ -912,38 +915,41 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f090001
 			public const int com_facebook_loginview_silver_style = 2131296257;
 			
-			// aapt resource value: 0x7f090009
-			public const int descriptiontext = 2131296265;
-			
-			// aapt resource value: 0x7f09000b
-			public const int edittext = 2131296267;
-			
-			// aapt resource value: 0x7f09000d
-			public const int edittextcapstart = 2131296269;
-			
-			// aapt resource value: 0x7f09000e
-			public const int edittextemail = 2131296270;
-			
-			// aapt resource value: 0x7f09000f
-			public const int edittextpassword = 2131296271;
+			// aapt resource value: 0x7f09000a
+			public const int descriptiontext = 2131296266;
 			
 			// aapt resource value: 0x7f09000c
-			public const int edittextvalidation = 2131296268;
+			public const int edittext = 2131296268;
 			
-			// aapt resource value: 0x7f09000a
-			public const int hyperlinktext = 2131296266;
+			// aapt resource value: 0x7f09000e
+			public const int edittextcapstart = 2131296270;
+			
+			// aapt resource value: 0x7f09000f
+			public const int edittextemail = 2131296271;
 			
 			// aapt resource value: 0x7f090010
-			public const int parentlayout = 2131296272;
+			public const int edittextpassword = 2131296272;
+			
+			// aapt resource value: 0x7f09000d
+			public const int edittextvalidation = 2131296269;
+			
+			// aapt resource value: 0x7f09000b
+			public const int hyperlinktext = 2131296267;
+			
+			// aapt resource value: 0x7f090009
+			public const int notification = 2131296265;
+			
+			// aapt resource value: 0x7f090011
+			public const int parentlayout = 2131296273;
+			
+			// aapt resource value: 0x7f090016
+			public const int progressspinner = 2131296278;
 			
 			// aapt resource value: 0x7f090015
-			public const int progressspinner = 2131296277;
+			public const int radiobutton = 2131296277;
 			
 			// aapt resource value: 0x7f090014
-			public const int radiobutton = 2131296276;
-			
-			// aapt resource value: 0x7f090013
-			public const int radiogroup = 2131296275;
+			public const int radiogroup = 2131296276;
 			
 			// aapt resource value: 0x7f090007
 			public const int text = 2131296263;
