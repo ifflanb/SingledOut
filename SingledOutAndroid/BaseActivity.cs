@@ -152,7 +152,9 @@ namespace SingledOutAndroid
 					typeof(Login) ,
 					typeof(Registration),
 					typeof(SignIn),
-					typeof(Welcome)
+					typeof(Welcome),
+					typeof(TermsConditions),
+					typeof(ForgottenPassword)
 				};
 				return typesToIgnore;
 			}

@@ -52,6 +52,18 @@ namespace MobileSpace.Helpers
 		}
 
 		/// <summary>
+		/// Builds the login.
+		/// </summary>
+		/// <returns>The login.</returns>
+		public Uri RetrievePassword(string retrievePasswordPath)
+		{
+			var path = string.Concat(_rootPath, retrievePasswordPath);
+			_uriBuilder = BuildRootPath(path);
+
+			return _uriBuilder.Uri;
+		}
+
+		/// <summary>
 		/// Builds the search.
 		/// </summary>
 		/// <returns>The search.</returns>

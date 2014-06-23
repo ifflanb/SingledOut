@@ -29,7 +29,8 @@
             android:text="Login"
             android:id="@+id/btnLogin"
             android:layout_below="@+id/txtPassword"
-            style="@style/buttonlight" />
+            style="@style/buttonlight"
+            android:layout_marginBottom="20dp" />
         <TextView
             android:text="Forgotten your password?"
             android:id="@+id/lblForgottenPassword"

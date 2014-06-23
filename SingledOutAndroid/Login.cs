@@ -29,6 +29,7 @@ namespace SingledOutAndroid
 		private EditText _txtPassword;
 		private EditText _txtEmail;
 		private SecurityHelper _securityHelper;
+		private TextView _lblForgottenPassword;
 		ProgressBar _spinner;
 
 		public Login ()
@@ -47,9 +48,17 @@ namespace SingledOutAndroid
 			_validationHelper = new ValidationHelper (this, GetValidationWarningDrawable());
 			_txtEmail = FindViewById<EditText>(Resource.Id.txtEmailAddress);
 			_txtPassword = FindViewById<EditText>(Resource.Id.txtPassword);
+			_lblForgottenPassword = FindViewById<TextView> (Resource.Id.lblForgottenPassword);
+			_lblForgottenPassword.Click += ForgottenPasswordClick;
 
 			var btnLogin = (Button)FindViewById (Resource.Id.btnLogin);
 			btnLogin.Click += LoginClick;
+		}
+
+		protected void ForgottenPasswordClick(object sender, EventArgs e)
+		{
+			SwipeRightActivity = typeof(ForgottenPassword);
+			SwipeRight ();
 		}
 
 		/// <summary>

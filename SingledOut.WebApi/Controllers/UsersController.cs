@@ -7,6 +7,7 @@ using System.Threading;
 using System.Web.Http;
 using SingledOut.Model;
 using SingledOut.Repository;
+using SingledOut.Services.Interfaces;
 using SingledOut.WebApi.Filters;
 using SingledOut.WebApi.Interfaces;
 
@@ -16,12 +17,15 @@ namespace SingledOut.WebApi.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserModelFactory _userModelFactory;
+        private readonly IEmail _email;
 
         public UsersController(IUserRepository userRepository,
-            IUserModelFactory userModelFactory)
+            IUserModelFactory userModelFactory,
+            IEmail email)
         {
             _userRepository = userRepository;
             _userModelFactory = userModelFactory;
+            _email = email;
         }
 
         [SingledOutAuthorization]
@@ -34,9 +38,21 @@ namespace SingledOut.WebApi.Controllers
             var result = Request.CreateResponse(HttpStatusCode.Accepted, user);
             return result;
         }
+        
+        [HttpGet]
+        public HttpResponseMessage RetrievePassword(string email)
+        {
+            var user = Get().Single(o => o.Email == email);
+            if(user != null && !string.IsNullOrEmpty(user.Password))
+            {
+               // _email.SendEmail()
+            }
+            var result = Request.CreateResponse(HttpStatusCode.OK, user);
+            
+            return result;
+        }
 
-
-   //     [SingledOutAuthorization]
+        [SingledOutAuthorization]
         public IEnumerable<UserModel> Get()
         {
             var query = _userRepository.GetAllUsers();
@@ -46,7 +62,7 @@ namespace SingledOut.WebApi.Controllers
             return results;
         }
 
-    //    [SingledOutAuthorization]
+        [SingledOutAuthorization]
         public HttpResponseMessage GetUser(int id)
         {
             try

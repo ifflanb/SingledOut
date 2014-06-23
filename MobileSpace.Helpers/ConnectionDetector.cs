@@ -21,8 +21,6 @@ namespace MobileSpace.Helpers
 			var connectivity = (ConnectivityManager) _context.GetSystemService(Context.ConnectivityService);
 			if (connectivity != null) 
 			{
-				try
-				{
 				var info = connectivity.GetAllNetworkInfo();
 
 				if (info != null) 
@@ -31,10 +29,6 @@ namespace MobileSpace.Helpers
 						{
 							return true;
 						}
-				}
-				catch (Exception ex) {
-
-				}
 			}
 			return false;
 		}

@@ -14,6 +14,7 @@
     <string name="apipath">SingledOut.WebApi/api/</string>
     <string name="apiurlusers">users</string>
     <string name="apiurllogin">login/</string>
+    <string name="apiurllostpassword">lostpassword/</string>
     <string name="apiurluserssearch">userssearch</string>
     <string name="apiurlquestions">questions</string>
     <string name="apiurlanswers">answers</string> 

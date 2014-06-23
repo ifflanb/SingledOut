@@ -98,6 +98,35 @@ namespace MobileSpace.Helpers
 		}
 
 		/// <summary>
+		/// Retrieves the password.
+		/// </summary>
+		/// <returns>The password.</returns>
+		/// <param name="path">Path.</param>
+		/// <param name="email">Email.</param>
+		public HttpResponseMessage RetrievePassword(string path, string email)
+		{
+			var httpClient = new HttpClient();
+			HttpResponseMessage response;
+
+			var uri = _uriCreator.RetrievePassword(path);
+
+			try
+			{
+				response = httpClient.GetAsync(uri).Result;	
+			}
+			catch (AggregateException ex)
+			{
+				throw ex;
+			}
+			catch (WebException ex)
+			{
+				throw ex;
+			}    
+
+			return response;
+		}
+
+		/// <summary>
 		/// Searchs the async.
 		/// </summary>
 		/// <returns>The async.</returns>

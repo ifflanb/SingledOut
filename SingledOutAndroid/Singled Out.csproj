@@ -75,6 +75,7 @@
     <Compile Include="Registration.cs" />
     <Compile Include="TermsConditions.cs" />
     <Compile Include="Login.cs" />
+    <Compile Include="ForgottenPassword.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -129,6 +130,7 @@
     <AndroidResource Include="Resources\drawable\SlideUpAnimation.xml" />
     <AndroidResource Include="Resources\drawable\notificationbox.xml" />
     <AndroidResource Include="Resources\drawable\erroricon.png" />
+    <AndroidResource Include="Resources\layout\ForgottenPassword.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
