@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Web.Http;
 using SingledOut.Model;
 using SingledOut.Repository;
-using SingledOut.Services.Interfaces;
 using SingledOut.WebApi.Filters;
 using SingledOut.WebApi.Interfaces;
 
@@ -17,39 +15,13 @@ namespace SingledOut.WebApi.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserModelFactory _userModelFactory;
-        private readonly IEmail _email;
 
         public UsersController(IUserRepository userRepository,
-            IUserModelFactory userModelFactory,
-            IEmail email)
+            IUserModelFactory userModelFactory)
         {
             _userRepository = userRepository;
             _userModelFactory = userModelFactory;
-            _email = email;
-        }
-
-        [SingledOutAuthorization]
-        [HttpGet]
-        public HttpResponseMessage Login()
-        {
-            var email = Thread.CurrentPrincipal.Identity.Name;
-            var user = Get().Single(o => o.Email == email);
-
-            var result = Request.CreateResponse(HttpStatusCode.Accepted, user);
-            return result;
-        }
-        
-        [HttpGet]
-        public HttpResponseMessage RetrievePassword(string email)
-        {
-            var user = Get().Single(o => o.Email == email);
-            if(user != null && !string.IsNullOrEmpty(user.Password))
-            {
-               // _email.SendEmail()
-            }
-            var result = Request.CreateResponse(HttpStatusCode.OK, user);
-            
-            return result;
+         
         }
 
         [SingledOutAuthorization]
@@ -120,13 +92,13 @@ namespace SingledOut.WebApi.Controllers
             {
                 var updatedUser = _userModelFactory.Parse(userModel);
 
-                if(updatedUser == null) Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read subject/tutor from body");
+                if(updatedUser == null) Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read user from body");
 
                 var originalUser = _userRepository.GetUser(id);
 
                 if(originalUser == null || originalUser.ID != id)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotModified, "Course is not found");
+                    return Request.CreateResponse(HttpStatusCode.NotModified, "User is not found");
                 }
                 updatedUser.ID = id;
 

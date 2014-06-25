@@ -9,9 +9,15 @@ namespace SingledOut.WebApi
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
-                   name: "UsersLogin",
-                   routeTemplate: "api/users/Login",
-                   defaults: new { controller = "users", action = "Login" }
+               name: "AccountRetrievePassword",
+               routeTemplate: "api/account/retrievepassword/{email}",
+               defaults: new { controller = "account", action = "RetrievePassword" }
+            );
+
+            config.Routes.MapHttpRoute(
+                   name: "AccountLogin",
+                   routeTemplate: "api/account/Login",
+                   defaults: new { controller = "account", action = "Login" }
                 );
 
             config.Routes.MapHttpRoute(
@@ -26,18 +32,7 @@ namespace SingledOut.WebApi
                defaults: new { controller = "users", id = RouteParameter.Optional }
            );
 
-            config.Routes.MapHttpRoute(
-               name: "Courses",
-               routeTemplate: "api/courses/{id}",
-               defaults: new { controller = "courses", id = RouteParameter.Optional }
-           );
-
-            config.Routes.MapHttpRoute(
-              name: "Enrollments",
-              routeTemplate: "api/courses/{courseId}/students/{var}",
-              defaults: new { controller = "Enrollments", var = RouteParameter.Optional }
-          );
-
+            
            // var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
            // jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 

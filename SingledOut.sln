@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingledOut.UnitTests", "Sin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingledOut.SearchParameters", "SingledOut.SearchParameters\SingledOut.SearchParameters.csproj", "{D835E796-5CF9-48C2-B898-F05EAD78B003}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingledOut.Cloud", "SingledOut.Cloud\SingledOut.Cloud.csproj", "{4DA10035-C950-4DD5-BE81-3E2C86698534}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{D835E796-5CF9-48C2-B898-F05EAD78B003}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D835E796-5CF9-48C2-B898-F05EAD78B003}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D835E796-5CF9-48C2-B898-F05EAD78B003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DA10035-C950-4DD5-BE81-3E2C86698534}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DA10035-C950-4DD5-BE81-3E2C86698534}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DA10035-C950-4DD5-BE81-3E2C86698534}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DA10035-C950-4DD5-BE81-3E2C86698534}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

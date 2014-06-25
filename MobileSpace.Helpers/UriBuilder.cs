@@ -40,6 +40,18 @@ namespace MobileSpace.Helpers
 		}			
 
 		/// <summary>
+		/// User the specified user.
+		/// </summary>
+		/// <param name="user">User.</param>
+		public Uri User(string user)
+		{
+			var path = string.Concat(_rootPath, user);
+			_uriBuilder = BuildRootPath(path);
+
+			return _uriBuilder.Uri;
+		}
+
+		/// <summary>
 		/// Builds the login.
 		/// </summary>
 		/// <returns>The login.</returns>
@@ -55,10 +67,10 @@ namespace MobileSpace.Helpers
 		/// Builds the login.
 		/// </summary>
 		/// <returns>The login.</returns>
-		public Uri RetrievePassword(string retrievePasswordPath)
+		public Uri RetrievePassword(string retrievePasswordPath, string email)
 		{
 			var path = string.Concat(_rootPath, retrievePasswordPath);
-			_uriBuilder = BuildRootPath(path);
+			_uriBuilder = BuildRootPath(string.Concat(path,email));
 
 			return _uriBuilder.Uri;
 		}

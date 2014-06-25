@@ -14,6 +14,10 @@ using Xamarin.FacebookBinding.Model;
 using Android.Widget;
 using SingledOut.Model;
 using MobileSpace.Helpers;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Json;
+using System.Net;
 
 [assembly:Permission (Name = Android.Manifest.Permission.Internet)]
 [assembly:Permission (Name = Android.Manifest.Permission.WriteExternalStorage)]
@@ -31,7 +35,6 @@ namespace SingledOutAndroid
 		private IGraphUser user;
 		private UiLifecycleHelper uiHelper;
 		private Session.IStatusCallback callback;
-
 
 		private	enum PendingAction
 		{	NONE,
@@ -142,7 +145,7 @@ namespace SingledOutAndroid
 			/// Raises the user info fetched event.
 			/// </summary>
 			/// <param name="user">User.</param>
-			public void OnUserInfoFetched (IGraphUser user)
+			public async void OnUserInfoFetched (IGraphUser user)
 			{
 				owner.user = user;
 
@@ -152,17 +155,30 @@ namespace SingledOutAndroid
 					if (session.IsOpened) {
 						accessToken = session.AccessToken;					
 
-						var jsonUser = user.InnerJSONObject;
-						SaveFacebookDetails (jsonUser, accessToken);
+						var jsonFacebook = user.InnerJSONObject;
 
-						if (string.IsNullOrEmpty(owner.GetUserPreference ("FacebookAccessToken"))) {
-							owner.SetUserPreference ("FacebookAccessToken", accessToken);
-							owner.SetUserPreference ("FacebookUsername", jsonUser.GetString("id"));
-						} 
+						var task = owner.FactoryStartNew (() => SaveFacebookDetails (jsonFacebook, accessToken));
+						if (task != null) {
+							// await so that this task will run in the background.
+							await task;
+							//var jsonUser = SaveFacebookDetails (json, accessToken);
 
-						// Change to Tutorial page.
-						owner.SwipeLeftActivity = typeof(Tutorial1);
-						owner.SwipeLeft();
+							if (task.Result.StatusCode == HttpStatusCode.Created) {
+								// Get json from response message.
+								var result =  task.Result.Content.ReadAsStringAsync().Result;
+								var json = JsonObject.Parse(result).ToString().Replace("{{", "{").Replace("}}","}");
+
+								if (string.IsNullOrEmpty (owner.GetUserPreference ("FacebookAccessToken"))) {
+									owner.SetUserPreference ("FacebookAccessToken", accessToken);
+									owner.SetUserPreference ("FacebookUsername", jsonFacebook.GetString ("id"));
+									owner.SetUserPreference ("SingledOutUser", json);
+								} 
+
+								// Change to Tutorial page.
+								owner.SwipeLeftActivity = typeof(Tutorial1);
+								owner.SwipeLeft ("SignIn");
+							}
+						}
 					}
 				}
 			}
@@ -172,7 +188,7 @@ namespace SingledOutAndroid
 			/// </summary>
 			/// <param name="user">User.</param>
 			/// <param name="facebookAccessToken">Facebook access token.</param>
-			private void SaveFacebookDetails(Org.Json.JSONObject user, string facebookAccessToken)
+			private HttpResponseMessage SaveFacebookDetails(Org.Json.JSONObject user, string facebookAccessToken)
 			{
 				var userModel = new UserModel {
 					FirstName = user.GetString("first_name"),
@@ -185,8 +201,10 @@ namespace SingledOutAndroid
 				};					
 
 				var restHelper = new RestHelper (owner.Resources.GetString(Resource.String.apihost), owner.Resources.GetString(Resource.String.apipath));
-				var url = string.Concat(owner.GetString(Resource.String.apihost), owner.GetString(Resource.String.apipath),owner.GetString(Resource.String.apiurlusers));
-				restHelper.PostAsync(url , userModel);
+				//var url = string.Concat(owner.GetString(Resource.String.apihost), owner.GetString(Resource.String.apipath),owner.GetString(Resource.String.apiurlaccount));
+				var uri = string.Concat (owner.Resources.GetString (Resource.String.apiurlusers));
+				var response = restHelper.PostAsync(uri , userModel);
+				return response;
 			}
 		}
 

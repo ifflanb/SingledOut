@@ -53,8 +53,18 @@ namespace SingledOutAndroid
 
 			var btnLogin = (Button)FindViewById (Resource.Id.btnLogin);
 			btnLogin.Click += LoginClick;
+
+			// Show welcome back message.
+			if (LastActivity == "EmailRetrieved") {
+				ShowNotificationBox ("Your password has been emailed to you.", true);
+			}
 		}
 
+		/// <summary>
+		/// Forgottens the password click.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void ForgottenPasswordClick(object sender, EventArgs e)
 		{
 			SwipeRightActivity = typeof(ForgottenPassword);
@@ -134,7 +144,7 @@ namespace SingledOutAndroid
 		/// <param name="password">Password.</param>
 		private HttpResponseMessage LoginToSingledOut(string username, string password)
 		{
-			var uri = string.Concat (Resources.GetString (Resource.String.apiurlusers),"/", Resources.GetString (Resource.String.apiurllogin));
+			var uri = string.Concat (Resources.GetString (Resource.String.apiurlaccount),"/", Resources.GetString (Resource.String.apiurllogin));
 			var response = RestHelper.Login (uri, username, password);
 			return response;
 		}

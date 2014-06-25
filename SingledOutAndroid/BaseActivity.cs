@@ -48,6 +48,7 @@ namespace SingledOutAndroid
 			_uriCreator = new UriCreator (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 		}
 
+
 		/// <summary>
 		/// Factories the start new.
 		/// </summary>
@@ -135,7 +136,9 @@ namespace SingledOutAndroid
 				UserModel userModel = null; 
 				if (IsAuthenticated) {
 					var json = GetUserPreference ("SingledOutUser");
-					userModel = JsonConvert.DeserializeObject<UserModel> (json);
+					if (json != null) {
+						userModel = JsonConvert.DeserializeObject<UserModel> (json);
+					}
 				}
 				return userModel;
 			}		
@@ -392,22 +395,25 @@ namespace SingledOutAndroid
 		/// Shows the notification box.
 		/// </summary>
 		/// <param name="message">Message.</param>
-		protected void ShowNotificationBox(string message)
+		protected void ShowNotificationBox(string message, bool bringtofront = false)
 		{
+			var notification = FindViewById<TextView> (Resource.Id.notification);			
 			// Load the welcome back animation.
-			var welcomeBack = FindViewById<TextView> (Resource.Id.notification);
-			welcomeBack.Text = message;
-			Animation slideDown = AnimationUtils.LoadAnimation(ApplicationContext, Resource.Drawable.SlideDownAnimation);
-			Animation slideUp = AnimationUtils.LoadAnimation(ApplicationContext, Resource.Drawable.SlideUpAnimation);
+			notification.Text = message;
+			if (bringtofront) {
+				notification.BringToFront ();
+			}
+			var slideDown = AnimationUtils.LoadAnimation(ApplicationContext, Resource.Drawable.SlideDownAnimation);
+			var slideUp = AnimationUtils.LoadAnimation(ApplicationContext, Resource.Drawable.SlideUpAnimation);
 			slideUp.StartOffset = 4000;
 			slideUp.AnimationEnd += delegate {
-				welcomeBack.Visibility = ViewStates.Invisible;
+				notification.Visibility = ViewStates.Invisible;
 			};
 			slideDown.AnimationEnd += delegate {
-				welcomeBack.StartAnimation(slideUp);
+				notification.StartAnimation(slideUp);
 			};
-			welcomeBack.Visibility = ViewStates.Visible;
-			welcomeBack.StartAnimation(slideDown);
+			notification.Visibility = ViewStates.Visible;
+			notification.StartAnimation(slideDown);
 		}
 	}
 }

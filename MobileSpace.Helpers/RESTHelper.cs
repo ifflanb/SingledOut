@@ -34,7 +34,7 @@ namespace MobileSpace.Helpers
 			HttpContent cont = new StringContent(json);
 			cont.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-			var uri = _uriCreator.Login(path);
+			var uri = _uriCreator.User(path);
 
 			try
 			{
@@ -108,7 +108,7 @@ namespace MobileSpace.Helpers
 			var httpClient = new HttpClient();
 			HttpResponseMessage response;
 
-			var uri = _uriCreator.RetrievePassword(path);
+			var uri = _uriCreator.RetrievePassword(path, email);
 
 			try
 			{

@@ -2,14 +2,19 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RESTHelper.cs">
     <Files>
-      <File FileName="ForgottenPassword.cs" Line="95" Column="36" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RESTHelper.cs" Line="106" Column="3" />
-      <File FileName="..\MobileSpace.Helpers\UriBuilder.cs" Line="61" Column="38" />
-      <File FileName="..\MobileSpace.Helpers\ConnectionDetector.cs" Line="30" Column="20" />
+      <File FileName="SignIn.cs" Line="166" Column="1" />
+      <File FileName="Login.cs" Line="147" Column="137" />
+      <File FileName="Tutorial1.cs" Line="32" Column="65" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\BaseActivity.cs" Line="57" Column="85" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RESTHelper.cs" Line="42" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\UriBuilder.cs" Line="43" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RESTHelper.cs" line="31" column="50" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" line="166" column="60" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="SignIn.cs" line="179" offsetX="732" offsetY="2848" expression="responseMessage.Content" liveUpdate="False" />

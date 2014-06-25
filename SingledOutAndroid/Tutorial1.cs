@@ -29,7 +29,7 @@ namespace SingledOutAndroid
 			ft.Commit ();
 
 			// Show welcome back message.
-			if (LastActivity == "Registration") {
+			if (LastActivity == "Registration" || LastActivity == "SignIn") {
 				ShowNotificationBox (string.Concat ("Welcome to Singled Out ", CurrentUser.FirstName, "!"));
 			}
 		}

@@ -20,7 +20,8 @@ namespace SingledOut.WebApi.ModelFactory
 
         public UserModelFactory(
             IUserQuestionRepository userQuestionRepository,
-            ISecurity security)
+            ISecurity security
+            )
             //,
             //IUserQuestionModelFactory userQuestionModelFactory,
             //IUserLocationModelFactory userLocationModelFactory,
@@ -35,12 +36,15 @@ namespace SingledOut.WebApi.ModelFactory
 
         public UserModel Create(User user, HttpRequestMessage request)
         {
-            _urlHelper = new UrlHelper(request);
+            if (request != null)
+            {
+                _urlHelper = new UrlHelper(request);
+            }
 
             return new UserModel
             {
                 ID = user.ID,
-                Url = _urlHelper.Link("Users", new { controller = "Users", id = user.ID }),
+                Url = _urlHelper != null ? _urlHelper.Link("Users", new { controller = "Users", id = user.ID }) : string.Empty,
                 FirstName = user.FirstName,
                 Surname = user.Surname,
                 FacebookAccessToken = user.FacebookAccessToken,

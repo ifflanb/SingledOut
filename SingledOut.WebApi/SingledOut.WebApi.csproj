@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnswersController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
@@ -197,6 +198,9 @@
       <Project>{fb3e1b55-32d1-4170-9993-7b8ada89ee28}</Project>
       <Name>SingledOut.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\SingledOut.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

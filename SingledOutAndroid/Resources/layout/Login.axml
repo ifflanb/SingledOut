@@ -3,6 +3,9 @@
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:id="@+id/signincontainerlayout"
     style="@style/parentlayout">
+    <TextView
+        android:id="@+id/notification"
+        style="@style/notification" />
     <RelativeLayout
         android:id="@+id/signincontainerinnerlayout"
         style="@style/childlayout">

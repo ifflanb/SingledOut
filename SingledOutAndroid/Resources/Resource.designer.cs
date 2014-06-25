@@ -764,23 +764,26 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060024
 			public const int apipath = 2131099684;
 			
-			// aapt resource value: 0x7f06002a
-			public const int apiurlanswers = 2131099690;
-			
 			// aapt resource value: 0x7f060026
-			public const int apiurllogin = 2131099686;
+			public const int apiurlaccount = 2131099686;
+			
+			// aapt resource value: 0x7f06002b
+			public const int apiurlanswers = 2131099691;
 			
 			// aapt resource value: 0x7f060027
-			public const int apiurllostpassword = 2131099687;
+			public const int apiurllogin = 2131099687;
 			
-			// aapt resource value: 0x7f060029
-			public const int apiurlquestions = 2131099689;
+			// aapt resource value: 0x7f060028
+			public const int apiurllostpassword = 2131099688;
+			
+			// aapt resource value: 0x7f06002a
+			public const int apiurlquestions = 2131099690;
 			
 			// aapt resource value: 0x7f060025
 			public const int apiurlusers = 2131099685;
 			
-			// aapt resource value: 0x7f060028
-			public const int apiurluserssearch = 2131099688;
+			// aapt resource value: 0x7f060029
+			public const int apiurluserssearch = 2131099689;
 			
 			// aapt resource value: 0x7f06001f
 			public const int app_id = 2131099679;
@@ -875,14 +878,14 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060022
 			public const int facebook_permissions = 2131099682;
 			
-			// aapt resource value: 0x7f06002c
-			public const int female = 2131099692;
+			// aapt resource value: 0x7f06002d
+			public const int female = 2131099693;
 			
 			// aapt resource value: 0x7f06001d
 			public const int hello_user = 2131099677;
 			
-			// aapt resource value: 0x7f06002b
-			public const int male = 2131099691;
+			// aapt resource value: 0x7f06002c
+			public const int male = 2131099692;
 			
 			// aapt resource value: 0x7f06001c
 			public const int ok = 2131099676;
@@ -893,8 +896,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f06001e
 			public const int success = 2131099678;
 			
-			// aapt resource value: 0x7f06002d
-			public const int terms = 2131099693;
+			// aapt resource value: 0x7f06002e
+			public const int terms = 2131099694;
 			
 			static String()
 			{

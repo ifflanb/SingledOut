@@ -66,7 +66,7 @@ namespace SingledOutAndroid
 					if(task.Result.StatusCode == HttpStatusCode.OK)
 					{										
 						SwipeLeftActivity = typeof(Login);
-						SwipeLeft("ForgottenPassword");
+						SwipeLeft("EmailRetrieved");
 					}
 					else
 					{
@@ -91,7 +91,7 @@ namespace SingledOutAndroid
 		/// <param name="email">Email.</param>
 		private HttpResponseMessage RetrieveLostPassword(string email)
 		{
-			var uri = string.Concat (Resources.GetString (Resource.String.apiurlusers),"/", Resources.GetString (Resource.String.apiurllostpassword));
+			var uri = string.Concat (Resources.GetString (Resource.String.apiurlaccount),"/", Resources.GetString (Resource.String.apiurllostpassword));
 			var response = RestHelper.RetrievePassword (uri, email);
 			return response;
 		}
