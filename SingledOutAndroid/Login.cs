@@ -121,7 +121,6 @@ namespace SingledOutAndroid
 					}
 					else if (task.Result.StatusCode == HttpStatusCode.Unauthorized)
 					{
-						// need to update on the main thread to change the border color
 						_validationHelper.SetValidationMessage (_lblValidation, "Email or password does not exist.");
 					}
 				}

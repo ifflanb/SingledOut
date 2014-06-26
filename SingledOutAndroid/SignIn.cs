@@ -147,17 +147,20 @@ namespace SingledOutAndroid
 			/// <param name="user">User.</param>
 			public async void OnUserInfoFetched (IGraphUser user)
 			{
+				// Start progress indicator.
+				var spinner = (ProgressBar)owner.FindViewById(Resource.Id.progressSpinner);
+				spinner.Visibility = ViewStates.Visible;
+
 				owner.user = user;
 
 				if (user != null) {
-					var accessToken = "";
-					var session = Session.ActiveSession;
-					if (session.IsOpened) {
-						accessToken = session.AccessToken;					
-
+					if (Session.ActiveSession.IsOpened) 
+					{
+						var accessToken = Session.ActiveSession.AccessToken;
 						var jsonFacebook = user.InnerJSONObject;
 
 						var task = owner.FactoryStartNew (() => SaveFacebookDetails (jsonFacebook, accessToken));
+
 						if (task != null) {
 							// await so that this task will run in the background.
 							await task;
@@ -165,8 +168,8 @@ namespace SingledOutAndroid
 
 							if (task.Result.StatusCode == HttpStatusCode.Created) {
 								// Get json from response message.
-								var result =  task.Result.Content.ReadAsStringAsync().Result;
-								var json = JsonObject.Parse(result).ToString().Replace("{{", "{").Replace("}}","}");
+								var result = task.Result.Content.ReadAsStringAsync ().Result;
+								var json = JsonObject.Parse (result).ToString ().Replace ("{{", "{").Replace ("}}", "}");
 
 								if (string.IsNullOrEmpty (owner.GetUserPreference ("FacebookAccessToken"))) {
 									owner.SetUserPreference ("FacebookAccessToken", accessToken);
@@ -177,10 +180,16 @@ namespace SingledOutAndroid
 								// Change to Tutorial page.
 								owner.SwipeLeftActivity = typeof(Tutorial1);
 								owner.SwipeLeft ("SignIn");
+							} else {
+								var validationHelper = new ValidationHelper (owner, owner.GetValidationWarningDrawable ());
+								var lblValidation = (TextView)owner.FindViewById (Resource.Id.lblValidation);
+								validationHelper.SetValidationMessage (lblValidation, "Sorry, an error occurred!");					
 							}
 						}
 					}
 				}
+				// Stop progress indicator.
+				spinner.Visibility = ViewStates.Gone;
 			}
 
 			/// <summary>

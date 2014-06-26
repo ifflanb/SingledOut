@@ -11,10 +11,14 @@
             android:id="@+id/signinTitle"
             android:drawableBottom="@drawable/line"
             style="@style/titletext" />
+        <EditText
+            android:id="@+id/lblValidation"
+            android:layout_below="@+id/signinTitle"
+            style="@style/edittextvalidation" />
         <TextView
             android:text="Please login to Singled Out"
             android:id="@+id/registerDescription"
-            android:layout_below="@+id/signinTitle"
+            android:layout_below="@+id/lblValidation"
             style="@style/descriptiontext" />
         <Button
             android:text="Login"
@@ -46,5 +50,8 @@
             facebook:login_text=""
             facebook:logout_text=""
             android:layout_below="@+id/orHere" />
+        <ProgressBar
+            android:id="@+id/progressSpinner"
+            style="@style/progressspinner" />
     </RelativeLayout>
 </RelativeLayout>
