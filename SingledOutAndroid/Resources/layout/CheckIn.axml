@@ -3,7 +3,7 @@
     android:id="@+id/checkincontainerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="#ffffff"
     android:orientation="vertical">
     <TextView
         android:id="@+id/notification"
@@ -15,6 +15,11 @@
         android:background="#ffffff"
         android:orientation="vertical"
         android:layout_alignParentBottom="true">
+        <fragment
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.MapFragment" />
         <Button
             android:text="Check In"
             android:id="@+id/btnCheckin"

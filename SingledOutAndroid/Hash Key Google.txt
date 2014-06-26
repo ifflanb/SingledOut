@@ -1,6 +1,6 @@
-C:\Windows\system32>"C:\Program Files\Java\jdk1.6.0_39\bin\keytool.exe" -exportc
-ert -alias androiddebugkey -keystore "C:\Users\Ben\AppData\Local\Xamarin\Mono fo
-r Android\debug.keystore" -list -v
+C:\Windows\system32>"C:\Program Files\Java\jdk1.6.0_39\bin\keytool.exe" -exportcert -alias androiddebugkey -keystore "C:\Users\Ben\AppData\Local\Xamarin\Mono for Android\debug.keystore" -list -v
+Enter keystore password:
+
 Enter keystore password:
 Alias name: androiddebugkey
 Creation date: 10/05/2014

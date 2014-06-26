@@ -10,7 +10,6 @@ using Android.Widget;
 using Xamarin.FacebookBinding;
 using System.Timers;
 using Android.Content.PM;
-using Android.Support.V4.App;
 using Android.Views.InputMethods;
 using Android.Graphics.Drawables;
 using Android.Content;
@@ -22,6 +21,7 @@ using Android.Views.Animations;
 using Android.Net;
 using System.Threading.Tasks;
 using System.Net.Http;
+using Android.Support.V4.App;
 
 namespace SingledOutAndroid
 {				

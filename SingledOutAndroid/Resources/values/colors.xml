@@ -12,7 +12,6 @@
     <color name="gray">#7A7878</color>
     <color name="buttonblue">#fff6f6f6</color>
     <color name="menuButtonColor">#ffea8e44</color>
-    <color name="transparent">#9000</color>
     <color name="red">#ff0000</color> 
     <color name="textView">#0645BF</color> 
 </resources>
