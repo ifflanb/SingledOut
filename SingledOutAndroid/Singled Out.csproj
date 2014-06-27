@@ -154,7 +154,6 @@
   </PropertyGroup>
   <ItemGroup>
     <XamarinComponentReference Include="googleplayserviceskitkat">
-      <InstallationInProgress>True</InstallationInProgress>
       <Version>16.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
