@@ -58,11 +58,12 @@
     <Reference Include="Xamarin.Facebook">
       <HintPath>..\..\GitHub\monodroid-samples\Facebook\Xamarin.Facebook\bin\Debug\Xamarin.Facebook.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Android.Support.v4" />
+    <Reference Include="Mono.Android.GoogleMaps" />
     <Reference Include="GooglePlayServicesLib">
       <HintPath>Components\googleplayserviceskitkat-16.0\lib\android\GooglePlayServicesLib.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Android.Support.v4" />
-    <Reference Include="Mono.Android.GoogleMaps" />
+    <Reference Include="System.Windows" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -80,6 +81,9 @@
     <Compile Include="TermsConditions.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="ForgottenPassword.cs" />
+    <Compile Include="MapHelper.cs" />
+    <Compile Include="Google\GooglePlacesModel.cs" />
+    <Compile Include="ListActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -135,10 +139,25 @@
     <AndroidResource Include="Resources\drawable\notificationbox.xml" />
     <AndroidResource Include="Resources\drawable\erroricon.png" />
     <AndroidResource Include="Resources\layout\ForgottenPassword.axml" />
+    <AndroidResource Include="Resources\menu\actionbarmenu.xml" />
+    <AndroidResource Include="Resources\drawable\settings.png" />
+    <AndroidResource Include="Resources\drawable\globe.png" />
+    <AndroidResource Include="Resources\drawable\refresh.png" />
+    <AndroidResource Include="Resources\drawable\share.png" />
+    <AndroidResource Include="Resources\drawable\about.png" />
+    <AndroidResource Include="Resources\drawable\help.png" />
+    <AndroidResource Include="Resources\drawable\calendar.png" />
+    <AndroidResource Include="Resources\drawable\listview.png" />
+    <AndroidResource Include="Resources\drawable\share2.png" />
+    <AndroidResource Include="Resources\drawable\places.png" />
+    <AndroidResource Include="Resources\layout\NearbyPlaces.axml" />
+    <AndroidResource Include="Resources\layout\TextViewItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Resources\raw\" />
+    <Folder Include="Resources\menu\" />
+    <Folder Include="Google\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Terms.html" />

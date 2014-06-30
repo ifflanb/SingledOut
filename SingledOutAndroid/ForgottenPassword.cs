@@ -1,9 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -23,6 +21,8 @@ namespace SingledOutAndroid
 		private EditText _txtEmail;
 		private ValidationHelper _validationHelper;
 		ProgressBar _spinner;
+		private UriCreator _uriCreator;
+		private RestHelper _restHelper;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -30,6 +30,8 @@ namespace SingledOutAndroid
 
 			SetContentView (Resource.Layout.ForgottenPassword);
 
+			_restHelper = new RestHelper ();
+			_uriCreator = new UriCreator(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 			_validationHelper = new ValidationHelper (this, GetValidationWarningDrawable());
 			_txtEmail = FindViewById<EditText>(Resource.Id.txtEmailAddress);
 			var btnForgottenPassword = FindViewById<Button> (Resource.Id.btnForgottenPassword);
@@ -91,8 +93,9 @@ namespace SingledOutAndroid
 		/// <param name="email">Email.</param>
 		private HttpResponseMessage RetrieveLostPassword(string email)
 		{
-			var uri = string.Concat (Resources.GetString (Resource.String.apiurlaccount),"/", Resources.GetString (Resource.String.apiurllostpassword));
-			var response = RestHelper.RetrievePassword (uri, email);
+			var retrievePasswordUri = string.Concat (Resources.GetString (Resource.String.apiurlaccount),"/", Resources.GetString (Resource.String.apiurllostpassword));
+			var uri = _uriCreator.RetrievePassword (retrievePasswordUri, email);
+			var response = _restHelper.RetrievePassword (uri);
 			return response;
 		}
 

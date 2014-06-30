@@ -38,6 +38,7 @@ namespace SingledOutAndroid
 		private TextView _lblTerms;
 		private SecurityHelper _securityHelper;
 		private ValidationHelper _validationHelper;
+		private RestHelper _restHelper;
 
 		public Registration ()
 		{
@@ -49,6 +50,8 @@ namespace SingledOutAndroid
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.Registration);
+
+			_restHelper = new RestHelper ();
 
 			SwipeRightActivity = typeof(SignIn);
 
@@ -238,7 +241,7 @@ namespace SingledOutAndroid
 		private HttpResponseMessage SaveSingledOutDetails(UserModel user)
 		{
 			var uri = string.Concat (Resources.GetString (Resource.String.apiurlusers));
-			return RestHelper.PostAsync(uri , user);
+			return _restHelper.PostAsync(uri , user);
 		}
 
 		protected void CheckboxCheckChangedRequired(object sender, CheckBox.CheckedChangeEventArgs e)

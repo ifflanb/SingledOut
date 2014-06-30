@@ -29,12 +29,14 @@ namespace SingledOutAndroid
 		private EditText _txtPassword;
 		private EditText _txtEmail;
 		private SecurityHelper _securityHelper;
+		private RestHelper _restHelper;
 		private TextView _lblForgottenPassword;
 		ProgressBar _spinner;
 
 		public Login ()
 		{
 			_securityHelper = new SecurityHelper ();
+			_restHelper = new RestHelper ();
 		}
 
 		protected override void OnCreate (Bundle bundle)
@@ -143,8 +145,11 @@ namespace SingledOutAndroid
 		/// <param name="password">Password.</param>
 		private HttpResponseMessage LoginToSingledOut(string username, string password)
 		{
-			var uri = string.Concat (Resources.GetString (Resource.String.apiurlaccount),"/", Resources.GetString (Resource.String.apiurllogin));
-			var response = RestHelper.Login (uri, username, password);
+			var uriCreator = new UriCreator (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
+			var loginUri = string.Concat (Resources.GetString (Resource.String.apiurlaccount),"/", Resources.GetString (Resource.String.apiurllogin));
+			var uri = uriCreator.Login (loginUri);
+
+			var response = _restHelper.Login (uri, username, password);
 			return response;
 		}
 

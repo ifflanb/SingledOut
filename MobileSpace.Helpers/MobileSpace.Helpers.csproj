@@ -55,12 +55,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoundHelper.cs" />
     <Compile Include="AnimationHelper.cs" />
-    <Compile Include="RESTHelper.cs" />
     <Compile Include="SecurityHelper.cs" />
-    <Compile Include="UriBuilder.cs" />
     <Compile Include="ValidationHelper.cs" />
     <Compile Include="UIHelper.cs" />
     <Compile Include="ConnectionDetector.cs" />
+    <Compile Include="UriCreator.cs" />
+    <Compile Include="RestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

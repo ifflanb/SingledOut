@@ -40,39 +40,59 @@ namespace MobileSpace.Helpers
 		}			
 
 		/// <summary>
+		/// Googles the place API nearby places.
+		/// </summary>
+		/// <returns>The place API nearby places.</returns>
+		/// <param name="googleApiKey">Google API key.</param>
+		/// <param name="latitude">Latitude.</param>
+		/// <param name="longitude">Longitude.</param>
+		/// <param name="radius">Radius.</param>
+		/// <param name="types">Types.</param>
+		public string GooglePlaceApiNearbyPlaces(string nearbyPlacesUri, string googleApiKey, double latitude, double longitude, int radius, string placeTypes)
+		{
+			var path = string.Concat(_rootPath, nearbyPlacesUri);
+			_uriBuilder = BuildRootPath(path);	
+			_uriBuilder.Scheme = "https"; 
+			var uri = _uriBuilder.Uri.AbsoluteUri;
+			uri += string.Concat("?location=", latitude, ",", longitude, "&radius=", radius, "&types=", placeTypes, "&key=", googleApiKey);
+
+			return uri;
+		}
+
+		/// <summary>
 		/// User the specified user.
 		/// </summary>
 		/// <param name="user">User.</param>
-		public Uri User(string user)
+		public string User(string userUri)
 		{
-			var path = string.Concat(_rootPath, user);
+			var path = string.Concat(_rootPath, userUri);
 			_uriBuilder = BuildRootPath(path);
 
-			return _uriBuilder.Uri;
+			return _uriBuilder.Uri.AbsoluteUri;
 		}
 
 		/// <summary>
 		/// Builds the login.
 		/// </summary>
 		/// <returns>The login.</returns>
-		public Uri Login(string loginPath)
+		public string Login(string loginUri)
 		{
-			var path = string.Concat(_rootPath, loginPath);
+			var path = string.Concat(_rootPath, loginUri);
 			_uriBuilder = BuildRootPath(path);
 
-			return _uriBuilder.Uri;
+			return _uriBuilder.Uri.AbsoluteUri;
 		}
 
 		/// <summary>
 		/// Builds the login.
 		/// </summary>
 		/// <returns>The login.</returns>
-		public Uri RetrievePassword(string retrievePasswordPath, string email)
+		public string RetrievePassword(string retrievePasswordUri, string email)
 		{
-			var path = string.Concat(_rootPath, retrievePasswordPath);
+			var path = string.Concat(_rootPath, retrievePasswordUri);
 			_uriBuilder = BuildRootPath(string.Concat(path,email));
 
-			return _uriBuilder.Uri;
+			return _uriBuilder.Uri.AbsoluteUri;
 		}
 
 		/// <summary>

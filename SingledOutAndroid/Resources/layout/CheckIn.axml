@@ -20,5 +20,8 @@
             style="@style/buttonlight"
             android:layout_marginBottom="20dp"
             android:layout_alignParentBottom="true" />
+        <ProgressBar
+            android:id="@+id/progressSpinner"
+            style="@style/progressspinner" />
     </RelativeLayout>
 </RelativeLayout>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/actionbarmenuMenu">
+	<item android:id="@+id/share"
+				android:icon="@drawable/share2"
+				android:showAsAction="always"
+				android:orderInCategory="100">
+	</item>
+	<item android:id="@+id/refresh"
+				android:showAsAction="always"
+				android:orderInCategory="200"
+				android:title="Refresh"
+				android:icon="@drawable/refresh">			
+	</item>
+	<item android:id="@+id/settings"
+				android:icon="@drawable/settings"
+				android:showAsAction="always"
+				android:orderInCategory="400">
+				<menu>
+					<item android:id="@+id/globe"
+								android:icon="@drawable/globe"
+								android:showAsAction="always"
+								android:orderInCategory="300"
+								android:title="Map"/>
+					<item android:id="@+id/listview"
+								android:icon="@drawable/listview"
+								android:showAsAction="always"
+								android:orderInCategory="300"
+								android:title="List view"/>
+					<item android:id="@+id/calendar"
+								android:icon="@drawable/calendar"
+								android:showAsAction="always"
+								android:orderInCategory="300"
+								android:title="My Schedule"/>
+					<item android:id="@+id/settings"
+								android:icon="@drawable/settings"
+								android:showAsAction="never"
+								android:orderInCategory="500"
+								android:title="Settings"/>
+					<item android:id="@+id/help"
+								android:icon="@drawable/help"
+								android:showAsAction="never"
+								android:orderInCategory="600"
+								android:title="Help"/>
+					<item android:id="@+id/about"
+								android:icon="@drawable/about"
+								android:showAsAction="never"
+								android:orderInCategory="600"
+								android:title="About"/>
+				</menu>
+		</item>
+</menu>

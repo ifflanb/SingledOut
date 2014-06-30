@@ -10,158 +10,161 @@ using Android.Views;
 using Android.Widget;
 using Android.Views.Animations;
 using System.Threading;
-using Android.Gms.Maps;
 using Android.Locations;
-using Android.Gms.Maps.Model;
+using MobileSpace.Helpers;
+using System.Net;
+using System.Json;
+using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace SingledOutAndroid
 {
-	[Activity (Label = "Check-In", Theme = "@android:style/Theme.NoTitleBar")]			
-	public class CheckIn : Activity, ILocationListener//BaseActivity
+	[Activity (Label = "Check-In")]//, Theme = "@android:style/Theme.NoTitleBar")]			
+	public class CheckIn : BaseActivity
 	{
-		Location _currentLocation;
-		LocationManager _locationManager;
-		String _locationProvider;
-		Button _btnCheckin;
-		GoogleMap _map;
-		MarkerOptions _currentUserMarker;
+		private Location _currentLocation;
+		private LocationManager _locationManager;
+		private Button _btnCheckin;
+		private MapHelper _mapHelper;
+		private RestHelper _restHelper;
+		private UriCreator _googleApiUriCreator;
+		private UIHelper _uiHelper;
+		ProgressBar _spinner;
 
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
+			// Instantiate the REST helper.
+			_restHelper = new RestHelper();
+			_uiHelper = new UIHelper ();
+
+			// Create uri creator for Google Api related stuff.
+			_googleApiUriCreator = new UriCreator (Resources.GetString(Resource.String.googleapihost), Resources.GetString(Resource.String.googleapipath));
+
+			// Set the action bar to show.
+			IsActionBarVisible = true;
+
 			SetContentView (Resource.Layout.CheckIn);
 
+			// Find checkin button.
 			_btnCheckin = (Button)FindViewById (Resource.Id.btnCheckin);
 			_btnCheckin.Click += btnCheckin_OnClick;
 
-			//SwipeRightActivity = typeof(Tutorial2);
+			// Set swipe activity.
+			SwipeRightActivity = typeof(Tutorial2);
 
 			// Show welcome back message.
-//			if (LastActivity == "Login" || LastActivity == "SplashPage") {
-//				ShowNotificationBox (string.Concat ("Welcome back ", CurrentUser.FirstName, "!"));
-//			}
-			MapFragment mapFrag = (MapFragment) FragmentManager.FindFragmentById(Resource.Id.map);
-			_map = mapFrag.Map;
-			if (_map != null) {
-				// The GoogleMap object is ready to go.
-				_map.UiSettings.ZoomControlsEnabled = true;
-				_map.UiSettings.CompassEnabled = true;
+			if (LastActivity == "Login" || LastActivity == "SplashPage") {
+				ShowNotificationBox (string.Concat ("Welcome back ", CurrentUser.FirstName, "!"));
 			}
-			InitializeLocationManager();
+
+			// Create map helper.
+			_mapHelper = new MapHelper (this);
+			// Set the location updated event.
+			_mapHelper.OnLocationUpdated += LocationUpdated;
+			// Show the map.
+			_mapHelper.ShowMap (Resource.Id.map, true, true);
 		}
 
-		async void btnCheckin_OnClick(object sender, EventArgs eventArgs)
-		{
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is marker set.
+		/// </summary>
+		/// <value><c>true</c> if this instance is marker set; otherwise, <c>false</c>.</value>
+		public bool IsMarkerSet { get; set;	}
 
+		/// <summary>
+		/// Locations the updated.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		protected async void LocationUpdated(object sender, LocationUpdatedEventArgs e)
+		{
+			_currentLocation = e.Location;
 			if (_currentLocation == null)
 			{
-				//_addressText.Text = "Can't determine the current address.";
-				return;
+				ShowNotificationBox ("Could not determine your location");
 			}
-
-			Geocoder geocoder = new Geocoder(this);
-			IList<Address> addressList = await geocoder.GetFromLocationAsync(_currentLocation.Latitude, _currentLocation.Longitude, 10);
-
-			Address address = addressList.FirstOrDefault();
-			if (address != null)
+			else
 			{
-				StringBuilder deviceAddress = new StringBuilder();
-				for (int i = 0; i < address.MaxAddressLineIndex; i++)
-				{
-					deviceAddress.Append(address.GetAddressLine(i))
-						.AppendLine(",");
+				// Start progress indicator.
+				_spinner = (ProgressBar)FindViewById(Resource.Id.progressSpinner);
+				_spinner.Visibility = ViewStates.Visible;
+
+				// Make request to Google Places API to find places near here.
+				var googleApiNearbyPlacesUri = Resources.GetString (Resource.String.googleapiurinearbyplaces);
+				var placeTypes = Resources.GetString (Resource.String.googleapiplacetypes);
+				
+				// Create the Google Places Nearby Uri.
+				var uri = _googleApiUriCreator.GooglePlaceApiNearbyPlaces (
+					           googleApiNearbyPlacesUri,
+					           GoogleApiKey,
+					           _currentLocation.Latitude,
+					           _currentLocation.Longitude,
+								5000,
+					           placeTypes);
+
+				// Create task to Save Singled Out Details.
+				var response = FactoryStartNew (() => _restHelper.GetAsync (uri.ToString()));
+				if (response != null) {
+					// await so that this task will run in the background.
+					await response;
+
+					if (response.Result.StatusCode == HttpStatusCode.OK) {
+						// Get json from response message.
+						var result = response.Result.Content.ReadAsStringAsync ().Result;
+						var json = JsonObject.Parse (result).ToString ();//.Replace ("{{", "{").Replace ("}}", "}");
+						// Deserialize the Json.
+						var returnPlacesModel = JsonConvert.DeserializeObject<GooglePlacesResponse> (json);
+
+						if (returnPlacesModel != null) {
+							var placesList = returnPlacesModel.results.Select(o => o.name).ToList();
+							var dialog = _uiHelper.BuildAlertDialog (Resource.Layout.NearbyPlaces, Resource.Layout.TextViewItem, this, "Places found near you", Resource.Drawable.places, Resource.Id.placeslist, placesList);
+							_uiHelper.OnListViewItemClick += ListViewItemClick;
+
+							dialog.SetButton ("OK", (s, evt) => {
+								PlacesDialog_OnOkClick (s, evt);
+							});
+							dialog.SetButton2 ("Cancel", (s, evt) => {
+								PlacesDialog_OnCancelClick (s, evt);
+							});
+								
+							dialog.Show ();
+						}
+
+					}
+					if (!IsMarkerSet) {
+						_mapHelper.SetMarker (_currentLocation.Latitude, _currentLocation.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
+					}
+				} else {
+					ShowNotificationBox ("An error occurred!");
 				}
-				//_addressText.Text = deviceAddress.ToString();
 			}
-			else
-			{
-				//_addressText.Text = "Unable to determine the address.";
-			}
+			// Stop progress indicator.
+			_spinner.Visibility = ViewStates.Gone;
 		}
 
-		public void OnLocationChanged(Location location)
+		protected void ListViewItemClick(object sender, AdapterView.ItemClickEventArgs e)
 		{
-			_currentLocation = location;
-			if (_currentLocation == null)
-			{
-				//_locationText.Text = "Unable to determine your location.";
-			}
-			else
-			{
-				if (_currentUserMarker == null) {
-					SetMarker (_currentLocation.Latitude, _currentLocation.Longitude);
-				}
-			}
+			var text = ((ListView)sender).Adapter.GetItem(e.Position).ToString();
+			Toast.MakeText(this, text, ToastLength.Long);
 		}
 
-		private void SetMarker(double latitude, double longitude)
+		protected void PlacesDialog_OnOkClick(object sender, EventArgs eventArgs)
 		{
-			_currentUserMarker = new MarkerOptions();
-			_currentUserMarker.SetPosition(new LatLng(latitude, longitude));
-			_currentUserMarker.SetTitle("You are here!");
-			_currentUserMarker.InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.logopindialog));
-			_map.AddMarker(_currentUserMarker);
 
-			LatLngBounds.Builder builder = new LatLngBounds.Builder();
-			builder.Include(_currentUserMarker.Position);
-			LatLngBounds bounds = builder.Build();
-
-			var cameraPositionBuilder = new CameraPosition.Builder();
-			cameraPositionBuilder.Zoom (16);
-			cameraPositionBuilder.Target(new LatLng (latitude, longitude));
-
-			int padding = 0; // offset from edges of the map in pixels
-			var cu = CameraUpdateFactory.NewLatLngBounds(bounds, padding);
-			var cu2 = CameraUpdateFactory.NewCameraPosition (cameraPositionBuilder.Build ());
-
-			_map.MoveCamera(cu);
-			_map.AnimateCamera(cu);
-
-			_map.MoveCamera(cu2);
-			_map.AnimateCamera(cu2);
-
-			//_map.AnimateCamera(CameraUpdateFactory.NewCameraPosition(cameraPositionBuilder.Build()));
 		}
 
-		protected override void OnResume()
+		protected void PlacesDialog_OnCancelClick(object sender, EventArgs eventArgs)
 		{
-			base.OnResume();
-			_locationManager.RequestLocationUpdates(_locationProvider, 5000, 10, this);
+
 		}
 
-		protected override void OnPause()
+		protected void btnCheckin_OnClick(object sender, EventArgs eventArgs)
 		{
-			base.OnPause();
-			_locationManager.RemoveUpdates(this);
+			// Start the location manager.
+			_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
 		}
-
-		public void OnProviderDisabled(string provider) {}
-
-		public void OnProviderEnabled(string provider) {}
-
-		public void OnStatusChanged(string provider, Availability status, Bundle extras) {}
-
-
-		void InitializeLocationManager()
-		{
-			_locationManager = (LocationManager)GetSystemService(LocationService);
-			Criteria criteriaForLocationService = new Criteria
-			{
-				Accuracy = Accuracy.Fine
-			};
-			IList<string> acceptableLocationProviders = _locationManager.GetProviders(criteriaForLocationService, true);
-
-			if (acceptableLocationProviders.Any())
-			{
-				_locationProvider = acceptableLocationProviders.First();
-			}
-			else
-			{
-				_locationProvider = String.Empty;
-			}
-		}
-
 	}
 }
 

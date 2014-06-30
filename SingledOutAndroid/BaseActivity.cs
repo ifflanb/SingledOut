@@ -22,18 +22,19 @@ using Android.Net;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Android.Support.V4.App;
+using Android.Graphics;
+using Android.Text;
 
 namespace SingledOutAndroid
 {				
-	public class BaseActivity : FragmentActivity , GestureDetector.IOnGestureListener
+	public class BaseActivity : Activity,  GestureDetector.IOnGestureListener
 	{				  
 		private const int SWIPE_MIN_DISTANCE = 120;
 		private const int SWIPE_MAX_OFF_PATH = 250;
 		private const int SWIPE_THRESHOLD_VELOCITY = 200;
 		private Timer _timer;
 		private GestureDetector _gestureDetector;
-		private UriCreator _uriCreator;
-		private RestHelper _restHelper;
+		protected string GoogleApiKey; 
 
 		/// <summary>
 		/// Raises the create event.
@@ -44,10 +45,73 @@ namespace SingledOutAndroid
 			base.OnCreate (bundle);			 
 			this.RequestedOrientation = ScreenOrientation.Portrait;
 
+			// Set Google Api Key value;
+			GoogleApiKey = Resources.GetString(Resource.String.googleapikey);
+
 			_gestureDetector = new GestureDetector(this);
-			_uriCreator = new UriCreator (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 		}
 
+		public override void OnCreateContextMenu (IContextMenu menu, View v, IContextMenuContextMenuInfo menuInfo)
+		{
+			base.OnCreateContextMenu (menu, v, menuInfo);
+
+			MenuInflater menuInflater = new MenuInflater (this);
+			menuInflater.Inflate (Resource.Menu.actionbarmenu, menu);
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is action bar visible.
+		/// </summary>
+		/// <value><c>true</c> if this instance is action bar visible; otherwise, <c>false</c>.</value>
+		private bool _isActionBarVisible;
+		public bool IsActionBarVisible {
+			get 
+			{ 
+				return _isActionBarVisible; 
+			}
+			set 
+			{
+				RequestWindowFeature (WindowFeatures.ActionBar);
+				_isActionBarVisible = value;
+			}
+		}
+
+		/// <summary>
+		/// Shows the action bar.
+		/// </summary>
+		public void ShowActionBar() { 
+			ActionBar.NavigationMode = ActionBarNavigationMode.Standard;
+			ActionBar.SetTitle(Resource.String.actionbartitlecheckin);
+			ActionBar.SetSubtitle(Resource.String.actionbarsubtitlecheckin);
+			ActionBar.SetDisplayShowTitleEnabled (true);
+			ActionBar.SetDisplayHomeAsUpEnabled(true);
+			var colorDrawable = new ColorDrawable(Color.ParseColor("#ffffff"));
+			ActionBar.SetBackgroundDrawable(colorDrawable); 
+			int actionBarTitleId = Resources.GetIdentifier("action_bar_title", "id", "android");
+			if (actionBarTitleId > 0) {
+				TextView title = (TextView) FindViewById(actionBarTitleId);
+				if (title != null) {
+					title.SetTextColor(Color.Gray);
+				}
+			}
+		}
+
+		/*
+		 * attach the menu to the menu button of the device
+		 * for this activity
+		 */
+		public override bool OnCreateOptionsMenu(IMenu menu)
+		{
+			base.OnCreateOptionsMenu (menu);
+
+			if (IsActionBarVisible) {
+				ShowActionBar ();
+
+				var inflater = this.MenuInflater;
+				inflater.Inflate (Resource.Menu.actionbarmenu, menu);
+			}
+			return true;
+		}
 
 		/// <summary>
 		/// Factories the start new.
@@ -75,19 +139,6 @@ namespace SingledOutAndroid
 			return httpResponseMessage;
 		}
 
-		/// <summary>
-		/// Gets the rest helper.
-		/// </summary>
-		/// <value>The rest helper.</value>
-		public RestHelper RestHelper 
-		{
-			get {					
-				if (_restHelper == null) {
-					_restHelper = new RestHelper (Resources.GetString (Resource.String.apihost), Resources.GetString (Resource.String.apipath));
-				} 
-				return _restHelper;					
-			}
-		}
 		/// <summary>
 		/// Determines whether this instance is network available.
 		/// </summary>
@@ -163,15 +214,6 @@ namespace SingledOutAndroid
 			}
 		}
 
-		/// <summary>
-		/// Gets the URI creator.
-		/// </summary>
-		/// <value>The URI creator.</value>
-		protected UriCreator UriCreator {
-			get {
-				return _uriCreator;
-			}
-		}
 		/// <summary>
 		/// Gets the validation warning drawable.
 		/// </summary>

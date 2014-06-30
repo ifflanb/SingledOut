@@ -74,7 +74,7 @@ namespace SingledOutAndroid
 
 			controlsContainer = (ViewGroup)FindViewById (Resource.Id.signincontainerinnerlayout);
 
-			Android.Support.V4.App.FragmentManager fm = SupportFragmentManager;
+			FragmentManager fm = FragmentManager;
 
 			fm.BackStackChanged += delegate {
 				if (fm.BackStackEntryCount == 0) {
@@ -209,9 +209,10 @@ namespace SingledOutAndroid
 					UpdateDate = DateTime.UtcNow
 				};					
 
-				var restHelper = new RestHelper (owner.Resources.GetString(Resource.String.apihost), owner.Resources.GetString(Resource.String.apipath));
-				//var url = string.Concat(owner.GetString(Resource.String.apihost), owner.GetString(Resource.String.apipath),owner.GetString(Resource.String.apiurlaccount));
-				var uri = string.Concat (owner.Resources.GetString (Resource.String.apiurlusers));
+				// Instantiate a Uri Creator.
+				var uriCreator = new UriCreator (owner.Resources.GetString(Resource.String.apihost), owner.Resources.GetString(Resource.String.apipath));
+				var uri = uriCreator.User (owner.Resources.GetString (Resource.String.apiurlusers));
+				var restHelper = new RestHelper ();
 				var response = restHelper.PostAsync(uri , userModel);
 				return response;
 			}
