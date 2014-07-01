@@ -2,9 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="CheckIn.cs">
     <Files>
-      <File FileName="CheckIn.cs" Line="150" Column="1" />
-      <File FileName="..\MobileSpace.Helpers\UIHelper.cs" Line="58" Column="37" />
-      <File FileName="ListActivity.cs" Line="32" Column="5" />
+      <File FileName="CheckIn.cs" Line="73" Column="1" />
+      <File FileName="..\MobileSpace.Helpers\UIHelper.cs" Line="68" Column="31" />
+      <File FileName="MapHelper.cs" Line="112" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

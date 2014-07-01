@@ -16,7 +16,7 @@
     <string name="googleapihost">maps.googleapis.com/</string>
     <string name="googleapipath">maps/api/</string>
     <string name="googleapiurinearbyplaces">place/nearbysearch/json</string>
-    <string name="googleapiplacetypes">bar|bowling_alley|cafe|casino|food|movie_theater|night_club|restaurant</string>
+    <string name="googleapiplacetypes">bar|cafe|casino|movie_theater|night_club|restaurant</string>
     <string name="apiurlusers">users</string>
     <string name="apiurlaccount">account</string>
     <string name="apiurllogin">login/</string>
@@ -29,4 +29,5 @@
     <string name="terms">I accept the <u>Terms and Conditions</u></string>  
     <string name="actionbartitlecheckin">Singled Out</string>
     <string name="actionbarsubtitlecheckin">Check In</string>
+    <string name="placesdialogtext">Select your location. Not in the list? <a href='#'>Add it</a>.</string>
 </resources>

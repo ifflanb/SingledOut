@@ -13,13 +13,15 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             class="com.google.android.gms.maps.MapFragment" />
-        <Button
-            android:text="Check In"
+        <ToggleButton
             android:id="@+id/btnCheckin"
-            android:layout_below="@+id/txtPassword"
-            style="@style/buttonlight"
-            android:layout_marginBottom="20dp"
-            android:layout_alignParentBottom="true" />
+            android:layout_width="220dp"
+            android:textSize="18dp"
+            android:layout_height="wrap_content"
+            android:textOn="Hide me"
+            android:textOff="Show me"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true" />
         <ProgressBar
             android:id="@+id/progressSpinner"
             style="@style/progressspinner" />

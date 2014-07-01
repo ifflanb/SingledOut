@@ -20,6 +20,10 @@ namespace SingledOutAndroid
 		public delegate void LocationUpdated(object sender, LocationUpdatedEventArgs e);
 		public event LocationUpdated OnLocationUpdated;
 
+		public Marker UserMarker {
+			get;
+			set;
+		}
 		protected override void OnResume()
 		{
 			base.OnResume();
@@ -34,6 +38,14 @@ namespace SingledOutAndroid
 		public MapHelper (Activity activity)
 		{
 			_activity = activity;
+		}
+
+		/// <summary>
+		/// Removes the marker.
+		/// </summary>
+		public void RemoveMarker()
+		{
+			UserMarker.Remove ();
 		}
 
 		/// <summary>
@@ -94,7 +106,11 @@ namespace SingledOutAndroid
 			if (markerIconID > 0) {
 				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource (markerIconID));
 			}
-			var marker = _map.AddMarker(markerOptions);
+
+			if (UserMarker != null) {
+				RemoveMarker();
+			} 
+			UserMarker = _map.AddMarker(markerOptions);
 
 			var builder = new LatLngBounds.Builder();
 			builder.Include(markerOptions.Position);

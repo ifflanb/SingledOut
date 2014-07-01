@@ -152,6 +152,9 @@
     <AndroidResource Include="Resources\drawable\places.png" />
     <AndroidResource Include="Resources\layout\NearbyPlaces.axml" />
     <AndroidResource Include="Resources\layout\TextViewItem.xml" />
+    <AndroidResource Include="Resources\drawable\listviewselector.xml" />
+    <AndroidResource Include="Resources\drawable\hide.png" />
+    <AndroidResource Include="Resources\drawable\show.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

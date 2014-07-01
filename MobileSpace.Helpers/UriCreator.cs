@@ -53,8 +53,8 @@ namespace MobileSpace.Helpers
 			var path = string.Concat(_rootPath, nearbyPlacesUri);
 			_uriBuilder = BuildRootPath(path);	
 			_uriBuilder.Scheme = "https"; 
-			var uri = _uriBuilder.Uri.AbsoluteUri;
-			uri += string.Concat("?location=", latitude, ",", longitude, "&radius=", radius, "&types=", placeTypes, "&key=", googleApiKey);
+			var uri = _uriBuilder.Uri.AbsoluteUri;//"&radius=", radius,
+			uri += string.Concat("?rankby=distance&location=", latitude, ",", longitude, "&types=", placeTypes, "&key=", googleApiKey);
 
 			return uri;
 		}

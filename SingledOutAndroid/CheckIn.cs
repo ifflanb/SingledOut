@@ -16,6 +16,7 @@ using System.Net;
 using System.Json;
 using Newtonsoft.Json;
 using System.Net.Http;
+using Android.Text.Method;
 
 namespace SingledOutAndroid
 {
@@ -24,11 +25,12 @@ namespace SingledOutAndroid
 	{
 		private Location _currentLocation;
 		private LocationManager _locationManager;
-		private Button _btnCheckin;
+		private ToggleButton _btnCheckin;
 		private MapHelper _mapHelper;
 		private RestHelper _restHelper;
 		private UriCreator _googleApiUriCreator;
 		private UIHelper _uiHelper;
+		private AlertDialog _alertDialog;
 		ProgressBar _spinner;
 
 		protected override void OnCreate (Bundle bundle)
@@ -48,8 +50,9 @@ namespace SingledOutAndroid
 			SetContentView (Resource.Layout.CheckIn);
 
 			// Find checkin button.
-			_btnCheckin = (Button)FindViewById (Resource.Id.btnCheckin);
+			_btnCheckin = (ToggleButton)FindViewById (Resource.Id.btnCheckin);
 			_btnCheckin.Click += btnCheckin_OnClick;
+			_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
 
 			// Set swipe activity.
 			SwipeRightActivity = typeof(Tutorial2);
@@ -68,12 +71,6 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this instance is marker set.
-		/// </summary>
-		/// <value><c>true</c> if this instance is marker set; otherwise, <c>false</c>.</value>
-		public bool IsMarkerSet { get; set;	}
-
-		/// <summary>
 		/// Locations the updated.
 		/// </summary>
 		/// <param name="sender">Sender.</param>
@@ -87,10 +84,6 @@ namespace SingledOutAndroid
 			}
 			else
 			{
-				// Start progress indicator.
-				_spinner = (ProgressBar)FindViewById(Resource.Id.progressSpinner);
-				_spinner.Visibility = ViewStates.Visible;
-
 				// Make request to Google Places API to find places near here.
 				var googleApiNearbyPlacesUri = Resources.GetString (Resource.String.googleapiurinearbyplaces);
 				var placeTypes = Resources.GetString (Resource.String.googleapiplacetypes);
@@ -113,28 +106,29 @@ namespace SingledOutAndroid
 					if (response.Result.StatusCode == HttpStatusCode.OK) {
 						// Get json from response message.
 						var result = response.Result.Content.ReadAsStringAsync ().Result;
-						var json = JsonObject.Parse (result).ToString ();//.Replace ("{{", "{").Replace ("}}", "}");
+						var json = JsonObject.Parse (result).ToString ();
 						// Deserialize the Json.
 						var returnPlacesModel = JsonConvert.DeserializeObject<GooglePlacesResponse> (json);
 
 						if (returnPlacesModel != null) {
 							var placesList = returnPlacesModel.results.Select(o => o.name).ToList();
-							var dialog = _uiHelper.BuildAlertDialog (Resource.Layout.NearbyPlaces, Resource.Layout.TextViewItem, this, "Places found near you", Resource.Drawable.places, Resource.Id.placeslist, placesList);
+							// Add dialog with places found list.
+							_alertDialog = _uiHelper.BuildAlertDialog (true, true, Resource.Layout.NearbyPlaces, Resource.Layout.TextViewItem, this, "Places found near you", Resource.Drawable.places, Resource.Id.placeslist, placesList);
 							_uiHelper.OnListViewItemClick += ListViewItemClick;
-
-							dialog.SetButton ("OK", (s, evt) => {
-								PlacesDialog_OnOkClick (s, evt);
-							});
-							dialog.SetButton2 ("Cancel", (s, evt) => {
+							// Add cancel button and event.
+							_alertDialog.SetButton ("Cancel", (s, evt) => {
 								PlacesDialog_OnCancelClick (s, evt);
 							});
-								
-							dialog.Show ();
+							//var nearbyPlacesLayout = (LinearLayout)_alertDialog.FindViewById (Resource.Id.placesDescription);
+							var dialogDescription = (TextView)_uiHelper.DialogView.FindViewById (Resource.Id.placesDescription);
+							//dialogDescription.MovementMethod = LinkMovementMethod.Instance;
+							dialogDescription.Click += AddPlaces_Click;
+							//Enabled toggle button again.
+							_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
+							_btnCheckin.Enabled = true;
+							//Show diaog.
+							_alertDialog.Show ();
 						}
-
-					}
-					if (!IsMarkerSet) {
-						_mapHelper.SetMarker (_currentLocation.Latitude, _currentLocation.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
 					}
 				} else {
 					ShowNotificationBox ("An error occurred!");
@@ -144,26 +138,49 @@ namespace SingledOutAndroid
 			_spinner.Visibility = ViewStates.Gone;
 		}
 
+		protected void AddPlaces_Click(object sender, EventArgs e)
+		{
+			_alertDialog.Dismiss();
+
+		}
+
+		/// <summary>
+		/// List view item click.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void ListViewItemClick(object sender, AdapterView.ItemClickEventArgs e)
 		{
-			var text = ((ListView)sender).Adapter.GetItem(e.Position).ToString();
-			Toast.MakeText(this, text, ToastLength.Long);
+			_alertDialog.Dismiss ();
+
+			//var text = ((ListView)sender).Adapter.GetItem(e.Position).ToString();
+			_mapHelper.SetMarker (_currentLocation.Latitude, _currentLocation.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
 		}
 
-		protected void PlacesDialog_OnOkClick(object sender, EventArgs eventArgs)
-		{
-
-		}
-
+		/// <summary>
+		/// Placeses the dialog_ on cancel click.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="eventArgs">Event arguments.</param>
 		protected void PlacesDialog_OnCancelClick(object sender, EventArgs eventArgs)
 		{
-
+			_alertDialog.Dismiss ();
 		}
 
 		protected void btnCheckin_OnClick(object sender, EventArgs eventArgs)
 		{
-			// Start the location manager.
-			_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
+			if (_btnCheckin.Checked) {
+				// Start progress indicator.
+				_spinner = (ProgressBar)FindViewById (Resource.Id.progressSpinner);
+				_spinner.Visibility = ViewStates.Visible;
+
+				_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds (Resource.Drawable.show, 0, 0, 0);
+				_btnCheckin.Enabled = false;
+				// Start the location manager.
+				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
+			} else {
+				_mapHelper.RemoveMarker ();
+			}
 		}
 	}
 }
