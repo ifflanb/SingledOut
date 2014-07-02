@@ -45,16 +45,12 @@ namespace MobileSpace.Helpers
 		/// <param name="iconResourceID">Icon resource I.</param>
 		/// <param name="okButton">If set to <c>true</c> ok button.</param>
 		/// <param name="cancelButton">If set to <c>true</c> cancel button.</param>
-		public AlertDialog BuildAlertDialog(bool useFastSearchForListView, bool cancelableOnTouchOutside, int layoutID, int textItemID, Activity activity, string title, int iconResourceID,int listViewID, IList<string> listItems)
+		public AlertDialog BuildAlertDialog(CustomListAdapter adapter, bool useFastSearchForListView, bool cancelableOnTouchOutside, int layoutID, int textItemID, Activity activity, string title, int iconResourceID,int listViewID)
 		{
 			AlertDialog.Builder builder = new AlertDialog.Builder (activity);
 
 			DialogView = activity.LayoutInflater.Inflate (layoutID, null);
 			builder.SetView(DialogView);
-			ArrayAdapter adapter = null;
-			if (listItems != null) {
-				adapter = new ArrayAdapter<String>(activity, textItemID, listItems);
-			};
 		
 			AlertDialog dialog = builder.Create ();
 			dialog.SetTitle (title);

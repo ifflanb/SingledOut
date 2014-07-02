@@ -85,9 +85,11 @@ namespace SingledOut.Repository
             {
                 existingUser = GetAllUsers().Any(o => o.Email == user.Email);
             }
+            User facebookUser = null;
             if (!string.IsNullOrEmpty(user.FacebookUserName))
             {
-                facebookExistingUser = GetAllUsers().Any(o => o.FacebookUserName == user.FacebookUserName);
+                facebookUser = GetAllUsers().SingleOrDefault(o => o.FacebookUserName == user.FacebookUserName);
+                facebookExistingUser = facebookUser != null;
             }
 
             if (!existingUser && !facebookExistingUser)
@@ -103,7 +105,7 @@ namespace SingledOut.Repository
                 }
                 else
                 {
-                    result = 1;
+                    result = facebookUser.ID;
                 }
             }
             

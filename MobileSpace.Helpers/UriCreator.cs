@@ -72,6 +72,19 @@ namespace MobileSpace.Helpers
 		}
 
 		/// <summary>
+		/// Users locations.
+		/// </summary>
+		/// <returns>The locations.</returns>
+		/// <param name="userLocationsUri">User locations URI.</param>
+		public string UserLocations(string userLocationsUri)
+		{
+			var path = string.Concat(_rootPath, userLocationsUri);
+			_uriBuilder = BuildRootPath(path);
+
+			return _uriBuilder.Uri.AbsoluteUri;
+		}
+
+		/// <summary>
 		/// Builds the login.
 		/// </summary>
 		/// <returns>The login.</returns>

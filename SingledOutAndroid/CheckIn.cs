@@ -17,6 +17,7 @@ using System.Json;
 using Newtonsoft.Json;
 using System.Net.Http;
 using Android.Text.Method;
+using SingledOut.Model;
 
 namespace SingledOutAndroid
 {
@@ -32,6 +33,9 @@ namespace SingledOutAndroid
 		private UIHelper _uiHelper;
 		private AlertDialog _alertDialog;
 		ProgressBar _spinner;
+		private GooglePlacesResponse _placesFound;
+		private CustomListAdapter _adapter;
+		private UriCreator _uriCreator;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -40,6 +44,7 @@ namespace SingledOutAndroid
 			// Instantiate the REST helper.
 			_restHelper = new RestHelper();
 			_uiHelper = new UIHelper ();
+			_uriCreator = new UriCreator(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 
 			// Create uri creator for Google Api related stuff.
 			_googleApiUriCreator = new UriCreator (Resources.GetString(Resource.String.googleapihost), Resources.GetString(Resource.String.googleapipath));
@@ -108,12 +113,29 @@ namespace SingledOutAndroid
 						var result = response.Result.Content.ReadAsStringAsync ().Result;
 						var json = JsonObject.Parse (result).ToString ();
 						// Deserialize the Json.
-						var returnPlacesModel = JsonConvert.DeserializeObject<GooglePlacesResponse> (json);
+						_placesFound = JsonConvert.DeserializeObject<GooglePlacesResponse> (json);
 
-						if (returnPlacesModel != null) {
-							var placesList = returnPlacesModel.results.Select(o => o.name).ToList();
+						if (_placesFound != null) {
+							// Get a list of GooglePlace objects
+							var googlePlaces = _placesFound.results.Select (o => 
+								new GooglePlace {
+									Name = o.name.Length > 35 ? o.name.Substring(0,35) : o.name,
+									Latitude = double.Parse(o.geometry.location.lat),
+									Longitude = double.Parse(o.geometry.location.lng),
+									Image = Resource.Drawable.places
+								}).ToList();
+
+							//Create our adapter and populate with list of Google place objects.
+							_adapter = new CustomListAdapter(this){
+								CustomListItemID = Resource.Layout.customlistitem,
+								CustomListItemImageID = Resource.Id.imageitem,
+								CustomListItemLatitudeID = Resource.Id.latitude,
+								CustomListItemLongitudeID = Resource.Id.longitude,
+								CustomListItemNameID = Resource.Id.itemname,
+								items = googlePlaces};
+
 							// Add dialog with places found list.
-							_alertDialog = _uiHelper.BuildAlertDialog (true, true, Resource.Layout.NearbyPlaces, Resource.Layout.TextViewItem, this, "Places found near you", Resource.Drawable.places, Resource.Id.placeslist, placesList);
+							_alertDialog = _uiHelper.BuildAlertDialog (_adapter, true, true, Resource.Layout.NearbyPlaces, Resource.Layout.TextViewItem, this, "Places found near you", Resource.Drawable.places, Resource.Id.placeslist);
 							_uiHelper.OnListViewItemClick += ListViewItemClick;
 							// Add cancel button and event.
 							_alertDialog.SetButton ("Cancel", (s, evt) => {
@@ -138,6 +160,11 @@ namespace SingledOutAndroid
 			_spinner.Visibility = ViewStates.Gone;
 		}
 
+		/// <summary>
+		/// Adds the places.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void AddPlaces_Click(object sender, EventArgs e)
 		{
 			_alertDialog.Dismiss();
@@ -152,9 +179,42 @@ namespace SingledOutAndroid
 		protected void ListViewItemClick(object sender, AdapterView.ItemClickEventArgs e)
 		{
 			_alertDialog.Dismiss ();
+			// Get the Google Place object for the item selected
+			var googlePlace = _adapter.GetItemAtPosition (e.Position);
+			// Add a marker for the users position.
+			_mapHelper.SetMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
 
-			//var text = ((ListView)sender).Adapter.GetItem(e.Position).ToString();
-			_mapHelper.SetMarker (_currentLocation.Latitude, _currentLocation.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
+			SaveUserLocation (googlePlace);
+		}
+
+		/// <summary>
+		/// Saves the user location to the database.
+		/// </summary>
+		/// <param name="googlePlace">Google place.</param>
+		private void SaveUserLocation(GooglePlace googlePlace)
+		{
+			// Save the users location to the database.
+			var uri = _uriCreator.UserLocations (Resources.GetString (Resource.String.apiurluserlocations));
+			var userLocationModel = CreateUserLocation (googlePlace);
+			_restHelper.PostAsync (uri, userLocationModel);
+
+		}
+
+		/// <summary>
+		/// Creates a user location model.
+		/// </summary>
+		/// <returns>The user location.</returns>
+		/// <param name="googlePlace">Google place.</param>
+		private UserLocationModel CreateUserLocation(GooglePlace googlePlace)
+		{
+			var model = new UserLocationModel {
+				CreatedDate = DateTime.UtcNow,
+				UpdateDate = DateTime.UtcNow,
+				Latitude = googlePlace.Latitude,
+				Longitude = googlePlace.Longitude,
+				UserID = int.Parse(GetUserPreference("UserID"))
+			};
+			return model;
 		}
 
 		/// <summary>

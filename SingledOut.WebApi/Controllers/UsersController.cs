@@ -63,6 +63,7 @@ namespace SingledOut.WebApi.Controllers
                 var result = _userRepository.Insert(entity);
                 if (result > 0)
                 {
+                    entity.ID = result;
                     return Request.CreateResponse(HttpStatusCode.Created, _userModelFactory.Create(entity, Request));
                 }
                 if (result == -1) // account already exists.

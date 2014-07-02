@@ -61,10 +61,15 @@
     <Compile Include="ConnectionDetector.cs" />
     <Compile Include="UriCreator.cs" />
     <Compile Include="RestHelper.cs" />
+    <Compile Include="Classes\CustomListAdapter.cs" />
+    <Compile Include="Classes\GooglePlace.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Classes\" />
+  </ItemGroup>
 </Project>

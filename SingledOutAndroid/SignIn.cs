@@ -170,11 +170,14 @@ namespace SingledOutAndroid
 								// Get json from response message.
 								var result = task.Result.Content.ReadAsStringAsync ().Result;
 								var json = JsonObject.Parse (result).ToString ().Replace ("{{", "{").Replace ("}}", "}");
+								// Deserialize the Json.
+								var returnUserModel = JsonConvert.DeserializeObject<UserModel>(json);
 
 								if (string.IsNullOrEmpty (owner.GetUserPreference ("FacebookAccessToken"))) {
 									owner.SetUserPreference ("FacebookAccessToken", accessToken);
 									owner.SetUserPreference ("FacebookUsername", jsonFacebook.GetString ("id"));
 									owner.SetUserPreference ("SingledOutUser", json);
+									owner.SetUserPreference ("UserID", returnUserModel.ID.ToString());
 								} 
 
 								// Change to Tutorial page.

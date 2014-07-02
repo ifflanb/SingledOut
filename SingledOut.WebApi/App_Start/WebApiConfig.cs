@@ -15,10 +15,10 @@ namespace SingledOut.WebApi
             );
 
             config.Routes.MapHttpRoute(
-                   name: "AccountLogin",
-                   routeTemplate: "api/account/Login",
-                   defaults: new { controller = "account", action = "Login" }
-                );
+                name: "AccountLogin",
+                routeTemplate: "api/account/Login",
+                defaults: new { controller = "account", action = "Login" }
+            );
 
             config.Routes.MapHttpRoute(
                name: "UsersSearch",
@@ -27,10 +27,15 @@ namespace SingledOut.WebApi
            );
 
             config.Routes.MapHttpRoute(
-               name: "Users",
-               routeTemplate: "api/users/{id}",
-               defaults: new { controller = "users", id = RouteParameter.Optional }
-           );
+                name: "Users",
+                routeTemplate: "api/users/{id}",
+                defaults: new {controller = "users", id = RouteParameter.Optional}
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "UserLocations",
+                routeTemplate: "api/userlocations/{userLocationModel}",
+                defaults: new { controller = "UserLocations", userLocationModel = RouteParameter.Optional });
 
             
            // var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();

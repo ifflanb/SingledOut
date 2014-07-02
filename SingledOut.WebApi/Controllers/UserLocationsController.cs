@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using SingledOut.Data.Entities;
 using SingledOut.Model;
 using SingledOut.Repository;
@@ -24,15 +27,17 @@ namespace SingledOut.WebApi.Controllers
             _userLocationModelFactory = userLocationModelFactory;
         }
 
+        [HttpGet]
         public IEnumerable<UserLocationModel> Get()
         {
             var query = _userLocationsRepository.GetAllUserLocations();
 
-            var results = query.ToList().Select(s => _userLocationModelFactory.Create(s));
+            var results = query.ToList().Select(s => _userLocationModelFactory.Create(s, Request));
 
             return results;
         }
 
+        [HttpGet]
         public HttpResponseMessage GetUserLocationByID(int id)
         {
             try
@@ -40,7 +45,7 @@ namespace SingledOut.WebApi.Controllers
                 var userLocation = _userLocationsRepository.GetUserLocation(id);
                 if (userLocation != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, _userLocationModelFactory.Create(userLocation));
+                    return Request.CreateResponse(HttpStatusCode.OK, _userLocationModelFactory.Create(userLocation, Request));
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
@@ -50,12 +55,31 @@ namespace SingledOut.WebApi.Controllers
             }
         }
 
-        public int AddUserQuestion(UserLocation user)
+        [HttpPost]
+        public HttpResponseMessage Post([FromBody] UserLocationModel userLocationModel)
         {
-            return _userLocationsRepository.Insert(user);
+            try
+            {
+                var entity = _userLocationModelFactory.Parse(userLocationModel);
+
+                if (entity == null) Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read user location from body");
+
+                var result = _userLocationsRepository.Insert(entity);
+                if (result > 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.Created, _userLocationModelFactory.Create(entity, Request));
+                }
+                
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not save user location to the database.");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
         }
 
-        public int UpdateUserQuestion(UserLocation originalUserLocation, UserLocation updatedUserLocation)
+        [HttpPut]
+        public int UpdateUserLocation(UserLocation originalUserLocation, UserLocation updatedUserLocation)
         {
             return _userLocationsRepository.Update(originalUserLocation, updatedUserLocation);
         }
