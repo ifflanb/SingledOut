@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:state_window_focused="false"
+          android:drawable="@drawable/radioon" />
+    <item android:state_checked="false" android:state_window_focused="false"
+          android:drawable="@drawable/radiooff" />
+
+    <item android:state_checked="true" android:state_pressed="true"
+          android:drawable="@drawable/radioonpressed" />
+    <item android:state_checked="false" android:state_pressed="true"
+          android:drawable="@drawable/radiooffpressed" />
+
+    <item android:state_checked="true" android:state_focused="true"
+          android:drawable="@drawable/radioonfocused" />
+    <item android:state_checked="false" android:state_focused="true"
+          android:drawable="@drawable/radioofffocused" />
+
+    <item android:state_checked="false" android:drawable="@drawable/radiooff" />
+    <item android:state_checked="true" android:drawable="@drawable/radioon" />
+</selector>
+

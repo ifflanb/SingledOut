@@ -7,7 +7,6 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AssemblyName>SingledOutAndroid</AssemblyName>
-    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <RootNamespace>SingledOutAndroid</RootNamespace>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
@@ -16,6 +15,7 @@
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -74,6 +74,9 @@
       <HintPath>Components\googleplayserviceskitkat-16.0\lib\android\GooglePlayServicesLib.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
+    <Reference Include="Xamarin.Controls.RangeSlider.Android">
+      <HintPath>ThirdParty\Xamarin.Controls.RangeSlider.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -160,6 +163,15 @@
     <AndroidResource Include="Resources\drawable\hide.png" />
     <AndroidResource Include="Resources\drawable\show.png" />
     <AndroidResource Include="Resources\layout\customlistitem.xml" />
+    <AndroidResource Include="Resources\drawable\radiooff.png" />
+    <AndroidResource Include="Resources\drawable\radiooffdisabledfocused.png" />
+    <AndroidResource Include="Resources\drawable\radioofffocused.png" />
+    <AndroidResource Include="Resources\drawable\radiooffpressed.png" />
+    <AndroidResource Include="Resources\drawable\radioon.png" />
+    <AndroidResource Include="Resources\drawable\radioondisabledfocused.png" />
+    <AndroidResource Include="Resources\drawable\radioonfocused.png" />
+    <AndroidResource Include="Resources\drawable\radioonpressed.png" />
+    <AndroidResource Include="Resources\drawable\custom_btn_radio.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

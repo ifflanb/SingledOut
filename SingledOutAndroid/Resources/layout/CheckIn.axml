@@ -11,17 +11,60 @@
         <fragment
             android:id="@+id/map"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
             class="com.google.android.gms.maps.MapFragment" />
-        <ToggleButton
-            android:id="@+id/btnCheckin"
-            android:layout_width="220dp"
-            android:textSize="18dp"
+        <TextView
+            android:text="Preferences"
+            android:id="@+id/whotosee"
+            android:layout_width="wrap_content"
+            style="@style/titletext"
+            android:layout_below="@+id/map"
+            android:layout_alignParentLeft="true" />
+        <RadioGroup
+            android:layout_below="@id/whotosee"
+            android:id="@+id/rgGender"
+            style="@style/radiogroup"
+            android:orientation="vertical">
+            <RadioButton
+                style="@style/radiobutton"
+                android:text="Men"
+                android:id="@+id/rbMen" />
+            <RadioButton
+                style="@style/radiobutton"
+                android:text="Women"
+                android:id="@+id/rbWomen" />
+            <RadioButton
+                style="@style/radiobutton"
+                android:text="Both"
+                android:id="@+id/rbBoth" />
+        </RadioGroup>
+        <TextView
+            android:text="Age from {0} to {1}"
+            android:id="@+id/agetosee"
+            style="@style/descriptiontext"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/rgGender"
+            android:layout_alignParentLeft="true" />
+        <rangeslider.RangeSliderView
+            android:id="@+id/ageslider"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textOn="Hide me"
-            android:textOff="Show me"
+            min_value="15"
+            max_value="100"
+            left_value="20"
+            right_value="80"
+            android:layout_below="@+id/agetosee"
+            android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/btnCheckin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/show"
+            android:gravity="center"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true" />
+            android:text="Make Me Visible"
+            android:layout_centerHorizontal="true"
+            style="@style/buttonlight" />
         <ProgressBar
             android:id="@+id/progressSpinner"
             style="@style/progressspinner" />

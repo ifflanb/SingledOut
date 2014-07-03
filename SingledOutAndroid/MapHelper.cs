@@ -24,6 +24,17 @@ namespace SingledOutAndroid
 			get;
 			set;
 		}
+
+		/// <summary>
+		/// Gets a value indicating whether the user location is set.
+		/// </summary>
+		/// <value><c>true</c> if this instance is user location set; otherwise, <c>false</c>.</value>
+		public bool IsUserLocationSet { 
+			get {
+				return UserMarker != null;
+			}
+		}
+
 		protected override void OnResume()
 		{
 			base.OnResume();
@@ -45,7 +56,10 @@ namespace SingledOutAndroid
 		/// </summary>
 		public void RemoveMarker()
 		{
-			UserMarker.Remove ();
+			if (UserMarker != null) {
+				UserMarker.Remove ();
+				UserMarker = null;
+			}
 		}
 
 		/// <summary>

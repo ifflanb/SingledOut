@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using Android.Text.Method;
 using SingledOut.Model;
+using RangeSlider;
 
 namespace SingledOutAndroid
 {
@@ -26,7 +27,7 @@ namespace SingledOutAndroid
 	{
 		private Location _currentLocation;
 		private LocationManager _locationManager;
-		private ToggleButton _btnCheckin;
+		private Button _btnCheckin;
 		private MapHelper _mapHelper;
 		private RestHelper _restHelper;
 		private UriCreator _googleApiUriCreator;
@@ -36,6 +37,7 @@ namespace SingledOutAndroid
 		private GooglePlacesResponse _placesFound;
 		private CustomListAdapter _adapter;
 		private UriCreator _uriCreator;
+		private RangeSliderView _ageSlider ;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -55,9 +57,8 @@ namespace SingledOutAndroid
 			SetContentView (Resource.Layout.CheckIn);
 
 			// Find checkin button.
-			_btnCheckin = (ToggleButton)FindViewById (Resource.Id.btnCheckin);
+			_btnCheckin = (Button)FindViewById (Resource.Id.btnCheckin);
 			_btnCheckin.Click += btnCheckin_OnClick;
-			_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
 
 			// Set swipe activity.
 			SwipeRightActivity = typeof(Tutorial2);
@@ -73,6 +74,25 @@ namespace SingledOutAndroid
 			_mapHelper.OnLocationUpdated += LocationUpdated;
 			// Show the map.
 			_mapHelper.ShowMap (Resource.Id.map, true, true);
+
+			_ageSlider = (RangeSliderView)FindViewById (Resource.Id.ageslider);
+			_ageSlider.LeftValueChanged += value => {
+				SetAgeRangeText();
+			};
+
+			_ageSlider.RightValueChanged += value => {
+				SetAgeRangeText();
+			};
+			SetAgeRangeText();
+		}
+
+		/// <summary>
+		/// Sets the age range text.
+		/// </summary>
+		private void SetAgeRangeText()
+		{
+			var agetosee = (TextView)FindViewById (Resource.Id.agetosee);
+			agetosee.Text = String.Format ("Age from {0} to {1}", (int)_ageSlider.LeftValue, (int)_ageSlider.RightValue);
 		}
 
 		/// <summary>
@@ -145,8 +165,7 @@ namespace SingledOutAndroid
 							var dialogDescription = (TextView)_uiHelper.DialogView.FindViewById (Resource.Id.placesDescription);
 							//dialogDescription.MovementMethod = LinkMovementMethod.Instance;
 							dialogDescription.Click += AddPlaces_Click;
-							//Enabled toggle button again.
-							_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
+							//Enabled button again.
 							_btnCheckin.Enabled = true;
 							//Show diaog.
 							_alertDialog.Show ();
@@ -183,8 +202,10 @@ namespace SingledOutAndroid
 			var googlePlace = _adapter.GetItemAtPosition (e.Position);
 			// Add a marker for the users position.
 			_mapHelper.SetMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
-
-			SaveUserLocation (googlePlace);
+			// Set checkin button to 'Hide me'
+			_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.show,0, 0, 0);
+			_btnCheckin.Text = "Hide Me";
+			//SaveUserLocation (googlePlace);
 		}
 
 		/// <summary>
@@ -225,21 +246,23 @@ namespace SingledOutAndroid
 		protected void PlacesDialog_OnCancelClick(object sender, EventArgs eventArgs)
 		{
 			_alertDialog.Dismiss ();
+			_btnCheckin.Enabled = true;
 		}
 
 		protected void btnCheckin_OnClick(object sender, EventArgs eventArgs)
 		{
-			if (_btnCheckin.Checked) {
+			if (!_mapHelper.IsUserLocationSet) {
 				// Start progress indicator.
 				_spinner = (ProgressBar)FindViewById (Resource.Id.progressSpinner);
 				_spinner.Visibility = ViewStates.Visible;
 
-				_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds (Resource.Drawable.show, 0, 0, 0);
 				_btnCheckin.Enabled = false;
 				// Start the location manager.
 				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
 			} else {
 				_mapHelper.RemoveMarker ();
+				_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
+				_btnCheckin.Text = "Make Me Visible";
 			}
 		}
 	}

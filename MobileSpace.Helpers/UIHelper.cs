@@ -55,17 +55,19 @@ namespace MobileSpace.Helpers
 			AlertDialog dialog = builder.Create ();
 			dialog.SetTitle (title);
 			dialog.SetIcon (iconResourceID);
-			dialog.SetCanceledOnTouchOutside (cancelableOnTouchOutside);
+			dialog.SetCanceledOnTouchOutside (false);
 
 			var listView = DialogView.FindViewById<ListView> (listViewID);
 			if (listView != null) {
 				listView.Adapter = adapter;
 				listView.FastScrollEnabled = useFastSearchForListView;
+				listView.FastScrollAlwaysVisible = true;
 				listView.DividerHeight = 4;
 				listView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => 
 				{
 					OnListViewItemClick(sender, e);
 				};
+
 			}
 
 			return dialog;
