@@ -63,11 +63,25 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Stops the location listener.
+		/// </summary>
+		public void StopLocationListener()
+		{
+			_map.SetOnMyLocationChangeListener (null);
+		}
+
+		/// <summary>
 		/// Shows the map.
 		/// </summary>
-		public void ShowMap(int mapFragmentID, bool zoomControls, bool compass)
+		public void ShowMap(MapFragment mapFrag, bool zoomControls, bool compass)
 		{
-			var mapFrag = (MapFragment)_activity.FragmentManager.FindFragmentById(mapFragmentID);
+//			MapFragment mapFrag = null;
+//			if (fragment != null) {
+//				mapFrag = (MapFragment)fragment.ChildFragmentManager.FindFragmentById(mapFragmentID);
+//			} else {
+//				mapFrag = (MapFragment)_activity.FragmentManager.FindFragmentById(mapFragmentID);
+//			}
+
 			_map = mapFrag.Map;
 			if (_map != null) {
 				// The GoogleMap object is ready to go.

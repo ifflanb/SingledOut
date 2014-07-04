@@ -7,6 +7,7 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AssemblyName>SingledOutAndroid</AssemblyName>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
     <RootNamespace>SingledOutAndroid</RootNamespace>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
@@ -14,7 +15,6 @@
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -97,6 +97,8 @@
     <Compile Include="MapHelper.cs" />
     <Compile Include="Google\GooglePlacesModel.cs" />
     <Compile Include="ListActivity.cs" />
+    <Compile Include="CheckinMapView.cs" />
+    <Compile Include="CheckinListView.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -172,6 +174,8 @@
     <AndroidResource Include="Resources\drawable\radioonfocused.png" />
     <AndroidResource Include="Resources\drawable\radioonpressed.png" />
     <AndroidResource Include="Resources\drawable\custom_btn_radio.xml" />
+    <AndroidResource Include="Resources\layout\CheckinMapView.axml" />
+    <AndroidResource Include="Resources\layout\CheckinListView.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

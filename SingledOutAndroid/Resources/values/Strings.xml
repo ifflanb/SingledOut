@@ -31,4 +31,6 @@
     <string name="actionbartitlecheckin">Singled Out</string>
     <string name="actionbarsubtitlecheckin">Check In</string>
     <string name="placesdialogtext">Select your location. Not in the list? <a href='#'>Add it</a>.</string>
+    <string name="maptabname">Map</string>
+    <string name="listtabname">List</string>
 </resources>

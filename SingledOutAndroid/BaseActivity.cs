@@ -34,7 +34,7 @@ namespace SingledOutAndroid
 		private const int SWIPE_THRESHOLD_VELOCITY = 200;
 		private Timer _timer;
 		private GestureDetector _gestureDetector;
-		protected string GoogleApiKey; 
+		public string GoogleApiKey; 
 
 		/// <summary>
 		/// Raises the create event.
@@ -59,28 +59,33 @@ namespace SingledOutAndroid
 			menuInflater.Inflate (Resource.Menu.actionbarmenu, menu);
 		}
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this instance is action bar visible.
-		/// </summary>
-		/// <value><c>true</c> if this instance is action bar visible; otherwise, <c>false</c>.</value>
 		private bool _isActionBarVisible;
+		/// <summary>
+		/// Gets or sets my property.
+		/// </summary>
+		/// <value>My property.</value>
 		public bool IsActionBarVisible {
-			get 
-			{ 
-				return _isActionBarVisible; 
+			get {
+				return _isActionBarVisible;
 			}
 			set 
 			{
-				RequestWindowFeature (WindowFeatures.ActionBar);
 				_isActionBarVisible = value;
+				RequestWindowFeature (WindowFeatures.ActionBar);
 			}
 		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="SingledOutAndroid.BaseActivity"/> show action bar tabs.
+		/// </summary>
+		/// <value><c>true</c> if show action bar tabs; otherwise, <c>false</c>.</value>
+		public bool ShowActionBarTabs { get; set; }
 
 		/// <summary>
 		/// Shows the action bar.
 		/// </summary>
 		public void ShowActionBar() { 
-			ActionBar.NavigationMode = ActionBarNavigationMode.Standard;
+			ActionBar.NavigationMode = ShowActionBarTabs ? ActionBarNavigationMode.Tabs : ActionBarNavigationMode.Standard;
 			ActionBar.SetTitle(Resource.String.actionbartitlecheckin);
 			ActionBar.SetSubtitle(Resource.String.actionbarsubtitlecheckin);
 			ActionBar.SetDisplayShowTitleEnabled (true);
@@ -118,7 +123,7 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <returns>The start new.</returns>
 		/// <param name="func">Func.</param>
-		protected Task<HttpResponseMessage> FactoryStartNew(Func<HttpResponseMessage> func)
+		public Task<HttpResponseMessage> FactoryStartNew(Func<HttpResponseMessage> func)
 		{
 			Task<HttpResponseMessage> httpResponseMessage = null;
 
@@ -425,7 +430,7 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <returns>The user preference.</returns>
 		/// <param name="Key">Key.</param>
-		protected string GetUserPreference(string Key)
+		public string GetUserPreference(string Key)
 		{
 			// Retreive 
 			var prefs = Application.Context.GetSharedPreferences(this.Resources.GetString(Resource.String.app_name), FileCreationMode.Private);              
@@ -437,7 +442,7 @@ namespace SingledOutAndroid
 		/// Shows the notification box.
 		/// </summary>
 		/// <param name="message">Message.</param>
-		protected void ShowNotificationBox(string message, bool bringtofront = false)
+		public void ShowNotificationBox(string message, bool bringtofront = false)
 		{
 			var notification = FindViewById<TextView> (Resource.Id.notification);			
 			// Load the welcome back animation.

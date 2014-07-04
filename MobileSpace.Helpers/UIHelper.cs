@@ -18,6 +18,9 @@ namespace MobileSpace.Helpers
 		public delegate void ListViewItemClick(object sender, AdapterView.ItemClickEventArgs e);
 		public event ListViewItemClick OnListViewItemClick;
 
+		public delegate void TabSelectedClick(object sender, ActionBar.TabEventArgs e);
+		public event TabSelectedClick OnTabSelectedClick;
+
 		/// <summary>
 		/// Gets or sets the dialog view.
 		/// </summary>
@@ -34,6 +37,25 @@ namespace MobileSpace.Helpers
 				// only will trigger it if no physical keyboard is open
 				imm.ShowSoftInput(editText, 0);
 			}
+		}
+
+		/// <summary>
+		/// Adds the action bar tab.
+		/// </summary>
+		/// <param name="activity">Activity.</param>
+		/// <param name="tabNameResId">Tab name res identifier.</param>
+		/// <param name="tabIconDrawResId">Tab icon draw res identifier.</param>
+		public ActionBar.Tab AddActionBarTab(Activity activity, int tabNameResId, int tabIconDrawResId)
+		{
+			ActionBar.Tab tab = activity.ActionBar.NewTab();
+			tab.SetText(activity.Resources.GetString(tabNameResId));
+			tab.SetIcon(tabIconDrawResId);
+			tab.TabSelected += (object sender, ActionBar.TabEventArgs e) => 
+			{
+				OnTabSelectedClick(sender, e);
+			};
+			activity.ActionBar.AddTab(tab);
+			return tab;
 		}
 
 		/// <summary>

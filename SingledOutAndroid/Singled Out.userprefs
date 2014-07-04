@@ -1,14 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs">
     <Files>
-      <File FileName="CheckIn.cs" Line="265" Column="40" />
-      <File FileName="Resources\values\styles.xml" Line="173" Column="59" />
+      <File FileName="CheckinMapView.cs" Line="70" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" Line="74" Column="4" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckinListView.cs" Line="26" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" Line="175" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="189" column="1" />
+      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="85" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckinMapView.cs" line="51" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckinMapView.cs" line="67" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

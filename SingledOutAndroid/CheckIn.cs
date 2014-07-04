@@ -22,39 +22,67 @@ using RangeSlider;
 
 namespace SingledOutAndroid
 {
-	[Activity (Label = "Check-In")]//, Theme = "@android:style/Theme.NoTitleBar")]			
+	[Activity (Label = "Check-In")]
 	public class CheckIn : BaseActivity
 	{
-		private Location _currentLocation;
 		private LocationManager _locationManager;
 		private Button _btnCheckin;
 		private MapHelper _mapHelper;
-		private RestHelper _restHelper;
-		private UriCreator _googleApiUriCreator;
 		private UIHelper _uiHelper;
-		private AlertDialog _alertDialog;
 		ProgressBar _spinner;
-		private GooglePlacesResponse _placesFound;
-		private CustomListAdapter _adapter;
-		private UriCreator _uriCreator;
-		private RangeSliderView _ageSlider ;
+		private ActionBar.Tab _mapTab;
+		private ActionBar.Tab _listViewTab;
+
+		/// <summary>
+		/// Gets or sets the button checkin.
+		/// </summary>
+		/// <value>The button checkin.</value>
+		public Button BtnCheckin {
+			get {
+				return _btnCheckin;
+			}
+			set {
+				_btnCheckin = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the spinner.
+		/// </summary>
+		/// <value>The spinner.</value>
+		public ProgressBar Spinner {
+			get {
+				return _spinner;
+			}
+			set {
+				_spinner = value;
+			}
+		}
+
+		private enum TabPosition
+		{
+			Map = 0,
+			ListView = 1
+		}
 
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
-			// Instantiate the REST helper.
-			_restHelper = new RestHelper();
 			_uiHelper = new UIHelper ();
-			_uriCreator = new UriCreator(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
-
-			// Create uri creator for Google Api related stuff.
-			_googleApiUriCreator = new UriCreator (Resources.GetString(Resource.String.googleapihost), Resources.GetString(Resource.String.googleapipath));
+			_mapHelper = new MapHelper (this);
 
 			// Set the action bar to show.
+			ShowActionBarTabs = true;
 			IsActionBarVisible = true;
 
 			SetContentView (Resource.Layout.CheckIn);
+
+			_uiHelper.OnTabSelectedClick += OnTabSelected;
+			// Add map tab.
+			_mapTab = _uiHelper.AddActionBarTab (this, Resource.String.maptabname, Resource.Drawable.globe);
+			// Add listview tab.
+			_listViewTab = _uiHelper.AddActionBarTab (this, Resource.String.listtabname, Resource.Drawable.listview);
 
 			// Find checkin button.
 			_btnCheckin = (Button)FindViewById (Resource.Id.btnCheckin);
@@ -67,186 +95,26 @@ namespace SingledOutAndroid
 			if (LastActivity == "Login" || LastActivity == "SplashPage") {
 				ShowNotificationBox (string.Concat ("Welcome back ", CurrentUser.FirstName, "!"));
 			}
-
-			// Create map helper.
-			_mapHelper = new MapHelper (this);
-			// Set the location updated event.
-			_mapHelper.OnLocationUpdated += LocationUpdated;
-			// Show the map.
-			_mapHelper.ShowMap (Resource.Id.map, true, true);
-
-			_ageSlider = (RangeSliderView)FindViewById (Resource.Id.ageslider);
-			_ageSlider.LeftValueChanged += value => {
-				SetAgeRangeText();
-			};
-
-			_ageSlider.RightValueChanged += value => {
-				SetAgeRangeText();
-			};
-			SetAgeRangeText();
 		}
 
 		/// <summary>
-		/// Sets the age range text.
-		/// </summary>
-		private void SetAgeRangeText()
-		{
-			var agetosee = (TextView)FindViewById (Resource.Id.agetosee);
-			agetosee.Text = String.Format ("Age from {0} to {1}", (int)_ageSlider.LeftValue, (int)_ageSlider.RightValue);
-		}
-
-		/// <summary>
-		/// Locations the updated.
+		/// Raises the tab selected event.
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
-		protected async void LocationUpdated(object sender, LocationUpdatedEventArgs e)
+		public void OnTabSelected (object sender, ActionBar.TabEventArgs e)
 		{
-			_currentLocation = e.Location;
-			if (_currentLocation == null)
+			switch (((ActionBar.Tab)sender).Position)
 			{
-				ShowNotificationBox ("Could not determine your location");
+			case ((int)TabPosition.Map):
+				Fragment mapFragment = new CheckinMapView ();
+				e.FragmentTransaction.Replace(Resource.Id.checkinFrameLayout, mapFragment);
+				break;
+			case ((int)TabPosition.ListView):
+				Fragment listViewFragment = new CheckinListView ();
+				e.FragmentTransaction.Replace(Resource.Id.checkinFrameLayout, listViewFragment);
+				break;
 			}
-			else
-			{
-				// Make request to Google Places API to find places near here.
-				var googleApiNearbyPlacesUri = Resources.GetString (Resource.String.googleapiurinearbyplaces);
-				var placeTypes = Resources.GetString (Resource.String.googleapiplacetypes);
-				
-				// Create the Google Places Nearby Uri.
-				var uri = _googleApiUriCreator.GooglePlaceApiNearbyPlaces (
-					           googleApiNearbyPlacesUri,
-					           GoogleApiKey,
-					           _currentLocation.Latitude,
-					           _currentLocation.Longitude,
-								5000,
-					           placeTypes);
-
-				// Create task to Save Singled Out Details.
-				var response = FactoryStartNew (() => _restHelper.GetAsync (uri.ToString()));
-				if (response != null) {
-					// await so that this task will run in the background.
-					await response;
-
-					if (response.Result.StatusCode == HttpStatusCode.OK) {
-						// Get json from response message.
-						var result = response.Result.Content.ReadAsStringAsync ().Result;
-						var json = JsonObject.Parse (result).ToString ();
-						// Deserialize the Json.
-						_placesFound = JsonConvert.DeserializeObject<GooglePlacesResponse> (json);
-
-						if (_placesFound != null) {
-							// Get a list of GooglePlace objects
-							var googlePlaces = _placesFound.results.Select (o => 
-								new GooglePlace {
-									Name = o.name.Length > 35 ? o.name.Substring(0,35) : o.name,
-									Latitude = double.Parse(o.geometry.location.lat),
-									Longitude = double.Parse(o.geometry.location.lng),
-									Image = Resource.Drawable.places
-								}).ToList();
-
-							//Create our adapter and populate with list of Google place objects.
-							_adapter = new CustomListAdapter(this){
-								CustomListItemID = Resource.Layout.customlistitem,
-								CustomListItemImageID = Resource.Id.imageitem,
-								CustomListItemLatitudeID = Resource.Id.latitude,
-								CustomListItemLongitudeID = Resource.Id.longitude,
-								CustomListItemNameID = Resource.Id.itemname,
-								items = googlePlaces};
-
-							// Add dialog with places found list.
-							_alertDialog = _uiHelper.BuildAlertDialog (_adapter, true, true, Resource.Layout.NearbyPlaces, Resource.Layout.TextViewItem, this, "Places found near you", Resource.Drawable.places, Resource.Id.placeslist);
-							_uiHelper.OnListViewItemClick += ListViewItemClick;
-							// Add cancel button and event.
-							_alertDialog.SetButton ("Cancel", (s, evt) => {
-								PlacesDialog_OnCancelClick (s, evt);
-							});
-							//var nearbyPlacesLayout = (LinearLayout)_alertDialog.FindViewById (Resource.Id.placesDescription);
-							var dialogDescription = (TextView)_uiHelper.DialogView.FindViewById (Resource.Id.placesDescription);
-							//dialogDescription.MovementMethod = LinkMovementMethod.Instance;
-							dialogDescription.Click += AddPlaces_Click;
-							//Enabled button again.
-							_btnCheckin.Enabled = true;
-							//Show diaog.
-							_alertDialog.Show ();
-						}
-					}
-				} else {
-					ShowNotificationBox ("An error occurred!");
-				}
-			}
-			// Stop progress indicator.
-			_spinner.Visibility = ViewStates.Gone;
-		}
-
-		/// <summary>
-		/// Adds the places.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		protected void AddPlaces_Click(object sender, EventArgs e)
-		{
-			_alertDialog.Dismiss();
-
-		}
-
-		/// <summary>
-		/// List view item click.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="e">E.</param>
-		protected void ListViewItemClick(object sender, AdapterView.ItemClickEventArgs e)
-		{
-			_alertDialog.Dismiss ();
-			// Get the Google Place object for the item selected
-			var googlePlace = _adapter.GetItemAtPosition (e.Position);
-			// Add a marker for the users position.
-			_mapHelper.SetMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
-			// Set checkin button to 'Hide me'
-			_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.show,0, 0, 0);
-			_btnCheckin.Text = "Hide Me";
-			//SaveUserLocation (googlePlace);
-		}
-
-		/// <summary>
-		/// Saves the user location to the database.
-		/// </summary>
-		/// <param name="googlePlace">Google place.</param>
-		private void SaveUserLocation(GooglePlace googlePlace)
-		{
-			// Save the users location to the database.
-			var uri = _uriCreator.UserLocations (Resources.GetString (Resource.String.apiurluserlocations));
-			var userLocationModel = CreateUserLocation (googlePlace);
-			_restHelper.PostAsync (uri, userLocationModel);
-
-		}
-
-		/// <summary>
-		/// Creates a user location model.
-		/// </summary>
-		/// <returns>The user location.</returns>
-		/// <param name="googlePlace">Google place.</param>
-		private UserLocationModel CreateUserLocation(GooglePlace googlePlace)
-		{
-			var model = new UserLocationModel {
-				CreatedDate = DateTime.UtcNow,
-				UpdateDate = DateTime.UtcNow,
-				Latitude = googlePlace.Latitude,
-				Longitude = googlePlace.Longitude,
-				UserID = int.Parse(GetUserPreference("UserID"))
-			};
-			return model;
-		}
-
-		/// <summary>
-		/// Placeses the dialog_ on cancel click.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="eventArgs">Event arguments.</param>
-		protected void PlacesDialog_OnCancelClick(object sender, EventArgs eventArgs)
-		{
-			_alertDialog.Dismiss ();
-			_btnCheckin.Enabled = true;
 		}
 
 		protected void btnCheckin_OnClick(object sender, EventArgs eventArgs)
@@ -259,7 +127,8 @@ namespace SingledOutAndroid
 				_btnCheckin.Enabled = false;
 				// Start the location manager.
 				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
-			} else {
+			} 
+			else {
 				_mapHelper.RemoveMarker ();
 				_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
 				_btnCheckin.Text = "Make Me Visible";
