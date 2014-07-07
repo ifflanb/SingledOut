@@ -20,7 +20,7 @@ namespace MobileSpace.Helpers
 		/// </summary>
 		/// <param name="layout">Layout.</param>
 		/// <param name="height">Height.</param>
-		public void SetLayoutHeight(LinearLayout layout, int height)
+		public void SetLayoutHeight(ViewGroup layout, int height)
 		{
 			var param = layout.LayoutParameters;
 			param.Height = height;
@@ -65,6 +65,18 @@ namespace MobileSpace.Helpers
 			DisplayMetrics dm = new DisplayMetrics ();
 			activity.WindowManager.DefaultDisplay.GetMetrics (dm);
 			return dm.WidthPixels;
+		}
+
+		/// <summary>
+		/// Gets the height of the screen.
+		/// </summary>
+		/// <returns>The screen height.</returns>
+		/// <param name="activity">Activity.</param>
+		public int GetScreenHeight(Activity activity)
+		{
+			DisplayMetrics dm = new DisplayMetrics ();
+			activity.WindowManager.DefaultDisplay.GetMetrics (dm);
+			return dm.HeightPixels;
 		}
 	}
 }

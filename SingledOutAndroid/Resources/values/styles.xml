@@ -71,7 +71,7 @@
         <item name="android:textSize">14dp</item>     
         <item name="android:gravity">center_horizontal</item>
         <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:visibility">invisible</item>
+        <item name="android:visibility">gone</item>
         <item name="android:background">@drawable/notificationbox</item>
         <item name="android:layout_width">220dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -146,6 +146,14 @@
         <item name="android:background">@drawable/roundedlayout</item>
         <item name="android:padding">8dp</item>
         <item name="android:layout_margin">20dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="mapframelayout">
+        <item name="android:background">@drawable/roundedlayout</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">wrap_content</item>
     </style>

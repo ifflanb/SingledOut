@@ -12,8 +12,8 @@ android:id="@+id/actionbarmenuMenu">
 				android:title="Refresh"
 				android:icon="@drawable/refresh">			
 	</item>
-	<item android:id="@+id/settings"
-				android:icon="@drawable/settings"
+	<item android:id="@+id/menu"
+				android:icon="@drawable/menu"
 				android:showAsAction="always"
 				android:orderInCategory="400">
 				<menu>

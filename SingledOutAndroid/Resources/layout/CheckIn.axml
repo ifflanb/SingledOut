@@ -1,29 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:minHeight="25px">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/checkInParentLayout"
+    style="@style/parentlayout">
     <TextView
         android:id="@+id/notification"
         style="@style/notification" />
-    <FrameLayout
-        android:minWidth="25px"
-        android:minHeight="25px"
+    <LinearLayout
+        android:id="@+id/checkInChildLayout"
+        style="@style/childlayout">
+        <FrameLayout
+            android:id="@+id/checkinFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btnCheckin"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:drawableLeft="@drawable/party"
+            android:text="Join the party!"
+            style="@style/buttonlight"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp" />
+    </LinearLayout>
+    <SlidingDrawer
+        android:id="@+id/slidingDrawer"
+        android:handle="@+id/drawerHandle"
+        android:content="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/checkinFrameLayout" />
-    <Button
-        android:id="@+id/btnCheckin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/show"
-        android:gravity="center"
-        android:layout_alignParentBottom="true"
-        android:text="Make Me Visible"
-        android:layout_centerHorizontal="true"
-        style="@style/buttonlight" />
+        android:topOffset="300dp"
+        android:paddingBottom="-20dp"
+        android:bottomOffset="10dp"
+        android:allowSingleTap="true"
+        android:animateOnClick="true"
+        android:background="#ffffff">
+        <ImageView
+            android:id="@+id/drawerHandle"
+            android:src="@drawable/drawerhandle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:id="@+id/contentLayout"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp">
+            <TextView
+                android:text="Select your filter options:"
+                android:id="@+id/filterDescription"
+                android:layout_width="wrap_content"
+                style="@style/descriptiontext"
+                android:textColor="#ff080303" />
+            <TextView
+                android:text="Gender:"
+                android:id="@+id/whotosee"
+                android:layout_width="wrap_content"
+                android:textColor="#ff080303"
+                style="@style/descriptiontext"
+                android:layout_below="@+id/filterDescription"
+                android:layout_alignParentLeft="true" />
+            <RadioGroup
+                android:layout_below="@+id/whotosee"
+                android:id="@+id/rgGender"
+                style="@style/radiogroup"
+                android:orientation="horizontal">
+                <RadioButton
+                    style="@style/radiobutton"
+                    android:text="Men  "
+                    android:id="@+id/rbMen" />
+                <RadioButton
+                    style="@style/radiobutton"
+                    android:text="Women"
+                    android:id="@+id/rbWomen" />
+                <RadioButton
+                    style="@style/radiobutton"
+                    android:text="Both"
+                    android:id="@+id/rbBoth" />
+            </RadioGroup>
+            <TextView
+                android:text="Age {0} to {1}"
+                android:id="@+id/agetosee"
+                style="@style/descriptiontext"
+                android:layout_width="wrap_content"
+                android:textColor="#ff080303"
+                android:layout_below="@+id/rgGender"
+                android:layout_alignParentLeft="true" />
+            <rangeslider.RangeSliderView
+                android:id="@+id/ageslider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                min_value="15"
+                max_value="100"
+                left_value="20"
+                right_value="80"
+                android:layout_below="@+id/agetosee" />
+        </RelativeLayout>
+    </SlidingDrawer>
     <ProgressBar
         android:id="@+id/progressSpinner"
         style="@style/progressspinner" />
-</LinearLayout>
+</RelativeLayout>

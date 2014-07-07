@@ -9,6 +9,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Gms.Location;
+using Android.Gms.Common;
 
 namespace SingledOutAndroid
 {
@@ -73,16 +74,11 @@ namespace SingledOutAndroid
 		/// <summary>
 		/// Shows the map.
 		/// </summary>
-		public void ShowMap(MapFragment mapFrag, bool zoomControls, bool compass)
+		public void ShowMap(MapFragment mapFragment, bool zoomControls, bool compass)
 		{
-//			MapFragment mapFrag = null;
-//			if (fragment != null) {
-//				mapFrag = (MapFragment)fragment.ChildFragmentManager.FindFragmentById(mapFragmentID);
-//			} else {
-//				mapFrag = (MapFragment)_activity.FragmentManager.FindFragmentById(mapFragmentID);
-//			}
+			_map = mapFragment.Map;
+		
 
-			_map = mapFrag.Map;
 			if (_map != null) {
 				// The GoogleMap object is ready to go.
 				if (zoomControls) {

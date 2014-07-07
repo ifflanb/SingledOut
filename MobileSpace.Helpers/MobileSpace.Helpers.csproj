@@ -63,6 +63,7 @@
     <Compile Include="RestHelper.cs" />
     <Compile Include="Classes\CustomListAdapter.cs" />
     <Compile Include="Classes\GooglePlace.cs" />
+    <Compile Include="FlyoutMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />

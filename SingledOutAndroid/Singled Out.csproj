@@ -7,7 +7,7 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AssemblyName>SingledOutAndroid</AssemblyName>
-    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <RootNamespace>SingledOutAndroid</RootNamespace>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
@@ -15,7 +15,7 @@
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -176,6 +176,13 @@
     <AndroidResource Include="Resources\drawable\custom_btn_radio.xml" />
     <AndroidResource Include="Resources\layout\CheckinMapView.axml" />
     <AndroidResource Include="Resources\layout\CheckinListView.axml" />
+    <AndroidResource Include="Resources\layout\slidingdrawerbottom.axml" />
+    <AndroidResource Include="Resources\drawable\help_tab_close.png" />
+    <AndroidResource Include="Resources\drawable\help_tab_open.png" />
+    <AndroidResource Include="Resources\drawable\help_tab_selector.xml" />
+    <AndroidResource Include="Resources\drawable\menu.png" />
+    <AndroidResource Include="Resources\drawable\drawerhandle.png" />
+    <AndroidResource Include="Resources\drawable\party.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />
