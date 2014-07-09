@@ -52,7 +52,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#000000"
+            android:background="@drawable/slidingdrawer"
             android:paddingRight="8dp"
             android:paddingLeft="8dp">
             <RadioGroup

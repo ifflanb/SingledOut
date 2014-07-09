@@ -178,7 +178,7 @@
     <AndroidResource Include="Resources\drawable\menu.png" />
     <AndroidResource Include="Resources\drawable\drawerhandle.png" />
     <AndroidResource Include="Resources\drawable\party.png" />
-    <AndroidResource Include="Resources\drawable\drawerhandle2.png" />
+    <AndroidResource Include="Resources\drawable\slidingdrawer.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />
