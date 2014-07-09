@@ -19,6 +19,7 @@ using System.Net.Http;
 using Android.Text.Method;
 using SingledOut.Model;
 using RangeSlider;
+using Android.Gms.Maps;
 
 namespace SingledOutAndroid
 {
@@ -56,6 +57,22 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Gets or sets the map fragment map helper.
+		/// </summary>
+		/// <value>The map fragment map helper.</value>
+		public MapHelper MapFragmentMapHelper {
+			get 
+			{
+				MapHelper mapHelper = null;
+				var mapFragment = (CheckinMapView)FragmentManager.FindFragmentById (Resource.Id.checkinFrameLayout);
+				if (mapFragment != null) {
+					mapHelper = mapFragment.MapHelper;
+				}
+				return mapHelper;
+			}
+		}
+
+		/// <summary>
 		/// Gets or sets the spinner.
 		/// </summary>
 		/// <value>The spinner.</value>
@@ -83,9 +100,6 @@ namespace SingledOutAndroid
 			IsActionBarVisible = true;
 
 			SetContentView (Resource.Layout.CheckIn);
-
-			SlidingDrawer slidingDraw = (SlidingDrawer)FindViewById (Resource.Id.slidingDrawer);
-			slidingDraw.BringToFront ();
 
 			// Set the age slider up.
 			_ageSlider = (RangeSliderView)FindViewById (Resource.Id.ageslider);
@@ -119,11 +133,6 @@ namespace SingledOutAndroid
 			// Find checkin button.
 			_btnCheckin = (Button)FindViewById (Resource.Id.btnCheckin);
 			_btnCheckin.Click += btnCheckin_OnClick;
-			_btnCheckin.BringToFront ();
-
-			var checkInChildLayout = FindViewById<LinearLayout> (Resource.Id.checkInChildLayout);
-			var height = _animationHelper.GetScreenHeight (this);
-			_animationHelper.SetLayoutHeight (checkInChildLayout, (int)(height * 0.60));
 
 			// Set swipe activity.
 			SwipeRightActivity = typeof(Tutorial2);
@@ -195,10 +204,10 @@ namespace SingledOutAndroid
 			// Get the Google Place object for the item selected
 			var googlePlace = _adapter.GetItemAtPosition (e.Position);
 			// Add a marker for the users position.
-			_mapHelper.SetMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
+			MapFragmentMapHelper.SetMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
 			// Set checkin button to 'Hide me'
-			BtnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.show,0, 0, 0);
-			BtnCheckin.Text = "Hide Me";
+			BtnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide,0, 0, 0);
+			BtnCheckin.Text = "Hide Me!";
 			//SaveUserLocation (googlePlace);
 		}
 
@@ -236,7 +245,7 @@ namespace SingledOutAndroid
 
 		protected void btnCheckin_OnClick(object sender, EventArgs eventArgs)
 		{
-			if (!_mapHelper.IsUserLocationSet) {
+			if (!MapFragmentMapHelper.IsUserLocationSet) {
 				// Start progress indicator.
 				_spinner = (ProgressBar)FindViewById (Resource.Id.progressSpinner);
 				_spinner.Visibility = ViewStates.Visible;
@@ -246,9 +255,9 @@ namespace SingledOutAndroid
 				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
 			} 
 			else {
-				_mapHelper.RemoveMarker ();
+				MapFragmentMapHelper.RemoveMarker ();
 				_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
-				_btnCheckin.Text = "Make Me Visible";
+				_btnCheckin.Text = "Join the party!";
 			}
 		}
 
@@ -267,7 +276,7 @@ namespace SingledOutAndroid
 			else
 			{
 				// Stop the location listener.
-				_mapHelper.StopLocationListener();
+			    MapFragmentMapHelper.StopLocationListener();
 
 				// Make request to Google Places API to find places near here.
 				var googleApiNearbyPlacesUri = Resources.GetString (Resource.String.googleapiurinearbyplaces);

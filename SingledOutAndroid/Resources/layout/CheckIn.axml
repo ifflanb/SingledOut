@@ -7,21 +7,31 @@
         style="@style/notification" />
     <LinearLayout
         android:id="@+id/checkInChildLayout"
-        style="@style/childlayout">
+        style="@style/childlayout"
+        android:orientation="vertical">
         <FrameLayout
             android:id="@+id/checkinFrameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notification"
+            android:paddingBottom="10dp"
+            android:layout_gravity="top"
+            android:layout_weight="1" />
         <Button
             android:id="@+id/btnCheckin"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
             android:drawableLeft="@drawable/party"
             android:text="Join the party!"
             style="@style/buttonlight"
-            android:gravity="center_horizontal|center_vertical"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp" />
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp" />
     </LinearLayout>
     <SlidingDrawer
         android:id="@+id/slidingDrawer"
@@ -29,41 +39,23 @@
         android:content="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:topOffset="300dp"
-        android:paddingBottom="-20dp"
-        android:bottomOffset="10dp"
-        android:allowSingleTap="true"
-        android:animateOnClick="true"
-        android:background="#ffffff">
+        android:layout_alignParentBottom="true"
+        android:topOffset="350dp">
         <ImageView
             android:id="@+id/drawerHandle"
             android:src="@drawable/drawerhandle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scaleType="center" />
         <RelativeLayout
             android:id="@+id/contentLayout"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:background="#000000"
             android:paddingRight="8dp"
             android:paddingLeft="8dp">
-            <TextView
-                android:text="Select your filter options:"
-                android:id="@+id/filterDescription"
-                android:layout_width="wrap_content"
-                style="@style/descriptiontext"
-                android:textColor="#ff080303" />
-            <TextView
-                android:text="Gender:"
-                android:id="@+id/whotosee"
-                android:layout_width="wrap_content"
-                android:textColor="#ff080303"
-                style="@style/descriptiontext"
-                android:layout_below="@+id/filterDescription"
-                android:layout_alignParentLeft="true" />
             <RadioGroup
-                android:layout_below="@+id/whotosee"
                 android:id="@+id/rgGender"
                 style="@style/radiogroup"
                 android:orientation="horizontal">
@@ -85,9 +77,8 @@
                 android:id="@+id/agetosee"
                 style="@style/descriptiontext"
                 android:layout_width="wrap_content"
-                android:textColor="#ff080303"
-                android:layout_below="@+id/rgGender"
-                android:layout_alignParentLeft="true" />
+                android:textColor="#ffffff"
+                android:layout_below="@+id/rgGender" />
             <rangeslider.RangeSliderView
                 android:id="@+id/ageslider"
                 android:layout_width="match_parent"

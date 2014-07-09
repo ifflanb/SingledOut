@@ -7,7 +7,6 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AssemblyName>SingledOutAndroid</AssemblyName>
-    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <RootNamespace>SingledOutAndroid</RootNamespace>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
@@ -16,6 +15,7 @@
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -163,10 +163,8 @@
     <AndroidResource Include="Resources\layout\TextViewItem.xml" />
     <AndroidResource Include="Resources\drawable\listviewselector.xml" />
     <AndroidResource Include="Resources\drawable\hide.png" />
-    <AndroidResource Include="Resources\drawable\show.png" />
     <AndroidResource Include="Resources\layout\customlistitem.xml" />
     <AndroidResource Include="Resources\drawable\radiooff.png" />
-    <AndroidResource Include="Resources\drawable\radiooffdisabledfocused.png" />
     <AndroidResource Include="Resources\drawable\radioofffocused.png" />
     <AndroidResource Include="Resources\drawable\radiooffpressed.png" />
     <AndroidResource Include="Resources\drawable\radioon.png" />
@@ -177,12 +175,10 @@
     <AndroidResource Include="Resources\layout\CheckinMapView.axml" />
     <AndroidResource Include="Resources\layout\CheckinListView.axml" />
     <AndroidResource Include="Resources\layout\slidingdrawerbottom.axml" />
-    <AndroidResource Include="Resources\drawable\help_tab_close.png" />
-    <AndroidResource Include="Resources\drawable\help_tab_open.png" />
-    <AndroidResource Include="Resources\drawable\help_tab_selector.xml" />
     <AndroidResource Include="Resources\drawable\menu.png" />
     <AndroidResource Include="Resources\drawable\drawerhandle.png" />
     <AndroidResource Include="Resources\drawable\party.png" />
+    <AndroidResource Include="Resources\drawable\drawerhandle2.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

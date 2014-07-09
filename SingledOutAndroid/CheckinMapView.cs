@@ -26,6 +26,19 @@ namespace SingledOutAndroid
 		private UIHelper _uiHelper;
 		private CheckIn _checkInActivity;
 
+		/// <summary>
+		/// Gets or sets the map helper.
+		/// </summary>
+		/// <value>The map helper.</value>
+		public MapHelper MapHelper { 
+			get {
+				return _mapHelper;
+			}
+			set {
+				_mapHelper = value;
+			}
+		}
+
 		public override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);

@@ -23,7 +23,7 @@
             android:id="@+id/imageView1"
             android:layout_gravity="center_horizontal" />
         <TextView
-            android:text="Finding other single people near you."
+            android:text="Finding single people near you."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/welcomeDescription"
