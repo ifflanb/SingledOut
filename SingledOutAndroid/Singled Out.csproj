@@ -97,8 +97,6 @@
     <Compile Include="MapHelper.cs" />
     <Compile Include="Google\GooglePlacesModel.cs" />
     <Compile Include="ListActivity.cs" />
-    <Compile Include="CheckinMapView.cs" />
-    <Compile Include="CheckinListView.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -152,7 +150,6 @@
     <AndroidResource Include="Resources\drawable\settings.png" />
     <AndroidResource Include="Resources\drawable\globe.png" />
     <AndroidResource Include="Resources\drawable\refresh.png" />
-    <AndroidResource Include="Resources\drawable\share.png" />
     <AndroidResource Include="Resources\drawable\about.png" />
     <AndroidResource Include="Resources\drawable\help.png" />
     <AndroidResource Include="Resources\drawable\calendar.png" />

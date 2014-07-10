@@ -24,7 +24,8 @@
             android:text="Login"
             android:id="@+id/singledoutlogin"
             android:layout_below="@+id/registerDescription"
-            style="@style/buttonlight" />
+            style="@style/buttonlight"
+            android:layout_centerInParent="true" />
         <TextView
             android:text="Don't have an account yet?"
             android:id="@+id/noAccountYet"
@@ -34,7 +35,8 @@
             android:text="Register"
             android:id="@+id/singledoutregister"
             android:layout_below="@+id/noAccountYet"
-            style="@style/buttondark" />
+            style="@style/buttondark"
+            android:layout_centerInParent="true" />
         <TextView
             android:text="Or here ..."
             android:id="@+id/orHere"

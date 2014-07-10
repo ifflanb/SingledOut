@@ -5,34 +5,50 @@
     <TextView
         android:id="@+id/notification"
         style="@style/notification" />
-    <LinearLayout
-        android:id="@+id/checkInChildLayout"
-        style="@style/childlayout"
-        android:orientation="vertical">
-        <FrameLayout
-            android:id="@+id/checkinFrameLayout"
+    <ViewSwitcher
+        style="@style/mapframelayout"
+        android:id="@+id/viewSwitcher"
+        android:layout_marginBottom="50dp">
+        <LinearLayout
+            android:id="@+id/checkInMapLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/notification"
-            android:paddingBottom="10dp"
-            android:layout_gravity="top"
-            android:layout_weight="1" />
-        <Button
-            android:id="@+id/btnCheckin"
-            android:drawableLeft="@drawable/party"
-            android:text="Join the party!"
-            style="@style/buttonlight"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center"
-            android:layout_height="50dp"
+            android:orientation="vertical">
+            <fragment
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                class="com.google.android.gms.maps.MapFragment"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="3" />
+            <Button
+                android:id="@+id/btnCheckin"
+                android:drawableLeft="@drawable/party"
+                android:text="Join the party!"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:paddingRight="14dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="4dp"
+                android:gravity="center"
+                style="@style/buttonlight"
+                android:layout_weight="1" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/checkInListLayout"
             android:layout_width="match_parent"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingLeft="4dp" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:text="List View stuff goes here"
+                android:id="@+id/listView"
+                android:layout_width="wrap_content"
+                style="@style/titletext" />
+        </LinearLayout>
+    </ViewSwitcher>
     <SlidingDrawer
         android:id="@+id/slidingDrawer"
         android:handle="@+id/drawerHandle"
@@ -40,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:topOffset="350dp">
+        android:topOffset="250dp">
         <ImageView
             android:id="@+id/drawerHandle"
             android:src="@drawable/drawerhandle"
@@ -88,6 +104,22 @@
                 left_value="20"
                 right_value="80"
                 android:layout_below="@+id/agetosee" />
+            <TextView
+                android:text="Distance {0} to {1}"
+                android:id="@+id/distancetosee"
+                style="@style/descriptiontext"
+                android:layout_width="wrap_content"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/ageslider" />
+            <rangeslider.RangeSliderView
+                android:id="@+id/distanceslider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                min_value="0"
+                max_value="1000"
+                left_value="0"
+                right_value="100"
+                android:layout_below="@+id/distancetosee" />
         </RelativeLayout>
     </SlidingDrawer>
     <ProgressBar

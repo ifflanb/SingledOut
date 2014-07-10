@@ -20,6 +20,7 @@ using Android.Text.Method;
 using SingledOut.Model;
 using RangeSlider;
 using Android.Gms.Maps;
+using Android.Support.V4.View;
 
 namespace SingledOutAndroid
 {
@@ -41,7 +42,9 @@ namespace SingledOutAndroid
 		private AlertDialog _alertDialog;
 		private UriCreator _uriCreator;
 		private RangeSliderView _ageSlider;
+		private RangeSliderView _distanceSlider;
 		private AnimationHelper _animationHelper;
+		private ViewSwitcher _viewSwitcher;
 
 		/// <summary>
 		/// Gets or sets the button checkin.
@@ -53,22 +56,6 @@ namespace SingledOutAndroid
 			}
 			set {
 				_btnCheckin = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets the map fragment map helper.
-		/// </summary>
-		/// <value>The map fragment map helper.</value>
-		public MapHelper MapFragmentMapHelper {
-			get 
-			{
-				MapHelper mapHelper = null;
-				var mapFragment = (CheckinMapView)FragmentManager.FindFragmentById (Resource.Id.checkinFrameLayout);
-				if (mapFragment != null) {
-					mapHelper = mapFragment.MapHelper;
-				}
-				return mapHelper;
 			}
 		}
 
@@ -112,6 +99,17 @@ namespace SingledOutAndroid
 			};
 			SetAgeRangeText();
 
+			_distanceSlider = (RangeSliderView)FindViewById (Resource.Id.distanceslider);
+			_distanceSlider.LeftValueChanged += value => {
+				SetDistanceRangeText();
+			};
+
+			_distanceSlider.RightValueChanged += value => {
+				SetDistanceRangeText();
+			};
+			SetDistanceRangeText();
+
+
 			// Instantiate the helpers.
 			_uiHelper = new UIHelper ();
 			_mapHelper = new MapHelper (this);
@@ -126,6 +124,20 @@ namespace SingledOutAndroid
 			_mapTab = _uiHelper.AddActionBarTab (this, Resource.String.maptabname, Resource.Drawable.globe);
 			// Add listview tab.
 			_listViewTab = _uiHelper.AddActionBarTab (this, Resource.String.listtabname, Resource.Drawable.listview);
+
+			// Get the map fragment.
+			MapFragment mapfragment = (MapFragment)this.FragmentManager.FindFragmentById(Resource.Id.map);
+
+			// Create map helper.
+			_mapHelper = new MapHelper (this);
+
+			// Show the map.
+			_mapHelper.ShowMap (mapfragment, true, true);
+
+			_viewSwitcher = (ViewSwitcher)FindViewById (Resource.Id.viewSwitcher);
+
+//			SlidingDrawer drawerHandle = (SlidingDrawer)FindViewById (Resource.Id.slidingDrawer);
+//			drawerHandle.OffsetTopAndBottom(_animationHelper.GetScreenHeight (this) / 4);
 
 			// Set the location updated event.
 			_mapHelper.OnLocationUpdated += LocationUpdated;
@@ -150,6 +162,15 @@ namespace SingledOutAndroid
 		{
 			var agetosee = (TextView)FindViewById (Resource.Id.agetosee);
 			agetosee.Text = String.Format ("Age from {0} to {1}", (int)_ageSlider.LeftValue, (int)_ageSlider.RightValue);
+		}
+
+		/// <summary>
+		/// Sets the distance range text.
+		/// </summary>
+		private void SetDistanceRangeText()
+		{
+			var distancetosee = (TextView)FindViewById (Resource.Id.distancetosee);
+			distancetosee.Text = String.Format ("Distance to {0} meters", (int)_distanceSlider.RightValue);
 		}
 
 		/// <summary>
@@ -204,7 +225,7 @@ namespace SingledOutAndroid
 			// Get the Google Place object for the item selected
 			var googlePlace = _adapter.GetItemAtPosition (e.Position);
 			// Add a marker for the users position.
-			MapFragmentMapHelper.SetMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
+			_mapHelper.SetMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
 			// Set checkin button to 'Hide me'
 			BtnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide,0, 0, 0);
 			BtnCheckin.Text = "Hide Me!";
@@ -231,21 +252,19 @@ namespace SingledOutAndroid
 		{
 			switch (((ActionBar.Tab)sender).Position)
 			{
-			case ((int)TabPosition.Map):
-				Fragment mapFragment = new CheckinMapView ();
-				e.FragmentTransaction.Replace(Resource.Id.checkinFrameLayout, mapFragment);
+				case ((int)TabPosition.Map):
+					_viewSwitcher.DisplayedChild = 0;
 
-				break;
-			case ((int)TabPosition.ListView):
-				Fragment listViewFragment = new CheckinListView ();
-				e.FragmentTransaction.Replace(Resource.Id.checkinFrameLayout, listViewFragment);
-				break;
+					break;
+				case ((int)TabPosition.ListView):
+					_viewSwitcher.DisplayedChild = 1;
+					break;
 			}
 		}
 
 		protected void btnCheckin_OnClick(object sender, EventArgs eventArgs)
 		{
-			if (!MapFragmentMapHelper.IsUserLocationSet) {
+			if (!_mapHelper.IsUserLocationSet) {
 				// Start progress indicator.
 				_spinner = (ProgressBar)FindViewById (Resource.Id.progressSpinner);
 				_spinner.Visibility = ViewStates.Visible;
@@ -255,7 +274,7 @@ namespace SingledOutAndroid
 				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
 			} 
 			else {
-				MapFragmentMapHelper.RemoveMarker ();
+				_mapHelper.RemoveMarker ();
 				_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
 				_btnCheckin.Text = "Join the party!";
 			}
@@ -276,7 +295,7 @@ namespace SingledOutAndroid
 			else
 			{
 				// Stop the location listener.
-			    MapFragmentMapHelper.StopLocationListener();
+				_mapHelper.StopLocationListener();
 
 				// Make request to Google Places API to find places near here.
 				var googleApiNearbyPlacesUri = Resources.GetString (Resource.String.googleapiurinearbyplaces);
