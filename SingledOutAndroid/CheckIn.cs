@@ -42,7 +42,7 @@ namespace SingledOutAndroid
 		private AlertDialog _alertDialog;
 		private UriCreator _uriCreator;
 		private RangeSliderView _ageSlider;
-		private RangeSliderView _distanceSlider;
+		private SeekBar _distanceSlider;
 		private AnimationHelper _animationHelper;
 		private ViewSwitcher _viewSwitcher;
 
@@ -99,16 +99,10 @@ namespace SingledOutAndroid
 			};
 			SetAgeRangeText();
 
-			_distanceSlider = (RangeSliderView)FindViewById (Resource.Id.distanceslider);
-			_distanceSlider.LeftValueChanged += value => {
-				SetDistanceRangeText();
-			};
+			_distanceSlider = (SeekBar)FindViewById (Resource.Id.distanceslider);
 
-			_distanceSlider.RightValueChanged += value => {
-				SetDistanceRangeText();
-			};
-			SetDistanceRangeText();
-
+			_distanceSlider.ProgressChanged += SetDistanceRangeText;
+			//SetDistanceRangeText();
 
 			// Instantiate the helpers.
 			_uiHelper = new UIHelper ();
@@ -136,8 +130,9 @@ namespace SingledOutAndroid
 
 			_viewSwitcher = (ViewSwitcher)FindViewById (Resource.Id.viewSwitcher);
 
-//			SlidingDrawer drawerHandle = (SlidingDrawer)FindViewById (Resource.Id.slidingDrawer);
-//			drawerHandle.OffsetTopAndBottom(_animationHelper.GetScreenHeight (this) / 4);
+			Button btnFilter = (Button)FindViewById (Resource.Id.btnFilter);
+			btnFilter.Click += FilterClick;
+
 
 			// Set the location updated event.
 			_mapHelper.OnLocationUpdated += LocationUpdated;
@@ -155,22 +150,32 @@ namespace SingledOutAndroid
 			}
 		}
 
+		protected void FilterClick(object sender, EventArgs e)
+		{
+			var slidingDrawer = (SlidingDrawer)FindViewById (Resource.Id.slidingDrawer);
+			if (slidingDrawer.IsOpened) {
+				slidingDrawer.AnimateClose();
+			} else {
+				slidingDrawer.AnimateOpen();
+			}
+		}
+
 		/// <summary>
 		/// Sets the age range text.
 		/// </summary>
 		private void SetAgeRangeText()
 		{
 			var agetosee = (TextView)FindViewById (Resource.Id.agetosee);
-			agetosee.Text = String.Format ("Age from {0} to {1}", (int)_ageSlider.LeftValue, (int)_ageSlider.RightValue);
+			agetosee.Text = String.Format ("Age {0} to {1}", (int)_ageSlider.LeftValue, (int)_ageSlider.RightValue);
 		}
 
 		/// <summary>
 		/// Sets the distance range text.
 		/// </summary>
-		private void SetDistanceRangeText()
+		private void SetDistanceRangeText(object sender, SeekBar.ProgressChangedEventArgs e)
 		{
 			var distancetosee = (TextView)FindViewById (Resource.Id.distancetosee);
-			distancetosee.Text = String.Format ("Distance to {0} meters", (int)_distanceSlider.RightValue);
+			distancetosee.Text = String.Format ("Within {0}M", e.Progress);
 		}
 
 		/// <summary>

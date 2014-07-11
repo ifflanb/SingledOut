@@ -176,6 +176,9 @@
     <AndroidResource Include="Resources\drawable\drawerhandle.png" />
     <AndroidResource Include="Resources\drawable\party.png" />
     <AndroidResource Include="Resources\drawable\slidingdrawer.xml" />
+    <AndroidResource Include="Resources\drawable\filter.png" />
+    <AndroidResource Include="Resources\drawable\party1.png" />
+    <AndroidResource Include="Resources\drawable\join.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

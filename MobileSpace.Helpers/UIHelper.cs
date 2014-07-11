@@ -10,6 +10,8 @@ using Android.Views;
 using Android.Widget;
 using Android.Views.InputMethods;
 using Android.Views.Animations;
+using Android.Graphics.Drawables;
+using Android.Graphics;
 
 namespace MobileSpace.Helpers
 {
