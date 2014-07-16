@@ -10,6 +10,7 @@ using System.Web.Http.Controllers;
 using SingledOut.Data.Entities;
 using SingledOut.Model;
 using SingledOut.Repository;
+using SingledOut.WebApi.Filters;
 using SingledOut.WebApi.Interfaces;
 
 namespace SingledOut.WebApi.Controllers
@@ -27,6 +28,7 @@ namespace SingledOut.WebApi.Controllers
             _userLocationModelFactory = userLocationModelFactory;
         }
 
+        [SingledOutAuthorization]
         [HttpGet]
         public IEnumerable<UserLocationModel> Get()
         {
@@ -37,6 +39,7 @@ namespace SingledOut.WebApi.Controllers
             return results;
         }
 
+        [SingledOutAuthorization]
         [HttpGet]
         public HttpResponseMessage GetUserLocationByID(int id)
         {
@@ -55,6 +58,7 @@ namespace SingledOut.WebApi.Controllers
             }
         }
 
+        [SingledOutAuthorization]
         [HttpPost]
         public HttpResponseMessage Post([FromBody] UserLocationModel userLocationModel)
         {
@@ -78,10 +82,37 @@ namespace SingledOut.WebApi.Controllers
             }
         }
 
+        [SingledOutAuthorization]
         [HttpPut]
         public int UpdateUserLocation(UserLocation originalUserLocation, UserLocation updatedUserLocation)
         {
             return _userLocationsRepository.Update(originalUserLocation, updatedUserLocation);
         }
+
+        public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
+        {
+            return base.ExecuteAsync(controllerContext, cancellationToken);
+        }
+
+        [SingledOutAuthorization]
+        [HttpDelete]
+        public HttpResponseMessage DeleteUserLocation([FromUri] int id)
+        {
+            try
+            {
+                var result = _userLocationsRepository.DeleteUserLocation(id);
+                if (result == 1)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, -1);
+                }
+                
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not delete user location from the database.");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
+        
     }
 }

@@ -48,8 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WebApi\Controller\AccountControllerTests.cs" />
     <Compile Include="WebApi\Controller\UserControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebApi\Controller\UserLocationControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

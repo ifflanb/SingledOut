@@ -20,6 +20,9 @@ namespace MobileSpace.Helpers
 		public delegate void ListViewItemClick(object sender, AdapterView.ItemClickEventArgs e);
 		public event ListViewItemClick OnListViewItemClick;
 
+		public delegate void AlertDialogClosed(object sender, EventArgs e);
+		public event AlertDialogClosed OnAlertDialogClosed;
+
 		public delegate void TabSelectedClick(object sender, ActionBar.TabEventArgs e);
 		public event TabSelectedClick OnTabSelectedClick;
 
@@ -80,6 +83,7 @@ namespace MobileSpace.Helpers
 			dialog.SetTitle (title);
 			dialog.SetIcon (iconResourceID);
 			dialog.SetCanceledOnTouchOutside (false);
+			dialog.DismissEvent += DialogClosed;
 
 			var listView = DialogView.FindViewById<ListView> (listViewID);
 			if (listView != null) {
@@ -87,16 +91,18 @@ namespace MobileSpace.Helpers
 				listView.FastScrollEnabled = useFastSearchForListView;
 				listView.FastScrollAlwaysVisible = true;
 				listView.DividerHeight = 4;
-				listView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => 
-				{
-					OnListViewItemClick(sender, e);
+				listView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
+					OnListViewItemClick (sender, e);
 				};
-
 			}
 
 			return dialog;
 		}
-
+		protected void DialogClosed(object sender, EventArgs e)
+		{
+			DialogView = null;
+			OnAlertDialogClosed (sender, e);
+		}
 	}
 }
 

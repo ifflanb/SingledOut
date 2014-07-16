@@ -85,6 +85,20 @@ namespace MobileSpace.Helpers
 		}
 
 		/// <summary>
+		/// Deletes the user locations.
+		/// </summary>
+		/// <returns>The user locations.</returns>
+		/// <param name="userLocationsUri">User locations URI.</param>
+		/// <param name="ID">I.</param>
+		public string DeleteUserLocations(string userLocationsUri, string deleteuserlocation, string ID)
+		{
+			var path = string.Concat(_rootPath, userLocationsUri, "/", deleteuserlocation, "/", ID);
+			_uriBuilder = BuildRootPath(path);
+
+			return _uriBuilder.Uri.AbsoluteUri;
+		}
+
+		/// <summary>
 		/// Builds the login.
 		/// </summary>
 		/// <returns>The login.</returns>
@@ -104,6 +118,19 @@ namespace MobileSpace.Helpers
 		{
 			var path = string.Concat(_rootPath, retrievePasswordUri);
 			_uriBuilder = BuildRootPath(string.Concat(path,email));
+
+			return _uriBuilder.Uri.AbsoluteUri;
+		}
+
+		/// <summary>
+		/// Registers the account.
+		/// </summary>
+		/// <returns>The account.</returns>
+		/// <param name="registerAccountdUri">Register accountd URI.</param>
+		public string RegisterAccount(string registerAccountdUri)
+		{
+			var path = string.Concat(_rootPath, registerAccountdUri);
+			_uriBuilder = BuildRootPath(path);
 
 			return _uriBuilder.Uri.AbsoluteUri;
 		}

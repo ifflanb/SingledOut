@@ -73,7 +73,10 @@
                 <RadioGroup
                     android:id="@+id/rgGender"
                     style="@style/radiogroup"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="15dp"
+                    android:paddingRight="10dp">
                     <RadioButton
                         style="@style/radiobutton"
                         android:text="Men  "
@@ -100,18 +103,20 @@
                     android:text="Age {0} to {1}"
                     android:id="@+id/agetosee"
                     style="@style/descriptiontext"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:textColor="#ffffff"
-                    android:layout_gravity="left|center_vertical" />
+                    android:layout_gravity="left|center_horizontal" />
                 <rangeslider.RangeSliderView
                     android:id="@+id/ageslider"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     min_value="15"
                     max_value="100"
                     left_value="20"
                     right_value="80"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:paddingRight="10dp" />
             </TableRow>
             <TableRow
                 android:id="@+id/tableRow3"
@@ -122,16 +127,18 @@
                     android:text="Within 100M"
                     android:id="@+id/distancetosee"
                     style="@style/descriptiontext"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:textColor="#ffffff"
-                    android:layout_gravity="left|center_vertical" />
+                    android:layout_gravity="left|center_horizontal" />
                 <SeekBar
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/distanceslider"
                     android:layout_gravity="center_vertical"
-                    android:max="10000"
-                    android:progress="100" />
+                    android:max="1000"
+                    android:progress="100"
+                    android:paddingRight="10dp"
+                    android:layout_marginRight="10dp" />
             </TableRow>
         </TableLayout>
     </SlidingDrawer>

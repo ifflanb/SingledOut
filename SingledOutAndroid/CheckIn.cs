@@ -21,6 +21,8 @@ using SingledOut.Model;
 using RangeSlider;
 using Android.Gms.Maps;
 using Android.Support.V4.View;
+using Android.Gms.Maps.Model;
+using Android.Graphics;
 
 namespace SingledOutAndroid
 {
@@ -133,7 +135,6 @@ namespace SingledOutAndroid
 			Button btnFilter = (Button)FindViewById (Resource.Id.btnFilter);
 			btnFilter.Click += FilterClick;
 
-
 			// Set the location updated event.
 			_mapHelper.OnLocationUpdated += LocationUpdated;
 
@@ -150,13 +151,23 @@ namespace SingledOutAndroid
 			}
 		}
 
+
+
+		/// <summary>
+		/// Filters the click.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void FilterClick(object sender, EventArgs e)
 		{
 			var slidingDrawer = (SlidingDrawer)FindViewById (Resource.Id.slidingDrawer);
 			if (slidingDrawer.IsOpened) {
 				slidingDrawer.AnimateClose();
+
+				_mapHelper.SetAllGesturesEnabled(true);
 			} else {
 				slidingDrawer.AnimateOpen();
+				_mapHelper.SetAllGesturesEnabled(false);
 			}
 		}
 
@@ -182,13 +193,57 @@ namespace SingledOutAndroid
 		/// Saves the user location to the database.
 		/// </summary>
 		/// <param name="googlePlace">Google place.</param>
-		private void SaveUserLocation(GooglePlace googlePlace)
+		private async void SaveUserLocation(GooglePlace googlePlace)
 		{
 			// Save the users location to the database.
 			var uri = _uriCreator.UserLocations (Resources.GetString (Resource.String.apiurluserlocations));
 			var userLocationModel = CreateUserLocation (googlePlace);
-			_restHelper.PostAsync (uri, userLocationModel);
 
+			// Create task to Save Singled Out Details.
+			var response = FactoryStartNew (() => _restHelper.PostAsync (uri, userLocationModel));
+			if (response != null) {
+				// await so that this task will run in the background.
+				await response;
+
+				if (response.Result.StatusCode == HttpStatusCode.Created) {
+					// Get json from response message.
+					var result = response.Result.Content.ReadAsStringAsync ().Result;
+					var json = JsonObject.Parse (result).ToString ();
+					// Deserialize the Json.
+					var returnnModel = JsonConvert.DeserializeObject<UserLocationModel> (json);
+
+					SetUserPreference ("UserLocationID", returnnModel.ID.ToString());
+					SetUserPreference ("UserLatitude", returnnModel.Latitude.ToString());
+					SetUserPreference ("UserLongitude", returnnModel.Longitude.ToString());
+				}
+			}
+		}
+
+		/// <summary>
+		/// Removes the user location.
+		/// </summary>
+		private void RemoveUserLocation()
+		{
+			// Get the saved user location Id.
+			var userLocationID = GetUserPreference ("UserLocationID");
+
+			// Save the users location to the database.
+			var uri = _uriCreator.DeleteUserLocations (Resources.GetString (Resource.String.apiurluserlocations), Resources.GetString (Resource.String.apiurldeleteuserlocation),  userLocationID);
+
+			// Perform the database delete.
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = _restHelper.DeleteAsync (uri);
+			}
+			catch(Exception ex) {
+				ShowNotificationBox ("An error occurred!");
+			}
+
+			if (!response.IsSuccessStatusCode) {
+				ShowNotificationBox ("An error occurred!");
+			}
 		}
 
 		/// <summary>
@@ -231,10 +286,13 @@ namespace SingledOutAndroid
 			var googlePlace = _adapter.GetItemAtPosition (e.Position);
 			// Add a marker for the users position.
 			_mapHelper.SetMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
+
 			// Set checkin button to 'Hide me'
 			BtnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide,0, 0, 0);
 			BtnCheckin.Text = "Hide Me!";
-			//SaveUserLocation (googlePlace);
+
+			// Save the location to the database.
+			SaveUserLocation (googlePlace);
 		}
 
 		/// <summary>
@@ -280,8 +338,13 @@ namespace SingledOutAndroid
 			} 
 			else {
 				_mapHelper.RemoveMarker ();
+
+				// Remove the user location from the database.
+				RemoveUserLocation ();
+
+				// Set the name and image on the checkin button.
 				_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
-				_btnCheckin.Text = "Join the party!";
+				_btnCheckin.Text = "Join in";
 			}
 		}
 
@@ -315,7 +378,7 @@ namespace SingledOutAndroid
 					5000,
 					placeTypes);
 
-				// Create task to Save Singled Out Details.
+				// Create task to get Google Places.
 				var response = FactoryStartNew (() => _restHelper.GetAsync (uri.ToString()));
 				if (response != null) {
 					// await so that this task will run in the background.
@@ -348,8 +411,12 @@ namespace SingledOutAndroid
 								items = googlePlaces};
 
 							// Add dialog with places found list.
+							_alertDialog = null;
 							_alertDialog = _uiHelper.BuildAlertDialog (_adapter, true, true, Resource.Layout.NearbyPlaces, Resource.Layout.TextViewItem, this, "Places found near you", Resource.Drawable.places, Resource.Id.placeslist);
+
 							_uiHelper.OnListViewItemClick += ListViewItemClick;
+
+							_uiHelper.OnAlertDialogClosed += PlacesDialogClosed;
 
 							// Add cancel button and event.
 							_alertDialog.SetButton ("Cancel", (s, evt) => {
@@ -372,6 +439,12 @@ namespace SingledOutAndroid
 			}
 			// Stop progress indicator.
 			_spinner.Visibility = ViewStates.Gone;
+		}
+
+		void PlacesDialogClosed (object sender, EventArgs e)
+		{
+			_uiHelper.OnListViewItemClick -= ListViewItemClick;
+			_uiHelper.OnAlertDialogClosed -= PlacesDialogClosed;
 		}
 	}
 }

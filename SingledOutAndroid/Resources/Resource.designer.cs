@@ -1195,11 +1195,11 @@ namespace SingledOutAndroid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f070051
-			public const int actionbarsubtitlecheckin = 2131165265;
+			// aapt resource value: 0x7f070052
+			public const int actionbarsubtitlecheckin = 2131165266;
 			
-			// aapt resource value: 0x7f070050
-			public const int actionbartitlecheckin = 2131165264;
+			// aapt resource value: 0x7f070051
+			public const int actionbartitlecheckin = 2131165265;
 			
 			// aapt resource value: 0x7f07003e
 			public const int apihost = 2131165246;
@@ -1207,20 +1207,23 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f07003f
 			public const int apipath = 2131165247;
 			
-			// aapt resource value: 0x7f070047
-			public const int apiurlaccount = 2131165255;
-			
-			// aapt resource value: 0x7f07004c
-			public const int apiurlanswers = 2131165260;
-			
 			// aapt resource value: 0x7f070048
-			public const int apiurllogin = 2131165256;
+			public const int apiurlaccount = 2131165256;
+			
+			// aapt resource value: 0x7f07004d
+			public const int apiurlanswers = 2131165261;
+			
+			// aapt resource value: 0x7f070047
+			public const int apiurldeleteuserlocation = 2131165255;
 			
 			// aapt resource value: 0x7f070049
-			public const int apiurllostpassword = 2131165257;
+			public const int apiurllogin = 2131165257;
 			
-			// aapt resource value: 0x7f07004b
-			public const int apiurlquestions = 2131165259;
+			// aapt resource value: 0x7f07004a
+			public const int apiurllostpassword = 2131165258;
+			
+			// aapt resource value: 0x7f07004c
+			public const int apiurlquestions = 2131165260;
 			
 			// aapt resource value: 0x7f070046
 			public const int apiurluserlocations = 2131165254;
@@ -1228,8 +1231,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f070045
 			public const int apiurlusers = 2131165253;
 			
-			// aapt resource value: 0x7f07004a
-			public const int apiurluserssearch = 2131165258;
+			// aapt resource value: 0x7f07004b
+			public const int apiurluserssearch = 2131165259;
 			
 			// aapt resource value: 0x7f07003a
 			public const int app_id = 2131165242;
@@ -1402,8 +1405,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f07003d
 			public const int facebook_permissions = 2131165245;
 			
-			// aapt resource value: 0x7f07004e
-			public const int female = 2131165262;
+			// aapt resource value: 0x7f07004f
+			public const int female = 2131165263;
 			
 			// aapt resource value: 0x7f070041
 			public const int googleapihost = 2131165249;
@@ -1423,17 +1426,17 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f070038
 			public const int hello_user = 2131165240;
 			
-			// aapt resource value: 0x7f070054
-			public const int listtabname = 2131165268;
+			// aapt resource value: 0x7f070055
+			public const int listtabname = 2131165269;
 			
 			// aapt resource value: 0x7f07001a
 			public const int location_client_powered_by_google = 2131165210;
 			
-			// aapt resource value: 0x7f07004d
-			public const int male = 2131165261;
+			// aapt resource value: 0x7f07004e
+			public const int male = 2131165262;
 			
-			// aapt resource value: 0x7f070053
-			public const int maptabname = 2131165267;
+			// aapt resource value: 0x7f070054
+			public const int maptabname = 2131165268;
 			
 			// aapt resource value: 0x7f070037
 			public const int ok = 2131165239;
@@ -1441,14 +1444,14 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f070036
 			public const int permission_not_granted = 2131165238;
 			
-			// aapt resource value: 0x7f070052
-			public const int placesdialogtext = 2131165266;
+			// aapt resource value: 0x7f070053
+			public const int placesdialogtext = 2131165267;
 			
 			// aapt resource value: 0x7f070039
 			public const int success = 2131165241;
 			
-			// aapt resource value: 0x7f07004f
-			public const int terms = 2131165263;
+			// aapt resource value: 0x7f070050
+			public const int terms = 2131165264;
 			
 			static String()
 			{

@@ -9,6 +9,12 @@ namespace SingledOut.WebApi
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
+                name: "AccountRegister",
+                routeTemplate: "api/account/Register/{userModel}",
+                defaults: new { controller = "account", action = "Register", userLocationModel = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
                name: "AccountRetrievePassword",
                routeTemplate: "api/account/retrievepassword/{email}",
                defaults: new { controller = "account", action = "RetrievePassword" }
@@ -36,6 +42,11 @@ namespace SingledOut.WebApi
                 name: "UserLocations",
                 routeTemplate: "api/userlocations/{userLocationModel}",
                 defaults: new { controller = "UserLocations", userLocationModel = RouteParameter.Optional });
+
+            config.Routes.MapHttpRoute(
+                name: "DeleteUserLocations",
+                routeTemplate: "api/userlocations/DeleteUserLocation/{id}",
+                defaults: new { controller = "UserLocations", action = "DeleteUserLocation" });
 
             
            // var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();

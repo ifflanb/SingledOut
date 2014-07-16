@@ -39,6 +39,7 @@ namespace SingledOutAndroid
 		private SecurityHelper _securityHelper;
 		private ValidationHelper _validationHelper;
 		private RestHelper _restHelper;
+		private UriCreator _uriCreator;
 
 		public Registration ()
 		{
@@ -51,6 +52,7 @@ namespace SingledOutAndroid
 
 			SetContentView (Resource.Layout.Registration);
 
+			_uriCreator = new UriCreator(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 			_restHelper = new RestHelper ();
 
 			SwipeRightActivity = typeof(SignIn);
@@ -241,7 +243,7 @@ namespace SingledOutAndroid
 		/// <param name="user">User.</param>
 		private HttpResponseMessage SaveSingledOutDetails(UserModel user)
 		{
-			var uri = string.Concat (Resources.GetString (Resource.String.apiurlusers));
+			var uri = _uriCreator.RegisterAccount (Resources.GetString (Resource.String.apiurlaccount));
 			return _restHelper.PostAsync(uri , user);
 		}
 

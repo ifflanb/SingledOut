@@ -50,6 +50,33 @@ namespace MobileSpace.Helpers
 		}
 
 		/// <summary>
+		/// Deletes the async.
+		/// </summary>
+		/// <returns>The async.</returns>
+		/// <param name="uri">URI.</param>
+		public HttpResponseMessage DeleteAsync(string uri)
+		{
+			var httpClient = new HttpClient();
+			HttpResponseMessage response;
+
+			try
+			{
+				response = httpClient.DeleteAsync(uri).Result;
+			}
+			catch (AggregateException ex)
+			{
+				throw ex;
+			}
+			catch (WebException ex)
+			{
+				throw ex;
+			}      
+
+
+			return response;
+		}
+
+		/// <summary>
 		/// Creates the basic header.
 		/// </summary>
 		/// <returns>The basic header.</returns>

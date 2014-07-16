@@ -10,6 +10,9 @@ using Android.Content;
 using Android.OS;
 using Android.Gms.Location;
 using Android.Gms.Common;
+using Android.Graphics;
+using Android.Views.Animations;
+using Java.Lang;
 
 namespace SingledOutAndroid
 {
@@ -24,6 +27,16 @@ namespace SingledOutAndroid
 		public Marker UserMarker {
 			get;
 			set;
+		}
+
+		/// <summary>
+		/// Gets or sets the map.
+		/// </summary>
+		/// <value>The map.</value>
+		public GoogleMap Map { 
+			get {
+				return _map;
+			}
 		}
 
 		/// <summary>
@@ -72,12 +85,20 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Sets all gestures enabled.
+		/// </summary>
+		/// <param name="enabled">If set to <c>true</c> enabled.</param>
+		public void SetAllGesturesEnabled(bool enabled)
+		{
+			_map.UiSettings.SetAllGesturesEnabled (enabled);
+		}
+
+		/// <summary>
 		/// Shows the map.
 		/// </summary>
 		public void ShowMap(MapFragment mapFragment, bool zoomControls, bool compass)
 		{
-			_map = mapFragment.Map;
-		
+			_map = mapFragment.Map;		
 
 			if (_map != null) {
 				// The GoogleMap object is ready to go.
@@ -102,7 +123,7 @@ namespace SingledOutAndroid
 			myCriteria.Accuracy = Accuracy.Medium; // Set this to medium to use non GPS provider.
 			myCriteria.PowerRequirement = Power.Low; // Set this to low to use non GPS provider.
 			// let Android select the right location provider for you
-			String locationProvider = _locationManager.GetBestProvider(myCriteria, true);
+			System.String locationProvider = _locationManager.GetBestProvider(myCriteria, true);
 
 			// Request location updates.
 			_locationManager.RequestLocationUpdates(locationProvider, updatesTime, updatesWithinDistance, this);
@@ -154,6 +175,58 @@ namespace SingledOutAndroid
 
 				_map.MoveCamera (cu2);
 				_map.AnimateCamera (cu2);
+			}
+
+			OnMarkerClick(UserMarker, latitude, longitude);
+		}
+
+
+		public bool OnMarkerClick (Marker marker, double latitude, double longitude)
+		{
+			// This causes the marker at Perth to bounce into position when it is clicked.
+
+			Handler handler = new Handler ();
+			long start = SystemClock.UptimeMillis ();
+			Projection proj = _map.Projection;
+			Point startPoint = proj.ToScreenLocation(new LatLng(latitude,longitude));
+			startPoint.Offset(0, -100);
+			LatLng startLatLng = new LatLng(latitude,longitude);
+			long duration = 1500;
+
+			IInterpolator interpolator = new BounceInterpolator();
+
+			Runnable run = null;
+			run = new Runnable (delegate {
+				long elapsed = SystemClock.UptimeMillis () - start;
+				float t = interpolator.GetInterpolation ((float) elapsed / duration);
+				double lng = t * longitude + (1 - t) * startLatLng.Longitude;
+				double lat = t * latitude + (1 - t) * startLatLng.Latitude;
+				marker.Position = (new LatLng(lat, lng));
+
+				if (t < 1.0) {
+					// Post again 16ms later.
+					handler.PostDelayed(run, 16);
+				}
+			});
+			handler.Post(run);
+
+			// We return false to indicate that we have not consumed the event and that we wish
+			// for the default behavior to occur (which is for the camera to move such that the
+			// marker is centered and for the marker's info window to open, if it has one).
+			return false;
+		}
+
+		class Runnable : Java.Lang.Object, Java.Lang.IRunnable
+		{
+			Action run;
+			public Runnable (Action run)
+			{
+				this.run = run;
+			}
+
+			public void Run ()
+			{
+				run ();
 			}
 		}
 
