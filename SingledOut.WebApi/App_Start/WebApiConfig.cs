@@ -11,7 +11,7 @@ namespace SingledOut.WebApi
             config.Routes.MapHttpRoute(
                 name: "AccountRegister",
                 routeTemplate: "api/account/Register/{userModel}",
-                defaults: new { controller = "account", action = "Register", userLocationModel = RouteParameter.Optional }
+                defaults: new { controller = "account", action = "Register", userModel = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(

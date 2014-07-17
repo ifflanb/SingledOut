@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SingledOut.Data.Entities
 {
@@ -23,5 +24,7 @@ namespace SingledOut.Data.Entities
         public ICollection<UserQuestion> UserQuestions { get; set; }
 
         public ICollection<UserAnswer> UserAnswers { get; set; }
+
+        public Guid AuthToken { get; set; }
     }
 }

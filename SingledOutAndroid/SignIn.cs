@@ -178,6 +178,7 @@ namespace SingledOutAndroid
 									owner.SetUserPreference ("FacebookUsername", jsonFacebook.GetString ("id"));
 									owner.SetUserPreference ("SingledOutUser", json);
 									owner.SetUserPreference ("UserID", returnUserModel.ID.ToString());
+									owner.AuthenticationToken = returnUserModel.AuthToken.ToString();
 								} 
 
 								// Change to Tutorial page.
@@ -216,6 +217,7 @@ namespace SingledOutAndroid
 				var uriCreator = new UriCreator (owner.Resources.GetString(Resource.String.apihost), owner.Resources.GetString(Resource.String.apipath));
 				var uri = uriCreator.User (owner.Resources.GetString (Resource.String.apiurlusers));
 				var restHelper = new RestHelper ();
+				// Save the details.
 				var response = restHelper.PostAsync(uri , userModel);
 				return response;
 			}

@@ -1,4 +1,6 @@
-﻿namespace SingledOut.SearchParameters
+﻿using System;
+
+namespace SingledOut.SearchParameters
 {
     public class UsersSearchParameters
     {

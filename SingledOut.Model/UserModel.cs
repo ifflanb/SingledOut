@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SingledOut.Model
 {
@@ -23,5 +24,7 @@ namespace SingledOut.Model
         public string Email { get; set; }
 
         public string Password { get; set; }
+
+        public Guid AuthToken { get; set; }
     }
 }

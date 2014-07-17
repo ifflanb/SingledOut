@@ -21,6 +21,7 @@
     <string name="apiurluserlocations">UserLocations</string>
     <string name="apiurldeleteuserlocation">deleteuserlocation/</string>
     <string name="apiurlaccount">account</string>
+    <string name="apiurlaccountregister">register</string>
     <string name="apiurllogin">login/</string>
     <string name="apiurllostpassword">retrievepassword/</string>
     <string name="apiurluserssearch">userssearch</string>

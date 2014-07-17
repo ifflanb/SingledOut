@@ -24,6 +24,8 @@ using System.Net.Http;
 using Android.Support.V4.App;
 using Android.Graphics;
 using Android.Text;
+using System.Security.Principal;
+using System.Threading;
 
 namespace SingledOutAndroid
 {				
@@ -32,7 +34,7 @@ namespace SingledOutAndroid
 		private const int SWIPE_MIN_DISTANCE = 120;
 		private const int SWIPE_MAX_OFF_PATH = 250;
 		private const int SWIPE_THRESHOLD_VELOCITY = 200;
-		private Timer _timer;
+		private System.Timers.Timer _timer;
 		private GestureDetector _gestureDetector;
 		public string GoogleApiKey; 
 
@@ -142,6 +144,47 @@ namespace SingledOutAndroid
 				httpResponseMessage = null;
 			}
 			return httpResponseMessage;
+		}
+
+		/// <summary>
+		/// Gets or sets the authentication token.
+		/// </summary>
+		/// <value>The authentication token.</value>
+		public string AuthenticationToken {
+			get 
+			{
+				var token = string.Empty;
+				if (IsAuthenticated) 
+				{
+					token = GetUserPreference ("AuthToken");
+				}
+				return token;
+			}
+			set 
+			{
+				SetUserPreference ("AuthToken", value);
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the user ID.
+		/// </summary>
+		/// <value>The user ID.</value>
+		public int? UserID {
+			get 
+			{
+				int? userID = null;
+				var id = GetUserPreference ("UserID");
+				if(!string.IsNullOrEmpty(id))
+					{
+						userID = int.Parse(id);
+					}
+				return userID;
+			}
+			set 
+			{
+				SetUserPreference ("UserID", value.ToString());
+			}
 		}
 
 		/// <summary>

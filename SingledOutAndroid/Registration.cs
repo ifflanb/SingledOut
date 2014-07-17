@@ -144,6 +144,7 @@ namespace SingledOutAndroid
 							SetUserPreference ("SingledOutEmail", returnUserModel.Email);
 							SetUserPreference ("SingledOutUser", json);
 							SetUserPreference ("UserID", returnUserModel.ID.ToString());
+							AuthenticationToken = returnUserModel.AuthToken.ToString();
 						} 
 
 						SwipeLeftActivity = typeof(Tutorial1);
@@ -243,7 +244,7 @@ namespace SingledOutAndroid
 		/// <param name="user">User.</param>
 		private HttpResponseMessage SaveSingledOutDetails(UserModel user)
 		{
-			var uri = _uriCreator.RegisterAccount (Resources.GetString (Resource.String.apiurlaccount));
+			var uri = _uriCreator.RegisterAccount (string.Concat(Resources.GetString (Resource.String.apiurlaccount), "/", Resources.GetString (Resource.String.apiurlaccountregister)));
 			return _restHelper.PostAsync(uri , user);
 		}
 

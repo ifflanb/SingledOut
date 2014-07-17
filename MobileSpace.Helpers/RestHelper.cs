@@ -11,10 +11,27 @@ namespace MobileSpace.Helpers
 	public class RestHelper
     {
 		SecurityHelper _securityHelper;
+		HttpClient _httpClient;
 
-		public RestHelper ()
+		public RestHelper (string token = "", int? userID = null)
 		{
 			_securityHelper = new SecurityHelper ();
+			_httpClient = new HttpClient ();
+			if (!string.IsNullOrEmpty (token) && userID.HasValue) {
+				_httpClient = AddTokenToHeader (_httpClient, token, (int)userID);
+			}
+		}
+
+		/// <summary>
+		/// Adds the token to header.
+		/// </summary>
+		/// <returns>The token to header.</returns>
+		/// <param name="client">Client.</param>
+		/// <param name="token">Token.</param>
+		private HttpClient AddTokenToHeader(HttpClient client, string token, int userID)
+		{
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token, userID.ToString());
+			return client;
 		}
 
 		/// <summary>
@@ -25,7 +42,6 @@ namespace MobileSpace.Helpers
 		/// <param name="data">Data.</param>
 		public HttpResponseMessage PostAsync(string uri, object data)
 		{
-			var httpClient = new HttpClient();
 			var json = JsonConvert.SerializeObject (data);
 			HttpResponseMessage response;
 
@@ -34,7 +50,7 @@ namespace MobileSpace.Helpers
 
 			try
 			{
-				response = httpClient.PostAsync(uri, cont).Result;
+				response = _httpClient.PostAsync(uri, cont).Result;
 			}
 			catch (AggregateException ex)
 			{
@@ -56,12 +72,11 @@ namespace MobileSpace.Helpers
 		/// <param name="uri">URI.</param>
 		public HttpResponseMessage DeleteAsync(string uri)
 		{
-			var httpClient = new HttpClient();
 			HttpResponseMessage response;
 
 			try
 			{
-				response = httpClient.DeleteAsync(uri).Result;
+				response = _httpClient.DeleteAsync(uri).Result;
 			}
 			catch (AggregateException ex)
 			{
@@ -85,7 +100,6 @@ namespace MobileSpace.Helpers
 		public AuthenticationHeaderValue CreateBasicHeader(string username, string password)
 		{
 			byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(username + ":" + password);
-			//System.Diagnostics.Debug.WriteLine("AuthenticationHeaderValue" + new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray)));
 			return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 		}
 
@@ -97,14 +111,13 @@ namespace MobileSpace.Helpers
 		/// <param name="password">Password.</param>
 		public HttpResponseMessage Login(string uri, string username, string password)
 		{
-			var httpClient = new HttpClient();
 			HttpResponseMessage response;
 
-			httpClient.DefaultRequestHeaders.Authorization = CreateBasicHeader(username, password);
+			_httpClient.DefaultRequestHeaders.Authorization = CreateBasicHeader(username, password);
 
 			try
 			{
-				response = httpClient.GetAsync(uri).Result;	
+				response = _httpClient.GetAsync(uri).Result;	
 			}
 			catch (AggregateException ex)
 			{
@@ -125,12 +138,11 @@ namespace MobileSpace.Helpers
 		/// <param name="uri">uri.</param>
 		public HttpResponseMessage RetrievePassword(string uri)
 		{
-			var httpClient = new HttpClient();
 			HttpResponseMessage response;
 
 			try
 			{
-				response = httpClient.GetAsync(uri).Result;	
+				response = _httpClient.GetAsync(uri).Result;	
 			}
 			catch (AggregateException ex)
 			{
@@ -151,12 +163,11 @@ namespace MobileSpace.Helpers
 		/// <param name="uri">URI.</param>
 		public HttpResponseMessage GetAsync(string uri)
 		{
-			var httpClient = new HttpClient();
 			HttpResponseMessage response;
 
 			try
 			{
-				response = httpClient.GetAsync(uri).Result;
+				response = _httpClient.GetAsync(uri).Result;
 			}
 			catch (AggregateException ex)
 			{
@@ -180,15 +191,14 @@ namespace MobileSpace.Helpers
 		/// <param name="password">Password.</param>
 		public HttpResponseMessage SearchAsync(string uri, string username, string password)
 		{
-			var httpClient = new HttpClient();
 			HttpResponseMessage response;
 
-			httpClient.DefaultRequestHeaders.Authorization = CreateBasicHeader(username, password);
+			_httpClient.DefaultRequestHeaders.Authorization = CreateBasicHeader(username, password);
 
 			try
 			{
 				uri = string.Concat(uri);
-				response = httpClient.GetAsync(uri).Result;
+				response = _httpClient.GetAsync(uri).Result;
 			}
 			catch (AggregateException ex)
 			{

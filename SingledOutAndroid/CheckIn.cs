@@ -109,7 +109,7 @@ namespace SingledOutAndroid
 			// Instantiate the helpers.
 			_uiHelper = new UIHelper ();
 			_mapHelper = new MapHelper (this);
-			_restHelper = new RestHelper();
+			_restHelper = new RestHelper(AuthenticationToken, UserID);
 			_animationHelper = new AnimationHelper ();
 			_uriCreator = new UriCreator(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 			// Create uri creator for Google Api related stuff.
@@ -239,6 +239,7 @@ namespace SingledOutAndroid
 			}
 			catch(Exception ex) {
 				ShowNotificationBox ("An error occurred!");
+				// Log error.
 			}
 
 			if (!response.IsSuccessStatusCode) {
@@ -379,6 +380,7 @@ namespace SingledOutAndroid
 					placeTypes);
 
 				// Create task to get Google Places.
+				var restHelper = new RestHelper();
 				var response = FactoryStartNew (() => _restHelper.GetAsync (uri.ToString()));
 				if (response != null) {
 					// await so that this task will run in the background.

@@ -25,7 +25,7 @@ namespace SingledOut.WebApi.Controllers
         {
             var query = _userRepository.Search(sp);
 
-            var results = query.ToList().Select(s => _userModelFactory.Create(s, Request));
+            var results = query.ToList().Select(s => _userModelFactory.Create(s));
 
             return results;
         }

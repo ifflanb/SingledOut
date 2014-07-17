@@ -29,7 +29,7 @@ namespace SingledOut.WebApi.Controllers
         {
             var query = _userRepository.GetAllUsers();
 
-            var results = query.ToList().Select(s => _userModelFactory.Create(s,Request));
+            var results = query.ToList().Select(s => _userModelFactory.Create(s));
 
             return results;
         }
@@ -42,7 +42,7 @@ namespace SingledOut.WebApi.Controllers
                 var user = _userRepository.GetUser(id);
                 if (user != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, _userModelFactory.Create(user,Request));
+                    return Request.CreateResponse(HttpStatusCode.OK, _userModelFactory.Create(user));
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
@@ -64,7 +64,7 @@ namespace SingledOut.WebApi.Controllers
                 if (result > 0)
                 {
                     entity.ID = result;
-                    return Request.CreateResponse(HttpStatusCode.Created, _userModelFactory.Create(entity, Request));
+                    return Request.CreateResponse(HttpStatusCode.Created, _userModelFactory.Create(entity));
                 }
                 if (result == -1) // account already exists.
                 {
@@ -105,7 +105,7 @@ namespace SingledOut.WebApi.Controllers
 
                 if(_userRepository.Update(originalUser, updatedUser) > 0)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, _userModelFactory.Create(updatedUser,Request));
+                    return Request.CreateResponse(HttpStatusCode.OK, _userModelFactory.Create(updatedUser));
                 }
                 return Request.CreateResponse(HttpStatusCode.NotModified);
             }

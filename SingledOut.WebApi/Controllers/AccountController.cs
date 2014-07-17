@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Web.Http;
 using SingledOut.Model;
+using SingledOut.WebApi.Filters;
 
 namespace SingledOut.WebApi.Controllers
 {
@@ -16,20 +17,18 @@ namespace SingledOut.WebApi.Controllers
             _usersController = usersController;
         }
 
-        public override System.Threading.Tasks.Task<HttpResponseMessage> ExecuteAsync(System.Web.Http.Controllers.HttpControllerContext controllerContext, CancellationToken cancellationToken)
-        {
-            return base.ExecuteAsync(controllerContext, cancellationToken);
-        }
-
         [HttpPost]
         public HttpResponseMessage Register([FromBody] UserModel userModel)
         {
+            _usersController.Request = Request;
             return _usersController.Post(userModel);
         }
 
         [HttpGet]
+        [SingledOutAuthorization]
         public HttpResponseMessage Login()
         {
+            _usersController.Request = Request;
             var email = Thread.CurrentPrincipal.Identity.Name;
             var user = _usersController.Get().Single(o => o.Email == email);
 

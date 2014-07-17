@@ -89,11 +89,6 @@ namespace SingledOut.WebApi.Controllers
             return _userLocationsRepository.Update(originalUserLocation, updatedUserLocation);
         }
 
-        public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
-        {
-            return base.ExecuteAsync(controllerContext, cancellationToken);
-        }
-
         [SingledOutAuthorization]
         [HttpDelete]
         public HttpResponseMessage DeleteUserLocation([FromUri] int id)

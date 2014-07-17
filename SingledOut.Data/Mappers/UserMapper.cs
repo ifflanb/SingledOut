@@ -24,9 +24,11 @@ namespace SingledOut.Data.Mappers
             this.Property(c => c.FacebookUserName).HasMaxLength(255);
             this.Property(c => c.CreatedDate).IsRequired();
             this.Property(c => c.UpdateDate).IsRequired();
+            this.Property(c => c.AuthToken).IsOptional();
             this.HasOptional(c => c.UserQuestions).WithMany().Map(s => s.MapKey("UserQuestionID"));
             this.HasOptional(c => c.UserAnswers).WithMany().Map(t => t.MapKey("UserAnswerID"));
             this.HasOptional(c => c.UserLocations).WithMany().Map(t => t.MapKey("UserLocationID"));
+            
         }
     }
 }

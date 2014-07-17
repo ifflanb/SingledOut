@@ -34,17 +34,12 @@ namespace SingledOut.WebApi.ModelFactory
             //_userAnswerModelFactory = userAnswerModelFactory;
         }
 
-        public UserModel Create(User user, HttpRequestMessage request)
+        public UserModel Create(User user)
         {
-            if (request != null)
-            {
-                _urlHelper = new UrlHelper(request);
-            }
-
             return new UserModel
             {
                 ID = user.ID,
-                Url = _urlHelper != null ? _urlHelper.Link("Users", new { controller = "Users", id = user.ID }) : string.Empty,
+               // Url = _urlHelper != null ? _urlHelper.Link("Users", new { controller = "Users", id = user.ID }) : string.Empty,
                 FirstName = user.FirstName,
                 Surname = user.Surname,
                 FacebookAccessToken = user.FacebookAccessToken,
@@ -53,6 +48,7 @@ namespace SingledOut.WebApi.ModelFactory
                 CreatedDate = user.CreatedDate,
                 UpdateDate = user.UpdateDate,
                 Email = user.Email,
+                AuthToken = user.AuthToken
                 //Password = user.Password
                 //UserQuestions = _userQuestionModelFactory.Create(user.UserQuestions),
                 //UserLocations = _userLocationModelFactory.Create(user.UserLocations),
@@ -75,7 +71,9 @@ namespace SingledOut.WebApi.ModelFactory
                     CreatedDate = model.CreatedDate,
                     UpdateDate = model.UpdateDate,
                     Email = model.Email,
-                    Password = model.Password //!string.IsNullOrEmpty(model.Password) ? _security.CreateHash(model.Password) : string.Empty
+                    Password = model.Password ,
+                    AuthToken = model.AuthToken
+                    //!string.IsNullOrEmpty(model.Password) ? _security.CreateHash(model.Password) : string.Empty
                     //UserQuestions = _userQuestionRepository.GetUserQuestion(model.UserQuestions.)
                     //CourseTutor = _repo.GetTutor(model.Tutor.Id)
 

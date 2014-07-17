@@ -117,6 +117,7 @@ namespace SingledOutAndroid
 							SetUserPreference ("SingledOutEmail", returnUserModel.Email);
 							SetUserPreference ("SingledOutUser", json);
 							SetUserPreference ("UserID", returnUserModel.ID.ToString());
+							AuthenticationToken = returnUserModel.AuthToken.ToString();
 						} 				
 
 						SwipeLeftActivity = typeof(CheckIn);

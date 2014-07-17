@@ -200,6 +200,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\singled-out.pubxml" />
     <None Include="Properties\PublishProfiles\SingledOut.pubxml" />
   </ItemGroup>
   <PropertyGroup>
