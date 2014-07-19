@@ -52,8 +52,5 @@
             facebook:login_text=""
             facebook:logout_text=""
             android:layout_below="@+id/orHere" />
-        <ProgressBar
-            android:id="@+id/progressSpinner"
-            style="@style/progressspinner" />
     </RelativeLayout>
 </RelativeLayout>

@@ -110,6 +110,13 @@ namespace MobileSpace.Helpers
 			}
 		}
 
+		/// <summary>
+		/// Validates the checkbox selection required.
+		/// </summary>
+		/// <returns><c>true</c>, if checkbox selection required was validated, <c>false</c> otherwise.</returns>
+		/// <param name="checkBox">Check box.</param>
+		/// <param name="name">Name.</param>
+		/// <param name="controlToSetErrorOn">Control to set error on.</param>
 		public bool ValidateCheckboxSelectionRequired(CheckBox checkBox, string name, int controlToSetErrorOn)
 		{
 			// Check first name is not empty.
@@ -120,6 +127,27 @@ namespace MobileSpace.Helpers
 				return false;
 			} else {
 				errorControl.Error = null;
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Validates the spinner required.
+		/// </summary>
+		/// <returns><c>true</c>, if spinner required was validated, <c>false</c> otherwise.</returns>
+		/// <param name="spinner">Spinner.</param>
+		/// <param name="name">Name.</param>
+		/// <param name="controlToSetErrorOn">Control to set error on.</param>
+		public bool ValidateSpinnerRequired(Spinner spinner, string name, int controlToSetErrorOn)
+		{
+			// Check first name is not empty.
+			var errorControl = _activity.FindViewById<Spinner> (controlToSetErrorOn);
+			if (spinner.SelectedItemPosition <= 0) {
+				var errorMessage = string.Format("{0} is required",name);
+				//errorControl.SetError (errorMessage, _warning);
+				return false;
+			} else {
+				//errorControl.Error = null;
 				return true;
 			}
 		}

@@ -21,7 +21,7 @@ namespace SingledOut.WebApi.Controllers
             _userModelFactory = userModelFactory;
         }
 
-        public IEnumerable<UserModel> Get([FromUri] UsersSearchParameters sp)
+        public IEnumerable<UserModel> Search([FromUri] UsersSearchParameters sp)
         {
             var query = _userRepository.Search(sp);
 

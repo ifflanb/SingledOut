@@ -36,6 +36,7 @@ namespace SingledOutAndroid
 		private TextView _lblValidation;
 		private CheckBox _ckTerms;
 		private TextView _lblTerms;
+		private Spinner _spinAge;
 		private SecurityHelper _securityHelper;
 		private ValidationHelper _validationHelper;
 		private RestHelper _restHelper;
@@ -71,6 +72,7 @@ namespace SingledOutAndroid
 			_lblTerms = FindViewById<TextView> (Resource.Id.lblTermsConditions);
 			_lblTerms.Click += TermsClick;
 			_lblTerms.MovementMethod = new LinkMovementMethod ();
+			_spinAge = FindViewById<Spinner>(Resource.Id.spinAge);
 
 			// Restore and saved state.
 			RestoreState ();
@@ -82,6 +84,23 @@ namespace SingledOutAndroid
 			_txtRepeatPassword.TextChanged += TextChangedPasswordStrength;	
 			_rbGender.CheckedChange += CheckChangedRequired;
 			_ckTerms.CheckedChange += CheckboxCheckChangedRequired;
+			_spinAge.ItemSelected += SpinnerItemChanged;
+
+			// Populate ages spinner.
+			PopulateAgeSpinner();
+		}
+
+		private void PopulateAgeSpinner()
+		{
+			List<string> ages = new List<string>();
+			for (int i = 10; i <= 100; i++)
+			{
+				ages.Add(i.ToString());
+			}
+			_spinAge.SetBackgroundResource(Resource.Drawable.my_rectangle);
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleSpinnerItem, ages.ToArray());
+			_spinAge.Adapter = adapter;
+
 		}
 
 		/// <summary>
@@ -183,6 +202,7 @@ namespace SingledOutAndroid
 			SetUserPreference("Reg_Firstname", !string.IsNullOrEmpty(_txtFirstName.Text)? _txtFirstName.Text:string.Empty);
 			SetUserPreference("Reg_Surname", !string.IsNullOrEmpty(_txtSurname.Text)?_txtSurname.Text:string.Empty);
 			SetUserPreference("Reg_Email", !string.IsNullOrEmpty(_txtEmail.Text)?_txtEmail.Text:string.Empty);
+			SetUserPreference("Reg_Age", _spinAge.Selected ?_spinAge.SelectedItemPosition.ToString():string.Empty);
 			SetUserPreference("Reg_Password", !string.IsNullOrEmpty(_txtPassword.Text)?_txtPassword.Text:string.Empty);
 			SetUserPreference("Reg_RepeatPassword", !string.IsNullOrEmpty(_txtRepeatPassword.Text)?_txtRepeatPassword.Text:string.Empty);
 			SetUserPreference("Reg_GenderMale", _rbGender.CheckedRadioButtonId == Resource.Id.radio_male?"1":"-1");
@@ -196,6 +216,7 @@ namespace SingledOutAndroid
 			SetUserPreference ("Reg_Firstname", string.Empty);
 			SetUserPreference("Reg_Surname", string.Empty);
 			SetUserPreference("Reg_Email", string.Empty);
+			SetUserPreference("Reg_Age", string.Empty);
 			SetUserPreference("Reg_Password", string.Empty);
 			SetUserPreference("Reg_RepeatPassword", string.Empty);
 			SetUserPreference("Reg_GenderMale", string.Empty);
@@ -216,6 +237,9 @@ namespace SingledOutAndroid
 			}
 			if (!string.IsNullOrEmpty(GetUserPreference ("Reg_Email"))) {
 				_txtEmail.Text = GetUserPreference ("Reg_Email");
+			}
+			if (!string.IsNullOrEmpty(GetUserPreference ("Reg_Age"))) {
+				_spinAge.SetSelection(int.Parse(GetUserPreference ("Reg_Age")));
 			}
 			if (!string.IsNullOrEmpty(GetUserPreference ("Reg_Password"))) {
 				_txtPassword.Text = GetUserPreference ("Reg_Password");
@@ -246,6 +270,11 @@ namespace SingledOutAndroid
 		{
 			var uri = _uriCreator.RegisterAccount (string.Concat(Resources.GetString (Resource.String.apiurlaccount), "/", Resources.GetString (Resource.String.apiurlaccountregister)));
 			return _restHelper.PostAsync(uri , user);
+		}
+
+		protected void SpinnerItemChanged(object sender, Android.Widget.AdapterView.ItemSelectedEventArgs e)
+		{
+			_validationHelper.ValidateSpinnerRequired (((Spinner)sender), "Age", Resource.Id.spinAge);
 		}
 
 		protected void CheckboxCheckChangedRequired(object sender, CheckBox.CheckedChangeEventArgs e)
@@ -314,6 +343,11 @@ namespace SingledOutAndroid
 
 			// Check email length
 			if (!_validationHelper.ValidateEditTextEmailAddress (_txtEmail)) {
+				return false;
+			}
+
+			// Check age
+			if (!_validationHelper.ValidateSpinnerRequired(_spinAge, "Age", Resource.Id.spinAge)) {
 				return false;
 			}
 

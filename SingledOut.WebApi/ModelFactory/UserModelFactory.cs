@@ -66,6 +66,7 @@ namespace SingledOut.WebApi.ModelFactory
                     FirstName = model.FirstName,
                     Surname = model.Surname,
                     Sex = model.Sex,
+                    Age = model.Age,
                     FacebookUserName = model.FacebookUserName,
                     FacebookAccessToken = model.FacebookAccessToken,
                     CreatedDate = model.CreatedDate,

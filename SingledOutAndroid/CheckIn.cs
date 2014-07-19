@@ -147,11 +147,9 @@ namespace SingledOutAndroid
 
 			// Show welcome back message.
 			if (LastActivity == "Login" || LastActivity == "SplashPage") {
-				ShowNotificationBox (string.Concat ("Welcome back ", CurrentUser.FirstName, "!"));
+				ShowNotificationBox (string.Concat ("Welcome back ", CurrentUser.FirstName, "!"),true);
 			}
 		}
-
-
 
 		/// <summary>
 		/// Filters the click.

@@ -67,6 +67,11 @@ namespace SingledOut.WebApi.Filters
             HandleUnauthorizedRequest(actionContext);
         }
 
+        /// <summary>
+        /// Gets the Credentials from the auth header.
+        /// </summary>
+        /// <param name="authHeader"></param>
+        /// <returns></returns>
         private string[] GetCredentials(System.Net.Http.Headers.AuthenticationHeaderValue authHeader)
         {
             //Base 64 encoded string
@@ -77,19 +82,11 @@ namespace SingledOut.WebApi.Filters
 
             return credArray;
         }
-
-        private bool IsResourceOwner(string userName, HttpActionContext actionContext)
-        {
-            var routeData = actionContext.Request.GetRouteData();
-            var resourceUserName = routeData.Values["userName"] as string;
-
-            if (resourceUserName == userName)
-            {
-                return true;
-            }
-            return false;
-        }
-
+        
+        /// <summary>
+        /// Handles the unauthorized requests.
+        /// </summary>
+        /// <param name="actionContext"></param>
         private void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
             actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);

@@ -18,10 +18,14 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Json;
 using System.Net;
+using Java.Util;
 
-[assembly:Permission (Name = Android.Manifest.Permission.Internet)]
-[assembly:Permission (Name = Android.Manifest.Permission.WriteExternalStorage)]
-[assembly:MetaData ("com.facebook.sdk.ApplicationId", Value ="@string/app_id")]
+//[assembly:Permission (Name = Android.Manifest.Permission.Internet)]
+//[assembly:Permission (Name = Android.Manifest.Permission.WriteExternalStorage)]
+//[assembly:MetaData ("com.facebook.sdk.ApplicationId", Value ="@string/app_id")]
+using System.Globalization;
+
+
 namespace SingledOutAndroid
 {
 	[Activity (Label = "Sign In", Theme = "@android:style/Theme.NoTitleBar")]	
@@ -35,6 +39,7 @@ namespace SingledOutAndroid
 		private IGraphUser user;
 		private UiLifecycleHelper uiHelper;
 		private Session.IStatusCallback callback;
+		private ValidationHelper ValidationHelper;
 
 		private	enum PendingAction
 		{	NONE,
@@ -65,12 +70,22 @@ namespace SingledOutAndroid
 
 			SetContentView (Resource.Layout.SignIn);
 
+			ValidationHelper = new ValidationHelper (this, GetValidationWarningDrawable());
+
 			// Start of Facebook login stuff
 
 			facebookLoginButton = (LoginButton)FindViewById (Resource.Id.facebooklogin);
 			facebookLoginButton.UserInfoChangedCallback = new MyUserInfoChangedCallback (this);
 			facebookLoginButton.SetBackgroundResource(Resource.Drawable.facebookloginrounded);
 			facebookLoginButton.SetCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0); 
+
+			var perms = new List<string> {
+				"email",
+				"read_stream",
+				"user_birthday"
+			};
+
+			facebookLoginButton.SetReadPermissions (perms);
 
 			controlsContainer = (ViewGroup)FindViewById (Resource.Id.signincontainerinnerlayout);
 
@@ -107,6 +122,24 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Backgrounds the state of the control.
+		/// </summary>
+		/// <param name="display">If set to <c>true</c> display.</param>
+		protected void BackgroundControlState(bool display)
+		{
+			var signincontainerlayout = (RelativeLayout)FindViewById(Resource.Id.signincontainerlayout);
+			var signincontainerinnerlayout = (RelativeLayout)FindViewById(Resource.Id.signincontainerinnerlayout);
+
+			if (!display) {
+				signincontainerlayout.SetBackgroundColor (Color.White);
+				signincontainerinnerlayout.Visibility = ViewStates.Invisible;
+			} else {
+				signincontainerlayout.SetBackgroundColor (Color.ParseColor("#97C7DE"));
+				signincontainerinnerlayout.Visibility = ViewStates.Visible;
+			}
+		}
+
+		/// <summary>
 		/// Singleds the out login.
 		/// </summary>
 		/// <param name="sender">Sender.</param>
@@ -128,13 +161,17 @@ namespace SingledOutAndroid
 
 			public void Call (Session session, SessionState state, Java.Lang.Exception exception)
 			{
-				owner.OnSessionStateChange (session, state, exception);
+				owner.OnSessionStateChange (session, state, exception);	
+				if (state == SessionState.Opened || state == SessionState.Opening) {
+					owner.BackgroundControlState (false);
+				}
 			}
 		}
 
 		class MyUserInfoChangedCallback : Java.Lang.Object, LoginButton.IUserInfoChangedCallback
 		{
 			SignIn owner;
+			ProgressDialog _dialog;
 
 			public MyUserInfoChangedCallback (SignIn owner)
 			{
@@ -147,17 +184,25 @@ namespace SingledOutAndroid
 			/// <param name="user">User.</param>
 			public async void OnUserInfoFetched (IGraphUser user)
 			{
-				// Start progress indicator.
-				var spinner = (ProgressBar)owner.FindViewById(Resource.Id.progressSpinner);
-				spinner.Visibility = ViewStates.Visible;
-
 				owner.user = user;
 
 				if (user != null) {
 					if (Session.ActiveSession.IsOpened) 
 					{
+						_dialog = new ProgressDialog(owner, Resource.Style.CustomDialogTheme);
+						_dialog.SetTitle ("Saving");
+						_dialog.SetMessage ("Please wait...");
+						_dialog.Show();
+
 						var accessToken = Session.ActiveSession.AccessToken;
 						var jsonFacebook = user.InnerJSONObject;
+						var facebookAccessToken = owner.GetUserPreference ("FacebookAccessToken");
+
+						if (!string.IsNullOrEmpty (facebookAccessToken)) {
+							// Change to Tutorial page.
+							owner.SwipeLeftActivity = typeof(Tutorial1);
+							owner.SwipeLeft ("SignIn");
+						}
 
 						var task = owner.FactoryStartNew (() => SaveFacebookDetails (jsonFacebook, accessToken));
 
@@ -171,29 +216,54 @@ namespace SingledOutAndroid
 								var result = task.Result.Content.ReadAsStringAsync ().Result;
 								var json = JsonObject.Parse (result).ToString ().Replace ("{{", "{").Replace ("}}", "}");
 								// Deserialize the Json.
-								var returnUserModel = JsonConvert.DeserializeObject<UserModel>(json);
+								var returnUserModel = JsonConvert.DeserializeObject<UserModel> (json);
 
 								if (string.IsNullOrEmpty (owner.GetUserPreference ("FacebookAccessToken"))) {
 									owner.SetUserPreference ("FacebookAccessToken", accessToken);
 									owner.SetUserPreference ("FacebookUsername", jsonFacebook.GetString ("id"));
 									owner.SetUserPreference ("SingledOutUser", json);
-									owner.SetUserPreference ("UserID", returnUserModel.ID.ToString());
-									owner.AuthenticationToken = returnUserModel.AuthToken.ToString();
+									owner.SetUserPreference ("UserID", returnUserModel.ID.ToString ());
+									owner.AuthenticationToken = returnUserModel.AuthToken.ToString ();
 								} 
 
 								// Change to Tutorial page.
 								owner.SwipeLeftActivity = typeof(Tutorial1);
 								owner.SwipeLeft ("SignIn");
-							} else {
-								var validationHelper = new ValidationHelper (owner, owner.GetValidationWarningDrawable ());
+							} 
+							else if (task.Result.StatusCode == HttpStatusCode.Forbidden) {
+								owner.BackgroundControlState (true);
+								// Logout from Facebook as the user already exists in the
+								// database as a Singled Out user.
+								Session.ActiveSession.CloseAndClearTokenInformation ();
 								var lblValidation = (TextView)owner.FindViewById (Resource.Id.lblValidation);
-								validationHelper.SetValidationMessage (lblValidation, "Sorry, an error occurred!");					
+								owner.ValidationHelper.SetValidationMessage (lblValidation, task.Result.ReasonPhrase);	
+							
+							}
+							else {
+								owner.BackgroundControlState (true);;
+								var lblValidation = (TextView)owner.FindViewById (Resource.Id.lblValidation);
+								owner.ValidationHelper.SetValidationMessage (lblValidation, "Sorry, an error occurred!");					
 							}
 						}
 					}
+					// Stop progress indicator.
+					_dialog.Hide ();
 				}
-				// Stop progress indicator.
-				spinner.Visibility = ViewStates.Gone;
+			}
+
+			/// <summary>
+			/// Calculates the age.
+			/// </summary>
+			/// <returns>The age.</returns>
+			/// <param name="dateOfBirth">Date of birth.</param>
+			private int CalculateAge(DateTime dateOfBirth) 
+			{ 
+				int age = 0;
+				age = DateTime.Now.Year - dateOfBirth.Year;
+				if (DateTime.Now.DayOfYear < dateOfBirth.DayOfYear) 
+					age = age - 1;
+
+				return age;
 			}
 
 			/// <summary>
@@ -203,6 +273,13 @@ namespace SingledOutAndroid
 			/// <param name="facebookAccessToken">Facebook access token.</param>
 			private HttpResponseMessage SaveFacebookDetails(Org.Json.JSONObject user, string facebookAccessToken)
 			{
+				var birthday = user.GetString ("birthday");
+				int? age = null;
+				if (!string.IsNullOrEmpty (birthday)) {
+					var birthdate = DateTime.Parse (birthday, CultureInfo.InvariantCulture);
+					age = CalculateAge (birthdate);
+				}
+
 				var userModel = new UserModel {
 					FirstName = user.GetString("first_name"),
 					Surname = user.GetString("last_name"),
@@ -210,13 +287,16 @@ namespace SingledOutAndroid
 					CreatedDate = DateTime.UtcNow,
 					FacebookAccessToken = facebookAccessToken,
 					FacebookUserName = user.GetString("id"),
-					UpdateDate = DateTime.UtcNow
+					UpdateDate = DateTime.UtcNow,
+					Age = age > 0 ? (int)age : (int?)null,
+					Email = user.GetString("email")
 				};					
 
 				// Instantiate a Uri Creator.
 				var uriCreator = new UriCreator (owner.Resources.GetString(Resource.String.apihost), owner.Resources.GetString(Resource.String.apipath));
 				var uri = uriCreator.User (owner.Resources.GetString (Resource.String.apiurlusers));
 				var restHelper = new RestHelper ();
+
 				// Save the details.
 				var response = restHelper.PostAsync(uri , userModel);
 				return response;

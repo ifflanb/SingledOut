@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/signincontainerlayout"
     style="@style/parentlayout">
     <RelativeLayout
@@ -40,17 +41,27 @@
             android:hint="Re-Enter Password"
             android:layout_below="@+id/txtPassword"
             style="@style/edittextpassword" />
+        <Spinner
+            android:id="@+id/spinAge"
+            android:layout_below="@+id/txtRepeatPassword"
+            style="@style/customtheme"
+            android:drawSelectorOnTop="true"
+            android:contentDescription="@string/age"
+            android:prompt="@string/age"
+            tools:listitem="@layout/SpinnerListItem" />
         <RadioGroup
             android:id="@+id/rbGender"
-            android:layout_below="@+id/txtRepeatPassword"
+            android:layout_below="@+id/spinAge"
             style="@style/radiogroup">
             <RadioButton
                 android:id="@+id/radio_male"
                 android:text="@string/male"
+                android:textColor="#c2c2c2"
                 style="@style/radiobutton" />
             <RadioButton
                 android:id="@+id/radio_female"
                 android:text="@string/female"
+                android:textColor="#c2c2c2"
                 style="@style/radiobutton" />
         </RadioGroup>
         <CheckBox

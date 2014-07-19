@@ -61,7 +61,7 @@ namespace SingledOut.Repository
             User facebookUser = null;
             if (!string.IsNullOrEmpty(user.FacebookUserName))
             {
-                facebookUser = GetAllUsers().SingleOrDefault(o => o.FacebookUserName == user.FacebookUserName);
+                facebookUser = GetAllUsers().SingleOrDefault(o => o.FacebookUserName == user.FacebookUserName && o.Email == user.Email);
                 facebookExistingUser = facebookUser != null;
             }
 

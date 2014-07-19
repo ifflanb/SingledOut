@@ -1,23 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\MobileSpace.Helpers\RestHelper.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="..\MobileSpace.Helpers\RestHelper.cs" Line="38" Column="23" />
-      <File FileName="Login.cs" Line="107" Column="46" />
-      <File FileName="SignIn.cs" Line="184" Column="36" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" Line="203" Column="1" />
+      <File FileName="Registration.cs" Line="219" Column="1" />
+      <File FileName="Resources\values\styles.xml" Line="10" Column="59" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\UIExtensions\WrappingSlidingDrawer.cs" line="35" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Registration.cs" line="162" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="203" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="112" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Registration.cs" line="146" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RestHelper.cs" line="75" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" line="181" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="SignIn.cs" line="179" offsetX="732" offsetY="2848" expression="responseMessage.Content" liveUpdate="False" />
