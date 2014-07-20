@@ -132,27 +132,6 @@ namespace MobileSpace.Helpers
 		}
 
 		/// <summary>
-		/// Validates the spinner required.
-		/// </summary>
-		/// <returns><c>true</c>, if spinner required was validated, <c>false</c> otherwise.</returns>
-		/// <param name="spinner">Spinner.</param>
-		/// <param name="name">Name.</param>
-		/// <param name="controlToSetErrorOn">Control to set error on.</param>
-		public bool ValidateSpinnerRequired(Spinner spinner, string name, int controlToSetErrorOn)
-		{
-			// Check first name is not empty.
-			var errorControl = _activity.FindViewById<Spinner> (controlToSetErrorOn);
-			if (spinner.SelectedItemPosition <= 0) {
-				var errorMessage = string.Format("{0} is required",name);
-				//errorControl.SetError (errorMessage, _warning);
-				return false;
-			} else {
-				//errorControl.Error = null;
-				return true;
-			}
-		}
-
-		/// <summary>
 		/// Validates an Edit Text.
 		/// </summary>
 		/// <returns><c>true</c>, if first name was validated, <c>false</c> otherwise.</returns>
@@ -161,7 +140,7 @@ namespace MobileSpace.Helpers
 		{
 			// Check first name is not empty.
 			if (string.IsNullOrEmpty (editText.Text)) {
-				editText.SetError (string.Format("{0} is required.", editTextName), _warning);
+				editText.SetError (string.Format("{0} is required.       ", editTextName), _warning);
 				editText.RequestFocus();
 				_uiHelper.ShowKeyboard (editText, _activity);
 				return false;
@@ -170,6 +149,32 @@ namespace MobileSpace.Helpers
 				return true;
 			}
 		}
+
+		/// <summary>
+		/// Validates the edit text numeric range.
+		/// </summary>
+		/// <returns><c>true</c>, if edit text numeric range was validated, <c>false</c> otherwise.</returns>
+		/// <param name="startRange">Start range.</param>
+		/// <param name="endRange">End range.</param>
+		/// <param name="editText">Edit text.</param>
+		/// <param name="editTextName">Edit text name.</param>
+		public bool ValidateEditTextNumericRange(int startRange, int endRange, EditText editText, string editTextName)
+		{
+			// Check age is not empty
+			var valueEntered = int.Parse(editText.Text);
+			if (valueEntered >= startRange && valueEntered <= endRange) {
+				editText.Error = null;
+				return true;
+			}
+			else
+			{
+				editText.SetError (string.Format("{0} must be between {1} and {2}.       ", editTextName, startRange, endRange), _warning);
+				editText.RequestFocus();
+				_uiHelper.ShowKeyboard (editText, _activity);
+				return false;
+			} 
+		}
+
 
 		/// <summary>
 		/// Validates an Edit Text Minimum Length.

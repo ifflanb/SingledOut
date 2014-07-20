@@ -88,6 +88,10 @@ namespace SingledOutAndroid
 		/// </summary>
 		public void ShowActionBar() { 
 			ActionBar.NavigationMode = ShowActionBarTabs ? ActionBarNavigationMode.Tabs : ActionBarNavigationMode.Standard;
+			if (ShowActionBarTabs) {
+				ActionBar.SetStackedBackgroundDrawable (new ColorDrawable (Color.ParseColor ("#007FFF")));
+			}
+
 			ActionBar.SetTitle(Resource.String.actionbartitlecheckin);
 			ActionBar.SetSubtitle(Resource.String.actionbarsubtitlecheckin);
 			ActionBar.SetDisplayShowTitleEnabled (true);

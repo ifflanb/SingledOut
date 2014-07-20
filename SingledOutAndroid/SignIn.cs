@@ -283,7 +283,7 @@ namespace SingledOutAndroid
 				var userModel = new UserModel {
 					FirstName = user.GetString("first_name"),
 					Surname = user.GetString("last_name"),
-					Sex = user.GetString("gender"),
+					Sex = user.GetString("gender").ToLower(),
 					CreatedDate = DateTime.UtcNow,
 					FacebookAccessToken = facebookAccessToken,
 					FacebookUserName = user.GetString("id"),

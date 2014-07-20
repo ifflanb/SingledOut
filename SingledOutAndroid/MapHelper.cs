@@ -119,7 +119,7 @@ namespace SingledOutAndroid
 			// Get the location service.
 			_locationManager = (LocationManager)_activity.GetSystemService("location");
 
-			Criteria myCriteria = new Criteria();
+			var myCriteria = new Criteria();
 			myCriteria.Accuracy = Accuracy.Medium; // Set this to medium to use non GPS provider.
 			myCriteria.PowerRequirement = Power.Low; // Set this to low to use non GPS provider.
 			// let Android select the right location provider for you

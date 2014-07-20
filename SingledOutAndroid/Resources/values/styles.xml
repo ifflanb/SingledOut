@@ -1,29 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-	<style name="customtheme" parent="@android:style/Theme.Light">
-		<item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
-        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
-        <item name="android:textColorHint">#c1c1c1</item>
-        <item name="android:layout_marginLeft">5dp</item>
-        <item name="android:layout_marginRight">5dp</item>
-    </style>
-    <style name="SpinnerItem">
-        <item name="android:textColor">#993399</item>
-        <item name="android:background">@drawable/my_rectangle</item>
-    </style>
-    <style name="SpinnerDropDownItem">
-        <item name="android:textColor">#993399</item>
-        <item name="android:background">@drawable/my_rectangle</item>
-    </style>
-
-<!--	<style name="spinnerstyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-		<item name="android:background">#ffffff</item>
-	</style>-->
-
 	<style name="CustomDialogTheme">
 	    <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
 	    <item name="android:textColorPrimary">#ffffff</item>
@@ -137,6 +113,10 @@
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">14dp</item>
         <item name="android:textColor">#0645BF</item>
+    </style>
+
+    <style name="edittextnumber" parent="@style/edittext">
+    	<item name="android:inputType">number</item>
     </style>
 
     <style name="edittext">

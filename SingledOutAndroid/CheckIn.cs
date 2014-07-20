@@ -142,9 +142,6 @@ namespace SingledOutAndroid
 			_btnCheckin = (Button)FindViewById (Resource.Id.btnCheckin);
 			_btnCheckin.Click += btnCheckin_OnClick;
 
-			// Set swipe activity.
-			SwipeRightActivity = typeof(Tutorial2);
-
 			// Show welcome back message.
 			if (LastActivity == "Login" || LastActivity == "SplashPage") {
 				ShowNotificationBox (string.Concat ("Welcome back ", CurrentUser.FirstName, "!"),true);
@@ -234,14 +231,18 @@ namespace SingledOutAndroid
 			try
 			{
 				response = _restHelper.DeleteAsync (uri);
+
+				if (!response.IsSuccessStatusCode) {
+					ShowNotificationBox ("An error occurred!");
+				}
 			}
 			catch(Exception ex) {
 				ShowNotificationBox ("An error occurred!");
 				// Log error.
 			}
 
-			if (!response.IsSuccessStatusCode) {
-				ShowNotificationBox ("An error occurred!");
+			if (response.StatusCode == HttpStatusCode.OK) {
+				SetUserPreference ("UserLocationID", string.Empty);
 			}
 		}
 

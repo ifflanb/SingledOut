@@ -1,13 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="CheckIn.cs">
     <Files>
-      <File FileName="Registration.cs" Line="219" Column="1" />
-      <File FileName="Resources\values\styles.xml" Line="10" Column="59" />
+      <File FileName="CheckIn.cs" Line="366" Column="16" />
+      <File FileName="MapHelper.cs" Line="82" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SingledOutApplication.cs" line="15" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="244" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="SignIn.cs" line="179" offsetX="732" offsetY="2848" expression="responseMessage.Content" liveUpdate="False" />

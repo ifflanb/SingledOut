@@ -180,8 +180,6 @@
     <AndroidResource Include="Resources\drawable\filter.png" />
     <AndroidResource Include="Resources\drawable\party1.png" />
     <AndroidResource Include="Resources\drawable\join.png" />
-    <AndroidResource Include="Resources\drawable\my_rectangle.xml" />
-    <AndroidResource Include="Resources\layout\SpinnerListItem.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

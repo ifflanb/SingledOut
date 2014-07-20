@@ -41,17 +41,14 @@
             android:hint="Re-Enter Password"
             android:layout_below="@+id/txtPassword"
             style="@style/edittextpassword" />
-        <Spinner
-            android:id="@+id/spinAge"
+        <EditText
+            android:id="@+id/txtAge"
+            android:hint="Select Age"
             android:layout_below="@+id/txtRepeatPassword"
-            style="@style/customtheme"
-            android:drawSelectorOnTop="true"
-            android:contentDescription="@string/age"
-            android:prompt="@string/age"
-            tools:listitem="@layout/SpinnerListItem" />
+            style="@style/edittextnumber" />
         <RadioGroup
             android:id="@+id/rbGender"
-            android:layout_below="@+id/spinAge"
+            android:layout_below="@+id/txtAge"
             style="@style/radiogroup">
             <RadioButton
                 android:id="@+id/radio_male"
