@@ -23,6 +23,7 @@ using Android.Gms.Maps;
 using Android.Support.V4.View;
 using Android.Gms.Maps.Model;
 using Android.Graphics;
+using SingledOut.SearchParameters;
 
 namespace SingledOutAndroid
 {
@@ -90,28 +91,16 @@ namespace SingledOutAndroid
 
 			SetContentView (Resource.Layout.CheckIn);
 
-			// Set the age slider up.
-			_ageSlider = (RangeSliderView)FindViewById (Resource.Id.ageslider);
-			_ageSlider.LeftValueChanged += value => {
-				SetAgeRangeText();
-			};
-
-			_ageSlider.RightValueChanged += value => {
-				SetAgeRangeText();
-			};
-			SetAgeRangeText();
+			_uriCreator = new UriCreator(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 
 			_distanceSlider = (SeekBar)FindViewById (Resource.Id.distanceslider);
-
-			_distanceSlider.ProgressChanged += SetDistanceRangeText;
-			//SetDistanceRangeText();
 
 			// Instantiate the helpers.
 			_uiHelper = new UIHelper ();
 			_mapHelper = new MapHelper (this);
 			_restHelper = new RestHelper(AuthenticationToken, UserID);
 			_animationHelper = new AnimationHelper ();
-			_uriCreator = new UriCreator(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
+
 			// Create uri creator for Google Api related stuff.
 			_googleApiUriCreator = new UriCreator (Resources.GetString(Resource.String.googleapihost), Resources.GetString(Resource.String.googleapipath));
 			// Set tab selected event handler.
@@ -146,6 +135,75 @@ namespace SingledOutAndroid
 			if (LastActivity == "Login" || LastActivity == "SplashPage") {
 				ShowNotificationBox (string.Concat ("Welcome back ", CurrentUser.FirstName, "!"),true);
 			}
+
+			var radioGroup = (RadioGroup)FindViewById (Resource.Id.rgGender);
+			radioGroup.CheckedChange += radioGroupCheckedChange;
+
+			// Set the age slider up.
+			_ageSlider = (RangeSliderView)FindViewById (Resource.Id.ageslider);
+			_ageSlider.LeftValueChanged += value => {
+				SetAgeRangeText();
+			};
+
+			_ageSlider.RightValueChanged += value => {
+				SetAgeRangeText();
+			};
+			SetAgeRangeText();
+
+			_distanceSlider.ProgressChanged += SetDistanceRangeText;
+		}
+
+		protected void radioGroupCheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
+		{
+			GetOtherUsers();
+		}
+
+		/// <summary>
+		/// Gets the other users.
+		/// </summary>
+		private async void GetOtherUsers()
+		{
+			var rgGender = (RadioGroup)FindViewById (Resource.Id.rgGender);
+			var gender = GenderEnum.Both;
+
+			switch (rgGender.CheckedRadioButtonId) {
+			case 1:
+				gender = GenderEnum.Male;
+				break;
+			case 2:
+				gender = GenderEnum.Female;
+				break;
+			case 3:
+				gender = GenderEnum.Both;
+				break;
+			}
+
+			UsersSearchParameters sp = new UsersSearchParameters {
+				AgeFrom = (int)_ageSlider.LeftValue,
+				AgeTo = (int)_ageSlider.RightValue,
+				Distance = _distanceSlider.Progress,
+				Sex = gender
+			};
+
+			// Create task to get other users.
+			var userSearchControllerUri = Resources.GetString (Resource.String.apiurlusersearch);
+			var uri = _uriCreator.Search (userSearchControllerUri, sp);
+
+			var response = FactoryStartNew (() => _restHelper.GetAsync (uri));
+			if (response != null) {
+				// await so that this task will run in the background.
+				await response;
+
+				if (response.Result.StatusCode == HttpStatusCode.OK) {
+					// Get json from response message.
+					var result = response.Result.Content.ReadAsStringAsync ().Result;
+					var json = JsonObject.Parse (result).ToString ().Replace ("{{", "{").Replace ("}}", "}");
+					// Deserialize the Json.
+					var returnnModel = JsonConvert.DeserializeObject<UserModel> (json);
+
+					
+				}
+			}
 		}
 
 		/// <summary>
@@ -173,6 +231,9 @@ namespace SingledOutAndroid
 		{
 			var agetosee = (TextView)FindViewById (Resource.Id.agetosee);
 			agetosee.Text = String.Format ("Age {0} to {1}", (int)_ageSlider.LeftValue, (int)_ageSlider.RightValue);
+		
+			// Do search
+			GetOtherUsers();
 		}
 
 		/// <summary>
@@ -182,6 +243,9 @@ namespace SingledOutAndroid
 		{
 			var distancetosee = (TextView)FindViewById (Resource.Id.distancetosee);
 			distancetosee.Text = String.Format ("Within {0}M", e.Progress);
+
+			// Do search
+			GetOtherUsers();
 		}
 
 		/// <summary>

@@ -34,7 +34,7 @@ namespace SingledOut.WebApi.Controllers
         {
             var query = _userLocationsRepository.GetAllUserLocations();
 
-            var results = query.ToList().Select(s => _userLocationModelFactory.Create(s, Request));
+            var results = query.ToList().Select(s => _userLocationModelFactory.Create(s));
 
             return results;
         }
@@ -48,7 +48,7 @@ namespace SingledOut.WebApi.Controllers
                 var userLocation = _userLocationsRepository.GetUserLocation(id);
                 if (userLocation != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, _userLocationModelFactory.Create(userLocation, Request));
+                    return Request.CreateResponse(HttpStatusCode.OK, _userLocationModelFactory.Create(userLocation));
                 }
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
@@ -71,7 +71,7 @@ namespace SingledOut.WebApi.Controllers
                 var result = _userLocationsRepository.Insert(entity);
                 if (result > 0)
                 {
-                    return Request.CreateResponse(HttpStatusCode.Created, _userLocationModelFactory.Create(entity, Request));
+                    return Request.CreateResponse(HttpStatusCode.Created, _userLocationModelFactory.Create(entity));
                 }
                 
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not save user location to the database.");

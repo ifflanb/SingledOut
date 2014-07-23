@@ -136,38 +136,69 @@ namespace MobileSpace.Helpers
 		}
 
 		/// <summary>
+		/// Search the specified userSearchUri and sp.
+		/// </summary>
+		/// <param name="userSearchUri">User search URI.</param>
+		/// <param name="sp">Sp.</param>
+		public string Search(string userSearchUri, UsersSearchParameters sp)
+		{
+			var path = string.Concat(_rootPath, userSearchUri);
+			_uriBuilder = BuildRootPath(path);
+			_uriBuilder.Query = BuildSearch (sp);
+
+			return _uriBuilder.Uri.AbsoluteUri;
+		}
+
+		/// <summary>
 		/// Builds the search.
 		/// </summary>
 		/// <returns>The search.</returns>
 		/// <param name="sp">Sp.</param>
-		public Uri BuildSearch(UsersSearchParameters sp)
+		public string BuildSearch(UsersSearchParameters sp)
 		{
+			var searchString = new StringBuilder ();
+
 			if(!string.IsNullOrEmpty(sp.FacebookUserName))
 			{
-				_uriBuilder.Query = string.Concat("FacebookUserName=", sp.FacebookUserName);
+				searchString.Append(string.Concat("FacebookUserName=", sp.FacebookUserName));
+				searchString.Append ("&");
 			}
 			if(!string.IsNullOrEmpty(sp.FirstName))
 			{
-				_uriBuilder.Query = string.Concat("FirstName=", sp.FirstName);
+				searchString.Append(string.Concat("FirstName=", sp.FirstName));
+				searchString.Append ("&");
 			}
 			if(!string.IsNullOrEmpty(sp.Surname))
 			{
-				_uriBuilder.Query = string.Concat("Surname=", sp.Surname);
+				searchString.Append(string.Concat("Surname=", sp.Surname));
+				searchString.Append ("&");
 			}
-			if(!string.IsNullOrEmpty(sp.Sex))
+
+			searchString.Append(string.Concat("Sex=", "3"));
+			searchString.Append ("&");
+			searchString.Append(string.Concat("AgeFrom=", sp.AgeFrom));
+			searchString.Append ("&");
+			searchString.Append(string.Concat("AgeTo=", sp.AgeTo));
+			searchString.Append ("&");
+			searchString.Append(string.Concat("Distance=", sp.Distance));
+			searchString.Append ("&");
+
+			if(sp.UserLatitude.HasValue && sp.UserLongitude.HasValue)
 			{
-				_uriBuilder.Query = string.Concat("Sex=", sp.Sex);
+				searchString.Append(string.Concat("UserLatitude=", sp.UserLatitude));
+				searchString.Append ("&");
+				searchString.Append(string.Concat("UserLongitude=", sp.UserLongitude));
+				searchString.Append ("&");
 			}
 			if(!string.IsNullOrEmpty(sp.Email))
 			{
-				_uriBuilder.Query = string.Concat("Email=", sp.Email);
-			}
-			if(!string.IsNullOrEmpty(_uriBuilder.Query))
-			{
-				_uriBuilder.Query = string.Concat("?", _uriBuilder.Query);
+				searchString.Append(string.Concat("Email=", sp.Email));
 			}
 				
-			return _uriBuilder.Uri;
+			if (searchString.ToString ().EndsWith ("&")) {
+				searchString.Remove (searchString.Length - 1, 1);
+			}
+			return searchString.ToString();
 		}	
 	}
 }

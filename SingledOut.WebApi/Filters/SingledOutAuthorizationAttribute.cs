@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
@@ -9,21 +8,26 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Ninject;
+using SingledOut.Data;
 using SingledOut.Repository;
-using SingledOut.SearchParameters;
+using SingledOut.Repository.QueryBuilders.User;
+using SingledOut.Services.Services;
 
 namespace SingledOut.WebApi.Filters
 {
     public class SingledOutAuthorizationAttribute : AuthorizationFilterAttribute
     {
-        [Inject]
-        public UserRepository UserRepository { get; set; }
-
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             // Get injection dependncies
-            IKernel kernel = new StandardKernel();
-            kernel.Inject(this);
+            //IKernel kernel = new StandardKernel();
+            //kernel.Inject(this);
+
+            var ctx = new SingledOutContext();
+            var userQueryBuilder = new QueryBuilder();
+            var security = new Security();
+            var userRepository = new UserRepository(ctx, security, userQueryBuilder);
+            
 
             var authHeader = actionContext.Request.Headers.Authorization;
 
@@ -32,7 +36,7 @@ namespace SingledOut.WebApi.Filters
                 int userId;
                 if (int.TryParse(authHeader.Parameter, out userId))
                 {
-                    var user = UserRepository.GetUser(userId);
+                    var user = userRepository.GetUser(userId);
                     if (user != null)
                     {
                         Guid token;
@@ -53,7 +57,7 @@ namespace SingledOut.WebApi.Filters
                         var userName = credArray[0];
                         var password = credArray[1];
 
-                        if (UserRepository.LoginUser(userName, password))
+                        if (userRepository.LoginUser(userName, password))
                         {
                             var currentPrincipal = new GenericPrincipal(new GenericIdentity(userName), null);
                             Thread.CurrentPrincipal = currentPrincipal;

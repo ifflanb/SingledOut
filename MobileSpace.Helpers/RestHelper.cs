@@ -180,40 +180,5 @@ namespace MobileSpace.Helpers
 
 			return response;
 		}
-
-
-		/// <summary>
-		/// Searchs the async.
-		/// </summary>
-		/// <returns>The async.</returns>
-		/// <param name="uri">URI.</param>
-		/// <param name="username">Username.</param>
-		/// <param name="password">Password.</param>
-		public HttpResponseMessage SearchAsync(string uri, string username, string password)
-		{
-			HttpResponseMessage response;
-
-			_httpClient.DefaultRequestHeaders.Authorization = CreateBasicHeader(username, password);
-
-			try
-			{
-				uri = string.Concat(uri);
-				response = _httpClient.GetAsync(uri).Result;
-			}
-			catch (AggregateException ex)
-			{
-				throw ex;
-			}
-			catch (WebException ex)
-			{
-				throw ex;
-			}       
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-
-			return response;
-		}
     }
 }

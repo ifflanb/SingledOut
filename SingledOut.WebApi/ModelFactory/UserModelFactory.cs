@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Net.Http;
-using System.Web.Http.Routing;
+using System.Collections.Generic;
 using SingledOut.Data.Entities;
 using SingledOut.Model;
 using SingledOut.Repository;
@@ -11,7 +10,6 @@ namespace SingledOut.WebApi.ModelFactory
 {
     public class UserModelFactory : IUserModelFactory
     {
-        private UrlHelper _urlHelper;
         private readonly IUserQuestionModelFactory _userQuestionModelFactory;
         private readonly IUserLocationModelFactory _userLocationModelFactory;
         private readonly IUserAnswerModelFactory _userAnswerModelFactory;
@@ -19,19 +17,49 @@ namespace SingledOut.WebApi.ModelFactory
         private readonly ISecurity _security;
 
         public UserModelFactory(
+            IUserLocationModelFactory userLocationModelFactory,
             IUserQuestionRepository userQuestionRepository,
             ISecurity security
             )
             //,
             //IUserQuestionModelFactory userQuestionModelFactory,
-            //IUserLocationModelFactory userLocationModelFactory,
             //IUserAnswerModelFactory userAnswerModelFactory)
         {
+            _userLocationModelFactory = userLocationModelFactory;
             _userQuestionRepository = userQuestionRepository;
             _security = security;
             //_userQuestionModelFactory = userQuestionModelFactory;
-            //_userLocationModelFactory = userLocationModelFactory;
             //_userAnswerModelFactory = userAnswerModelFactory;
+        }
+
+        /// <summary>
+        /// Creates a list of user models from a list of users.
+        /// </summary>
+        /// <param name="users"></param>
+        /// <returns></returns>
+        public IEnumerable<UserModel> Create(IEnumerable<User> users)
+        {
+            var userModels = new List<UserModel>();
+
+            foreach (var user in users)
+            {
+                userModels.Add(new UserModel
+                    {
+                        ID = user.ID,
+                        FirstName = user.FirstName,
+                        Surname = user.Surname,
+                        FacebookAccessToken = user.FacebookAccessToken,
+                        FacebookUserName = user.FacebookUserName,
+                        Sex = user.Sex,
+                        CreatedDate = user.CreatedDate,
+                        UpdateDate = user.UpdateDate,
+                        Email = user.Email,
+                        AuthToken = user.AuthToken,
+                        UserLocation = user.UserLocation != null ? _userLocationModelFactory.Create(user.UserLocation) : null
+                    });
+            }
+
+            return userModels;
         }
 
         public UserModel Create(User user)
@@ -39,7 +67,6 @@ namespace SingledOut.WebApi.ModelFactory
             return new UserModel
             {
                 ID = user.ID,
-               // Url = _urlHelper != null ? _urlHelper.Link("Users", new { controller = "Users", id = user.ID }) : string.Empty,
                 FirstName = user.FirstName,
                 Surname = user.Surname,
                 FacebookAccessToken = user.FacebookAccessToken,

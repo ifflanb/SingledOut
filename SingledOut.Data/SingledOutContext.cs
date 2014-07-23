@@ -10,7 +10,7 @@ namespace SingledOut.Data
     {
         Configuration.ProxyCreationEnabled = false;
         Configuration.LazyLoadingEnabled = false;
-
+            
         Database.SetInitializer(new MigrateDatabaseToLatestVersion<SingledOutContext,
                SingledOutContextMigrationConfiguration>());
     }

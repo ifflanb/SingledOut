@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -12,7 +11,7 @@ using SingledOut.SearchParameters;
 namespace SingledOut.UnitTests.WebApi.Controller
 {
     [TestFixture]
-    public class Class1
+    public class UserControllerTests
     {
         private UserModel CreateDummyUserModel()
         {
@@ -26,7 +25,7 @@ namespace SingledOut.UnitTests.WebApi.Controller
                 FacebookUserName = "ifflanb2",
                 UpdateDate = DateTime.UtcNow,
                 Email = "ifflanb2@yahoo.com",
-                Password = CreateHash("testpassword1")
+                Password = "testpassword1"
             };
             return userModel;
         }
@@ -56,8 +55,8 @@ namespace SingledOut.UnitTests.WebApi.Controller
             //
             // Arrange.
             //
-            var data = CreateDummyUserModel();
-            var response = PostAsync("http://localhost/SingledOut.WebApi/api/users", data);
+            var userModel = UnitTestDataHelper.CreateDefaultUser();
+            var response = PostAsync("http://localhost/SingledOut.WebApi/api/users", userModel);
    
             //
             // Assert.
@@ -65,6 +64,12 @@ namespace SingledOut.UnitTests.WebApi.Controller
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
         }
 
+        /// <summary>
+        /// Posts an Async request.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public HttpResponseMessage PostAsync(string uri, object data)
         {
             var httpClient = new HttpClient();
@@ -84,7 +89,8 @@ namespace SingledOut.UnitTests.WebApi.Controller
             //
             // Arrange.
             //
-            var response = Login("http://localhost/SingledOut.WebApi/api/users/Login", "ifflanb@yahoo.com", "testpassword1");
+            UnitTestDataHelper.CreateDefaultUser();
+            var response = Login("http://localhost/SingledOut.WebApi/api/users/Login", "jo.bloggs@test.com", "testpassword1");
 
             //
             // Assert.
@@ -94,26 +100,21 @@ namespace SingledOut.UnitTests.WebApi.Controller
 
         public AuthenticationHeaderValue CreateBasicHeader(string username, string password)
         {
-            //password = CreateHash(password);
             byte[] byteArray = Encoding.UTF8.GetBytes(username + ":" + password);
             return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
         }
 
-        public string CreateHash(string unHashed)
-        {
-            var x = new MD5CryptoServiceProvider();
-            var data = Encoding.ASCII.GetBytes(unHashed);
-            data = x.ComputeHash(data);
-            return Encoding.ASCII.GetString(data);
-        }
-
+        /// <summary>
+        /// Login.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public HttpResponseMessage Login(string uri, string username, string password)
         {
             var httpClient = new HttpClient();
-
-            //var byteArray = Encoding.ASCII.GetBytes("username:password1234");
-            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-
+            
             httpClient.DefaultRequestHeaders.Authorization = CreateBasicHeader(username, password);
 			
 			var response = httpClient.GetAsync(uri).Result;
@@ -121,12 +122,11 @@ namespace SingledOut.UnitTests.WebApi.Controller
             return response;
         }
 
+
         public HttpResponseMessage GetAsync(string uri, UsersSearchParameters sp)
         {
             var httpClient = new HttpClient();
-            
-            //HttpContent cont = new ;
-            //cont.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+           
             uri = string.Concat(uri, "/?Facebookvar=", sp.FacebookUserName);
             var response = httpClient.GetAsync(uri).Result;
 

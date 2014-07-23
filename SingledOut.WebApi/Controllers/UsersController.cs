@@ -137,7 +137,7 @@ namespace SingledOut.WebApi.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Can not delete user, user has user answers.");
                 }
 
-                if (user.UserLocations != null && user.UserLocations.Count > 0)
+                if (user.UserLocation != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Can not delete user, user has user locations.");
                 }

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using SingledOut.Model;
 using SingledOut.Repository;
 using SingledOut.SearchParameters;
 using SingledOut.WebApi.Interfaces;
@@ -21,13 +21,23 @@ namespace SingledOut.WebApi.Controllers
             _userModelFactory = userModelFactory;
         }
 
-        public IEnumerable<UserModel> Search([FromUri] UsersSearchParameters sp)
+        [HttpGet]
+        public HttpResponseMessage Search([FromUri] UsersSearchParameters sp)
         {
-            var query = _userRepository.Search(sp);
+            try
+            {
+                var users = _userRepository.Search(sp).ToList();
 
-            var results = query.ToList().Select(s => _userModelFactory.Create(s));
-
-            return results;
+                if (users.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, _userModelFactory.Create(users));
+                }
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
         }
     }
 }

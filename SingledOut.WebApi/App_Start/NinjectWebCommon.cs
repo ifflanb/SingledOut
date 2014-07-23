@@ -78,6 +78,9 @@ namespace SingledOut.WebApi.App_Start
             kernel.Bind<IUserLocationsRepository>().To<UserLocationsRepository>().InRequestScope();
             kernel.Bind<UserRepository>().To<UserRepository>().InRequestScope();
 
+            // Querybuilders.
+            kernel.Bind<Repository.QueryBuilders.User.IQueryBuilder>().To<Repository.QueryBuilders.User.QueryBuilder>().InRequestScope();
+            
             // Model Factories.
             kernel.Bind<IUserModelFactory>().To<UserModelFactory>().InRequestScope();
             kernel.Bind<IUserQuestionModelFactory>().To<UserQuestionModelFactory>().InRequestScope();

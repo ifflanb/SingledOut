@@ -28,7 +28,14 @@ namespace SingledOut.Repository
         public int Insert(UserLocation userLocation)
         {
             _ctx.UserLocations.Add(userLocation);
-            return SaveAll();
+            var userLocationId = SaveAll();
+            var user = _ctx.Users.SingleOrDefault(o => o.ID == userLocation.UserID);
+            if (user != null)
+            {
+                user.UserLocationId = userLocationId;
+                SaveAll();
+            }
+            return userLocationId;
         }
 
         public int Update(UserLocation originalUserLocation, UserLocation updatedUserLocation)

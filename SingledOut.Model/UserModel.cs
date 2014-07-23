@@ -17,7 +17,7 @@ namespace SingledOut.Model
 
         public string FacebookUserName { get; set; }
 
-        public IEnumerable<UserLocationModel> UserLocations { get; set; }
+        public UserLocationModel UserLocation { get; set; }
 
         public IEnumerable<UserQuestionModel> UserQuestions { get; set; }
 

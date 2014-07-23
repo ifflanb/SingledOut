@@ -23,11 +23,22 @@ namespace SingledOut.WebApi.ModelFactory
         public IEnumerable<UserLocationModel> Create(IEnumerable<UserLocation> userLocations)
         {
             var userLocationsModel = new Collection<UserLocationModel>();
+            
+            return userLocationsModel;
+        }
 
-            //foreach (var userLocation in userLocations)
-            //{
-            //    userLocationsModel.Add(Create(userLocation));
-            //}
+        public UserLocationModel Create(UserLocation userLocation)
+        {
+            var userLocationsModel = new UserLocationModel
+            {
+                ID = userLocation.ID,
+                CreatedDate = userLocation.CreatedDate,
+                Latitude = userLocation.Latitude,
+                Longitude = userLocation.Longitude,
+                UpdateDate = userLocation.UpdateDate,
+                UserID = userLocation.UserID
+            };
+
             return userLocationsModel;
         }
 

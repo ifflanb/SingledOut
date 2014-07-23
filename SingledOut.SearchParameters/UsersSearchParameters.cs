@@ -1,4 +1,4 @@
-﻿using System;
+﻿using SingledOut.Model;
 
 namespace SingledOut.SearchParameters
 {
@@ -8,12 +8,22 @@ namespace SingledOut.SearchParameters
 
         public string Surname { get; set; }
 
-        public string Sex { get; set; }
+        public GenderEnum? Sex { get; set; }
 
         public string FacebookUserName { get; set; }
 
         public string Email { get; set; }
 
         public string Password { get; set; }
+
+        public int? AgeFrom { get; set; }
+
+        public int? AgeTo { get; set; }
+
+        public int? Distance { get; set; }
+
+        public double? UserLatitude { get; set; }
+
+        public double? UserLongitude { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SingledOut.Data.Entities;
+﻿using System.Collections.Generic;
+using SingledOut.Data.Entities;
 using SingledOut.Model;
 
 namespace SingledOut.WebApi.Interfaces
@@ -6,6 +7,8 @@ namespace SingledOut.WebApi.Interfaces
     public interface IUserModelFactory
     {
         UserModel Create(User user);
+
+        IEnumerable<UserModel> Create(IEnumerable<User> users);
 
         User Parse(UserModel model);
     }

@@ -18,6 +18,8 @@
     <string name="googleapiurinearbyplaces">place/nearbysearch/json</string>
     <string name="googleapiplacetypes">bar|cafe|casino|movie_theater|night_club|restaurant</string>
     <string name="apiurlusers">users</string>
+    <string name="apiurlusersearch">userssearch</string>
+    <string name="apiurlsearch">search</string>
     <string name="apiurluserlocations">UserLocations</string>
     <string name="apiurldeleteuserlocation">deleteuserlocation/</string>
     <string name="apiurlaccount">account</string>

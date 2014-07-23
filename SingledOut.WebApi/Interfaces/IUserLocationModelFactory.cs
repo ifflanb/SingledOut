@@ -9,7 +9,7 @@ namespace SingledOut.WebApi.Interfaces
     {
         IEnumerable<UserLocationModel> Create(IEnumerable<UserLocation> userLocations);
 
-        UserLocationModel Create(UserLocation userLocation, HttpRequestMessage request);
+        UserLocationModel Create(UserLocation userLocation);
 
         UserLocation Parse(UserLocationModel model);
     }

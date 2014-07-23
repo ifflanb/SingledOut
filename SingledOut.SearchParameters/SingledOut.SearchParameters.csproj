@@ -43,6 +43,12 @@
     <Compile Include="UsersSearchParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SingledOut.Model\SingledOut.Model.csproj">
+      <Project>{0591b084-b08b-4530-b105-83ce83b81c27}</Project>
+      <Name>SingledOut.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

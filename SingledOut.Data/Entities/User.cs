@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SingledOut.Data.Entities
 {
@@ -21,7 +22,9 @@ namespace SingledOut.Data.Entities
 
         public string Password { get; set; }
 
-        public ICollection<UserLocation> UserLocations { get; set; }
+        [ForeignKey("UserLocation")]
+        public int? UserLocationId { get; set; }
+        public UserLocation UserLocation { get; set; }
 
         public ICollection<UserQuestion> UserQuestions { get; set; }
 

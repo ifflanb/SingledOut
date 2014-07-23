@@ -2,14 +2,20 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
   <MonoDevelop.Ide.Workbench ActiveDocument="CheckIn.cs">
     <Files>
-      <File FileName="CheckIn.cs" Line="366" Column="16" />
-      <File FileName="MapHelper.cs" Line="82" Column="35" />
+      <File FileName="CheckIn.cs" Line="207" Column="1" />
+      <File FileName="BaseActivity.cs" Line="243" Column="31" />
+      <File FileName="SignIn.cs" Line="217" Column="98" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SingledOutApplication.cs" line="15" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="244" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="308" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="158" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="166" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="236" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="248" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="200" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
