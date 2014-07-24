@@ -13,6 +13,7 @@ using Android.Gms.Common;
 using Android.Graphics;
 using Android.Views.Animations;
 using Java.Lang;
+using SingledOut.Model;
 
 namespace SingledOutAndroid
 {
@@ -130,15 +131,72 @@ namespace SingledOutAndroid
 			return _locationManager;
 		}
 
+		public void SetOtherUserMarkers(
+			List<UserModel> users,			 
+			int? zoomLevel,
+			double? currentUserLatitude,
+			double? currentUserLongitude
+			)
+		{
+			// Reset the map to clear markers.
+			_map.Clear ();
+
+			var builder = new LatLngBounds.Builder ();
+
+			foreach (var user in users) {
+				var markerOptions = new MarkerOptions();
+				var latLng = new LatLng (user.UserLocation.Latitude, user.UserLocation.Longitude);
+				markerOptions.SetPosition (latLng);
+
+				markerOptions.SetTitle (string.Concat(user.FirstName, user.Surname.Substring(0,1)));
+
+				var markerIcon = user.Sex.ToLower () == "female" ? Resource.Drawable.femalemarker : Resource.Drawable.malemarker;
+				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource (markerIcon));
+
+				builder.Include (latLng);
+
+				_map.AddMarker (markerOptions);
+			}
+
+			if (currentUserLatitude.HasValue && currentUserLongitude.HasValue) {
+				var userlatLng = new LatLng (currentUserLatitude.Value, currentUserLongitude.Value);
+				var userMarkerOptions = new MarkerOptions ();
+				userMarkerOptions.SetPosition (userlatLng);
+				_map.AddMarker (userMarkerOptions);
+
+				builder.Include (userlatLng);
+
+				var cameraPositionBuilder = new CameraPosition.Builder ();
+				if (zoomLevel.HasValue) {
+					cameraPositionBuilder.Zoom ((float)zoomLevel.Value);
+				}
+
+				cameraPositionBuilder.Target (userlatLng);
+				var cu2 = CameraUpdateFactory.NewCameraPosition (cameraPositionBuilder.Build ());
+
+				_map.MoveCamera (cu2);
+				_map.AnimateCamera (cu2);
+			}
+
+			var bounds = builder.Build ();
+
+			var padding = 0; // offset from edges of the map in pixels
+			var cu = CameraUpdateFactory.NewLatLngBounds (bounds, padding);
+
+			_map.MoveCamera (cu);
+			_map.AnimateCamera (cu);
+		}
+
+
 		/// <summary>
 		/// Sets the marker.
 		/// </summary>
 		/// <param name="latitude">Latitude.</param>
 		/// <param name="longitude">Longitude.</param>
-		public void SetMarker(
+		public void SetUserMarker(
 			double latitude, 
 			double longitude, 
-			int zoomLevel, 
+			int? zoomLevel, 
 			string markerTitle, 
 			int markerIconID, 
 			bool centerOnMarker)
@@ -152,24 +210,30 @@ namespace SingledOutAndroid
 				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource (markerIconID));
 			}
 
-			if (UserMarker != null) {
-				RemoveMarker();
-			} 
-			UserMarker = _map.AddMarker(markerOptions);
+			if (UserMarker != null) 
+			{
+				RemoveMarker ();
+			}
 
-			var builder = new LatLngBounds.Builder();
-			builder.Include(markerOptions.Position);
-			var bounds = builder.Build();
-
-			var cameraPositionBuilder = new CameraPosition.Builder();
-			cameraPositionBuilder.Zoom (zoomLevel);
-			cameraPositionBuilder.Target(new LatLng (latitude, longitude));
+			UserMarker = _map.AddMarker (markerOptions);
 
 			var padding = 0; // offset from edges of the map in pixels
-			var cu = CameraUpdateFactory.NewLatLngBounds(bounds, padding);
-			var cu2 = CameraUpdateFactory.NewCameraPosition (cameraPositionBuilder.Build ());
 
 			if (centerOnMarker) {
+				var builder = new LatLngBounds.Builder();
+				builder.Include(markerOptions.Position);
+				var bounds = builder.Build();
+
+				var cameraPositionBuilder = new CameraPosition.Builder();
+				if (zoomLevel.HasValue) {
+					cameraPositionBuilder.Zoom ((float)zoomLevel.Value);
+				}
+
+				cameraPositionBuilder.Target(new LatLng (latitude, longitude));
+
+				var cu = CameraUpdateFactory.NewLatLngBounds(bounds, padding);
+				var cu2 = CameraUpdateFactory.NewCameraPosition (cameraPositionBuilder.Build ());
+
 				_map.MoveCamera (cu);
 				_map.AnimateCamera (cu);
 
@@ -177,7 +241,7 @@ namespace SingledOutAndroid
 				_map.AnimateCamera (cu2);
 			}
 
-			OnMarkerClick(UserMarker, latitude, longitude);
+			//OnMarkerClick(UserMarker, latitude, longitude);
 		}
 
 

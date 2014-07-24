@@ -24,6 +24,7 @@ using Android.Support.V4.View;
 using Android.Gms.Maps.Model;
 using Android.Graphics;
 using SingledOut.SearchParameters;
+using System.Threading.Tasks;
 
 namespace SingledOutAndroid
 {
@@ -48,6 +49,7 @@ namespace SingledOutAndroid
 		private SeekBar _distanceSlider;
 		private AnimationHelper _animationHelper;
 		private ViewSwitcher _viewSwitcher;
+		private bool isStartingUp = false;
 
 		/// <summary>
 		/// Gets or sets the button checkin.
@@ -84,6 +86,9 @@ namespace SingledOutAndroid
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+			// Set this variable (used to stop the control events from firing the 
+			// users search during page loading.
+			isStartingUp = true;
 
 			// Set the action bar to show.
 			ShowActionBarTabs = true;
@@ -151,29 +156,64 @@ namespace SingledOutAndroid
 			SetAgeRangeText();
 
 			_distanceSlider.ProgressChanged += SetDistanceRangeText;
+
+			isStartingUp = false;
+
+			// Now call the method to get the other users that are around.
+			DisplayOtherUsers ();
+		}
+
+		/// <summary>
+		/// Displays the other users.
+		/// </summary>
+		private async void DisplayOtherUsers()
+		{
+			if (!isStartingUp) {
+				_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Finding other users", "Please wait ...");
+
+				var task = GetOtherUsers ();
+
+				if (task != null) {
+					// await so that this task will run in the background.
+					await task;
+
+					if (task != null) {
+						var userModelList = task.Result;
+
+						double? currentUserLatitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLatitude")) ? double.Parse(GetUserPreference ("CurrentUserLatitude")) : (double?)null;
+						double? currentUserLongitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLongitude")) ? double.Parse(GetUserPreference ("CurrentUserLongitude")) : (double?)null;
+
+						_mapHelper.SetOtherUserMarkers (userModelList, 16, currentUserLatitude, currentUserLongitude);
+					}
+				}
+				_uiHelper.HideProgressDialog ();
+			}
 		}
 
 		protected void radioGroupCheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
 		{
-			GetOtherUsers();
+			// Now call the method to get the other users that are around.
+			DisplayOtherUsers();
 		}
 
 		/// <summary>
 		/// Gets the other users.
 		/// </summary>
-		private async void GetOtherUsers()
+		private async Task<List<UserModel>> GetOtherUsers()
 		{
+			List<UserModel> userModelList = null;
+
 			var rgGender = (RadioGroup)FindViewById (Resource.Id.rgGender);
 			var gender = GenderEnum.Both;
 
 			switch (rgGender.CheckedRadioButtonId) {
-			case 1:
+			case Resource.Id.radio_male:
 				gender = GenderEnum.Male;
 				break;
-			case 2:
+			case Resource.Id.radio_female:
 				gender = GenderEnum.Female;
 				break;
-			case 3:
+			default:
 				gender = GenderEnum.Both;
 				break;
 			}
@@ -195,15 +235,14 @@ namespace SingledOutAndroid
 				await response;
 
 				if (response.Result.StatusCode == HttpStatusCode.OK) {
-					// Get json from response message.
 					var result = response.Result.Content.ReadAsStringAsync ().Result;
-					var json = JsonObject.Parse (result).ToString ().Replace ("{{", "{").Replace ("}}", "}");
+					var json = JsonObject.Parse (result).ToString ();
 					// Deserialize the Json.
-					var returnnModel = JsonConvert.DeserializeObject<UserModel> (json);
-
-					
+					userModelList = JsonConvert.DeserializeObject<List<UserModel>> (result);									
 				}
 			}
+
+			return userModelList;
 		}
 
 		/// <summary>
@@ -233,7 +272,8 @@ namespace SingledOutAndroid
 			agetosee.Text = String.Format ("Age {0} to {1}", (int)_ageSlider.LeftValue, (int)_ageSlider.RightValue);
 		
 			// Do search
-			GetOtherUsers();
+			// Now call the method to get the other users that are around.
+			DisplayOtherUsers();
 		}
 
 		/// <summary>
@@ -245,7 +285,8 @@ namespace SingledOutAndroid
 			distancetosee.Text = String.Format ("Within {0}M", e.Progress);
 
 			// Do search
-			GetOtherUsers();
+			// Now call the method to get the other users that are around.
+			DisplayOtherUsers();
 		}
 
 		/// <summary>
@@ -349,7 +390,10 @@ namespace SingledOutAndroid
 			// Get the Google Place object for the item selected
 			var googlePlace = _adapter.GetItemAtPosition (e.Position);
 			// Add a marker for the users position.
-			_mapHelper.SetMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.logopindialog, true); 
+			_mapHelper.SetUserMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.usermarker, true); 
+
+			SetUserPreference ("CurrentUserLatitude", googlePlace.Latitude.ToString ());
+			SetUserPreference ("CurrentUserLongitude", googlePlace.Longitude.ToString ());
 
 			// Set checkin button to 'Hide me'
 			BtnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide,0, 0, 0);
@@ -488,7 +532,6 @@ namespace SingledOutAndroid
 								PlacesDialog_OnCancelClick (s, evt);
 							});
 
-							//var nearbyPlacesLayout = (LinearLayout)_alertDialog.FindViewById (Resource.Id.placesDescription);
 							var dialogDescription = (TextView)_uiHelper.DialogView.FindViewById (Resource.Id.placesDescription);
 							dialogDescription.Click += AddPlaces_Click;
 							//Enabled button again.

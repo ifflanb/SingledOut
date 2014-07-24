@@ -35,6 +35,33 @@ namespace MobileSpace.Helpers
 			set;
 		}
 
+		private ProgressDialog _progressDialog;
+
+		/// <summary>
+		/// Displays the progress dialog.
+		/// </summary>
+		/// <param name="activity">Activity.</param>
+		/// <param name="theme">Theme.</param>
+		/// <param name="title">Title.</param>
+		/// <param name="message">Message.</param>
+		public void DisplayProgressDialog(Activity activity, int theme, string title, string message)
+		{
+			_progressDialog = new ProgressDialog (activity, theme);
+			_progressDialog.SetTitle (title);
+			_progressDialog.SetMessage (message);
+			_progressDialog.Show();
+		}
+
+		/// <summary>
+		/// Hides the progress dialog.
+		/// </summary>
+		public void HideProgressDialog()
+		{
+			if (_progressDialog != null) {
+				_progressDialog.Hide ();
+			}
+		}
+
 		public void ShowKeyboard(EditText editText, Activity activity)
 		{
 			InputMethodManager imm = (InputMethodManager) activity.GetSystemService(Context.InputMethodService);

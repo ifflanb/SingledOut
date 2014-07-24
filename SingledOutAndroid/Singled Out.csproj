@@ -180,6 +180,9 @@
     <AndroidResource Include="Resources\drawable\filter.png" />
     <AndroidResource Include="Resources\drawable\party1.png" />
     <AndroidResource Include="Resources\drawable\join.png" />
+    <AndroidResource Include="Resources\drawable\femalemarker.png" />
+    <AndroidResource Include="Resources\drawable\malemarker.png" />
+    <AndroidResource Include="Resources\drawable\usermarker.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

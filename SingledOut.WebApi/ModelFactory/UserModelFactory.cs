@@ -46,6 +46,7 @@ namespace SingledOut.WebApi.ModelFactory
                 userModels.Add(new UserModel
                     {
                         ID = user.ID,
+                        Age = user.Age,
                         FirstName = user.FirstName,
                         Surname = user.Surname,
                         FacebookAccessToken = user.FacebookAccessToken,

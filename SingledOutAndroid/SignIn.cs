@@ -20,11 +20,7 @@ using System.Json;
 using System.Net;
 using Java.Util;
 
-//[assembly:Permission (Name = Android.Manifest.Permission.Internet)]
-//[assembly:Permission (Name = Android.Manifest.Permission.WriteExternalStorage)]
-//[assembly:MetaData ("com.facebook.sdk.ApplicationId", Value ="@string/app_id")]
 using System.Globalization;
-
 
 namespace SingledOutAndroid
 {
@@ -172,10 +168,12 @@ namespace SingledOutAndroid
 		{
 			SignIn owner;
 			ProgressDialog _dialog;
+			UIHelper uiHelper;
 
 			public MyUserInfoChangedCallback (SignIn owner)
 			{
 				this.owner = owner;
+				uiHelper = new UIHelper ();
 			}
 
 			/// <summary>
@@ -188,11 +186,8 @@ namespace SingledOutAndroid
 
 				if (user != null) {
 					if (Session.ActiveSession.IsOpened) 
-					{
-						_dialog = new ProgressDialog(owner, Resource.Style.CustomDialogTheme);
-						_dialog.SetTitle ("Saving");
-						_dialog.SetMessage ("Please wait...");
-						_dialog.Show();
+					{					
+						uiHelper.DisplayProgressDialog(owner, Resource.Style.CustomDialogTheme, "Logging in", "Please wait ...");
 
 						var accessToken = Session.ActiveSession.AccessToken;
 						var jsonFacebook = user.InnerJSONObject;
@@ -247,7 +242,7 @@ namespace SingledOutAndroid
 						}
 					}
 					// Stop progress indicator.
-					_dialog.Hide ();
+					uiHelper.HideProgressDialog ();
 				}
 			}
 
