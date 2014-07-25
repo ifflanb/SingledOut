@@ -143,24 +143,33 @@ namespace SingledOutAndroid
 
 			var builder = new LatLngBounds.Builder ();
 
-			foreach (var user in users) {
-				var markerOptions = new MarkerOptions();
-				var latLng = new LatLng (user.UserLocation.Latitude, user.UserLocation.Longitude);
-				markerOptions.SetPosition (latLng);
+			// There are other users.
+			if (users != null) {
+				foreach (var user in users) {
+					var markerOptions = new MarkerOptions ();
+					var latLng = new LatLng (user.UserLocation.Latitude, user.UserLocation.Longitude);
+					markerOptions.SetPosition (latLng);
 
-				markerOptions.SetTitle (string.Concat(user.FirstName, user.Surname.Substring(0,1)));
+					markerOptions.SetTitle (string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1)));
 
-				var markerIcon = user.Sex.ToLower () == "female" ? Resource.Drawable.femalemarker : Resource.Drawable.malemarker;
-				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource (markerIcon));
+					//var markerIcon = user.Sex.ToLower () == "female" ? Resource.Drawable.femalemarker : Resource.Drawable.malemarker;
+					//markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource (markerIcon));
 
-				builder.Include (latLng);
+					markerOptions.InvokeIcon(BitmapDescriptorFactory.DefaultMarker(user.Sex.ToLower () == "female" ? BitmapDescriptorFactory.HueRose : BitmapDescriptorFactory.HueBlue));
 
-				_map.AddMarker (markerOptions);
+					builder.Include (latLng);
+
+					_map.AddMarker (markerOptions);
+				}
 			}
 
+			// Current user is available.
 			if (currentUserLatitude.HasValue && currentUserLongitude.HasValue) {
 				var userlatLng = new LatLng (currentUserLatitude.Value, currentUserLongitude.Value);
 				var userMarkerOptions = new MarkerOptions ();
+
+				userMarkerOptions.InvokeIcon(BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueGreen));
+
 				userMarkerOptions.SetPosition (userlatLng);
 				_map.AddMarker (userMarkerOptions);
 
@@ -178,13 +187,16 @@ namespace SingledOutAndroid
 				_map.AnimateCamera (cu2);
 			}
 
-			var bounds = builder.Build ();
+			// Other users or current user or both exist.
+			if ((currentUserLatitude.HasValue && currentUserLongitude.HasValue) || users != null) {
+				var bounds = builder.Build ();
 
-			var padding = 0; // offset from edges of the map in pixels
-			var cu = CameraUpdateFactory.NewLatLngBounds (bounds, padding);
+				var padding = 0; // offset from edges of the map in pixels
+				var cu = CameraUpdateFactory.NewLatLngBounds (bounds, padding);
 
-			_map.MoveCamera (cu);
-			_map.AnimateCamera (cu);
+				_map.MoveCamera (cu);
+				_map.AnimateCamera (cu);
+			}
 		}
 
 
@@ -206,9 +218,11 @@ namespace SingledOutAndroid
 			if (!string.IsNullOrEmpty (markerTitle)) {
 				markerOptions.SetTitle (markerTitle);
 			}
-			if (markerIconID > 0) {
-				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource (markerIconID));
-			}
+//			if (markerIconID > 0) {
+//				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource (markerIconID));
+//			}
+
+			markerOptions.InvokeIcon(BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueGreen));
 
 			if (UserMarker != null) 
 			{

@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:topOffset="300dp"
+        android:topOffset="250dp"
         android:orientation="vertical"
         android:animateOnClick="true"
         android:allowSingleTap="true"
@@ -139,6 +139,30 @@
                     android:progress="100"
                     android:paddingRight="10dp"
                     android:layout_marginRight="10dp" />
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRow4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip">
+                <TextView
+                    android:text=""
+                    android:id="@+id/dummyText"
+                    style="@style/descriptiontext"
+                    android:layout_width="match_parent"
+                    android:textColor="#ffffff"
+                    android:layout_gravity="left|center_horizontal" />
+                <Button
+                    android:id="@+id/btnApply"
+                    android:drawableLeft="@drawable/tick"
+                    android:text="Apply Filter"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:paddingRight="31dp"
+                    android:gravity="center"
+                    android:layout_gravity="right"
+                    android:background="#33B5E5"
+                    android:paddingLeft="15dp" />
             </TableRow>
         </TableLayout>
     </SlidingDrawer>

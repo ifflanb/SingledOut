@@ -50,6 +50,9 @@
     <Reference Include="SingledOut.SearchParameters">
       <HintPath>..\SingledOut.SearchParameters\bin\Debug\SingledOut.SearchParameters.dll</HintPath>
     </Reference>
+    <Reference Include="SingledOut.Model">
+      <HintPath>..\SingledOut.Model\bin\Debug\SingledOut.Model.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using SingledOut.Model;
 using SingledOut.Repository;
 using SingledOut.SearchParameters;
 using SingledOut.WebApi.Interfaces;
@@ -32,7 +34,7 @@ namespace SingledOut.WebApi.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, _userModelFactory.Create(users));
                 }
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.OK, new List<UserModel>());
             }
             catch (Exception ex)
             {

@@ -183,6 +183,7 @@
     <AndroidResource Include="Resources\drawable\femalemarker.png" />
     <AndroidResource Include="Resources\drawable\malemarker.png" />
     <AndroidResource Include="Resources\drawable\usermarker.png" />
+    <AndroidResource Include="Resources\drawable\tick.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

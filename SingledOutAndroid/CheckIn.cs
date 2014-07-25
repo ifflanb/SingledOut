@@ -141,18 +141,16 @@ namespace SingledOutAndroid
 				ShowNotificationBox (string.Concat ("Welcome back ", CurrentUser.FirstName, "!"),true);
 			}
 
-			var radioGroup = (RadioGroup)FindViewById (Resource.Id.rgGender);
-			radioGroup.CheckedChange += radioGroupCheckedChange;
-
 			// Set the age slider up.
 			_ageSlider = (RangeSliderView)FindViewById (Resource.Id.ageslider);
-			_ageSlider.LeftValueChanged += value => {
+			_ageSlider.LeftValueChanged += values => {
 				SetAgeRangeText();
 			};
 
 			_ageSlider.RightValueChanged += value => {
 				SetAgeRangeText();
 			};
+
 			SetAgeRangeText();
 
 			_distanceSlider.ProgressChanged += SetDistanceRangeText;
@@ -160,6 +158,15 @@ namespace SingledOutAndroid
 			isStartingUp = false;
 
 			// Now call the method to get the other users that are around.
+			DisplayOtherUsers ();
+
+			var btnApply = (Button)FindViewById (Resource.Id.btnApply);
+			btnApply.Click += BtnApplyClick;
+		}
+
+		protected void BtnApplyClick(object sender, EventArgs e)
+		{
+			CloseSlidingDrawer ();
 			DisplayOtherUsers ();
 		}
 
@@ -177,23 +184,16 @@ namespace SingledOutAndroid
 					// await so that this task will run in the background.
 					await task;
 
-					if (task != null) {
-						var userModelList = task.Result;
+					var userModelList = task.Result;
 
-						double? currentUserLatitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLatitude")) ? double.Parse(GetUserPreference ("CurrentUserLatitude")) : (double?)null;
-						double? currentUserLongitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLongitude")) ? double.Parse(GetUserPreference ("CurrentUserLongitude")) : (double?)null;
+					double? currentUserLatitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLatitude")) ? double.Parse(GetUserPreference ("CurrentUserLatitude")) : (double?)null;
+					double? currentUserLongitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLongitude")) ? double.Parse(GetUserPreference ("CurrentUserLongitude")) : (double?)null;
 
-						_mapHelper.SetOtherUserMarkers (userModelList, 16, currentUserLatitude, currentUserLongitude);
-					}
+					_mapHelper.SetOtherUserMarkers (userModelList, 16, currentUserLatitude, currentUserLongitude);
+
 				}
 				_uiHelper.HideProgressDialog ();
 			}
-		}
-
-		protected void radioGroupCheckedChange(object sender, RadioGroup.CheckedChangeEventArgs e)
-		{
-			// Now call the method to get the other users that are around.
-			DisplayOtherUsers();
 		}
 
 		/// <summary>
@@ -207,10 +207,10 @@ namespace SingledOutAndroid
 			var gender = GenderEnum.Both;
 
 			switch (rgGender.CheckedRadioButtonId) {
-			case Resource.Id.radio_male:
+			case Resource.Id.rbMen:
 				gender = GenderEnum.Male;
 				break;
-			case Resource.Id.radio_female:
+			case Resource.Id.rbWomen:
 				gender = GenderEnum.Female;
 				break;
 			default:
@@ -234,12 +234,15 @@ namespace SingledOutAndroid
 				// await so that this task will run in the background.
 				await response;
 
-				if (response.Result.StatusCode == HttpStatusCode.OK) {
+				if (response.Result.StatusCode == HttpStatusCode.OK) 
+				{
 					var result = response.Result.Content.ReadAsStringAsync ().Result;
-					var json = JsonObject.Parse (result).ToString ();
-					// Deserialize the Json.
-					userModelList = JsonConvert.DeserializeObject<List<UserModel>> (result);									
-				}
+					if (result != "[]") {
+						var json = JsonObject.Parse (result).ToString ();
+						// Deserialize the Json.
+						userModelList = JsonConvert.DeserializeObject<List<UserModel>> (result);		
+					}
+				} 
 			}
 
 			return userModelList;
@@ -251,6 +254,14 @@ namespace SingledOutAndroid
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
 		protected void FilterClick(object sender, EventArgs e)
+		{
+			CloseSlidingDrawer ();
+		}
+
+		/// <summary>
+		/// Closes the sliding drawer.
+		/// </summary>
+		private void CloseSlidingDrawer()
 		{
 			var slidingDrawer = (SlidingDrawer)FindViewById (Resource.Id.slidingDrawer);
 			if (slidingDrawer.IsOpened) {
@@ -270,10 +281,6 @@ namespace SingledOutAndroid
 		{
 			var agetosee = (TextView)FindViewById (Resource.Id.agetosee);
 			agetosee.Text = String.Format ("Age {0} to {1}", (int)_ageSlider.LeftValue, (int)_ageSlider.RightValue);
-		
-			// Do search
-			// Now call the method to get the other users that are around.
-			DisplayOtherUsers();
 		}
 
 		/// <summary>
@@ -283,10 +290,6 @@ namespace SingledOutAndroid
 		{
 			var distancetosee = (TextView)FindViewById (Resource.Id.distancetosee);
 			distancetosee.Text = String.Format ("Within {0}M", e.Progress);
-
-			// Do search
-			// Now call the method to get the other users that are around.
-			DisplayOtherUsers();
 		}
 
 		/// <summary>

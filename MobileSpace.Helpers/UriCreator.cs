@@ -174,7 +174,7 @@ namespace MobileSpace.Helpers
 				searchString.Append ("&");
 			}
 
-			searchString.Append(string.Concat("Sex=", "3"));
+			searchString.Append(string.Concat("Sex=", sp.Sex));
 			searchString.Append ("&");
 			searchString.Append(string.Concat("AgeFrom=", sp.AgeFrom));
 			searchString.Append ("&");

@@ -1,21 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CheckIn.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RestHelper.cs">
     <Files>
-      <File FileName="CheckIn.cs" Line="207" Column="1" />
-      <File FileName="BaseActivity.cs" Line="243" Column="31" />
-      <File FileName="SignIn.cs" Line="217" Column="98" />
+      <File FileName="CheckIn.cs" Line="341" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" Line="78" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\UriCreator.cs" Line="98" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\BaseActivity.cs" Line="506" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RestHelper.cs" Line="79" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SingledOutApplication.cs" line="15" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="308" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="158" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="166" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="236" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="248" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="200" column="1" />
+      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="266" column="1" />
+      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="74" column="1" />
+      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RestHelper.cs" line="79" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
