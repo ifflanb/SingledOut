@@ -35,7 +35,6 @@ namespace SingledOutAndroid
 		private Button _btnCheckin;
 		private MapHelper _mapHelper;
 		private UIHelper _uiHelper;
-		ProgressBar _spinner;
 		private ActionBar.Tab _mapTab;
 		private ActionBar.Tab _listViewTab;
 		private Location _currentLocation;
@@ -61,19 +60,6 @@ namespace SingledOutAndroid
 			}
 			set {
 				_btnCheckin = value;
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets the spinner.
-		/// </summary>
-		/// <value>The spinner.</value>
-		public ProgressBar Spinner {
-			get {
-				return _spinner;
-			}
-			set {
-				_spinner = value;
 			}
 		}
 
@@ -188,8 +174,9 @@ namespace SingledOutAndroid
 
 					double? currentUserLatitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLatitude")) ? double.Parse(GetUserPreference ("CurrentUserLatitude")) : (double?)null;
 					double? currentUserLongitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLongitude")) ? double.Parse(GetUserPreference ("CurrentUserLongitude")) : (double?)null;
+					int currentUserID = int.Parse (GetUserPreference ("UserID"));
 
-					_mapHelper.SetOtherUserMarkers (userModelList, 16, currentUserLatitude, currentUserLongitude);
+					_mapHelper.SetOtherUserMarkers (this, userModelList, 16, currentUserLatitude, currentUserLongitude, currentUserID);
 
 				}
 				_uiHelper.HideProgressDialog ();
@@ -392,8 +379,9 @@ namespace SingledOutAndroid
 			_alertDialog.Dismiss ();
 			// Get the Google Place object for the item selected
 			var googlePlace = _adapter.GetItemAtPosition (e.Position);
+
 			// Add a marker for the users position.
-			_mapHelper.SetUserMarker (googlePlace.Latitude, googlePlace.Longitude, 16, "You are here!", Resource.Drawable.usermarker, true); 
+			_mapHelper.SetUserMarker (this, googlePlace.Latitude, googlePlace.Longitude, CurrentUser.ID); 
 
 			SetUserPreference ("CurrentUserLatitude", googlePlace.Latitude.ToString ());
 			SetUserPreference ("CurrentUserLongitude", googlePlace.Longitude.ToString ());
@@ -438,17 +426,16 @@ namespace SingledOutAndroid
 
 		protected void btnCheckin_OnClick(object sender, EventArgs eventArgs)
 		{
-			if (!_mapHelper.IsUserLocationSet) {
+			if (!_mapHelper.UserHasMarker(CurrentUser.ID)) {
 				// Start progress indicator.
-				_spinner = (ProgressBar)FindViewById (Resource.Id.progressSpinner);
-				_spinner.Visibility = ViewStates.Visible;
+				_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Finding places near you", "Please wait ...");
 
 				_btnCheckin.Enabled = false;
 				// Start the location manager.
 				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
 			} 
 			else {
-				_mapHelper.RemoveMarker ();
+				_mapHelper.RemoveMarker (CurrentUser.ID);
 
 				// Remove the user location from the database.
 				RemoveUserLocation ();
@@ -548,8 +535,8 @@ namespace SingledOutAndroid
 					ShowNotificationBox ("An error occurred!");
 				}
 			}
-			// Stop progress indicator.
-			_spinner.Visibility = ViewStates.Gone;
+			// Hide progress dialog.
+			_uiHelper.HideProgressDialog ();
 		}
 
 		void PlacesDialogClosed (object sender, EventArgs e)

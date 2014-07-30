@@ -184,6 +184,8 @@
     <AndroidResource Include="Resources\drawable\malemarker.png" />
     <AndroidResource Include="Resources\drawable\usermarker.png" />
     <AndroidResource Include="Resources\drawable\tick.png" />
+    <AndroidResource Include="Resources\drawable\mapmarkerdialogblue.png" />
+    <AndroidResource Include="Resources\drawable\bothmarker.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

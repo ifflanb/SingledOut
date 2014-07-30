@@ -92,7 +92,7 @@ namespace MobileSpace.Helpers
 		/// <param name="ID">I.</param>
 		public string DeleteUserLocations(string userLocationsUri, string deleteuserlocation, string ID)
 		{
-			var path = string.Concat(_rootPath, userLocationsUri, "/", deleteuserlocation, "/", ID);
+			var path = string.Concat(_rootPath, userLocationsUri, "/", deleteuserlocation, ID);
 			_uriBuilder = BuildRootPath(path);
 
 			return _uriBuilder.Uri.AbsoluteUri;

@@ -96,7 +96,7 @@ namespace SingledOut.WebApi.Controllers
             try
             {
                 var result = _userLocationsRepository.DeleteUserLocation(id);
-                if (result == 1)
+                if (result > 0)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, -1);
                 }

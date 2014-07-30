@@ -14,6 +14,7 @@ using Android.Graphics;
 using Android.Views.Animations;
 using Java.Lang;
 using SingledOut.Model;
+using Java.Util;
 
 namespace SingledOutAndroid
 {
@@ -22,10 +23,25 @@ namespace SingledOutAndroid
 		LocationManager _locationManager;
 		Activity _activity;
 		private GoogleMap _map;
+		private const int _userZoomLevel = 16;
+		private const string _userMarkerTitle = "You are here!";
+
 		public delegate void LocationUpdated(object sender, LocationUpdatedEventArgs e);
 		public event LocationUpdated OnLocationUpdated;
 
-		public Marker UserMarker {
+		private List<Marker> MapMarkers { get; set; }
+
+		/// <summary>
+		/// Whether the given on user has a marker.
+		/// </summary>
+		/// <returns><c>true</c>, if has marker was usered, <c>false</c> otherwise.</returns>
+		/// <param name="userID">User I.</param>
+		public bool UserHasMarker (int userID)
+		{
+			return MapUserData.Any (o => o.UserID == userID && o.MapMarker != null); 
+		}
+
+		public List<UserLocationsFlat> MapUserData {
 			get;
 			set;
 		}
@@ -37,16 +53,6 @@ namespace SingledOutAndroid
 		public GoogleMap Map { 
 			get {
 				return _map;
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the user location is set.
-		/// </summary>
-		/// <value><c>true</c> if this instance is user location set; otherwise, <c>false</c>.</value>
-		public bool IsUserLocationSet { 
-			get {
-				return UserMarker != null;
 			}
 		}
 
@@ -69,11 +75,34 @@ namespace SingledOutAndroid
 		/// <summary>
 		/// Removes the marker.
 		/// </summary>
-		public void RemoveMarker()
+		public void RemoveMarker(int userID)
 		{
-			if (UserMarker != null) {
-				UserMarker.Remove ();
-				UserMarker = null;
+			if (UserHasMarker(userID)) 
+			{
+				var marker = MapUserData.SingleOrDefault (o => o.UserID == userID).MapMarker;
+				if (marker != null) {
+					marker.Remove ();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Removes the marker.
+		/// </summary>
+		/// <param name="latitude">Latitude.</param>
+		/// <param name="longitude">Longitude.</param>
+		public void RemoveMarker(double latitude, double longitude)
+		{
+			var markers = MapUserData.Where (o => o.Latitude == latitude && o.Longitude == longitude)
+				.Select(o => o.MapMarker)
+				.ToList();
+
+			if (markers != null) {
+				foreach (var m in markers) {
+					if (m != null) {
+						m.Remove ();
+					}
+				}
 			}
 		}
 
@@ -131,11 +160,118 @@ namespace SingledOutAndroid
 			return _locationManager;
 		}
 
+		/// <summary>
+		/// Converts to pixels.
+		/// </summary>
+		/// <returns>The to pixels.</returns>
+		/// <param name="context">Context.</param>
+		/// <param name="nDP">N D.</param>
+		public int ConvertToPixels(Context context, int nDP)
+		{
+			double conversionScale = context.Resources.DisplayMetrics.Density;
+			return (int) ((nDP * conversionScale) + 0.5f) ;
+		}
+
+		/// <summary>
+		/// Writes the text on drawable.
+		/// </summary>
+		/// <returns>The text on drawable.</returns>
+		/// <param name="drawableId">Drawable identifier.</param>
+		/// <param name="text">Text.</param>
+		public Bitmap WriteTextOnDrawable(Context context, int drawableId, System.String text) {
+
+			Bitmap bm = BitmapFactory.DecodeResource(context.Resources, drawableId)
+				.Copy(Bitmap.Config.Argb8888, true);
+
+			Typeface tf = Typeface.Create("Helvetica", TypefaceStyle.Bold);
+
+			Paint paint = new Paint();
+			paint.SetStyle(Android.Graphics.Paint.Style.Fill);
+			paint.Color = Color.Black;
+			paint.SetTypeface(tf);
+			paint.TextAlign = Paint.Align.Center;
+			paint.TextSize = ConvertToPixels(context, 16);
+
+			Rect textRect = new Rect();
+			paint.GetTextBounds(text, 0, text.Length, textRect);
+
+			Canvas canvas = new Canvas(bm);
+
+			//If the text is bigger than the canvas , reduce the font size
+			if (textRect.Width() >= (canvas.Width - 4)) {
+				//the padding on either sides is considered as 4, so as to appropriately fit in the text
+				paint.TextSize = ConvertToPixels (context, 7);        //Scaling needs to be used for different dpi's
+			}
+
+			//Calculate the positions
+			int xPos = (canvas.Width / 2) + 2 ;     //-2 is for regulating the x position offset
+
+			//"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
+			int yPos = (int)((canvas.Height / 2)) - 8;// - ((paint.Descent() + paint.Ascent()) / 2)) ;  
+
+			canvas.DrawText(text, xPos, yPos, paint);
+
+			return  bm;
+		}
+
+		/// <summary>
+		/// Adds the map marker to the map marker store.
+		/// </summary>
+		/// <param name="latitude">Latitude.</param>
+		/// <param name="longitude">Longitude.</param>
+		/// <param name="marker">Marker.</param>
+		private void AddMapMarker(double latitude, double longitude, Marker marker)
+		{
+			var markers = MapUserData.Where (o => o.Latitude == latitude && o.Longitude == longitude).ToList ();
+			try
+			{
+			foreach (var m in markers) {
+				if (m.MapMarker == null) {
+					m.MapMarker = marker;
+				}
+			}
+			}
+			catch(System.Exception ex) {
+
+			}
+		}
+
+		/// <summary>
+		/// Adds the user map marker.
+		/// </summary>
+		/// <param name="userID">User I.</param>
+		/// <param name="marker">Marker.</param>
+		private void AddUserMapMarker(int userID, Marker marker)
+		{
+			var userMarker = MapUserData.SingleOrDefault (o => o.UserID == userID);
+
+			try
+			{
+				if(userMarker != null)
+				{
+					userMarker.MapMarker = marker;
+				}
+			}
+			catch(System.Exception ex) {
+
+			}
+		}
+
+		/// <summary>
+		/// Sets the other user markers.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="users">Users.</param>
+		/// <param name="zoomLevel">Zoom level.</param>
+		/// <param name="currentUserLatitude">Current user latitude.</param>
+		/// <param name="currentUserLongitude">Current user longitude.</param>
 		public void SetOtherUserMarkers(
+			Context context,
 			List<UserModel> users,			 
 			int? zoomLevel,
 			double? currentUserLatitude,
-			double? currentUserLongitude
+			double? currentUserLongitude,
+			int currentUserID
 			)
 		{
 			// Reset the map to clear markers.
@@ -143,59 +279,92 @@ namespace SingledOutAndroid
 
 			var builder = new LatLngBounds.Builder ();
 
-			// There are other users.
+			// Check if there are other users.
 			if (users != null) {
-				foreach (var user in users) {
+				// Store the user data in a public property.
+				MapUserData = (from c in users
+					select new UserLocationsFlat { 
+					FirstName = c.FirstName,
+					Surname = c.Surname,
+					UserID = c.ID,
+					Age = c.Age,
+					Sex = c.Sex,
+					Latitude = c.UserLocation != null ? c.UserLocation.Latitude : (double?)null,
+					Longitude = c.UserLocation != null ? c.UserLocation.Longitude : (double?)null}).ToList ();
+
+				var allUsersExceptLoggedInUser = (from o in MapUserData where o.UserID != currentUserID select o);
+
+				// Group the users by lat long.
+				var groupedUserLocations = (from t in allUsersExceptLoggedInUser
+				group t by new {t.Latitude, t.Longitude}
+					into grp
+					select new
+					{						
+						grp.Key.Latitude,
+						grp.Key.Longitude,
+						CountOf = grp.Count()
+					}).ToList(); 
+
+				// First add markers for the ones that have more that 1 person in the same location.
+				foreach (var grpUsr in groupedUserLocations.Where(o => o.CountOf > 1)) {
 					var markerOptions = new MarkerOptions ();
-					var latLng = new LatLng (user.UserLocation.Latitude, user.UserLocation.Longitude);
+					var latLng = new LatLng ((double)grpUsr.Latitude, (double)grpUsr.Longitude);
 					markerOptions.SetPosition (latLng);
-
-					markerOptions.SetTitle (string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1)));
-
-					//var markerIcon = user.Sex.ToLower () == "female" ? Resource.Drawable.femalemarker : Resource.Drawable.malemarker;
-					//markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource (markerIcon));
-
-					markerOptions.InvokeIcon(BitmapDescriptorFactory.DefaultMarker(user.Sex.ToLower () == "female" ? BitmapDescriptorFactory.HueRose : BitmapDescriptorFactory.HueBlue));
-
+					markerOptions.SetTitle (string.Concat(grpUsr.CountOf.ToString (), " people are here"));
+					// Set the marker title.
+					markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, Resource.Drawable.bothmarker, grpUsr.CountOf.ToString ())));
+					// include the bounds in the camera area.
 					builder.Include (latLng);
 
-					_map.AddMarker (markerOptions);
+					var marker = _map.AddMarker (markerOptions);
+
+					// Remove the grouped users from the users list so we don't add them as individuals.
+					users.RemoveAll (o => o.UserLocation.Latitude == (double)grpUsr.Latitude && o.UserLocation.Longitude == (double)grpUsr.Longitude);
+
+					// Update the store of users with the map marker ID for those in a group.
+					AddMapMarker ((double)grpUsr.Latitude, (double)grpUsr.Longitude, marker);
+				}
+
+				// Add the individuals (not in the same location as others).
+				foreach (var user in users.Where(o => o.ID != currentUserID)) {
+					if (user.UserLocation != null) {
+						var markerOptions = new MarkerOptions ();
+						var latLng = new LatLng (user.UserLocation.Latitude, user.UserLocation.Longitude);
+						markerOptions.SetPosition (latLng);
+
+						// Set the marker title.
+						markerOptions.SetTitle (string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1)));
+						// Set the marker icon colour for male/female.
+						var mapMarkerDrawableID = user.Sex.ToLower () == "female" ? Resource.Drawable.femalemarker : Resource.Drawable.malemarker;
+						markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource(mapMarkerDrawableID));					
+
+						var marker = _map.AddMarker (markerOptions);
+
+						// Update the store of users with the map marker ID for this user.
+						AddUserMapMarker (user.ID, marker);
+
+						// include the bounds in the camera area.
+						builder.Include (latLng);
+					}
 				}
 			}
 
 			// Current user is available.
 			if (currentUserLatitude.HasValue && currentUserLongitude.HasValue) {
-				var userlatLng = new LatLng (currentUserLatitude.Value, currentUserLongitude.Value);
-				var userMarkerOptions = new MarkerOptions ();
+				SetUserMarker (context, currentUserLatitude.Value, currentUserLongitude.Value, currentUserID);
+			} 
+			else 
+			{
+				// Other users or current user or both exist.
+				if ((currentUserLatitude.HasValue && currentUserLongitude.HasValue) || users != null) {
+					var bounds = builder.Build ();
 
-				userMarkerOptions.InvokeIcon(BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueGreen));
+					var padding = 80; // offset from edges of the map in pixels
+					var cu = CameraUpdateFactory.NewLatLngBounds (bounds, padding);
 
-				userMarkerOptions.SetPosition (userlatLng);
-				_map.AddMarker (userMarkerOptions);
-
-				builder.Include (userlatLng);
-
-				var cameraPositionBuilder = new CameraPosition.Builder ();
-				if (zoomLevel.HasValue) {
-					cameraPositionBuilder.Zoom ((float)zoomLevel.Value);
+					_map.MoveCamera (cu);
+					_map.AnimateCamera (cu);
 				}
-
-				cameraPositionBuilder.Target (userlatLng);
-				var cu2 = CameraUpdateFactory.NewCameraPosition (cameraPositionBuilder.Build ());
-
-				_map.MoveCamera (cu2);
-				_map.AnimateCamera (cu2);
-			}
-
-			// Other users or current user or both exist.
-			if ((currentUserLatitude.HasValue && currentUserLongitude.HasValue) || users != null) {
-				var bounds = builder.Build ();
-
-				var padding = 0; // offset from edges of the map in pixels
-				var cu = CameraUpdateFactory.NewLatLngBounds (bounds, padding);
-
-				_map.MoveCamera (cu);
-				_map.AnimateCamera (cu);
 			}
 		}
 
@@ -206,108 +375,83 @@ namespace SingledOutAndroid
 		/// <param name="latitude">Latitude.</param>
 		/// <param name="longitude">Longitude.</param>
 		public void SetUserMarker(
+			Context context,
 			double latitude, 
-			double longitude, 
-			int? zoomLevel, 
-			string markerTitle, 
-			int markerIconID, 
-			bool centerOnMarker)
+			double longitude,
+			int userID)
 		{
-			var markerOptions = new MarkerOptions();
-			markerOptions.SetPosition(new LatLng(latitude, longitude));
-			if (!string.IsNullOrEmpty (markerTitle)) {
-				markerOptions.SetTitle (markerTitle);
-			}
-//			if (markerIconID > 0) {
-//				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource (markerIconID));
+			// Check if there is already a map pin for the users locaton that they have chosen.
+			// If there is then nothing to do.
+//			if(MapUserData.Any(o => o.Latitude == latitude && o.Longitude == longitude && o.UserID == userID))
+//			{
+//				return;
 //			}
 
-			markerOptions.InvokeIcon(BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueGreen));
+			var markerOptions = new MarkerOptions();
+			markerOptions.SetPosition(new LatLng(latitude, longitude));
 
-			if (UserMarker != null) 
-			{
-				RemoveMarker ();
+			// Find out if there is already a map pin at the users location (other users).
+			var count = MapUserData.Count (o => o.Latitude == latitude && o.Longitude == longitude && o.UserID != userID);
+			if (count > 0) {
+				// Remove the existing marker.
+				RemoveMarker (latitude, longitude);
+
+				var totalPeopleAtLocation = (count + 1).ToString (); // current users plus logged in user.
+				markerOptions.SetTitle (string.Format ("{0} people are here", totalPeopleAtLocation));
+				// Set the marker icon with number of users there.
+				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, Resource.Drawable.usermarker, totalPeopleAtLocation)));
+
+				// Add the marker to the map.
+				var marker = _map.AddMarker (markerOptions);
+
+				// Update the store of users with the map marker ID for those in a group.
+				AddMapMarker (latitude, longitude, marker);
+			} 
+			else 
+			{				
+				// Set the map marker title.
+				markerOptions.SetTitle (_userMarkerTitle);				
+
+				// Set icon to logged in user icon.
+				markerOptions.InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.usermarker));
+
+				// If the user already has a pin on the map remove it.
+				RemoveMarker(userID);
+
+				// Add new pin to map and store the marker in variable.
+				var marker = _map.AddMarker (markerOptions);
+
+				// Update the store of users with the map marker ID for this user.
+				AddUserMapMarker (userID, marker);
 			}
 
-			UserMarker = _map.AddMarker (markerOptions);
 
-			var padding = 0; // offset from edges of the map in pixels
+			var padding = 80; // offset from edges of the map in pixels
+			
+			var builder = new LatLngBounds.Builder();
+			builder.Include(markerOptions.Position);
+			var bounds = builder.Build();
 
-			if (centerOnMarker) {
-				var builder = new LatLngBounds.Builder();
-				builder.Include(markerOptions.Position);
-				var bounds = builder.Build();
+			var cameraPositionBuilder = new CameraPosition.Builder();				
+			cameraPositionBuilder.Zoom (_userZoomLevel);				
 
-				var cameraPositionBuilder = new CameraPosition.Builder();
-				if (zoomLevel.HasValue) {
-					cameraPositionBuilder.Zoom ((float)zoomLevel.Value);
-				}
+			cameraPositionBuilder.Target(new LatLng (latitude, longitude));
 
-				cameraPositionBuilder.Target(new LatLng (latitude, longitude));
+			var cu = CameraUpdateFactory.NewLatLngBounds(bounds, padding);
+			var cu2 = CameraUpdateFactory.NewCameraPosition (cameraPositionBuilder.Build ());
 
-				var cu = CameraUpdateFactory.NewLatLngBounds(bounds, padding);
-				var cu2 = CameraUpdateFactory.NewCameraPosition (cameraPositionBuilder.Build ());
+			_map.MoveCamera (cu);
+			_map.AnimateCamera (cu);
 
-				_map.MoveCamera (cu);
-				_map.AnimateCamera (cu);
-
-				_map.MoveCamera (cu2);
-				_map.AnimateCamera (cu2);
-			}
-
-			//OnMarkerClick(UserMarker, latitude, longitude);
+			_map.MoveCamera (cu2);
+			_map.AnimateCamera (cu2);			
 		}
 
 
-		public bool OnMarkerClick (Marker marker, double latitude, double longitude)
-		{
-			// This causes the marker at Perth to bounce into position when it is clicked.
-
-			Handler handler = new Handler ();
-			long start = SystemClock.UptimeMillis ();
-			Projection proj = _map.Projection;
-			Point startPoint = proj.ToScreenLocation(new LatLng(latitude,longitude));
-			startPoint.Offset(0, -100);
-			LatLng startLatLng = new LatLng(latitude,longitude);
-			long duration = 1500;
-
-			IInterpolator interpolator = new BounceInterpolator();
-
-			Runnable run = null;
-			run = new Runnable (delegate {
-				long elapsed = SystemClock.UptimeMillis () - start;
-				float t = interpolator.GetInterpolation ((float) elapsed / duration);
-				double lng = t * longitude + (1 - t) * startLatLng.Longitude;
-				double lat = t * latitude + (1 - t) * startLatLng.Latitude;
-				marker.Position = (new LatLng(lat, lng));
-
-				if (t < 1.0) {
-					// Post again 16ms later.
-					handler.PostDelayed(run, 16);
-				}
-			});
-			handler.Post(run);
-
-			// We return false to indicate that we have not consumed the event and that we wish
-			// for the default behavior to occur (which is for the camera to move such that the
-			// marker is centered and for the marker's info window to open, if it has one).
-			return false;
-		}
-
-		class Runnable : Java.Lang.Object, Java.Lang.IRunnable
-		{
-			Action run;
-			public Runnable (Action run)
-			{
-				this.run = run;
-			}
-
-			public void Run ()
-			{
-				run ();
-			}
-		}
-
+//		public bool OnMarkerClick (Marker marker, double latitude, double longitude)
+//		{
+//
+//		}
 
 		/// <param name="location">The new location, as a Location object.</param>
 		/// <summary>
@@ -341,5 +485,27 @@ namespace SingledOutAndroid
 		/// <value>The location.</value>
 		public Location Location { get;	set; }
 	}	
+
+	/// <summary>
+	/// User locations flat.
+	/// </summary>
+	public class UserLocationsFlat
+	{
+		public string FirstName { get; set; }
+
+		public string Surname { get; set; }
+
+		public int UserID { get; set; }
+
+		public int? Age { get; set; }
+
+		public string Sex { get; set; }
+
+		public double? Latitude { get; set; }
+
+		public double? Longitude { get; set; }
+
+		public Marker MapMarker { get; set; }
+	}
 }
 

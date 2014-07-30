@@ -27,6 +27,16 @@ namespace SingledOut.Repository
 
         public int Insert(UserLocation userLocation)
         {
+            // Check if there is already a user location for this user.
+            var existingUserLocations = _ctx.UserLocations.Where(o => o.UserID == userLocation.UserID).Select(o => o);
+            if (existingUserLocations.Any())
+            {
+                foreach (var existingUserLocation in existingUserLocations)
+                {
+                    _ctx.UserLocations.Remove(existingUserLocation);
+                }
+            }
+
             _ctx.UserLocations.Add(userLocation);
             var result = SaveAll();
             var userLocationId = userLocation.ID;
