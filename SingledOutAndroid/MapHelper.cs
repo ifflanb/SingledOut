@@ -41,10 +41,11 @@ namespace SingledOutAndroid
 			return MapUserData.Any (o => o.UserID == userID && o.MapMarker != null); 
 		}
 
-		public List<UserLocationsFlat> MapUserData {
-			get;
-			set;
-		}
+		/// <summary>
+		/// Gets or sets the map user data.
+		/// </summary>
+		/// <value>The map user data.</value>
+		public List<UserLocationsFlat> MapUserData { get; set; }
 
 		/// <summary>
 		/// Gets or sets the map.
@@ -75,14 +76,45 @@ namespace SingledOutAndroid
 		/// <summary>
 		/// Removes the marker.
 		/// </summary>
-		public void RemoveMarker(int userID)
+		public void RemoveMarker(Context context, int userID)
 		{
 			if (UserHasMarker(userID)) 
 			{
+				// Get the logged in users marker.
 				var marker = MapUserData.SingleOrDefault (o => o.UserID == userID).MapMarker;
 				if (marker != null) {
-					marker.Remove ();
-				}
+
+					// Get the marker coordinates.
+					var latitude = System.Math.Round(marker.Position.Latitude, 6);
+					var longitude = System.Math.Round(marker.Position.Longitude, 6);
+
+					// First find out if there is more than one person at this location.
+					var users = MapUserData
+						.Where (o => o.Latitude == latitude && o.Longitude == longitude)
+						.Select (o => o)
+						.ToList ();
+
+					if (users.Any ()) {
+						var markerOptions = new MarkerOptions ();
+						var latLng = new LatLng (latitude, longitude);
+						markerOptions.SetPosition (latLng);
+						var countUsersInLocation = (users.Count - 1).ToString ();
+						markerOptions.SetTitle (string.Format ("{0} people are here", countUsersInLocation));
+						// Set the marker title.
+						var markerIconID = GetMarkerIcon (false, latitude, longitude);
+						markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, markerIconID, countUsersInLocation)));
+						// Set marker to null for logged in user
+						MapUserData.SingleOrDefault (o => o.UserID == userID).MapMarker = null;
+						// Remove actual map marker.
+						marker.Remove ();
+						// Add new marker.
+						marker = _map.AddMarker (markerOptions);
+					} else {
+						// Remove actual map marker.
+						marker.Remove ();
+						MapUserData.SingleOrDefault (o => o.UserID == userID).MapMarker = null;
+					}
+				}				
 			}
 		}
 
@@ -312,7 +344,8 @@ namespace SingledOutAndroid
 					markerOptions.SetPosition (latLng);
 					markerOptions.SetTitle (string.Concat(grpUsr.CountOf.ToString (), " people are here"));
 					// Set the marker title.
-					markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, Resource.Drawable.bothmarker, grpUsr.CountOf.ToString ())));
+					var markerIconID = GetMarkerIcon (false, (double)grpUsr.Latitude, (double)grpUsr.Longitude);
+					markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, markerIconID, grpUsr.CountOf.ToString ())));
 					// include the bounds in the camera area.
 					builder.Include (latLng);
 
@@ -335,8 +368,8 @@ namespace SingledOutAndroid
 						// Set the marker title.
 						markerOptions.SetTitle (string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1)));
 						// Set the marker icon colour for male/female.
-						var mapMarkerDrawableID = user.Sex.ToLower () == "female" ? Resource.Drawable.femalemarker : Resource.Drawable.malemarker;
-						markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource(mapMarkerDrawableID));					
+						var markerIconID = GetMarkerIcon (false, user.UserLocation.Latitude, user.UserLocation.Longitude);
+						markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource(markerIconID));					
 
 						var marker = _map.AddMarker (markerOptions);
 
@@ -368,6 +401,43 @@ namespace SingledOutAndroid
 			}
 		}
 
+		/// <summary>
+		/// Gets the marker icon.
+		/// </summary>
+		/// <returns>The marker icon.</returns>
+		/// <param name="isUserMarker">If set to <c>true</c> is user marker.</param>
+		/// <param name="latitude">Latitude.</param>
+		/// <param name="longitude">Longitude.</param>
+		private int GetMarkerIcon(bool isUserMarker, double latitude, double longitude)
+		{
+			var mapMarkerDrawableID = Resource.Drawable.bothmarker;
+
+			var usersAtLocation = MapUserData.Where (o => o.Latitude == latitude && o.Longitude == longitude).ToList ();
+
+			if (usersAtLocation.Count == 1 && !isUserMarker) {
+				mapMarkerDrawableID = usersAtLocation.First().Sex.ToLower () == "female" ?
+					Resource.Drawable.femalemarker : 
+					Resource.Drawable.malemarker;
+			}
+
+			if (usersAtLocation.Count >= 0 && isUserMarker) {
+				mapMarkerDrawableID = Resource.Drawable.usermarker; 
+			}
+
+			if (usersAtLocation.Count > 1 && !isUserMarker) {
+				// Are all people at the location female?
+				if (usersAtLocation.Where (o => o.Sex == "female").Count () == usersAtLocation.Count ()) {
+					mapMarkerDrawableID = Resource.Drawable.femalemarker;
+				}
+				// Are all people at the location male?
+				else if (usersAtLocation.Where (o => o.Sex == "male").Count () == usersAtLocation.Count ()) {
+					mapMarkerDrawableID = Resource.Drawable.femalemarker;
+				} 
+			}
+
+			return mapMarkerDrawableID;
+		}
+
 
 		/// <summary>
 		/// Sets the marker.
@@ -380,15 +450,9 @@ namespace SingledOutAndroid
 			double longitude,
 			int userID)
 		{
-			// Check if there is already a map pin for the users locaton that they have chosen.
-			// If there is then nothing to do.
-//			if(MapUserData.Any(o => o.Latitude == latitude && o.Longitude == longitude && o.UserID == userID))
-//			{
-//				return;
-//			}
-
 			var markerOptions = new MarkerOptions();
 			markerOptions.SetPosition(new LatLng(latitude, longitude));
+			var markerIconID = GetMarkerIcon (true, latitude, longitude);
 
 			// Find out if there is already a map pin at the users location (other users).
 			var count = MapUserData.Count (o => o.Latitude == latitude && o.Longitude == longitude && o.UserID != userID);
@@ -399,7 +463,7 @@ namespace SingledOutAndroid
 				var totalPeopleAtLocation = (count + 1).ToString (); // current users plus logged in user.
 				markerOptions.SetTitle (string.Format ("{0} people are here", totalPeopleAtLocation));
 				// Set the marker icon with number of users there.
-				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, Resource.Drawable.usermarker, totalPeopleAtLocation)));
+				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, markerIconID , totalPeopleAtLocation)));
 
 				// Add the marker to the map.
 				var marker = _map.AddMarker (markerOptions);
@@ -413,10 +477,10 @@ namespace SingledOutAndroid
 				markerOptions.SetTitle (_userMarkerTitle);				
 
 				// Set icon to logged in user icon.
-				markerOptions.InvokeIcon(BitmapDescriptorFactory.FromResource(Resource.Drawable.usermarker));
+				markerOptions.InvokeIcon(BitmapDescriptorFactory.FromResource(markerIconID));
 
 				// If the user already has a pin on the map remove it.
-				RemoveMarker(userID);
+				RemoveMarker(context, userID);
 
 				// Add new pin to map and store the marker in variable.
 				var marker = _map.AddMarker (markerOptions);

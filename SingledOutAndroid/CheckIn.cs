@@ -435,7 +435,7 @@ namespace SingledOutAndroid
 				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
 			} 
 			else {
-				_mapHelper.RemoveMarker (CurrentUser.ID);
+				_mapHelper.RemoveMarker (this, CurrentUser.ID);
 
 				// Remove the user location from the database.
 				RemoveUserLocation ();
