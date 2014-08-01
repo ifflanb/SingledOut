@@ -15,6 +15,7 @@ using Android.Views.Animations;
 using Java.Lang;
 using SingledOut.Model;
 using Java.Util;
+using MobileSpace.Helpers;
 
 namespace SingledOutAndroid
 {
@@ -24,7 +25,7 @@ namespace SingledOutAndroid
 		Activity _activity;
 		private GoogleMap _map;
 		private const int _userZoomLevel = 16;
-		private const string _userMarkerTitle = "You are here!";
+		private const string _userMarkerTitle = "You are at {0}";
 
 		public delegate void LocationUpdated(object sender, LocationUpdatedEventArgs e);
 		public event LocationUpdated OnLocationUpdated;
@@ -99,10 +100,26 @@ namespace SingledOutAndroid
 						var latLng = new LatLng (latitude, longitude);
 						markerOptions.SetPosition (latLng);
 						var countUsersInLocation = (users.Count - 1).ToString ();
-						markerOptions.SetTitle (string.Format ("{0} people are here", countUsersInLocation));
+						var user = users.SingleOrDefault (o => o.UserID != userID);
+
+						if (user != null) {
+							if (int.Parse (countUsersInLocation) > 1) {
+								markerOptions.SetTitle (string.Format ("{0} people are at {1)", countUsersInLocation, Truncate (user.PlaceName, 10)));
+							} else {
+								markerOptions.SetTitle (string.Format ("{0} {1} is at {2}", user.FirstName, user.Surname.Substring (0, 1), Truncate (user.PlaceName, 10)));
+							}
+						} else {
+							markerOptions.SetTitle (string.Format ("unknown user is here"));
+						}
+
 						// Set the marker title.
 						var markerIconID = GetMarkerIcon (false, latitude, longitude);
-						markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, markerIconID, countUsersInLocation)));
+						if (int.Parse (countUsersInLocation) > 1) {
+							markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, markerIconID, countUsersInLocation)));
+						} else {
+							markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource (markerIconID));
+						}
+
 						// Set marker to null for logged in user
 						MapUserData.SingleOrDefault (o => o.UserID == userID).MapMarker = null;
 						// Remove actual map marker.
@@ -252,19 +269,21 @@ namespace SingledOutAndroid
 		/// <param name="latitude">Latitude.</param>
 		/// <param name="longitude">Longitude.</param>
 		/// <param name="marker">Marker.</param>
-		private void AddMapMarker(double latitude, double longitude, Marker marker)
+		private void AddMapMarker(double latitude, double longitude, Marker marker, int? userID)
 		{
+			if (userID.HasValue) {
+				var loggedInUser = MapUserData.SingleOrDefault (o => o.UserID == userID);
+				if (loggedInUser != null) {
+					loggedInUser.Latitude = latitude;
+					loggedInUser.Longitude = longitude;
+				}
+			}
 			var markers = MapUserData.Where (o => o.Latitude == latitude && o.Longitude == longitude).ToList ();
-			try
-			{
+
 			foreach (var m in markers) {
 				if (m.MapMarker == null) {
 					m.MapMarker = marker;
 				}
-			}
-			}
-			catch(System.Exception ex) {
-
 			}
 		}
 
@@ -277,16 +296,25 @@ namespace SingledOutAndroid
 		{
 			var userMarker = MapUserData.SingleOrDefault (o => o.UserID == userID);
 
-			try
+			if(userMarker != null)
 			{
-				if(userMarker != null)
-				{
-					userMarker.MapMarker = marker;
-				}
+				userMarker.MapMarker = marker;
 			}
-			catch(System.Exception ex) {
+		}
 
+		/// <summary>
+		/// Truncate the specified str and truncateTo.
+		/// </summary>
+		/// <param name="str">String.</param>
+		/// <param name="truncateTo">Truncate to.</param>
+		private string Truncate(string str, int truncateTo)
+		{
+			var truncatedStr = str;
+
+			if (str.Length > truncateTo) {
+				truncatedStr = string.Concat(str.Substring (0, truncateTo), "...");
 			}
+			return truncatedStr;
 		}
 
 		/// <summary>
@@ -315,25 +343,29 @@ namespace SingledOutAndroid
 			if (users != null) {
 				// Store the user data in a public property.
 				MapUserData = (from c in users
-					select new UserLocationsFlat { 
+				               select new UserLocationsFlat {
+					IsLoggedOnUser = c.ID == currentUserID ? true : false,
 					FirstName = c.FirstName,
 					Surname = c.Surname,
 					UserID = c.ID,
 					Age = c.Age,
 					Sex = c.Sex,
 					Latitude = c.UserLocation != null ? c.UserLocation.Latitude : (double?)null,
-					Longitude = c.UserLocation != null ? c.UserLocation.Longitude : (double?)null}).ToList ();
+					Longitude = c.UserLocation != null ? c.UserLocation.Longitude : (double?)null,
+					PlaceName = c.UserLocation != null ? (!string.IsNullOrEmpty(c.UserLocation.PlaceName) ? Truncate(c.UserLocation.PlaceName, 10) : "an unknown place")  : "an unknown place"
+				}).ToList ();
 
 				var allUsersExceptLoggedInUser = (from o in MapUserData where o.UserID != currentUserID select o);
 
 				// Group the users by lat long.
 				var groupedUserLocations = (from t in allUsersExceptLoggedInUser
-				group t by new {t.Latitude, t.Longitude}
+				group t by new {t.Latitude, t.Longitude, t.PlaceName}
 					into grp
 					select new
 					{						
 						grp.Key.Latitude,
 						grp.Key.Longitude,
+						grp.Key.PlaceName,
 						CountOf = grp.Count()
 					}).ToList(); 
 
@@ -342,7 +374,7 @@ namespace SingledOutAndroid
 					var markerOptions = new MarkerOptions ();
 					var latLng = new LatLng ((double)grpUsr.Latitude, (double)grpUsr.Longitude);
 					markerOptions.SetPosition (latLng);
-					markerOptions.SetTitle (string.Concat(grpUsr.CountOf.ToString (), " people are here"));
+					markerOptions.SetTitle (string.Format("{0} people are at {1}", grpUsr.CountOf, Truncate(grpUsr.PlaceName, 10)));
 					// Set the marker title.
 					var markerIconID = GetMarkerIcon (false, (double)grpUsr.Latitude, (double)grpUsr.Longitude);
 					markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, markerIconID, grpUsr.CountOf.ToString ())));
@@ -355,7 +387,7 @@ namespace SingledOutAndroid
 					users.RemoveAll (o => o.UserLocation.Latitude == (double)grpUsr.Latitude && o.UserLocation.Longitude == (double)grpUsr.Longitude);
 
 					// Update the store of users with the map marker ID for those in a group.
-					AddMapMarker ((double)grpUsr.Latitude, (double)grpUsr.Longitude, marker);
+					AddMapMarker ((double)grpUsr.Latitude, (double)grpUsr.Longitude, marker, null);
 				}
 
 				// Add the individuals (not in the same location as others).
@@ -366,7 +398,7 @@ namespace SingledOutAndroid
 						markerOptions.SetPosition (latLng);
 
 						// Set the marker title.
-						markerOptions.SetTitle (string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1)));
+						markerOptions.SetTitle (string.Format ("{0} {1} is at {2}", user.FirstName, user.Surname.Substring(0, 1), Truncate(user.UserLocation.PlaceName, 10)));
 						// Set the marker icon colour for male/female.
 						var markerIconID = GetMarkerIcon (false, user.UserLocation.Latitude, user.UserLocation.Longitude);
 						markerOptions.InvokeIcon (BitmapDescriptorFactory.FromResource(markerIconID));					
@@ -384,7 +416,13 @@ namespace SingledOutAndroid
 
 			// Current user is available.
 			if (currentUserLatitude.HasValue && currentUserLongitude.HasValue) {
-				SetUserMarker (context, currentUserLatitude.Value, currentUserLongitude.Value, currentUserID);
+				var placeName = " at an unknown location";
+				var loggedInUser = users.SingleOrDefault (o => o.ID == currentUserID);
+				if (loggedInUser != null && loggedInUser.UserLocation != null) {
+					placeName = Truncate(loggedInUser.UserLocation.PlaceName, 10);
+				}
+
+				SetUserMarker (context, currentUserLatitude.Value, currentUserLongitude.Value, placeName, currentUserID);
 			} 
 			else 
 			{
@@ -413,6 +451,9 @@ namespace SingledOutAndroid
 			var mapMarkerDrawableID = Resource.Drawable.bothmarker;
 
 			var usersAtLocation = MapUserData.Where (o => o.Latitude == latitude && o.Longitude == longitude).ToList ();
+			if (!isUserMarker) {
+				usersAtLocation = (from o in usersAtLocation where o.IsLoggedOnUser == false select o).ToList(); 
+			}
 
 			if (usersAtLocation.Count == 1 && !isUserMarker) {
 				mapMarkerDrawableID = usersAtLocation.First().Sex.ToLower () == "female" ?
@@ -446,11 +487,13 @@ namespace SingledOutAndroid
 		/// <param name="longitude">Longitude.</param>
 		public void SetUserMarker(
 			Context context,
-			double latitude, 
+			double latitude,
 			double longitude,
+			string placeName,
 			int userID)
 		{
 			var markerOptions = new MarkerOptions();
+	
 			markerOptions.SetPosition(new LatLng(latitude, longitude));
 			var markerIconID = GetMarkerIcon (true, latitude, longitude);
 
@@ -460,21 +503,21 @@ namespace SingledOutAndroid
 				// Remove the existing marker.
 				RemoveMarker (latitude, longitude);
 
-				var totalPeopleAtLocation = (count + 1).ToString (); // current users plus logged in user.
-				markerOptions.SetTitle (string.Format ("{0} people are here", totalPeopleAtLocation));
+				var totalPeopleAtLocation = (count + 1).ToString(); // current users plus logged in user.
+				markerOptions.SetTitle (string.Format ("You are at {0} with {1} other people", Truncate(placeName, 10), count));
 				// Set the marker icon with number of users there.
 				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, markerIconID , totalPeopleAtLocation)));
 
 				// Add the marker to the map.
 				var marker = _map.AddMarker (markerOptions);
-
+			
 				// Update the store of users with the map marker ID for those in a group.
-				AddMapMarker (latitude, longitude, marker);
+				AddMapMarker (latitude, longitude, marker, userID);
 			} 
 			else 
 			{				
 				// Set the map marker title.
-				markerOptions.SetTitle (_userMarkerTitle);				
+				markerOptions.SetTitle (string.Format(_userMarkerTitle, Truncate(placeName, 10)));				
 
 				// Set icon to logged in user icon.
 				markerOptions.InvokeIcon(BitmapDescriptorFactory.FromResource(markerIconID));
@@ -511,11 +554,6 @@ namespace SingledOutAndroid
 			_map.AnimateCamera (cu2);			
 		}
 
-
-//		public bool OnMarkerClick (Marker marker, double latitude, double longitude)
-//		{
-//
-//		}
 
 		/// <param name="location">The new location, as a Location object.</param>
 		/// <summary>
@@ -555,6 +593,8 @@ namespace SingledOutAndroid
 	/// </summary>
 	public class UserLocationsFlat
 	{
+		public bool IsLoggedOnUser { get; set; }
+
 		public string FirstName { get; set; }
 
 		public string Surname { get; set; }
@@ -568,6 +608,8 @@ namespace SingledOutAndroid
 		public double? Latitude { get; set; }
 
 		public double? Longitude { get; set; }
+
+		public string PlaceName { get; set; }
 
 		public Marker MapMarker { get; set; }
 	}

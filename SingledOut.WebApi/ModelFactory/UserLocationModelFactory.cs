@@ -35,6 +35,7 @@ namespace SingledOut.WebApi.ModelFactory
                 CreatedDate = userLocation.CreatedDate,
                 Latitude = userLocation.Latitude,
                 Longitude = userLocation.Longitude,
+                PlaceName = userLocation.PlaceName,
                 UpdateDate = userLocation.UpdateDate,
                 UserID = userLocation.UserID
             };
@@ -53,7 +54,8 @@ namespace SingledOut.WebApi.ModelFactory
                     CreatedDate = model.CreatedDate,
                     UpdateDate = model.UpdateDate,
                     Latitude = model.Latitude,
-                    Longitude = model.Longitude
+                    Longitude = model.Longitude,
+                    PlaceName = model.PlaceName
                 };
 
                 return user;

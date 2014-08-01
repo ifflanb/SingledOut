@@ -5,9 +5,9 @@
     <TextView
         android:id="@+id/notification"
         style="@style/notification" />
-    <ViewSwitcher
+    <ViewFlipper
         style="@style/mapframelayout"
-        android:id="@+id/viewSwitcher"
+        android:id="@+id/viewFlipper"
         android:layout_marginBottom="50dp">
         <LinearLayout
             android:id="@+id/checkInMapLayout"
@@ -33,7 +33,18 @@
                 android:layout_width="wrap_content"
                 style="@style/titletext" />
         </LinearLayout>
-    </ViewSwitcher>
+        <LinearLayout
+            android:id="@+id/checkInIndividualView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:text="Individual View"
+                android:id="@+id/individual"
+                android:layout_width="wrap_content"
+                style="@style/titletext" />
+        </LinearLayout>
+    </ViewFlipper>
     <SlidingDrawer
         android:id="@+id/slidingDrawer"
         android:handle="@+id/dummy"

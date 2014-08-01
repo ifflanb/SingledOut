@@ -1,15 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CheckIn.cs">
     <Files>
-      <File FileName="CheckIn.cs" Line="429" Column="1" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" Line="300" Column="15" />
+      <File FileName="CheckIn.cs" Line="158" Column="1" />
+      <File FileName="MapHelper.cs" Line="514" Column="78" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="266" column="1" />
-      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="114" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="158" column="50" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="425" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
@@ -18,6 +18,7 @@
     <Watch file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="454" offsetX="914" offsetY="7248" expression="MapUserData" liveUpdate="False" />
     <Watch file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="454" offsetX="914" offsetY="7248" expression="MapUserData[1]" liveUpdate="False" />
     <Watch file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="454" offsetX="914" offsetY="7248" expression="MapUserData[1]" liveUpdate="False" />
+    <Watch file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="416" offsetX="900" offsetY="6640" expression="usersAtLocation" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <DisabledProjects>
     <String>..\CSS.UIHelper\MobileSpace.Helpers.csproj</String>

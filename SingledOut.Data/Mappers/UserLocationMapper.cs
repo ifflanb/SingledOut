@@ -16,6 +16,7 @@ namespace SingledOut.Data.Mappers
             this.Property(c => c.UserID).IsRequired();
             this.Property(c => c.Latitude).IsRequired();
             this.Property(c => c.Longitude).IsRequired();
+            this.Property(c => c.PlaceName).IsRequired();
             this.Property(c => c.CreatedDate).IsRequired();
             this.Property(c => c.UpdateDate).IsRequired();
         }

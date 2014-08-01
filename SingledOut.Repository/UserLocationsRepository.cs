@@ -65,6 +65,11 @@ namespace SingledOut.Repository
                 entry.Property(e => e.Longitude).IsModified = true;
             }
 
+            if (originalUserLocation.PlaceName != updatedUserLocation.PlaceName)
+            {
+                entry.Property(e => e.PlaceName).IsModified = true;
+            }
+
             if (originalUserLocation.CreatedDate != updatedUserLocation.CreatedDate)
             {
                 entry.Property(e => e.CreatedDate).IsModified = true;

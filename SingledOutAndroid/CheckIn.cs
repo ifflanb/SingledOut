@@ -47,7 +47,7 @@ namespace SingledOutAndroid
 		private RangeSliderView _ageSlider;
 		private SeekBar _distanceSlider;
 		private AnimationHelper _animationHelper;
-		private ViewSwitcher _viewSwitcher;
+		private ViewFlipper _viewFlipper;
 		private bool isStartingUp = false;
 
 		/// <summary>
@@ -110,7 +110,7 @@ namespace SingledOutAndroid
 			// Show the map.
 			_mapHelper.ShowMap (mapfragment, true, true);
 
-			_viewSwitcher = (ViewSwitcher)FindViewById (Resource.Id.viewSwitcher);
+			_viewFlipper = (ViewFlipper)FindViewById (Resource.Id.viewFlipper);
 
 			Button btnFilter = (Button)FindViewById (Resource.Id.btnFilter);
 			btnFilter.Click += FilterClick;
@@ -148,6 +148,14 @@ namespace SingledOutAndroid
 
 			var btnApply = (Button)FindViewById (Resource.Id.btnApply);
 			btnApply.Click += BtnApplyClick;
+
+			// Set the map marker click event.
+			_mapHelper.Map.MarkerClick += MapMarkerClick;
+		}
+
+		protected void MapMarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
+		{
+			_viewFlipper.DisplayedChild = 2;
 		}
 
 		protected void BtnApplyClick(object sender, EventArgs e)
@@ -305,6 +313,7 @@ namespace SingledOutAndroid
 					SetUserPreference ("UserLocationID", returnnModel.ID.ToString());
 					SetUserPreference ("UserLatitude", returnnModel.Latitude.ToString());
 					SetUserPreference ("UserLongitude", returnnModel.Longitude.ToString());
+					SetUserPreference ("UserPlaceName", returnnModel.PlaceName);
 				}
 			}
 		}
@@ -364,6 +373,7 @@ namespace SingledOutAndroid
 				UpdateDate = DateTime.UtcNow,
 				Latitude = googlePlace.Latitude,
 				Longitude = googlePlace.Longitude,
+				PlaceName = googlePlace.Name,
 				UserID = int.Parse(GetUserPreference("UserID"))
 			};
 			return model;
@@ -381,7 +391,7 @@ namespace SingledOutAndroid
 			var googlePlace = _adapter.GetItemAtPosition (e.Position);
 
 			// Add a marker for the users position.
-			_mapHelper.SetUserMarker (this, googlePlace.Latitude, googlePlace.Longitude, CurrentUser.ID); 
+			_mapHelper.SetUserMarker (this, googlePlace.Latitude, googlePlace.Longitude, googlePlace.Name, CurrentUser.ID); 
 
 			SetUserPreference ("CurrentUserLatitude", googlePlace.Latitude.ToString ());
 			SetUserPreference ("CurrentUserLongitude", googlePlace.Longitude.ToString ());
@@ -415,11 +425,11 @@ namespace SingledOutAndroid
 			switch (((ActionBar.Tab)sender).Position)
 			{
 				case ((int)TabPosition.Map):
-					_viewSwitcher.DisplayedChild = 0;
+					_viewFlipper.DisplayedChild = 0;
 
 					break;
 				case ((int)TabPosition.ListView):
-					_viewSwitcher.DisplayedChild = 1;
+					_viewFlipper.DisplayedChild = 1;
 					break;
 			}
 		}
