@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/dialogLayout">
+    <TextView
+        android:text="@string/groupsdialogtext"
+        android:id="@+id/groupsDescription"
+        android:background="#666666"
+        android:textColor="#ffffff"
+        style="@style/descriptiontext" />
+    <ListView
+        style="@style/ListView"
+        android:id="@+id/groupsuserslist" />
+</LinearLayout>

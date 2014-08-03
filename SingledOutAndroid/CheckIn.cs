@@ -25,6 +25,7 @@ using Android.Gms.Maps.Model;
 using Android.Graphics;
 using SingledOut.SearchParameters;
 using System.Threading.Tasks;
+using SingledOutAndroid.Adapters;
 
 namespace SingledOutAndroid
 {
@@ -37,12 +38,15 @@ namespace SingledOutAndroid
 		private UIHelper _uiHelper;
 		private ActionBar.Tab _mapTab;
 		private ActionBar.Tab _listViewTab;
+		private ActionBar.Tab _IndividualTab;
 		private Location _currentLocation;
 		private UriCreator _googleApiUriCreator;
 		private RestHelper _restHelper;
 		private GooglePlacesResponse _placesFound;
 		private CustomListAdapter _adapter;
+		private GroupsListAdapter _groupsAdapter;
 		private AlertDialog _alertDialog;
+		private AlertDialog _groupsAlertDialog;
 		private UriCreator _uriCreator;
 		private RangeSliderView _ageSlider;
 		private SeekBar _distanceSlider;
@@ -66,7 +70,8 @@ namespace SingledOutAndroid
 		private enum TabPosition
 		{
 			Map = 0,
-			ListView = 1
+			ListView = 1,
+			Individual = 2
 		}
 
 		protected override void OnCreate (Bundle bundle)
@@ -155,7 +160,79 @@ namespace SingledOutAndroid
 
 		protected void MapMarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
 		{
-			_viewFlipper.DisplayedChild = 2;
+			if (_mapHelper.IsGroupMarker (e.P0)) {
+				ShowMarkerGroups (e.P0);
+				//e.P0.ShowInfoWindow ();
+			}
+			else
+			{
+				// Add individual tab.
+				_IndividualTab = _uiHelper.AddActionBarTab (this, Resource.String.individual, Resource.Drawable.individual);
+				// Select the tab.
+				_IndividualTab.Select ();
+			}
+		}
+
+		/// <summary>
+		/// Shows the users within the marker group.
+		/// </summary>
+		/// <param name="marker">Marker.</param>
+		private void ShowMarkerGroups(Marker marker)
+		{
+			var users = _mapHelper.GetUsersForMarker (marker);
+
+			//Create our adapter and populate with list of Google place objects.
+			_groupsAdapter = new GroupsListAdapter(this){
+				CustomListItemID = Resource.Layout.GroupUserItem,
+				CustomListItemNameID = Resource.Id.itemname,
+				items = users};
+
+			var placeName = users.First().PlaceName;
+
+			// Add dialog with places found list.
+			_groupsAlertDialog = null;
+			_groupsAlertDialog = _uiHelper.BuildAlertDialog (_groupsAdapter, true, true, Resource.Layout.groupusers, Resource.Layout.TextViewItem, this, string.Format("Users at {0}", placeName), Resource.Drawable.individual, Resource.Id.groupsuserslist);
+
+			// Add cancel button and event.
+			_groupsAlertDialog.SetButton ("Cancel", (s, evt) => {
+				PlacesDialog_OnCancelClick (s, evt);
+			});
+
+			// Add item click event.
+			_uiHelper.OnListViewItemClick += GroupsListViewItemClick;
+
+			// Add dialog closed event.
+			_uiHelper.OnAlertDialogClosed += GroupsDialogClosed;
+
+			// Show groups dialog.
+			_groupsAlertDialog.Show ();
+		}
+
+		void GroupsDialogClosed (object sender, EventArgs e)
+		{
+			_uiHelper.OnListViewItemClick -= GroupsListViewItemClick;
+			_uiHelper.OnAlertDialogClosed -= GroupsDialogClosed;
+		}
+
+		/// <summary>
+		/// Groups the dialog_ on cancel click.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="eventArgs">Event arguments.</param>
+		protected void GroupsDialog_OnCancelClick(object sender, EventArgs eventArgs)
+		{
+			_groupsAlertDialog.Dismiss ();
+		}
+
+
+		/// <summary>
+		/// List view item click.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		protected void GroupsListViewItemClick(object sender, AdapterView.ItemClickEventArgs e)
+		{
+			_alertDialog.Dismiss ();
 		}
 
 		protected void BtnApplyClick(object sender, EventArgs e)
@@ -426,10 +503,21 @@ namespace SingledOutAndroid
 			{
 				case ((int)TabPosition.Map):
 					_viewFlipper.DisplayedChild = 0;
+					if (ActionBar.NavigationItemCount == 3) {
+						ActionBar.RemoveTab (_IndividualTab);
+					}
 
 					break;
 				case ((int)TabPosition.ListView):
 					_viewFlipper.DisplayedChild = 1;
+
+					if (ActionBar.NavigationItemCount == 3) {
+						ActionBar.RemoveTab (_IndividualTab);
+					}
+					break;
+
+				case ((int)TabPosition.Individual):
+					_viewFlipper.DisplayedChild = 2;
 					break;
 			}
 		}

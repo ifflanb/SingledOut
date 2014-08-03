@@ -440,6 +440,36 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Gets the users for marker.
+		/// </summary>
+		/// <returns>The users for marker.</returns>
+		/// <param name="marker">Marker.</param>
+		public List<UserLocationsFlat> GetUsersForMarker(Marker marker)
+		{
+			var latitude = System.Math.Round(marker.Position.Latitude, 6);
+			var longitude = System.Math.Round(marker.Position.Longitude, 6);
+
+			var users = MapUserData.Where(o => o.Latitude == latitude && o.Longitude == longitude)
+				.Select(o => o).ToList(); 
+
+			return users;
+		}
+
+		/// <summary>
+		/// Determines whether this instance is a group marker.
+		/// </summary>
+		/// <returns><c>true</c> if this instance is group marker the specified marker; otherwise, <c>false</c>.</returns>
+		/// <param name="marker">Marker.</param>
+		public bool IsGroupMarker(Marker marker)
+		{
+			var latitude = System.Math.Round(marker.Position.Latitude, 6);
+			var longitude = System.Math.Round(marker.Position.Longitude, 6);
+
+			var count = MapUserData.Count(o => o.Latitude == latitude && o.Longitude == longitude);
+			return count > 1;
+		}
+
+		/// <summary>
 		/// Gets the marker icon.
 		/// </summary>
 		/// <returns>The marker icon.</returns>
@@ -587,31 +617,5 @@ namespace SingledOutAndroid
 		/// <value>The location.</value>
 		public Location Location { get;	set; }
 	}	
-
-	/// <summary>
-	/// User locations flat.
-	/// </summary>
-	public class UserLocationsFlat
-	{
-		public bool IsLoggedOnUser { get; set; }
-
-		public string FirstName { get; set; }
-
-		public string Surname { get; set; }
-
-		public int UserID { get; set; }
-
-		public int? Age { get; set; }
-
-		public string Sex { get; set; }
-
-		public double? Latitude { get; set; }
-
-		public double? Longitude { get; set; }
-
-		public string PlaceName { get; set; }
-
-		public Marker MapMarker { get; set; }
-	}
 }
 

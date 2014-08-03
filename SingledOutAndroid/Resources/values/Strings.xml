@@ -35,7 +35,9 @@
     <string name="actionbartitlecheckin">Singled Out</string>
     <string name="actionbarsubtitlecheckin">Check In</string>
     <string name="placesdialogtext">Select your location. Not in the list? <a href='#'>Add it</a>.</string>
+    <string name="groupsdialogtext">Select a person to view more details.</string>
     <string name="maptabname">Map</string>
     <string name="listtabname">List</string>
+    <string name="individual">User</string>
     <string name="age">Age</string>
 </resources>
