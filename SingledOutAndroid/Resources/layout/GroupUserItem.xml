@@ -8,36 +8,54 @@
         android:id="@+id/userphoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="top" />
     <LinearLayout
-        android:id="@+id/linearText"
-        android:layout_width="wrap_content"
+        android:id="@+id/horizontalText"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_marginLeft="10px">
-        <TextView
-            android:id="@+id/itemname"
-            android:layout_gravity="center_vertical"
-            style="@style/ListViewTextItem" />
-        <TextView
-            android:id="@+id/sex"
+        <LinearLayout
+            android:id="@+id/verticalText"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:visibility="gone" />
-        <TextView
-            android:id="@+id/age"
+            android:orientation="vertical"
+            android:layout_marginLeft="10px">
+            <TextView
+                android:id="@+id/itemname"
+                style="@style/ListViewTextItem"
+                android:paddingLeft="10dp"
+                android:layout_gravity="top" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/verticalText"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:visibility="gone" />
-        <TextView
-            android:id="@+id/placename"
-            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10px">
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/verticalText"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:visibility="gone" />
-        <TextView
-            android:id="@+id/distance"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:visibility="gone" />
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="65px" />
+        </LinearLayout>
     </LinearLayout>
+    <TextView
+        android:id="@+id/hidUserID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 </LinearLayout>

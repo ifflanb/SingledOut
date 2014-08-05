@@ -29,14 +29,15 @@
         <item name="android:padding">2dp</item>
         <item name="android:minWidth">25px</item>
         <item name="android:minHeight">25px</item>
-        <item name="android:divider">@drawable/listviewselector</item>  
+        <item name="android:divider">@drawable/listviewselector</item> 
+        <item name="android:background">@drawable/bg_key</item> 
 	</style>
     <style name="ListViewTextItem">
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">#0188BA</item>
-        <item name="android:padding">2dp</item>
+        <item name="android:paddingLeft">10dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
     </style>
     <style name="ActionBar">
         <item name="android:background">#ffffff</item>

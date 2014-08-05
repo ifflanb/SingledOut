@@ -34,6 +34,23 @@ namespace SingledOutAndroid.Adapters
 			set;
 		}
 
+		/// <summary>
+		/// Gets or sets the custom list item age I.
+		/// </summary>
+		/// <value>The custom list item age I.</value>
+		public int CustomListItemAgeID {
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Gets or sets the custom list item distance I.
+		/// </summary>
+		/// <value>The custom list item distance I.</value>
+		public int CustomListItemDistanceID {
+			get;
+			set;
+		}
 
 		/// <summary>
 		/// Gets or sets the custom list item image I.
@@ -105,14 +122,14 @@ namespace SingledOutAndroid.Adapters
 			//Find references to each subview in the list item's view
 			var imageItem = view.FindViewById(CustomListItemPhoto) as ImageView;
 			var name = view.FindViewById(CustomListItemNameID) as TextView;
-			//var latitude = view.FindViewById(CustomListItemLatitudeID) as TextView;
-			//var longitude = view.FindViewById(CustomListItemLongitudeID) as TextView;
+			var age = view.FindViewById (CustomListItemAgeID) as TextView;
+			var distance = view.FindViewById (CustomListItemDistanceID) as TextView;
 
 			//Assign this item's values to the various subviews
-//			imageItem.SetImageResource(item.F);
+			imageItem.SetImageResource(Resource.Drawable.individual);
 			name.SetText (string.Format("{0} {1}", item.FirstName, item.Surname.Substring(0,1)), TextView.BufferType.Normal);
-//			latitude.SetText(item.Latitude.ToString(), TextView.BufferType.Normal);
-//			longitude.SetText(item.Longitude.ToString(), TextView.BufferType.Normal);
+			age.SetText("age: " + item.Age.ToString() + " (" + item.Sex + ")", TextView.BufferType.Normal);
+			distance.SetText("within 200m", TextView.BufferType.Normal);
 
 			//Finally return the view
 			return view;

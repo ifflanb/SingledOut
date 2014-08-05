@@ -191,6 +191,7 @@
     <AndroidResource Include="Resources\drawable\individual.png" />
     <AndroidResource Include="Resources\layout\GroupUserItem.xml" />
     <AndroidResource Include="Resources\layout\groupusers.axml" />
+    <AndroidResource Include="Resources\drawable\bg_key.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

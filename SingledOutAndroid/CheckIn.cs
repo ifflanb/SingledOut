@@ -158,19 +158,38 @@ namespace SingledOutAndroid
 			_mapHelper.Map.MarkerClick += MapMarkerClick;
 		}
 
+		/// <summary>
+		/// Maps the marker click.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void MapMarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
 		{
 			if (_mapHelper.IsGroupMarker (e.P0)) {
 				ShowMarkerGroups (e.P0);
-				//e.P0.ShowInfoWindow ();
 			}
 			else
 			{
-				// Add individual tab.
-				_IndividualTab = _uiHelper.AddActionBarTab (this, Resource.String.individual, Resource.Drawable.individual);
-				// Select the tab.
-				_IndividualTab.Select ();
+				var user = _mapHelper.GetUsersForMarker (e.P0).SingleOrDefault();
+
+				if (user != null) {
+					// Add individual tab.
+					AddIndividalTabAndSelect ();
+				}
 			}
+		}
+
+		/// <summary>
+		/// Adds the individal tab and select.
+		/// </summary>
+		private void AddIndividalTabAndSelect(UserLocationsFlat user = null)
+		{
+			// Add individual tab.
+			_IndividualTab = _uiHelper.AddActionBarTab (this, Resource.String.individual, Resource.Drawable.individual);
+
+			_IndividualTab.SetTag (new JavaLangHolder<UserLocationsFlat>(user));
+			// Select the tab.
+			_IndividualTab.Select ();
 		}
 
 		/// <summary>
@@ -185,6 +204,9 @@ namespace SingledOutAndroid
 			_groupsAdapter = new GroupsListAdapter(this){
 				CustomListItemID = Resource.Layout.GroupUserItem,
 				CustomListItemNameID = Resource.Id.itemname,
+				CustomListItemPhoto = Resource.Id.userphoto,
+				CustomListItemAgeID = Resource.Id.age,
+				CustomListItemDistanceID = Resource.Id.distance,
 				items = users};
 
 			var placeName = users.First().PlaceName;
@@ -224,7 +246,6 @@ namespace SingledOutAndroid
 			_groupsAlertDialog.Dismiss ();
 		}
 
-
 		/// <summary>
 		/// List view item click.
 		/// </summary>
@@ -232,7 +253,16 @@ namespace SingledOutAndroid
 		/// <param name="e">E.</param>
 		protected void GroupsListViewItemClick(object sender, AdapterView.ItemClickEventArgs e)
 		{
-			_alertDialog.Dismiss ();
+			e.View.SetBackgroundColor (Color.AliceBlue);
+
+			// Get the user from the selected tab.
+			var user = _groupsAdapter.GetItemAtPosition (e.Position);
+
+			// Add individual tab.
+			AddIndividalTabAndSelect (user);
+
+			// Close the dialog.
+			_groupsAlertDialog.Dismiss ();
 		}
 
 		protected void BtnApplyClick(object sender, EventArgs e)
@@ -516,8 +546,15 @@ namespace SingledOutAndroid
 					}
 					break;
 
-				case ((int)TabPosition.Individual):
-					_viewFlipper.DisplayedChild = 2;
+			case ((int)TabPosition.Individual):
+				_viewFlipper.DisplayedChild = 2;
+
+				var user = ((JavaLangHolder<UserLocationsFlat>)_IndividualTab.Tag).Value; 
+				var individualTextView = (TextView)this.FindViewById (Resource.Id.individual);
+				if (individualTextView != null) {
+					individualTextView.SetText (string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1)), TextView.BufferType.Normal);
+				}
+					
 					break;
 			}
 		}
@@ -643,5 +680,15 @@ namespace SingledOutAndroid
 			_uiHelper.OnAlertDialogClosed -= PlacesDialogClosed;
 		}
 	}
+
+	public class JavaLangHolder<T> : Java.Lang.Object { 
+		public readonly T Value; 
+
+		public JavaLangHolder (T value) 
+		{ 
+			this.Value = value; 
+		} 
+	} 
+
 }
 

@@ -8,7 +8,7 @@
         android:id="@+id/imageitem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="top" />
     <LinearLayout
         android:id="@+id/linearText"
         android:layout_width="wrap_content"

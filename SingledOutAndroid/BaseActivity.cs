@@ -26,6 +26,8 @@ using Android.Graphics;
 using Android.Text;
 using System.Security.Principal;
 using System.Threading;
+using Java.Net;
+using System.Net.NetworkInformation;
 
 namespace SingledOutAndroid
 {				
@@ -197,8 +199,35 @@ namespace SingledOutAndroid
 		/// <returns><c>true</c> if this instance is network available; otherwise, <c>false</c>.</returns>
 		private bool IsNetworkAvailable() 
 		{
+			var isAvailalble = false; 
 			var connectionDetector = new ConnectionDetector(ApplicationContext);
-			return connectionDetector.IsConnectedToInternet();
+			isAvailalble =  connectionDetector.IsConnectedToInternet();
+
+			if (isAvailalble)
+			{
+
+				var uri = Resources.GetString (Resource.String.apihost);
+				if (!string.IsNullOrEmpty (uri)) {
+					uri = uri.Remove (uri.Length - 1, 1);
+				}
+				Ping ping = new Ping ();
+				PingReply pingReply = null;
+
+				try
+				{
+					pingReply = ping.Send (uri);
+				}
+				catch(Exception ex) {
+					isAvailalble = false;
+				}
+
+				if (pingReply.Status != IPStatus.Success)  //Successful response.
+				{
+					isAvailalble = false;
+				} 
+			}
+
+			return isAvailalble;
 		}
 
 		/// <summary>
