@@ -100,6 +100,7 @@
     <Compile Include="ListActivity.cs" />
     <Compile Include="Classes\UserLocationsFlat.cs" />
     <Compile Include="Adapters\GroupsListAdapter.cs" />
+    <Compile Include="Classes\RoundImageView.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -192,6 +193,9 @@
     <AndroidResource Include="Resources\layout\GroupUserItem.xml" />
     <AndroidResource Include="Resources\layout\groupusers.axml" />
     <AndroidResource Include="Resources\drawable\bg_key.xml" />
+    <AndroidResource Include="Resources\drawable\favoritesadd.png" />
+    <AndroidResource Include="Resources\drawable\favoritesremove.png" />
+    <AndroidResource Include="Resources\drawable\ben.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

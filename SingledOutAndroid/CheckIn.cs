@@ -174,7 +174,7 @@ namespace SingledOutAndroid
 
 				if (user != null) {
 					// Add individual tab.
-					AddIndividalTabAndSelect ();
+					AddIndividalTabAndSelect (user);
 				}
 			}
 		}
@@ -188,6 +188,7 @@ namespace SingledOutAndroid
 			_IndividualTab = _uiHelper.AddActionBarTab (this, Resource.String.individual, Resource.Drawable.individual);
 
 			_IndividualTab.SetTag (new JavaLangHolder<UserLocationsFlat>(user));
+
 			// Select the tab.
 			_IndividualTab.Select ();
 		}
@@ -217,7 +218,7 @@ namespace SingledOutAndroid
 
 			// Add cancel button and event.
 			_groupsAlertDialog.SetButton ("Cancel", (s, evt) => {
-				PlacesDialog_OnCancelClick (s, evt);
+				GroupsDialog_OnCancelClick (s, evt);
 			});
 
 			// Add item click event.
@@ -550,12 +551,34 @@ namespace SingledOutAndroid
 				_viewFlipper.DisplayedChild = 2;
 
 				var user = ((JavaLangHolder<UserLocationsFlat>)_IndividualTab.Tag).Value; 
-				var individualTextView = (TextView)this.FindViewById (Resource.Id.individual);
-				if (individualTextView != null) {
-					individualTextView.SetText (string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1)), TextView.BufferType.Normal);
+				if (user != null) {
+					var individualName = (TextView)this.FindViewById (Resource.Id.individualName);
+					if (individualName != null) {
+						individualName.SetText (string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1)), TextView.BufferType.Normal);							
+					}
+					var individualAge = (TextView)this.FindViewById (Resource.Id.individualAge);
+					if (individualAge != null) {
+						individualAge.SetText (string.Concat("Age: ", user.Age.ToString()), TextView.BufferType.Normal);							
+					}
+					var individualGender = (TextView)this.FindViewById (Resource.Id.individualGender);
+					if (individualGender != null) {
+						individualGender.SetText (string.Concat("Gender: ", user.Sex), TextView.BufferType.Normal);							
+					}
+					var individualDistance = (TextView)this.FindViewById (Resource.Id.individualDistance);
+					if (individualDistance != null) {
+						individualDistance.SetText (string.Concat("Distance: ", "200m"), TextView.BufferType.Normal);							
+					}
+					var individualInterests = (TextView)this.FindViewById (Resource.Id.individualInterests);
+					if (individualInterests != null) {
+						individualInterests.SetText (string.Concat("Interests: ", "I like doing this and that..."), TextView.BufferType.Normal);							
+					}
+					var individualPhoto = (RoundImageView)this.FindViewById (Resource.Id.individualPhoto);
+					if (individualPhoto != null) {
+						individualPhoto.BringToFront ();
+					}
 				}
 					
-					break;
+				break;
 			}
 		}
 
