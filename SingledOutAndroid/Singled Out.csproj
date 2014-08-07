@@ -195,7 +195,8 @@
     <AndroidResource Include="Resources\drawable\bg_key.xml" />
     <AndroidResource Include="Resources\drawable\favoritesadd.png" />
     <AndroidResource Include="Resources\drawable\favoritesremove.png" />
-    <AndroidResource Include="Resources\drawable\ben.png" />
+    <AndroidResource Include="Resources\drawable\individualviewgradient.xml" />
+    <AndroidResource Include="Resources\drawable\female.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

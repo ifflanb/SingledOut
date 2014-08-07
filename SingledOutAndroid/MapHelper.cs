@@ -100,13 +100,14 @@ namespace SingledOutAndroid
 						var latLng = new LatLng (latitude, longitude);
 						markerOptions.SetPosition (latLng);
 						var countUsersInLocation = (users.Count - 1).ToString ();
-						var user = users.SingleOrDefault (o => o.UserID != userID);
+						var user = users.Where (o => o.UserID != userID).Select(o => o).ToList();
 
 						if (user != null) {
+							var place = Truncate (user.First ().PlaceName, 10);
 							if (int.Parse (countUsersInLocation) > 1) {
-								markerOptions.SetTitle (string.Format ("{0} people are at {1)", countUsersInLocation, Truncate (user.PlaceName, 10)));
+								markerOptions.SetTitle (string.Format ("{0} people are at {1}", countUsersInLocation, place));
 							} else {
-								markerOptions.SetTitle (string.Format ("{0} {1} is at {2}", user.FirstName, user.Surname.Substring (0, 1), Truncate (user.PlaceName, 10)));
+								markerOptions.SetTitle (string.Format ("{0} {1} is at {2}", user.First().FirstName, user.First().Surname.Substring (0, 1), place));
 							}
 						} else {
 							markerOptions.SetTitle (string.Format ("unknown user is here"));
@@ -384,7 +385,7 @@ namespace SingledOutAndroid
 					var marker = _map.AddMarker (markerOptions);
 
 					// Remove the grouped users from the users list so we don't add them as individuals.
-					users.RemoveAll (o => o.UserLocation.Latitude == (double)grpUsr.Latitude && o.UserLocation.Longitude == (double)grpUsr.Longitude);
+					users.RemoveAll (o => o.UserLocation!= null && o.UserLocation.Latitude == (double)grpUsr.Latitude && o.UserLocation.Longitude == (double)grpUsr.Longitude);
 
 					// Update the store of users with the map marker ID for those in a group.
 					AddMapMarker ((double)grpUsr.Latitude, (double)grpUsr.Longitude, marker, null);
@@ -444,12 +445,12 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <returns>The users for marker.</returns>
 		/// <param name="marker">Marker.</param>
-		public List<UserLocationsFlat> GetUsersForMarker(Marker marker)
+		public List<UserLocationsFlat> GetUsersForMarker(int loggedInUserID, Marker marker)
 		{
 			var latitude = System.Math.Round(marker.Position.Latitude, 6);
 			var longitude = System.Math.Round(marker.Position.Longitude, 6);
 
-			var users = MapUserData.Where(o => o.Latitude == latitude && o.Longitude == longitude)
+			var users = MapUserData.Where(o => o.Latitude == latitude && o.Longitude == longitude && o.UserID != loggedInUserID)
 				.Select(o => o).ToList(); 
 
 			return users;
@@ -460,12 +461,12 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <returns><c>true</c> if this instance is group marker the specified marker; otherwise, <c>false</c>.</returns>
 		/// <param name="marker">Marker.</param>
-		public bool IsGroupMarker(Marker marker)
+		public bool IsGroupMarker(int loggedInUserID, Marker marker)
 		{
 			var latitude = System.Math.Round(marker.Position.Latitude, 6);
 			var longitude = System.Math.Round(marker.Position.Longitude, 6);
 
-			var count = MapUserData.Count(o => o.Latitude == latitude && o.Longitude == longitude);
+			var count = MapUserData.Count(o => o.Latitude == latitude && o.Longitude == longitude && o.UserID != loggedInUserID);
 			return count > 1;
 		}
 

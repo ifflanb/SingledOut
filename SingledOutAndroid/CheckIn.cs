@@ -165,16 +165,18 @@ namespace SingledOutAndroid
 		/// <param name="e">E.</param>
 		protected void MapMarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
 		{
-			if (_mapHelper.IsGroupMarker (e.P0)) {
+			if (_mapHelper.IsGroupMarker (CurrentUser.ID, e.P0)) {
 				ShowMarkerGroups (e.P0);
 			}
 			else
 			{
-				var user = _mapHelper.GetUsersForMarker (e.P0).SingleOrDefault();
+				var user = _mapHelper.GetUsersForMarker (CurrentUser.ID, e.P0).SingleOrDefault();
 
 				if (user != null) {
 					// Add individual tab.
 					AddIndividalTabAndSelect (user);
+				} else { // If it gets here it should be the logged on user.
+					e.P0.ShowInfoWindow ();
 				}
 			}
 		}
@@ -199,7 +201,7 @@ namespace SingledOutAndroid
 		/// <param name="marker">Marker.</param>
 		private void ShowMarkerGroups(Marker marker)
 		{
-			var users = _mapHelper.GetUsersForMarker (marker);
+			var users = _mapHelper.GetUsersForMarker (CurrentUser.ID, marker);
 
 			//Create our adapter and populate with list of Google place objects.
 			_groupsAdapter = new GroupsListAdapter(this){
@@ -434,14 +436,14 @@ namespace SingledOutAndroid
 			// Get the saved user location Id.
 			var userLocationID = GetUserPreference ("UserLocationID");
 
-			// Save the users location to the database.
+			// Get Uri to delete the users location from the database.
 			var uri = _uriCreator.DeleteUserLocations (Resources.GetString (Resource.String.apiurluserlocations), Resources.GetString (Resource.String.apiurldeleteuserlocation),  userLocationID);
 
-			// Perform the database delete.
 			HttpResponseMessage response = null;
 
 			try
 			{
+				// Perform the database delete.
 				response = _restHelper.DeleteAsync (uri);
 
 				if (!response.IsSuccessStatusCode) {
@@ -454,6 +456,7 @@ namespace SingledOutAndroid
 			}
 
 			if (response.StatusCode == HttpStatusCode.OK) {
+
 				SetUserPreference ("UserLocationID", string.Empty);
 			}
 		}
@@ -558,19 +561,19 @@ namespace SingledOutAndroid
 					}
 					var individualAge = (TextView)this.FindViewById (Resource.Id.individualAge);
 					if (individualAge != null) {
-						individualAge.SetText (string.Concat("Age: ", user.Age.ToString()), TextView.BufferType.Normal);							
+						individualAge.SetText (user.Age.ToString(), TextView.BufferType.Normal);							
 					}
 					var individualGender = (TextView)this.FindViewById (Resource.Id.individualGender);
 					if (individualGender != null) {
-						individualGender.SetText (string.Concat("Gender: ", user.Sex), TextView.BufferType.Normal);							
+						individualGender.SetText (user.Sex, TextView.BufferType.Normal);							
 					}
 					var individualDistance = (TextView)this.FindViewById (Resource.Id.individualDistance);
 					if (individualDistance != null) {
-						individualDistance.SetText (string.Concat("Distance: ", "200m"), TextView.BufferType.Normal);							
+						individualDistance.SetText ("200m", TextView.BufferType.Normal);							
 					}
 					var individualInterests = (TextView)this.FindViewById (Resource.Id.individualInterests);
 					if (individualInterests != null) {
-						individualInterests.SetText (string.Concat("Interests: ", "I like doing this and that..."), TextView.BufferType.Normal);							
+						individualInterests.SetText ("I like doing this and that...", TextView.BufferType.Normal);							
 					}
 					var individualPhoto = (RoundImageView)this.FindViewById (Resource.Id.individualPhoto);
 					if (individualPhoto != null) {
@@ -582,6 +585,11 @@ namespace SingledOutAndroid
 			}
 		}
 
+		/// <summary>
+		/// Checkin on click.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="eventArgs">Event arguments.</param>
 		protected void btnCheckin_OnClick(object sender, EventArgs eventArgs)
 		{
 			if (!_mapHelper.UserHasMarker(CurrentUser.ID)) {

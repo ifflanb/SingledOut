@@ -62,12 +62,31 @@ namespace MobileSpace.Helpers
 			}
 		}
 
+		/// <summary>
+		/// Shows the keyboard.
+		/// </summary>
+		/// <param name="editText">Edit text.</param>
+		/// <param name="activity">Activity.</param>
 		public void ShowKeyboard(EditText editText, Activity activity)
 		{
 			InputMethodManager imm = (InputMethodManager) activity.GetSystemService(Context.InputMethodService);
 			if (imm != null) {
 				// only will trigger it if no physical keyboard is open
 				imm.ShowSoftInput(editText, 0);
+			}
+		}
+
+		/// <summary>
+		/// Hides the keyboard.
+		/// </summary>
+		/// <param name="editText">Edit text.</param>
+		/// <param name="activity">Activity.</param>
+		public void HideKeyboard(EditText editText, Activity activity)
+		{
+			InputMethodManager imm = (InputMethodManager) activity.GetSystemService(Context.InputMethodService);
+			if (imm != null) {
+				// only will trigger it if no physical keyboard is open
+				imm.HideSoftInputFromWindow(editText.WindowToken, 0);
 			}
 		}
 

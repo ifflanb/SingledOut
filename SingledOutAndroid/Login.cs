@@ -31,6 +31,7 @@ namespace SingledOutAndroid
 		private SecurityHelper _securityHelper;
 		private RestHelper _restHelper;
 		private TextView _lblForgottenPassword;
+		private UIHelper _uiHelper;
 		ProgressBar _spinner;
 
 		public Login ()
@@ -44,6 +45,8 @@ namespace SingledOutAndroid
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.Login);
+
+			_uiHelper = new UIHelper ();
 
 			SwipeRightActivity = typeof(SignIn);
 
@@ -89,6 +92,8 @@ namespace SingledOutAndroid
 			{
 				return;
 			}
+
+			_uiHelper.HideKeyboard (_txtPassword, this);
 
 			// Start progress indicator.
 			_spinner = (ProgressBar)FindViewById(Resource.Id.progressSpinner);

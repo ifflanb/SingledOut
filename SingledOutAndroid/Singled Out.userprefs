@@ -1,15 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CheckIn.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MapHelper.cs">
     <Files>
-      <File FileName="CheckIn.cs" Line="38" Column="38" />
-      <File FileName="Adapters\GroupsListAdapter.cs" Line="69" Column="69" />
-      <File FileName="Resources\values\styles.xml" Line="54" Column="54" />
+      <File FileName="CheckIn.cs" Line="1" Column="1" />
+      <File FileName="MapHelper.cs" Line="1" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\UIHelper.cs" Line="1" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\BaseActivity.cs" Line="1" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\UriCreator.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="134" column="7" />
+      <Breakpoint file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="139" column="7" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
