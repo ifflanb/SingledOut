@@ -21,6 +21,9 @@ using System.Net;
 using Java.Util;
 
 using System.Globalization;
+using Newtonsoft.Json.Linq;
+using Org.Json;
+using Java.Net;
 
 namespace SingledOutAndroid
 {
@@ -43,6 +46,15 @@ namespace SingledOutAndroid
 			POST_STATUS_UPDATE
 		}
 
+		/// <summary>
+		/// Gets or sets the URI creator.
+		/// </summary>
+		/// <value>The URI creator.</value>
+		public UriCreator UriCreator {
+			get;
+			set;
+		}
+
 		public SignIn ()
 		{
 			callback = new MyStatusCallback (this);
@@ -55,6 +67,8 @@ namespace SingledOutAndroid
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
+
+			UriCreator = new UriCreator (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
 
 			uiHelper = new UiLifecycleHelper (this, callback);
 			uiHelper.OnCreate (savedInstanceState);
@@ -177,6 +191,29 @@ namespace SingledOutAndroid
 			}
 
 			/// <summary>
+			/// Gets the facebook photo.
+			/// </summary>
+			/// <returns>The facebook photo.</returns>
+			/// <param name="facebookUserID">Facebook user I.</param>
+			/// <param name="width">Width.</param>
+			/// <param name="height">Height.</param>
+			private HttpResponseMessage GetFacebookPhoto(string facebookUserID, int width, int height)
+			{
+				// Get the users photo.
+				var uri = owner.UriCreator.FacebookPictureUrl (owner.Resources.GetString (Resource.String.facebookgraphuri),
+					owner.Resources.GetString (Resource.String.facebookpicture),
+					facebookUserID,
+					width,
+					height);
+
+				var restHelper = new RestHelper ();
+
+				// Save the details.
+				var response = restHelper.GetAsync(uri);
+				return response;
+			}
+
+			/// <summary>
 			/// Raises the user info fetched event.
 			/// </summary>
 			/// <param name="user">User.</param>
@@ -192,6 +229,25 @@ namespace SingledOutAndroid
 						var accessToken = Session.ActiveSession.AccessToken;
 						var jsonFacebook = user.InnerJSONObject;
 						var facebookAccessToken = owner.GetUserPreference ("FacebookAccessToken");
+						var facebookPhotoUrl = string.Empty;
+
+						// Get the facebook photo.
+						var facebookPhotoTask = owner.FactoryStartNew (() => GetFacebookPhoto(user.Id, 200, 200));
+
+						if (facebookPhotoTask != null) {
+							await facebookPhotoTask;
+
+							if (facebookPhotoTask.Result.StatusCode == HttpStatusCode.OK) {
+								// Get json from response message.
+								var result = facebookPhotoTask.Result.Content.ReadAsStringAsync ().Result;
+								JSONObject jsonPhoto = new JSONObject(result);
+								if (jsonPhoto.Get("data") != null) {
+									var jsonData = new JSONObject(jsonPhoto.Get("data").ToString());
+									facebookPhotoUrl = jsonData.Get ("url").ToString();
+								}
+							}
+						}				
+
 
 						if (!string.IsNullOrEmpty (facebookAccessToken)) {
 							// Change to Tutorial page.
@@ -199,7 +255,7 @@ namespace SingledOutAndroid
 							owner.SwipeLeft ("SignIn");
 						}
 
-						var task = owner.FactoryStartNew (() => SaveFacebookDetails (jsonFacebook, accessToken));
+						var task = owner.FactoryStartNew (() => SaveFacebookDetails (jsonFacebook, accessToken, facebookPhotoUrl));
 
 						if (task != null) {
 							// await so that this task will run in the background.
@@ -235,7 +291,7 @@ namespace SingledOutAndroid
 							
 							}
 							else {
-								owner.BackgroundControlState (true);;
+								owner.BackgroundControlState (true);
 								var lblValidation = (TextView)owner.FindViewById (Resource.Id.lblValidation);
 								owner.ValidationHelper.SetValidationMessage (lblValidation, "Sorry, an error occurred!");					
 							}
@@ -266,7 +322,7 @@ namespace SingledOutAndroid
 			/// </summary>
 			/// <param name="user">User.</param>
 			/// <param name="facebookAccessToken">Facebook access token.</param>
-			private HttpResponseMessage SaveFacebookDetails(Org.Json.JSONObject user, string facebookAccessToken)
+			private HttpResponseMessage SaveFacebookDetails(Org.Json.JSONObject user, string facebookAccessToken, string facebookPhotoUrl)
 			{
 				var birthday = user.GetString ("birthday");
 				int? age = null;
@@ -284,12 +340,12 @@ namespace SingledOutAndroid
 					FacebookUserName = user.GetString("id"),
 					UpdateDate = DateTime.UtcNow,
 					Age = age > 0 ? (int)age : (int?)null,
-					Email = user.GetString("email")
+					Email = user.GetString("email"),
+					FacebookPhotoUrl = URLEncoder.Encode(facebookPhotoUrl)
 				};					
 
 				// Instantiate a Uri Creator.
-				var uriCreator = new UriCreator (owner.Resources.GetString(Resource.String.apihost), owner.Resources.GetString(Resource.String.apipath));
-				var uri = uriCreator.User (owner.Resources.GetString (Resource.String.apiurlusers));
+				var uri = owner.UriCreator.User (owner.Resources.GetString (Resource.String.apiurlusers));
 				var restHelper = new RestHelper ();
 
 				// Save the details.

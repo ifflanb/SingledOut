@@ -101,6 +101,7 @@
     <Compile Include="Classes\UserLocationsFlat.cs" />
     <Compile Include="Adapters\GroupsListAdapter.cs" />
     <Compile Include="Classes\RoundImageView.cs" />
+    <Compile Include="Classes\FacebookPicture.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

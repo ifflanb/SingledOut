@@ -10,6 +10,8 @@
     <string name="exception">Exception: %1$s</string>
     <string name="error">Error</string>
     <string name="facebook_permissions">email,user_about_me,age_range,read_stream,user_birthday</string>
+    <string name="facebookgraphuri">graph.facebook.com</string>
+    <string name="facebookpicture">picture</string>
     <string name="apihost">10.1.1.10/</string>
     <string name="apipath">SingledOut.WebApi/api/</string>
     <string name="googleapikey">AIzaSyAa_YFjc1laXNxms4P9F6d8sZ4xNlByDP8</string>

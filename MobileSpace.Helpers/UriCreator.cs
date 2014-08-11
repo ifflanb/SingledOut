@@ -40,6 +40,38 @@ namespace MobileSpace.Helpers
 		}			
 
 		/// <summary>
+		/// Builds the facebook root path.
+		/// </summary>
+		/// <returns>The facebook root path.</returns>
+		/// <param name="host">Host.</param>
+		/// <param name="path">Path.</param>
+		public UriBuilder BuildFacebookRootPath(string host, string path)
+		{
+			var uriBuilder = new UriBuilder {
+				Host = host,
+				Path = path
+			};
+			return uriBuilder;
+		}	
+
+		/// <summary>
+		/// Facebooks the picture URL.
+		/// </summary>
+		/// <returns>The picture URL.</returns>
+		/// <param name="facebookGraphUri">Facebook graph URI.</param>
+		/// <param name="facebookPicture">Facebook picture.</param>
+		/// <param name="userID">User I.</param>
+		/// <param name="pictureHeight">Picture height.</param>
+		/// <param name="pictureWidth">Picture width.</param>
+		public string FacebookPictureUrl(string facebookGraphUri, string facebookPicture, string userID, int pictureHeight, int pictureWidth)
+		{
+			_uriBuilder = BuildFacebookRootPath(facebookGraphUri, string.Concat(userID, "/", facebookPicture));	
+			var uri = _uriBuilder.Uri.AbsoluteUri;
+			uri += string.Concat (string.Format ("?redirect=0&height={0}&type=normal&width={1}", pictureHeight, pictureWidth));
+			return uri;
+		}
+
+		/// <summary>
 		/// Googles the place API nearby places.
 		/// </summary>
 		/// <returns>The place API nearby places.</returns>
@@ -53,7 +85,7 @@ namespace MobileSpace.Helpers
 			var path = string.Concat(_rootPath, nearbyPlacesUri);
 			_uriBuilder = BuildRootPath(path);	
 			_uriBuilder.Scheme = "https"; 
-			var uri = _uriBuilder.Uri.AbsoluteUri;//"&radius=", radius,
+			var uri = _uriBuilder.Uri.AbsoluteUri;
 			uri += string.Concat("?rankby=distance&location=", latitude, ",", longitude, "&types=", placeTypes, "&key=", googleApiKey);
 
 			return uri;

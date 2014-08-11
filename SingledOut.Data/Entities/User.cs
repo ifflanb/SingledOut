@@ -18,6 +18,8 @@ namespace SingledOut.Data.Entities
 
         public string FacebookUserName { get; set; }
 
+        public string FacebookPhotoUrl { get; set; }
+
         public string Email { get; set; }
 
         public string Password { get; set; }

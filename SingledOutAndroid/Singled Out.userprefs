@@ -1,17 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MapHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SignIn.cs">
     <Files>
-      <File FileName="CheckIn.cs" Line="1" Column="1" />
       <File FileName="MapHelper.cs" Line="1" Column="1" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\UIHelper.cs" Line="1" Column="1" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\BaseActivity.cs" Line="1" Column="1" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\UriCreator.cs" Line="1" Column="1" />
+      <File FileName="SignIn.cs" Line="6" Column="6" />
+      <File FileName="..\MobileSpace.Helpers\UriCreator.cs" Line="1" Column="1" />
+      <File FileName="Classes\FacebookPicture.cs" Line="5" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="139" column="7" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" line="260" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" line="258" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" line="242" column="30" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\SignIn.cs" line="334" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
