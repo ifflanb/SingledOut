@@ -58,7 +58,7 @@ namespace SingledOutAndroid
 			try
 			{
 				// Create task to get lost password.
-				var task = FactoryStartNew (() => RetrieveLostPassword (_txtEmail.Text));
+				var task = FactoryStartNew<HttpResponseMessage> (() => RetrieveLostPassword (_txtEmail.Text));
 				if(task != null)
 				{
 					// await so that this task will run in the background.

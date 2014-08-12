@@ -131,12 +131,12 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <returns>The start new.</returns>
 		/// <param name="func">Func.</param>
-		public Task<HttpResponseMessage> FactoryStartNew(Func<HttpResponseMessage> func)
+		public Task<T> FactoryStartNew<T>(Func<T> func)
 		{
-			Task<HttpResponseMessage> httpResponseMessage = null;
+			Task<T> httpResponseMessage = null;
 
 			if (IsNetworkAvailable ()) {
-				httpResponseMessage = Task<HttpResponseMessage>.Factory.StartNew (func);
+				httpResponseMessage = Task<T>.Factory.StartNew (func);
 			}
 			else 
 			{

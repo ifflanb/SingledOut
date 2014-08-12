@@ -7,7 +7,6 @@ using System.Threading;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using Ninject;
 using SingledOut.Data;
 using SingledOut.Repository;
 using SingledOut.Repository.QueryBuilders.User;
@@ -23,7 +22,7 @@ namespace SingledOut.WebApi.Filters
             //IKernel kernel = new StandardKernel();
             //kernel.Inject(this);
 
-            var ctx = new SingledOutContext();
+            var ctx = new SingledOutEntities();
             var userQueryBuilder = new QueryBuilder();
             var security = new Security();
             var userRepository = new UserRepository(ctx, security, userQueryBuilder);

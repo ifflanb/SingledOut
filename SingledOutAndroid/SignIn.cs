@@ -232,7 +232,7 @@ namespace SingledOutAndroid
 						var facebookPhotoUrl = string.Empty;
 
 						// Get the facebook photo.
-						var facebookPhotoTask = owner.FactoryStartNew (() => GetFacebookPhoto(user.Id, 200, 200));
+						var facebookPhotoTask = owner.FactoryStartNew<HttpResponseMessage> (() => GetFacebookPhoto(user.Id, 200, 200));
 
 						if (facebookPhotoTask != null) {
 							await facebookPhotoTask;
@@ -255,7 +255,7 @@ namespace SingledOutAndroid
 							owner.SwipeLeft ("SignIn");
 						}
 
-						var task = owner.FactoryStartNew (() => SaveFacebookDetails (jsonFacebook, accessToken, facebookPhotoUrl));
+						var task = owner.FactoryStartNew<HttpResponseMessage> (() => SaveFacebookDetails (jsonFacebook, accessToken, facebookPhotoUrl));
 
 						if (task != null) {
 							// await so that this task will run in the background.
@@ -273,6 +273,7 @@ namespace SingledOutAndroid
 									owner.SetUserPreference ("FacebookAccessToken", accessToken);
 									owner.SetUserPreference ("FacebookUsername", jsonFacebook.GetString ("id"));
 									owner.SetUserPreference ("SingledOutUser", json);
+									owner.SetUserPreference ("FacebookPhoto", returnUserModel.FacebookPhotoUrl);
 									owner.SetUserPreference ("UserID", returnUserModel.ID.ToString ());
 									owner.AuthenticationToken = returnUserModel.AuthToken.ToString ();
 								} 
@@ -341,7 +342,7 @@ namespace SingledOutAndroid
 					UpdateDate = DateTime.UtcNow,
 					Age = age > 0 ? (int)age : (int?)null,
 					Email = user.GetString("email"),
-					FacebookPhotoUrl = URLEncoder.Encode(facebookPhotoUrl)
+					FacebookPhotoUrl = Android.Net.Uri.Encode(facebookPhotoUrl)
 				};					
 
 				// Instantiate a Uri Creator.

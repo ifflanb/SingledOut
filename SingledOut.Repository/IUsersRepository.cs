@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using SingledOut.Data.Entities;
+using SingledOut.Data;
 using SingledOut.SearchParameters;
 
 namespace SingledOut.Repository

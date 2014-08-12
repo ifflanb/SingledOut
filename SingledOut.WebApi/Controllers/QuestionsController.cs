@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using SingledOut.Data.Entities;
+using SingledOut.Data;
 using SingledOut.Model;
 using SingledOut.Repository;
 using SingledOut.WebApi.Interfaces;

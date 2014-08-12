@@ -16,6 +16,7 @@ using Java.Lang;
 using SingledOut.Model;
 using Java.Util;
 using MobileSpace.Helpers;
+using Java.Net;
 
 namespace SingledOutAndroid
 {
@@ -351,6 +352,7 @@ namespace SingledOutAndroid
 					UserID = c.ID,
 					Age = c.Age,
 					Sex = c.Sex,
+					ProfilePicture = Android.Net.Uri.Decode(c.FacebookPhotoUrl),
 					Latitude = c.UserLocation != null ? c.UserLocation.Latitude : (double?)null,
 					Longitude = c.UserLocation != null ? c.UserLocation.Longitude : (double?)null,
 					PlaceName = c.UserLocation != null ? (!string.IsNullOrEmpty(c.UserLocation.PlaceName) ? Truncate(c.UserLocation.PlaceName, 10) : "an unknown place")  : "an unknown place"

@@ -4,9 +4,9 @@ namespace SingledOut.Repository
 {
     public abstract class BaseRepository
     {
-        private readonly SingledOutContext _ctx;
+        private readonly SingledOutEntities _ctx;
 
-        protected BaseRepository(SingledOutContext ctx)
+        protected BaseRepository(SingledOutEntities ctx)
         {
             _ctx = ctx;
         }

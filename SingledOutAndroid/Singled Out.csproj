@@ -101,7 +101,6 @@
     <Compile Include="Classes\UserLocationsFlat.cs" />
     <Compile Include="Adapters\GroupsListAdapter.cs" />
     <Compile Include="Classes\RoundImageView.cs" />
-    <Compile Include="Classes\FacebookPicture.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -198,6 +197,7 @@
     <AndroidResource Include="Resources\drawable\favoritesremove.png" />
     <AndroidResource Include="Resources\drawable\individualviewgradient.xml" />
     <AndroidResource Include="Resources\drawable\female.png" />
+    <AndroidResource Include="Resources\drawable\blankperson.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

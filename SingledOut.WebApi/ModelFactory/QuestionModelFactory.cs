@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 using System.Web.Http.Routing;
-using SingledOut.Data.Entities;
+using SingledOut.Data;
 using SingledOut.Model;
 using SingledOut.WebApi.Interfaces;
 

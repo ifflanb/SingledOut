@@ -1,14 +1,13 @@
 ﻿using System.Linq;
 using SingledOut.Data;
-using SingledOut.Data.Entities;
 
 namespace SingledOut.Repository
 {
     public class UserLocationsRepository : BaseRepository, IUserLocationsRepository
     {
-        private readonly SingledOutContext _ctx;
+        private readonly SingledOutEntities _ctx;
 
-        public UserLocationsRepository(SingledOutContext ctx)
+        public UserLocationsRepository(SingledOutEntities ctx)
             : base(ctx)
         {
             _ctx = ctx;
@@ -44,7 +43,7 @@ namespace SingledOut.Repository
             var user = _ctx.Users.SingleOrDefault(o => o.ID == userLocation.UserID);
             if (user != null)
             {
-                user.UserLocationId = userLocationId;
+                user.UserLocationID = userLocationId;
                 SaveAll();
             }
             return userLocationId;

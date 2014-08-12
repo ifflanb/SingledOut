@@ -26,6 +26,8 @@ namespace SingledOutAndroid
 
 		public string PlaceName { get; set; }
 
+		public string ProfilePicture { get; set; }
+
 		public Marker MapMarker { get; set; }
 	}
 }

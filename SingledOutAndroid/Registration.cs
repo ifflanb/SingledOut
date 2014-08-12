@@ -128,7 +128,7 @@ namespace SingledOutAndroid
 			try
 			{
 				// Create task to Save Singled Out Details.
-				var task = FactoryStartNew (() => SaveSingledOutDetails (userModel));
+				var task = FactoryStartNew<HttpResponseMessage> (() => SaveSingledOutDetails (userModel));
 				if(task != null)
 				{
 					// await so that this task will run in the background.

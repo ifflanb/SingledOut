@@ -127,15 +127,15 @@ namespace SingledOut.WebApi.Controllers
                     return Request.CreateResponse(HttpStatusCode.NotFound);
                 }
 
-                if (user.UserQuestions != null && user.UserQuestions.Count > 0)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Can not delete user, user has user questions.");
-                }
+                //if (user.UserQuestions != null && user.UserQuestions.Count > 0)
+                //{
+                //    return Request.CreateResponse(HttpStatusCode.BadRequest, "Can not delete user, user has user questions.");
+                //}
 
-                if (user.UserAnswers != null && user.UserAnswers.Count > 0)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Can not delete user, user has user answers.");
-                }
+                //if (user.UserAnswer != null && user.UserAnswer.Count > 0)
+                //{
+                //    return Request.CreateResponse(HttpStatusCode.BadRequest, "Can not delete user, user has user answers.");
+                //}
 
                 if (user.UserLocation != null)
                 {

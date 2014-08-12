@@ -26,6 +26,7 @@ using Android.Graphics;
 using SingledOut.SearchParameters;
 using System.Threading.Tasks;
 using SingledOutAndroid.Adapters;
+using Java.Net;
 
 namespace SingledOutAndroid
 {
@@ -334,7 +335,7 @@ namespace SingledOutAndroid
 			var userSearchControllerUri = Resources.GetString (Resource.String.apiurlusersearch);
 			var uri = _uriCreator.Search (userSearchControllerUri, sp);
 
-			var response = FactoryStartNew (() => _restHelper.GetAsync (uri));
+			var response = FactoryStartNew<HttpResponseMessage> (() => _restHelper.GetAsync (uri));
 			if (response != null) {
 				// await so that this task will run in the background.
 				await response;
@@ -408,7 +409,7 @@ namespace SingledOutAndroid
 			var userLocationModel = CreateUserLocation (googlePlace);
 
 			// Create task to Save Singled Out Details.
-			var response = FactoryStartNew (() => _restHelper.PostAsync (uri, userLocationModel));
+			var response = FactoryStartNew<HttpResponseMessage> (() => _restHelper.PostAsync (uri, userLocationModel));
 			if (response != null) {
 				// await so that this task will run in the background.
 				await response;
@@ -531,7 +532,7 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
-		public void OnTabSelected (object sender, ActionBar.TabEventArgs e)
+		public async void OnTabSelected (object sender, ActionBar.TabEventArgs e)
 		{
 			switch (((ActionBar.Tab)sender).Position)
 			{
@@ -577,12 +578,42 @@ namespace SingledOutAndroid
 					}
 					var individualPhoto = (RoundImageView)this.FindViewById (Resource.Id.individualPhoto);
 					if (individualPhoto != null) {
+						if (!string.IsNullOrEmpty (user.ProfilePicture)) {
+
+							var task = FactoryStartNew<Bitmap> (() => GetImageFromUrl (user.ProfilePicture));
+
+							if (task != null) {
+								// await so that this task will run in the background.
+								await task;
+
+								individualPhoto.SetImageBitmap (task.Result);
+							}
+						} else {
+							individualPhoto.SetImageResource (Resource.Drawable.blankperson);
+						}
 						individualPhoto.BringToFront ();
 					}
 				}
 					
 				break;
 			}
+		}
+
+		private Bitmap GetImageFromUrl(string url)
+		{
+			using(var client = new HttpClient())
+			{
+				var msg = client.GetAsync(url);
+				if (msg.Result.IsSuccessStatusCode)
+				{
+					using(var stream = msg.Result.Content.ReadAsStreamAsync())
+					{
+						﻿var bitmap = BitmapFactory.DecodeStreamAsync(stream.Result);
+						return bitmap.Result;
+					}
+				}
+			}
+			return null;
 		}
 
 		/// <summary>
@@ -644,7 +675,7 @@ namespace SingledOutAndroid
 
 				// Create task to get Google Places.
 				var restHelper = new RestHelper();
-				var response = FactoryStartNew (() => _restHelper.GetAsync (uri.ToString()));
+				var response = FactoryStartNew<HttpResponseMessage> (() => _restHelper.GetAsync (uri.ToString()));
 				if (response != null) {
 					// await so that this task will run in the background.
 					await response;

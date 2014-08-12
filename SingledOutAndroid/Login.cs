@@ -102,7 +102,7 @@ namespace SingledOutAndroid
 			try
 			{
 				// Create task to login to Singled Out.
-				var task = FactoryStartNew (() => LoginToSingledOut (_txtEmail.Text, _txtPassword.Text));
+				var task = FactoryStartNew<HttpResponseMessage> (() => LoginToSingledOut (_txtEmail.Text, _txtPassword.Text));
 				if(task != null)
 				{
 					// await so that this task will run in the background.

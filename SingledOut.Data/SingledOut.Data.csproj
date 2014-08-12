@@ -48,26 +48,67 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SingledOutContext.cs" />
-    <Compile Include="Entities\Answer.cs" />
-    <Compile Include="Entities\BaseEntity.cs" />
-    <Compile Include="Entities\Question.cs" />
-    <Compile Include="Entities\UserAnswer.cs" />
-    <Compile Include="Entities\UserQuestion.cs" />
-    <Compile Include="Entities\User.cs" />
-    <Compile Include="Entities\UserLocation.cs" />
-    <Compile Include="Mappers\UserQuestionMapper.cs" />
-    <Compile Include="Mappers\UserAnswerMapper.cs" />
-    <Compile Include="Mappers\AnswerMapper.cs" />
-    <Compile Include="Mappers\UserLocationMapper.cs" />
-    <Compile Include="Mappers\QuestionMapper.cs" />
-    <Compile Include="Mappers\UserMapper.cs" />
+    <Compile Include="Answer.cs">
+      <DependentUpon>SingledOutContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C__MigrationHistory.cs">
+      <DependentUpon>SingledOutContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SingledOutContextMigrationConfiguration.cs" />
+    <Compile Include="Question.cs">
+      <DependentUpon>SingledOutContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SingledOutContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SingledOutContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SingledOutContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SingledOutContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SingledOutContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SingledOutContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>SingledOutContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserAnswer.cs">
+      <DependentUpon>SingledOutContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserLocation.cs">
+      <DependentUpon>SingledOutContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserQuestion.cs">
+      <DependentUpon>SingledOutContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="uspGetUsersByDistance_Result.cs">
+      <DependentUpon>SingledOutContext.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <EntityDeploy Include="SingledOutContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SingledOutContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="SingledOutContext.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SingledOutContext.edmx</DependentUpon>
+      <LastGenOutput>SingledOutContext.Context.cs</LastGenOutput>
+    </None>
+    <None Include="SingledOutContext.edmx.diagram">
+      <DependentUpon>SingledOutContext.edmx</DependentUpon>
+    </None>
+    <None Include="SingledOutContext.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SingledOutContext.edmx</DependentUpon>
+      <LastGenOutput>SingledOutContext.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

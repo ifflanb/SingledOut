@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SingledOut.Data.Entities;
+using SingledOut.Data;
 using SingledOut.Model;
 
 namespace SingledOut.WebApi.Interfaces

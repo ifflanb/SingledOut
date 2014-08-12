@@ -1,14 +1,13 @@
 ﻿using System.Linq;
 using SingledOut.Data;
-using SingledOut.Data.Entities;
 
 namespace SingledOut.Repository
 {
     public class AnswerRepository : BaseRepository, IAnswerRepository
     {
-        private readonly SingledOutContext _ctx;
+        private readonly SingledOutEntities _ctx;
 
-        public AnswerRepository(SingledOutContext ctx)
+        public AnswerRepository(SingledOutEntities ctx)
             : base(ctx)
         {
             _ctx = ctx;

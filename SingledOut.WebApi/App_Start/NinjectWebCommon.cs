@@ -69,7 +69,7 @@ namespace SingledOut.WebApi.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             // Repositories.
-            kernel.Bind<SingledOutContext>().To<SingledOutContext>().InRequestScope();
+            kernel.Bind<SingledOutEntities>().To<SingledOutEntities>().InRequestScope();
             kernel.Bind<IUserRepository>().To<UserRepository>().InRequestScope();
             kernel.Bind<IQuestionRepository>().To<QuestionRepository>().InRequestScope();
             kernel.Bind<IAnswerRepository>().To<AnswerRepository>().InRequestScope();

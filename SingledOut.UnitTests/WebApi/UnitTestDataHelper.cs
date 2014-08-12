@@ -3,7 +3,6 @@ using System.Security.Cryptography;
 using System.Text;
 using SingledOut.Data;
 using SingledOut.Model;
-using SingledOut.Data.Entities;
 
 namespace SingledOut.UnitTests.WebApi
 {
@@ -48,7 +47,7 @@ namespace SingledOut.UnitTests.WebApi
             };
 
             int? id = null;
-            using (var ctx = new SingledOutContext())
+            using (var ctx = new SingledOutEntities())
             {
                 ctx.Users.Add(user);
                 id = ctx.SaveChanges();
@@ -87,7 +86,7 @@ namespace SingledOut.UnitTests.WebApi
                 UserLocation = userModel.UserLocation != null ? MapUserLocation(userModel.UserLocation) : null
             };
 
-            using (var ctx = new SingledOutContext())
+            using (var ctx = new SingledOutEntities())
             {
                 ctx.Users.Add(user);
                 ctx.SaveChanges();
@@ -110,7 +109,7 @@ namespace SingledOut.UnitTests.WebApi
                 FacebookUserName = user.FacebookUserName,
                 Age = user.Age,
                 Sex = user.Surname,
-                AuthToken = user.AuthToken,
+                AuthToken = (Guid)user.AuthToken,
                 CreatedDate = user.CreatedDate,
                 UpdateDate = user.UpdateDate,
                 Password = user.Password,
@@ -164,7 +163,7 @@ namespace SingledOut.UnitTests.WebApi
         {
             var userLocation = MapUserLocation(userLocationModel);
 
-            using (var ctx = new SingledOutContext())
+            using (var ctx = new SingledOutEntities())
             {
                 ctx.UserLocations.Add(userLocation);
                 ctx.SaveChanges();

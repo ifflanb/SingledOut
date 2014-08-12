@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SingledOut.Data.Entities;
+using SingledOut.Data;
 using SingledOut.Model;
 using SingledOut.Repository;
 using SingledOut.Services.Interfaces;
@@ -56,7 +56,7 @@ namespace SingledOut.WebApi.ModelFactory
                         CreatedDate = user.CreatedDate,
                         UpdateDate = user.UpdateDate,
                         Email = user.Email,
-                        AuthToken = user.AuthToken,
+                        AuthToken = (Guid)user.AuthToken,
                         UserLocation = user.UserLocation != null ? _userLocationModelFactory.Create(user.UserLocation) : null
                     });
             }
@@ -78,7 +78,7 @@ namespace SingledOut.WebApi.ModelFactory
                 CreatedDate = user.CreatedDate,
                 UpdateDate = user.UpdateDate,
                 Email = user.Email,
-                AuthToken = user.AuthToken
+                AuthToken = (Guid)user.AuthToken
                 //Password = user.Password
                 //UserQuestions = _userQuestionModelFactory.Create(user.UserQuestions),
                 //UserLocations = _userLocationModelFactory.Create(user.UserLocations),

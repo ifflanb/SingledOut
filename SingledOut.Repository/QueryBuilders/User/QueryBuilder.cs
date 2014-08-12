@@ -16,12 +16,12 @@ namespace SingledOut.Repository.QueryBuilders.User
         /// Get Users based on search parameters.
         /// </summary>
         /// <param name="sp">The User search parameters.</param>
-        public IQueryable<Data.Entities.User> BuildQuery(SearchParameters.UsersSearchParameters sp)
+        public IQueryable<Data.User> BuildQuery(SearchParameters.UsersSearchParameters sp)
         {
 
-            IQueryable<Data.Entities.User> query = null;
+            IQueryable<Data.User> query = null;
 
-            var ctx = new SingledOutContext();
+            var ctx = new SingledOutEntities();
             
             query = from u in ctx.Users
                 select u;

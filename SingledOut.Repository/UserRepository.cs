@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using SingledOut.Data;
-using SingledOut.Data.Entities;
 using SingledOut.Repository.QueryBuilders.User;
 using SingledOut.SearchParameters;
 using SingledOut.Services.Services;
@@ -10,12 +9,12 @@ namespace SingledOut.Repository
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        private readonly SingledOutContext _ctx;
+        private readonly SingledOutEntities _ctx;
         private readonly Security _security;
         private readonly IQueryBuilder _queryBuilder;
 
         public UserRepository(
-            SingledOutContext ctx, 
+            SingledOutEntities ctx, 
             Security security,
             IQueryBuilder queryBuilder)
             : base(ctx)
