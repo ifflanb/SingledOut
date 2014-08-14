@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using SingledOut.Data;
 using SingledOut.Model;
 using SingledOut.Repository;
@@ -51,13 +52,14 @@ namespace SingledOut.WebApi.ModelFactory
                         Surname = user.Surname,
                         FacebookAccessToken = user.FacebookAccessToken,
                         FacebookUserName = user.FacebookUserName,
-                        FacebookPhotoUrl = user.FacebookPhotoUrl,
+                        FacebookPhotoUrl = HttpUtility.UrlDecode(user.FacebookPhotoUrl),
                         Sex = user.Sex,
                         CreatedDate = user.CreatedDate,
                         UpdateDate = user.UpdateDate,
                         Email = user.Email,
                         AuthToken = (Guid)user.AuthToken,
-                        UserLocation = user.UserLocation != null ? _userLocationModelFactory.Create(user.UserLocation) : null
+                        UserLocation = user.UserLocation != null ? _userLocationModelFactory.Create(user.UserLocation) : null,
+                        Interests = user.Interests
                     });
             }
 
@@ -69,16 +71,18 @@ namespace SingledOut.WebApi.ModelFactory
             return new UserModel
             {
                 ID = user.ID,
+                Age = user.Age,
                 FirstName = user.FirstName,
                 Surname = user.Surname,
                 FacebookAccessToken = user.FacebookAccessToken,
                 FacebookUserName = user.FacebookUserName,
-                FacebookPhotoUrl = user.FacebookPhotoUrl,
+                FacebookPhotoUrl = HttpUtility.UrlDecode(user.FacebookPhotoUrl),
                 Sex = user.Sex,
                 CreatedDate = user.CreatedDate,
                 UpdateDate = user.UpdateDate,
                 Email = user.Email,
-                AuthToken = (Guid)user.AuthToken
+                AuthToken = (Guid)user.AuthToken,
+                Interests = user.Interests
                 //Password = user.Password
                 //UserQuestions = _userQuestionModelFactory.Create(user.UserQuestions),
                 //UserLocations = _userLocationModelFactory.Create(user.UserLocations),
@@ -104,7 +108,8 @@ namespace SingledOut.WebApi.ModelFactory
                     UpdateDate = model.UpdateDate,
                     Email = model.Email,
                     Password = model.Password ,
-                    AuthToken = model.AuthToken
+                    AuthToken = model.AuthToken,
+                    Interests = model.Interests
                     //!string.IsNullOrEmpty(model.Password) ? _security.CreateHash(model.Password) : string.Empty
                     //UserQuestions = _userQuestionRepository.GetUserQuestion(model.UserQuestions.)
                     //CourseTutor = _repo.GetTutor(model.Tutor.Id)

@@ -30,5 +30,7 @@ namespace SingledOut.Model
         public string Password { get; set; }
 
         public Guid AuthToken { get; set; }
+
+        public string Interests { get; set; }
     }
 }

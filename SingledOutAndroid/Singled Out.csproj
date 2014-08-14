@@ -198,6 +198,7 @@
     <AndroidResource Include="Resources\drawable\individualviewgradient.xml" />
     <AndroidResource Include="Resources\drawable\female.png" />
     <AndroidResource Include="Resources\drawable\blankperson.png" />
+    <AndroidResource Include="Resources\drawable\edit.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SingledOutModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SingledOutModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -85,6 +85,7 @@
           <Property Name="AuthToken" Type="uniqueidentifier" />
           <Property Name="Age" Type="int" />
           <Property Name="FacebookPhotoUrl" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Interests" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <Association Name="FK_dbo_Users_dbo_UserAnswers_UserAnswerID">
           <End Role="UserAnswers" Type="Self.UserAnswers" Multiplicity="0..1" />
@@ -148,8 +149,7 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SingledOutModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -239,6 +239,7 @@
           <NavigationProperty Name="UserAnswer" Relationship="Self.FK_dbo_Users_dbo_UserAnswers_UserAnswerID" FromRole="Users" ToRole="UserAnswers" />
           <NavigationProperty Name="UserLocation" Relationship="Self.FK_dbo_Users_dbo_UserLocations_UserLocationID" FromRole="Users" ToRole="UserLocations" />
           <NavigationProperty Name="UserQuestion" Relationship="Self.FK_dbo_Users_dbo_UserQuestions_UserQuestionID" FromRole="Users" ToRole="UserQuestions" />
+          <Property Name="Interests" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_dbo_Users_dbo_UserAnswers_UserAnswerID">
           <End Role="UserAnswers" Type="Self.UserAnswer" Multiplicity="0..1" />
@@ -384,6 +385,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="SingledOutModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Interests" ColumnName="Interests" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />

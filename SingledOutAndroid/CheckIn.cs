@@ -39,7 +39,8 @@ namespace SingledOutAndroid
 		private UIHelper _uiHelper;
 		private ActionBar.Tab _mapTab;
 		private ActionBar.Tab _listViewTab;
-		private ActionBar.Tab _IndividualTab;
+		private ActionBar.Tab _individualTab;
+		private ActionBar.Tab _profileTab;
 		private Location _currentLocation;
 		private UriCreator _googleApiUriCreator;
 		private RestHelper _restHelper;
@@ -182,18 +183,66 @@ namespace SingledOutAndroid
 			}
 		}
 
+		/// <param name="item">The menu item that was selected.</param>
+		/// <summary>
+		/// This hook is called whenever an item in your options menu is selected.
+		/// </summary>
+		/// <returns>To be added.</returns>
+		public override bool OnOptionsItemSelected(IMenuItem item) {
+			if (item.TitleFormatted != null) {
+				switch (item.TitleFormatted.ToString ().ToLower ()) {
+				case "profile":
+					AddProfileTabAndSelect ();
+					break;
+
+				case "map":
+					ActionBar.SelectTab (_mapTab);
+					break;
+
+				case "list view":
+					ActionBar.SelectTab (_individualTab);
+					break;
+
+				case "settings":
+
+					break;
+
+				case "help":
+
+					break;
+
+				case "about":
+
+					break;
+				}
+			}
+			return base.OnOptionsItemSelected(item);
+		}
+
 		/// <summary>
 		/// Adds the individal tab and select.
 		/// </summary>
 		private void AddIndividalTabAndSelect(UserLocationsFlat user = null)
 		{
 			// Add individual tab.
-			_IndividualTab = _uiHelper.AddActionBarTab (this, Resource.String.individual, Resource.Drawable.individual);
+			_individualTab = _uiHelper.AddActionBarTab (this, Resource.String.individual, Resource.Drawable.individual);
 
-			_IndividualTab.SetTag (new JavaLangHolder<UserLocationsFlat>(user));
+			_individualTab.SetTag (new JavaLangHolder<UserLocationsFlat>(user));
 
 			// Select the tab.
-			_IndividualTab.Select ();
+			_individualTab.Select ();
+		}
+
+		/// <summary>
+		/// Adds the profile tab and select.
+		/// </summary>
+		private void AddProfileTabAndSelect()
+		{
+			// Add profile tab.
+			_profileTab = _uiHelper.AddActionBarTab (this, Resource.String.profile, Resource.Drawable.individual);
+
+			// Select the tab.
+			_profileTab.Select ();
 		}
 
 		/// <summary>
@@ -528,41 +577,51 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Removes the dynamic tabs.
+		/// </summary>
+		private void RemoveDynamicTabs()
+		{
+			if (_individualTab != null) {
+				ActionBar.RemoveTab (_individualTab);
+			}
+			if (_profileTab != null) {
+				ActionBar.RemoveTab (_profileTab);
+			}
+		}
+
+		/// <summary>
 		/// Raises the tab selected event.
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
 		public async void OnTabSelected (object sender, ActionBar.TabEventArgs e)
 		{
-			switch (((ActionBar.Tab)sender).Position)
-			{
-				case ((int)TabPosition.Map):
-					_viewFlipper.DisplayedChild = 0;
-					if (ActionBar.NavigationItemCount == 3) {
-						ActionBar.RemoveTab (_IndividualTab);
-					}
-
-					break;
-				case ((int)TabPosition.ListView):
-					_viewFlipper.DisplayedChild = 1;
-
-					if (ActionBar.NavigationItemCount == 3) {
-						ActionBar.RemoveTab (_IndividualTab);
-					}
-					break;
-
-			case ((int)TabPosition.Individual):
+			switch (((ActionBar.Tab)sender).Text.ToLower()) {
+			case "map":
+				_viewFlipper.DisplayedChild = 0;
+				RemoveDynamicTabs ();
+				break;
+			case "list view":
+				_viewFlipper.DisplayedChild = 1;
+				RemoveDynamicTabs ();
+				break;
+			case "user":
 				_viewFlipper.DisplayedChild = 2;
 
-				var user = ((JavaLangHolder<UserLocationsFlat>)_IndividualTab.Tag).Value; 
-				if (user != null) {
+				if (_profileTab != null) {
+					ActionBar.RemoveTab (_profileTab);
+				}
+
+				var user = ((JavaLangHolder<UserLocationsFlat>)_individualTab.Tag).Value; 
+				if (user != null) 
+				{
 					var individualName = (TextView)this.FindViewById (Resource.Id.individualName);
 					if (individualName != null) {
 						individualName.SetText (string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1)), TextView.BufferType.Normal);							
 					}
 					var individualAge = (TextView)this.FindViewById (Resource.Id.individualAge);
 					if (individualAge != null) {
-						individualAge.SetText (user.Age.ToString(), TextView.BufferType.Normal);							
+						individualAge.SetText (user.Age.ToString (), TextView.BufferType.Normal);							
 					}
 					var individualGender = (TextView)this.FindViewById (Resource.Id.individualGender);
 					if (individualGender != null) {
@@ -574,18 +633,15 @@ namespace SingledOutAndroid
 					}
 					var individualInterests = (TextView)this.FindViewById (Resource.Id.individualInterests);
 					if (individualInterests != null) {
-						individualInterests.SetText ("I like doing this and that...", TextView.BufferType.Normal);							
+						individualInterests.SetText (user.Interests, TextView.BufferType.Normal);							
 					}
 					var individualPhoto = (RoundImageView)this.FindViewById (Resource.Id.individualPhoto);
 					if (individualPhoto != null) {
 						if (!string.IsNullOrEmpty (user.ProfilePicture)) {
-
 							var task = FactoryStartNew<Bitmap> (() => GetImageFromUrl (user.ProfilePicture));
-
 							if (task != null) {
 								// await so that this task will run in the background.
 								await task;
-
 								individualPhoto.SetImageBitmap (task.Result);
 							}
 						} else {
@@ -594,11 +650,58 @@ namespace SingledOutAndroid
 						individualPhoto.BringToFront ();
 					}
 				}
-					
 				break;
+
+			case "profile": 
+				_viewFlipper.DisplayedChild = 3;
+
+				if (_individualTab != null) {
+					ActionBar.RemoveTab (_individualTab);
+				}
+
+					if (CurrentUser != null) 
+					{
+						var profileName = (TextView)this.FindViewById (Resource.Id.profileName);
+						if (profileName != null) {
+							profileName.SetText (string.Concat (CurrentUser.FirstName, " ", CurrentUser.Surname), TextView.BufferType.Normal);							
+						}
+						var profileAge = (TextView)this.FindViewById (Resource.Id.profileAge);
+						if (profileAge != null) {
+							profileAge.SetText (CurrentUser.Age.ToString (), TextView.BufferType.Normal);							
+						}
+						var profileGender = (TextView)this.FindViewById (Resource.Id.profileGender);
+						if (profileGender != null) {
+							profileGender.SetText (CurrentUser.Sex, TextView.BufferType.Normal);							
+						}
+						var profileInterests = (TextView)this.FindViewById (Resource.Id.profileInterests);
+						if (profileInterests != null) {
+							profileInterests.SetText (CurrentUser.Interests, TextView.BufferType.Normal);							
+						}
+						var profilePhoto = (RoundImageView)this.FindViewById (Resource.Id.profilePhoto);
+						if (profilePhoto != null) {
+							if (!string.IsNullOrEmpty (CurrentUser.FacebookPhotoUrl)) {
+								var task = FactoryStartNew<Bitmap> (() => GetImageFromUrl (CurrentUser.FacebookPhotoUrl));
+
+								if (task != null) {
+									// await so that this task will run in the background.
+									await task;
+									profilePhoto.SetImageBitmap (task.Result);
+								}
+							} else {
+								profilePhoto.SetImageResource (Resource.Drawable.blankperson);
+							}
+							profilePhoto.BringToFront ();
+						}
+					}
+					break;					
 			}
 		}
 
+		/// <summary>
+		/// Gets the image from URL.
+		/// </summary>
+		/// <returns>The image from URL.</returns>
+		/// <param name="url">URL.</param>
 		private Bitmap GetImageFromUrl(string url)
 		{
 			using(var client = new HttpClient())

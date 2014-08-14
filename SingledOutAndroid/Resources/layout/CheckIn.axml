@@ -179,6 +179,127 @@
                 </TableRow>
             </TableLayout>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/checkInProfileView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:id="@+id/checkInProfileUpperView"
+                android:layout_width="fill_parent"
+                android:layout_height="160dp"
+                android:background="@drawable/individualviewgradient">
+                <SingledOutAndroid.RoundImageView
+                    android:id="@+id/profilePhoto"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:scaleType="centerInside"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp" />
+                <TextView
+                    android:id="@+id/profileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:layout_below="@+id/profilePhoto"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true" />
+                <ImageView
+                    android:id="@+id/profileEditPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:src="@drawable/edit"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:paddingBottom="10dp" />
+            </RelativeLayout>
+            <TableLayout
+                android:id="@+id/checkInProfileLowerView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/checkInProfileView"
+                android:background="#EEEEEE">
+                <TableRow
+                    android:id="@+id/tableRow10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:padding="5dp">
+                    <TextView
+                        android:id="@+id/profileAgeLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center_vertical"
+                        android:text="Age:" />
+                    <TextView
+                        android:id="@+id/profileAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:textColor="#007FFF"
+                        android:gravity="center_vertical" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:padding="5dp">
+                    <TextView
+                        android:id="@+id/profileGenderLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center_vertical"
+                        android:text="Gender:" />
+                    <TextView
+                        android:id="@+id/profileGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:layout_below="@+id/profileAge"
+                        android:gravity="center_vertical"
+                        android:textColor="#007FFF" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:padding="5dp">
+                    <TextView
+                        android:id="@+id/profileInterestsLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center_vertical"
+                        android:text="Interests:" />
+                    <TextView
+                        android:id="@+id/profileInterests"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:textSize="16dp"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:textColor="#007FFF" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
     </ViewFlipper>
     <SlidingDrawer
         android:id="@+id/slidingDrawer"

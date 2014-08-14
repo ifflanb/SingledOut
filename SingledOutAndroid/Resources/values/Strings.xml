@@ -41,5 +41,6 @@
     <string name="maptabname">Map</string>
     <string name="listtabname">List</string>
     <string name="individual">User</string>
+    <string name="profile">Profile</string>
     <string name="age">Age</string>
 </resources>

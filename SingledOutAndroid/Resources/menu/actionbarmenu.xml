@@ -17,6 +17,11 @@ android:id="@+id/actionbarmenuMenu">
 				android:showAsAction="always"
 				android:orderInCategory="400">
 				<menu>
+					<item android:id="@+id/profile"
+								android:icon="@drawable/individual"
+								android:showAsAction="always"
+								android:orderInCategory="300"
+								android:title="Profile"/>
 					<item android:id="@+id/globe"
 								android:icon="@drawable/globe"
 								android:showAsAction="always"

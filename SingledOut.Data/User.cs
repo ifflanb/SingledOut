@@ -30,6 +30,7 @@ namespace SingledOut.Data
         public Nullable<System.Guid> AuthToken { get; set; }
         public Nullable<int> Age { get; set; }
         public string FacebookPhotoUrl { get; set; }
+        public string Interests { get; set; }
     
         public virtual UserAnswer UserAnswer { get; set; }
         public virtual UserLocation UserLocation { get; set; }
