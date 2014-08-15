@@ -27,6 +27,7 @@ using SingledOut.SearchParameters;
 using System.Threading.Tasks;
 using SingledOutAndroid.Adapters;
 using Java.Net;
+using Android.Database;
 
 namespace SingledOutAndroid
 {
@@ -55,6 +56,7 @@ namespace SingledOutAndroid
 		private AnimationHelper _animationHelper;
 		private ViewFlipper _viewFlipper;
 		private bool isStartingUp = false;
+		private RoundImageView _profilePhoto;
 
 		/// <summary>
 		/// Gets or sets the button checkin.
@@ -189,6 +191,8 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <returns>To be added.</returns>
 		public override bool OnOptionsItemSelected(IMenuItem item) {
+			var itemSelected = base.OnOptionsItemSelected(item);
+
 			if (item.TitleFormatted != null) {
 				switch (item.TitleFormatted.ToString ().ToLower ()) {
 				case "profile":
@@ -196,11 +200,12 @@ namespace SingledOutAndroid
 					break;
 
 				case "map":
-					ActionBar.SelectTab (_mapTab);
+					_mapTab.Select ();
 					break;
 
 				case "list view":
-					ActionBar.SelectTab (_individualTab);
+					itemSelected = true;
+					_listViewTab.Select ();
 					break;
 
 				case "settings":
@@ -216,7 +221,7 @@ namespace SingledOutAndroid
 					break;
 				}
 			}
-			return base.OnOptionsItemSelected(item);
+			return itemSelected;
 		}
 
 		/// <summary>
@@ -225,8 +230,9 @@ namespace SingledOutAndroid
 		private void AddIndividalTabAndSelect(UserLocationsFlat user = null)
 		{
 			// Add individual tab.
-			_individualTab = _uiHelper.AddActionBarTab (this, Resource.String.individual, Resource.Drawable.individual);
-
+			if (_individualTab == null) {
+				_individualTab = _uiHelper.AddActionBarTab (this, Resource.String.individual, Resource.Drawable.individual);
+			}
 			_individualTab.SetTag (new JavaLangHolder<UserLocationsFlat>(user));
 
 			// Select the tab.
@@ -239,8 +245,9 @@ namespace SingledOutAndroid
 		private void AddProfileTabAndSelect()
 		{
 			// Add profile tab.
-			_profileTab = _uiHelper.AddActionBarTab (this, Resource.String.profile, Resource.Drawable.individual);
-
+			if (_profileTab == null) {
+				_profileTab = _uiHelper.AddActionBarTab (this, Resource.String.profile, Resource.Drawable.individual);
+			}
 			// Select the tab.
 			_profileTab.Select ();
 		}
@@ -583,9 +590,11 @@ namespace SingledOutAndroid
 		{
 			if (_individualTab != null) {
 				ActionBar.RemoveTab (_individualTab);
+				_individualTab = null;
 			}
 			if (_profileTab != null) {
 				ActionBar.RemoveTab (_profileTab);
+				_profileTab = null;
 			}
 		}
 
@@ -601,7 +610,7 @@ namespace SingledOutAndroid
 				_viewFlipper.DisplayedChild = 0;
 				RemoveDynamicTabs ();
 				break;
-			case "list view":
+			case "list":
 				_viewFlipper.DisplayedChild = 1;
 				RemoveDynamicTabs ();
 				break;
@@ -661,40 +670,119 @@ namespace SingledOutAndroid
 
 					if (CurrentUser != null) 
 					{
+						var isFacebookUser = !string.IsNullOrEmpty(CurrentUser.FacebookUserName);
+						isFacebookUser = false;
+
+						var profilePhotoEdit = (ImageView)this.FindViewById (Resource.Id.profileEditPhoto);
+						if (profilePhotoEdit != null && !isFacebookUser) {
+							profilePhotoEdit.Visibility = ViewStates.Visible;
+							profilePhotoEdit.Click += ProfilePhotoEditOnClick;
+						}
 						var profileName = (TextView)this.FindViewById (Resource.Id.profileName);
 						if (profileName != null) {
 							profileName.SetText (string.Concat (CurrentUser.FirstName, " ", CurrentUser.Surname), TextView.BufferType.Normal);							
+						}
+						var profileNameEdit = (ImageView)this.FindViewById (Resource.Id.profileEditName);
+						if (profileNameEdit != null && !isFacebookUser) {
+							profileNameEdit.Visibility = ViewStates.Visible;
 						}
 						var profileAge = (TextView)this.FindViewById (Resource.Id.profileAge);
 						if (profileAge != null) {
 							profileAge.SetText (CurrentUser.Age.ToString (), TextView.BufferType.Normal);							
 						}
+						var profileEditAge = (ImageView)this.FindViewById (Resource.Id.profileEditAge);
+						if (profileEditAge != null && !isFacebookUser) {
+							profileEditAge.Visibility = ViewStates.Visible;
+						}
 						var profileGender = (TextView)this.FindViewById (Resource.Id.profileGender);
 						if (profileGender != null) {
 							profileGender.SetText (CurrentUser.Sex, TextView.BufferType.Normal);							
 						}
+						var profileEditGender = (ImageView)this.FindViewById (Resource.Id.profileEditGender);
+						if (profileEditGender != null && !isFacebookUser) {
+							profileEditGender.Visibility = ViewStates.Visible;
+						}
 						var profileInterests = (TextView)this.FindViewById (Resource.Id.profileInterests);
 						if (profileInterests != null) {
 							profileInterests.SetText (CurrentUser.Interests, TextView.BufferType.Normal);							
+						}	
+						var profileInterestsEdit = (ImageView)this.FindViewById (Resource.Id.profileInterestsEdit);
+						if (profileInterestsEdit != null && !isFacebookUser) {
+							profileInterestsEdit.Visibility = ViewStates.Visible;
 						}
-						var profilePhoto = (RoundImageView)this.FindViewById (Resource.Id.profilePhoto);
-						if (profilePhoto != null) {
+						_profilePhoto = (RoundImageView)this.FindViewById (Resource.Id.profilePhoto);
+						if (_profilePhoto != null) {
 							if (!string.IsNullOrEmpty (CurrentUser.FacebookPhotoUrl)) {
 								var task = FactoryStartNew<Bitmap> (() => GetImageFromUrl (CurrentUser.FacebookPhotoUrl));
 
 								if (task != null) {
 									// await so that this task will run in the background.
 									await task;
-									profilePhoto.SetImageBitmap (task.Result);
+									_profilePhoto.SetImageBitmap (task.Result);
 								}
 							} else {
-								profilePhoto.SetImageResource (Resource.Drawable.blankperson);
+								_profilePhoto.SetImageResource (Resource.Drawable.blankperson);
 							}
-							profilePhoto.BringToFront ();
+							_profilePhoto.BringToFront ();
 						}
 					}
 					break;					
 			}
+		}
+
+		public static readonly int PickImageId = 1000;
+		protected void ProfilePhotoEditOnClick(object sender, EventArgs e)
+		{
+			Intent = new Intent();
+			Intent.SetType("image/*");
+			Intent.SetAction(Intent.ActionGetContent);
+			StartActivityForResult(Intent.CreateChooser(Intent, "Select Picture"), PickImageId);
+		}
+
+		/// <param name="requestCode">The integer request code originally supplied to
+		///  startActivityForResult(), allowing you to identify who this
+		///  result came from.</param>
+		/// <param name="resultCode">The integer result code returned by the child activity
+		///  through its setResult().</param>
+		/// <param name="data">An Intent, which can return result data to the caller
+		///  (various data can be attached to Intent "extras").</param>
+		/// <summary>
+		/// Called when an activity you launched exits, giving you the requestCode
+		///  you started it with, the resultCode it returned, and any additional
+		///  data from it.
+		/// </summary>
+		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		{
+			if ((requestCode == PickImageId) && (resultCode == Result.Ok) && (data != null))
+			{
+				Android.Net.Uri uri = data.Data;
+				_profilePhoto.SetImageURI(uri);
+
+				string path = GetPathToImage(uri);
+			//	Toast.MakeText(this, path, ToastLength.Long);
+			}
+		}
+
+		/// <summary>
+		/// Gets the path to image.
+		/// </summary>
+		/// <returns>The path to image.</returns>
+		/// <param name="uri">URI.</param>
+		private string GetPathToImage(Android.Net.Uri uri)
+		{
+			string path = null;
+			// The projection contains the columns we want to return in our query.
+			string[] projection = new[] { Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data };
+			using (ICursor cursor = ManagedQuery(uri, projection, null, null, null))
+			{
+				if (cursor != null)
+				{
+					int columnIndex = cursor.GetColumnIndexOrThrow(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data);
+					cursor.MoveToFirst();
+					path = cursor.GetString(columnIndex);
+				}
+			}
+			return path;
 		}
 
 		/// <summary>

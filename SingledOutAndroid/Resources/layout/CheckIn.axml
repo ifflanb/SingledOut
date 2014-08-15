@@ -196,6 +196,18 @@
                     android:scaleType="centerInside"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp" />
+                <ImageView
+                    android:id="@+id/profileEditPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:src="@drawable/edit"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:visibility="gone" />
                 <TextView
                     android:id="@+id/profileName"
                     android:layout_width="wrap_content"
@@ -205,15 +217,15 @@
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true" />
                 <ImageView
-                    android:id="@+id/profileEditPhoto"
+                    android:id="@+id/profileEditName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:src="@drawable/edit"
-                    android:paddingRight="10dp"
-                    android:paddingTop="10dp"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:visibility="visible"
+                    android:paddingRight="10dp"
                     android:paddingBottom="10dp" />
             </RelativeLayout>
             <TableLayout
@@ -224,7 +236,7 @@
                 android:background="#EEEEEE">
                 <TableRow
                     android:id="@+id/tableRow10"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:padding="5dp">
                     <TextView
@@ -235,7 +247,7 @@
                         android:textSize="16dp"
                         android:padding="5dp"
                         android:background="#EEEEEE"
-                        android:gravity="center_vertical"
+                        android:gravity="top"
                         android:text="Age:" />
                     <TextView
                         android:id="@+id/profileAge"
@@ -245,12 +257,22 @@
                         android:textSize="16dp"
                         android:padding="5dp"
                         android:textColor="#007FFF"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical"
+                        android:layout_weight="5" />
+                    <ImageView
+                        android:id="@+id/profileEditAge"
+                        android:layout_width="5dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/edit"
+                        android:layout_gravity="right"
+                        android:visibility="gone"
+                        android:layout_weight="1"
+                        android:padding="5dp" />
                 </TableRow>
                 <TableRow
                     android:id="@+id/tableRow11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:padding="5dp">
                     <TextView
                         android:id="@+id/profileGenderLabel"
@@ -260,7 +282,7 @@
                         android:textSize="16dp"
                         android:padding="5dp"
                         android:background="#EEEEEE"
-                        android:gravity="center_vertical"
+                        android:gravity="top"
                         android:text="Gender:" />
                     <TextView
                         android:id="@+id/profileGender"
@@ -271,12 +293,22 @@
                         android:padding="5dp"
                         android:layout_below="@+id/profileAge"
                         android:gravity="center_vertical"
-                        android:textColor="#007FFF" />
+                        android:textColor="#007FFF"
+                        android:layout_weight="5" />
+                    <ImageView
+                        android:id="@+id/profileEditGender"
+                        android:layout_width="5dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/edit"
+                        android:padding="5dp"
+                        android:layout_gravity="right"
+                        android:visibility="gone"
+                        android:layout_weight="1" />
                 </TableRow>
                 <TableRow
                     android:id="@+id/tableRow12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:padding="5dp">
                     <TextView
                         android:id="@+id/profileInterestsLabel"
@@ -286,17 +318,26 @@
                         android:textSize="16dp"
                         android:padding="5dp"
                         android:background="#EEEEEE"
-                        android:gravity="center_vertical"
+                        android:gravity="top"
                         android:text="Interests:" />
                     <TextView
                         android:id="@+id/profileInterests"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:textSize="16dp"
+                        android:textColor="#007FFF"
+                        android:layout_weight="5"
+                        android:padding="5dp" />
+                    <ImageView
+                        android:id="@+id/profileInterestsEdit"
+                        android:layout_width="5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:src="@drawable/edit"
+                        android:visibility="gone"
                         android:padding="5dp"
-                        android:gravity="center_vertical"
-                        android:textColor="#007FFF" />
+                        android:layout_weight="1" />
                 </TableRow>
             </TableLayout>
         </LinearLayout>
