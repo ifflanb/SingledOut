@@ -251,8 +251,8 @@
                         android:text="Age:" />
                     <TextView
                         android:id="@+id/profileAge"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:textSize="16dp"
                         android:padding="5dp"
@@ -286,8 +286,8 @@
                         android:text="Gender:" />
                     <TextView
                         android:id="@+id/profileGender"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:textSize="16dp"
                         android:padding="5dp"
@@ -308,8 +308,10 @@
                 <TableRow
                     android:id="@+id/tableRow12"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp">
+                    android:layout_height="fill_parent"
+                    android:padding="5dp"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1">
                     <TextView
                         android:id="@+id/profileInterestsLabel"
                         android:layout_width="match_parent"
@@ -322,22 +324,50 @@
                         android:text="Interests:" />
                     <TextView
                         android:id="@+id/profileInterests"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:textSize="16dp"
                         android:textColor="#007FFF"
-                        android:layout_weight="5"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:text="My interests are ... rugby, tennis, PC gaming, XBox etc etc etc."
+                        android:layout_weight="5" />
                     <ImageView
                         android:id="@+id/profileInterestsEdit"
                         android:layout_width="5dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:src="@drawable/edit"
-                        android:visibility="gone"
                         android:padding="5dp"
+                        android:visibility="visible"
                         android:layout_weight="1" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow13"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/dummyfiller2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="left" />
+                    <Button
+                        android:id="@+id/btnSaveProfile"
+                        android:drawableLeft="@drawable/save"
+                        android:text="   Save   "
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:paddingRight="31dp"
+                        android:gravity="center"
+                        android:layout_gravity="right"
+                        android:background="#33B5E5"
+                        android:paddingLeft="15dp"
+                        style="@style/buttonlight" />
                 </TableRow>
             </TableLayout>
         </LinearLayout>
@@ -458,7 +488,6 @@
                     android:id="@+id/dummyText"
                     style="@style/descriptiontext"
                     android:layout_width="match_parent"
-                    android:textColor="#ffffff"
                     android:layout_gravity="left|center_horizontal" />
                 <Button
                     android:id="@+id/btnApply"

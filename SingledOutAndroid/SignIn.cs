@@ -273,6 +273,7 @@ namespace SingledOutAndroid
 									owner.SetUserPreference ("FacebookAccessToken", accessToken);
 									owner.SetUserPreference ("FacebookUsername", jsonFacebook.GetString ("id"));
 									owner.SetUserPreference ("SingledOutUser", json);
+									owner.AuthenticationToken = returnUserModel.AuthToken.ToString();
 									owner.SetUserPreference ("FacebookPhoto", returnUserModel.FacebookPhotoUrl);
 									owner.SetUserPreference ("UserID", returnUserModel.ID.ToString ());
 									owner.AuthenticationToken = returnUserModel.AuthToken.ToString ();

@@ -1,4 +1,5 @@
-﻿using SingledOut.Data;
+﻿using System;
+using SingledOut.Data;
 
 namespace SingledOut.Repository
 {
@@ -13,7 +14,17 @@ namespace SingledOut.Repository
 
         public int SaveAll()
         {
-            return _ctx.SaveChanges();
+            var result = 0;
+            try
+            {
+                result = _ctx.SaveChanges();
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            return result;
         }
     }
 }

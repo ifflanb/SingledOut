@@ -59,7 +59,8 @@ namespace SingledOut.WebApi.ModelFactory
                         Email = user.Email,
                         AuthToken = (Guid)user.AuthToken,
                         UserLocation = user.UserLocation != null ? _userLocationModelFactory.Create(user.UserLocation) : null,
-                        Interests = user.Interests
+                        Interests = user.Interests,
+                        ProfilePicture = user.ProfilePicture
                     });
             }
 
@@ -82,7 +83,8 @@ namespace SingledOut.WebApi.ModelFactory
                 UpdateDate = user.UpdateDate,
                 Email = user.Email,
                 AuthToken = (Guid)user.AuthToken,
-                Interests = user.Interests
+                Interests = user.Interests,
+                ProfilePicture = user.ProfilePicture
                 //Password = user.Password
                 //UserQuestions = _userQuestionModelFactory.Create(user.UserQuestions),
                 //UserLocations = _userLocationModelFactory.Create(user.UserLocations),
@@ -109,7 +111,8 @@ namespace SingledOut.WebApi.ModelFactory
                     Email = model.Email,
                     Password = model.Password ,
                     AuthToken = model.AuthToken,
-                    Interests = model.Interests
+                    Interests = model.Interests,
+                    ProfilePicture = model.ProfilePicture
                     //!string.IsNullOrEmpty(model.Password) ? _security.CreateHash(model.Password) : string.Empty
                     //UserQuestions = _userQuestionRepository.GetUserQuestion(model.UserQuestions.)
                     //CourseTutor = _repo.GetTutor(model.Tutor.Id)

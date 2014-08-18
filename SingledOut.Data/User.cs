@@ -31,6 +31,7 @@ namespace SingledOut.Data
         public Nullable<int> Age { get; set; }
         public string FacebookPhotoUrl { get; set; }
         public string Interests { get; set; }
+        public byte[] ProfilePicture { get; set; }
     
         public virtual UserAnswer UserAnswer { get; set; }
         public virtual UserLocation UserLocation { get; set; }

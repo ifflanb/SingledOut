@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using SingledOut.Model;
 using SingledOut.Repository;
 using SingledOut.WebApi.Filters;
@@ -61,12 +64,11 @@ namespace SingledOut.WebApi.Controllers
                 if (entity == null) Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read user from body");
 
                 var result = _userRepository.Insert(entity);
-                if (result > 0)
+                if (result.ID > 0)
                 {
-                    entity.ID = result;
-                    return Request.CreateResponse(HttpStatusCode.Created, _userModelFactory.Create(entity));
+                    return Request.CreateResponse(HttpStatusCode.Created, _userModelFactory.Create(result));
                 }
-                if (result == -1) // account already exists.
+                if (result.ID == -1) // account already exists.
                 {
                     return new HttpResponseMessage(HttpStatusCode.Forbidden)
                                                 {
@@ -87,7 +89,7 @@ namespace SingledOut.WebApi.Controllers
         [SingledOutAuthorization]
         [HttpPatch]
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] UserModel userModel)
+        public HttpResponseMessage Put([FromBody] UserModel userModel)
         {
             try
             {
@@ -95,13 +97,13 @@ namespace SingledOut.WebApi.Controllers
 
                 if(updatedUser == null) Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read user from body");
 
-                var originalUser = _userRepository.GetUser(id);
+                var originalUser = _userRepository.GetUser(userModel.ID);
 
-                if(originalUser == null || originalUser.ID != id)
+                if (originalUser == null || originalUser.ID != userModel.ID)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotModified, "User is not found");
                 }
-                updatedUser.ID = id;
+                updatedUser.ID = userModel.ID;
 
                 if(_userRepository.Update(originalUser, updatedUser) > 0)
                 {

@@ -136,7 +136,7 @@ namespace SingledOutAndroid
 			}
 			catch (Exception ex)
 			{
-				_validationHelper.SetValidationMessage (_lblValidation, "An unknown error occurred!");			
+				_validationHelper.SetValidationMessage (_lblValidation, GetString(Resource.String.exceptionUnknown));			
 				_spinner.Visibility = ViewStates.Gone;
 			}
 

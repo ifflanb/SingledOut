@@ -32,5 +32,7 @@ namespace SingledOut.Model
         public Guid AuthToken { get; set; }
 
         public string Interests { get; set; }
+
+        public byte[] ProfilePicture { get; set; }
     }
 }

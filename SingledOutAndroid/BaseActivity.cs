@@ -109,6 +109,18 @@ namespace SingledOutAndroid
 			}
 		}
 
+		/// <param name="resId">Resource id for the string</param>
+		/// <summary>
+		/// Return a localized string from the application's package's
+		///  default string table.
+		/// </summary>
+		/// <returns>To be added.</returns>
+		/// <param name="stringResource">String resource.</param>
+		public string GetString (int stringResource)
+		{
+			return Resources.GetString (stringResource);
+		}
+
 		/*
 		 * attach the menu to the menu button of the device
 		 * for this activity

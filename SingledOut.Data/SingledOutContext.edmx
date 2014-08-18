@@ -86,6 +86,7 @@
           <Property Name="Age" Type="int" />
           <Property Name="FacebookPhotoUrl" Type="nvarchar" MaxLength="1000" />
           <Property Name="Interests" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ProfilePicture" Type="image" />
         </EntityType>
         <Association Name="FK_dbo_Users_dbo_UserAnswers_UserAnswerID">
           <End Role="UserAnswers" Type="Self.UserAnswers" Multiplicity="0..1" />
@@ -240,6 +241,7 @@
           <NavigationProperty Name="UserLocation" Relationship="Self.FK_dbo_Users_dbo_UserLocations_UserLocationID" FromRole="Users" ToRole="UserLocations" />
           <NavigationProperty Name="UserQuestion" Relationship="Self.FK_dbo_Users_dbo_UserQuestions_UserQuestionID" FromRole="Users" ToRole="UserQuestions" />
           <Property Name="Interests" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ProfilePicture" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_dbo_Users_dbo_UserAnswers_UserAnswerID">
           <End Role="UserAnswers" Type="Self.UserAnswer" Multiplicity="0..1" />
@@ -385,6 +387,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="SingledOutModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
                 <ScalarProperty Name="Interests" ColumnName="Interests" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />

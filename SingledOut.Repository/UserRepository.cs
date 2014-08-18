@@ -39,7 +39,7 @@ namespace SingledOut.Repository
             return _ctx.Users.SingleOrDefault(o => o.ID == userID);
         }
 
-        public int Insert(User user)
+        public User Insert(User user)
         {
             var result = 0;
 
@@ -65,21 +65,21 @@ namespace SingledOut.Repository
 
                 _ctx.Users.Add(user);
                 result = SaveAll();
-                result = user.ID;
+                return user;
             }
             else
             {
                 if (!facebookExistingUser)
                 {
-                    result = -1;
+                    user.ID = -1;
                 }
                 else
                 {
-                    result = facebookUser.ID;
+                    return facebookUser;
                 }
             }
             
-            return result;
+            return user;
         }
 
         public int Update(User originalUser, User updatedUser)

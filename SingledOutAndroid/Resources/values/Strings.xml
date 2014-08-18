@@ -43,4 +43,5 @@
     <string name="individual">User</string>
     <string name="profile">Profile</string>
     <string name="age">Age</string>
+    <string name="exceptionUnknown">An unknown error occurred!</string>
 </resources>

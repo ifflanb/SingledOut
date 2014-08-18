@@ -199,6 +199,7 @@
     <AndroidResource Include="Resources\drawable\female.png" />
     <AndroidResource Include="Resources\drawable\blankperson.png" />
     <AndroidResource Include="Resources\drawable\edit.png" />
+    <AndroidResource Include="Resources\drawable\save.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

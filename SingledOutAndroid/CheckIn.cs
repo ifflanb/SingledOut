@@ -28,6 +28,9 @@ using System.Threading.Tasks;
 using SingledOutAndroid.Adapters;
 using Java.Net;
 using Android.Database;
+using Android.Graphics.Drawables;
+using Java.IO;
+using System.IO;
 
 namespace SingledOutAndroid
 {
@@ -662,6 +665,9 @@ namespace SingledOutAndroid
 				break;
 
 			case "profile": 
+				var btnSaveProfile = (Button)this.FindViewById (Resource.Id.btnSaveProfile);
+				btnSaveProfile.Click += OnProfileSaveClick;
+
 				_viewFlipper.DisplayedChild = 3;
 
 				if (_individualTab != null) {
@@ -730,13 +736,90 @@ namespace SingledOutAndroid
 			}
 		}
 
+		/// <summary>
+		/// Raises the profile save click event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		protected async void OnProfileSaveClick(object sender, EventArgs e)
+		{
+			// Get the current user.
+			var user = CurrentUser;
+			var isDirty = false;
+
+			// Get the profile picture currently selected.
+			var profilePhoto = (RoundImageView)this.FindViewById (Resource.Id.profilePhoto);
+			profilePhoto.BuildDrawingCache(true);
+			Bitmap bitmap = profilePhoto.GetDrawingCache(true);  
+			var bos = new MemoryStream();  
+			bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg,100,bos); 
+			byte[] byteArray = bos.ToArray(); 
+			profilePhoto.DrawingCacheEnabled = false;
+
+			// Perform sequential comparison and if different set profile picture to new one.
+			if (user.ProfilePicture == null || user.ProfilePicture.SequenceEqual (byteArray)) {
+				user.ProfilePicture = byteArray;
+				isDirty = true;
+			}
+
+			if (isDirty) {
+				// Start progress indicator.
+				_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Saving user profile", "Please wait ...");
+
+				try {
+					// Create task to login to Singled Out.
+					var task = FactoryStartNew<HttpResponseMessage> (() => UpdateProfile (user));
+					if (task != null) {
+						// await so that this task will run in the background.
+						await task;
+
+						// Return here after login has completed.
+						if (task.Result.StatusCode == HttpStatusCode.OK) {
+							// Get json from response message.
+							var result = task.Result.Content.ReadAsStringAsync ().Result;
+							var json = JsonObject.Parse (result).ToString ().Replace ("{{", "{").Replace ("}}", "}");
+							// Deserialize the Json.
+							var returnUserModel = JsonConvert.DeserializeObject<UserModel> (json);
+
+							// Save the updated user to the preference.
+							SetUserPreference ("SingledOutUser", json);
+						}
+					} else if (task.Result.StatusCode == HttpStatusCode.Unauthorized) {
+						ShowNotificationBox ("Profile was not updated.");
+					}
+				} catch (Exception ex) {
+					ShowNotificationBox (GetString (Resource.String.exceptionUnknown));
+				}
+
+				_uiHelper.HideProgressDialog ();
+			}
+		}
+
+		/// <summary>
+		/// Updates the profile.
+		/// </summary>
+		/// <returns>The profile.</returns>
+		/// <param name="user">User.</param>
+		private HttpResponseMessage UpdateProfile(UserModel user)
+		{
+			var uriCreator = new UriCreator (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
+			var uri = uriCreator.User (Resources.GetString (Resource.String.apiurlusers));
+			var response = _restHelper.PutAsync (uri, user);
+			return response;
+		}
+
 		public static readonly int PickImageId = 1000;
+		/// <summary>
+		/// Profiles the photo edit on click.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		protected void ProfilePhotoEditOnClick(object sender, EventArgs e)
 		{
 			Intent = new Intent();
 			Intent.SetType("image/*");
 			Intent.SetAction(Intent.ActionGetContent);
-			StartActivityForResult(Intent.CreateChooser(Intent, "Select Picture"), PickImageId);
+			StartActivityForResult(Intent.CreateChooser(Intent, "Select Profile Picture"), PickImageId);
 		}
 
 		/// <param name="requestCode">The integer request code originally supplied to
@@ -756,33 +839,8 @@ namespace SingledOutAndroid
 			if ((requestCode == PickImageId) && (resultCode == Result.Ok) && (data != null))
 			{
 				Android.Net.Uri uri = data.Data;
-				_profilePhoto.SetImageURI(uri);
-
-				string path = GetPathToImage(uri);
-			//	Toast.MakeText(this, path, ToastLength.Long);
+				_profilePhoto.SetImageURI(uri);			
 			}
-		}
-
-		/// <summary>
-		/// Gets the path to image.
-		/// </summary>
-		/// <returns>The path to image.</returns>
-		/// <param name="uri">URI.</param>
-		private string GetPathToImage(Android.Net.Uri uri)
-		{
-			string path = null;
-			// The projection contains the columns we want to return in our query.
-			string[] projection = new[] { Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data };
-			using (ICursor cursor = ManagedQuery(uri, projection, null, null, null))
-			{
-				if (cursor != null)
-				{
-					int columnIndex = cursor.GetColumnIndexOrThrow(Android.Provider.MediaStore.Images.Media.InterfaceConsts.Data);
-					cursor.MoveToFirst();
-					path = cursor.GetString(columnIndex);
-				}
-			}
-			return path;
 		}
 
 		/// <summary>

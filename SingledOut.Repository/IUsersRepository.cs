@@ -10,7 +10,7 @@ namespace SingledOut.Repository
 
         User GetUser(int userID);
 
-        int Insert(User user);
+        User Insert(User user);
 
         int Update(User originalUser, User updatedUser);
 
