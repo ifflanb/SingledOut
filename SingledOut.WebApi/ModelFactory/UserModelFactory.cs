@@ -5,6 +5,7 @@ using SingledOut.Data;
 using SingledOut.Model;
 using SingledOut.Repository;
 using SingledOut.Services.Interfaces;
+using SingledOut.Services.Services;
 using SingledOut.WebApi.Interfaces;
 
 namespace SingledOut.WebApi.ModelFactory
@@ -120,6 +121,80 @@ namespace SingledOut.WebApi.ModelFactory
                 };
 
                 return user;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+        }
+
+        public User ParseUpdate(User originalUser, UserModel userModel)
+        {
+            try
+            {
+                var somethingChanged = false;
+
+                if (originalUser.FirstName != userModel.FirstName)
+                {
+                    originalUser.FirstName = userModel.FirstName;
+                    somethingChanged = true;
+                }
+                if (originalUser.Surname != userModel.Surname)
+                {
+                    originalUser.Surname = userModel.Surname;
+                    somethingChanged = true;
+                }
+                if (originalUser.Sex != userModel.Sex)
+                {
+                    originalUser.Sex = userModel.Sex;
+                    somethingChanged = true;
+                }
+                if (originalUser.Age != userModel.Age)
+                {
+                    originalUser.Age = userModel.Age;
+                    somethingChanged = true;
+                }
+                if (originalUser.FacebookUserName != userModel.FacebookUserName)
+                {
+                    originalUser.FacebookUserName = userModel.FacebookUserName;
+                    somethingChanged = true;
+                }
+                if (originalUser.FacebookAccessToken != userModel.FacebookAccessToken)
+                {
+                    originalUser.FacebookAccessToken = userModel.FacebookAccessToken;
+                    somethingChanged = true;
+                }
+                if (originalUser.FacebookPhotoUrl != userModel.FacebookPhotoUrl)
+                {
+                    originalUser.FacebookPhotoUrl = userModel.FacebookPhotoUrl;
+                    somethingChanged = true;
+                }
+                if (originalUser.Email != userModel.Email)
+                {
+                    originalUser.Email = userModel.Email;
+                    somethingChanged = true;
+                }
+                if (originalUser.Interests != userModel.Interests)
+                {
+                    originalUser.Interests = userModel.Interests;
+                    somethingChanged = true;
+                }
+                if (originalUser.ProfilePicture != userModel.ProfilePicture)
+                {
+                    originalUser.ProfilePicture = userModel.ProfilePicture;
+                    somethingChanged = true;
+                }
+                if (somethingChanged)
+                {
+                    originalUser.UpdateDate = DateTime.UtcNow;
+                }
+                
+                //!string.IsNullOrEmpty(model.Password) ? _security.CreateHash(model.Password) : string.Empty
+                //UserQuestions = _userQuestionRepository.GetUserQuestion(model.UserQuestions.)
+                //CourseTutor = _repo.GetTutor(model.Tutor.Id)
+
+                return originalUser;
             }
             catch (Exception ex)
             {

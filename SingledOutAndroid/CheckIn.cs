@@ -677,7 +677,6 @@ namespace SingledOutAndroid
 					if (CurrentUser != null) 
 					{
 						var isFacebookUser = !string.IsNullOrEmpty(CurrentUser.FacebookUserName);
-						isFacebookUser = false;
 
 						var profilePhotoEdit = (ImageView)this.FindViewById (Resource.Id.profileEditPhoto);
 						if (profilePhotoEdit != null && !isFacebookUser) {
@@ -699,6 +698,7 @@ namespace SingledOutAndroid
 						var profileEditAge = (ImageView)this.FindViewById (Resource.Id.profileEditAge);
 						if (profileEditAge != null && !isFacebookUser) {
 							profileEditAge.Visibility = ViewStates.Visible;
+							profileEditAge.Click += ProfileEditAgeClick;
 						}
 						var profileGender = (TextView)this.FindViewById (Resource.Id.profileGender);
 						if (profileGender != null) {
@@ -717,7 +717,8 @@ namespace SingledOutAndroid
 							profileInterestsEdit.Visibility = ViewStates.Visible;
 						}
 						_profilePhoto = (RoundImageView)this.FindViewById (Resource.Id.profilePhoto);
-						if (_profilePhoto != null) {
+					if (_profilePhoto != null) {
+						if (isFacebookUser) {
 							if (!string.IsNullOrEmpty (CurrentUser.FacebookPhotoUrl)) {
 								var task = FactoryStartNew<Bitmap> (() => GetImageFromUrl (CurrentUser.FacebookPhotoUrl));
 
@@ -729,10 +730,35 @@ namespace SingledOutAndroid
 							} else {
 								_profilePhoto.SetImageResource (Resource.Drawable.blankperson);
 							}
-							_profilePhoto.BringToFront ();
+						} else {
+							if(CurrentUser.ProfilePicture != null && CurrentUser.ProfilePicture.Length > 0)
+							{
+								var bmp = BitmapFactory.DecodeByteArray(CurrentUser.ProfilePicture, 0, CurrentUser.ProfilePicture.Length);
+								_profilePhoto.SetImageBitmap (bmp);
+							}
+							else {
+								_profilePhoto.SetImageResource (Resource.Drawable.blankperson);
+							}
 						}
+
+						_profilePhoto.BringToFront ();
+					}
 					}
 					break;					
+			}
+		}
+
+		protected void ProfileEditAgeClick(object sender, EventArgs e)
+		{
+			var profileAgeEdit = (EditText)FindViewById (Resource.Id.profileAgeEdit);
+
+			if (profileAgeEdit != null) {
+				profileAgeEdit.Visibility = ViewStates.Visible;
+				var profileAge = (TextView)this.FindViewById (Resource.Id.profileAge);
+				if (profileAge != null) {
+					profileAgeEdit.SetText (profileAge.Text, TextView.BufferType.Normal);
+					profileAge.Visibility = ViewStates.Gone;
+				}
 			}
 		}
 
@@ -757,10 +783,25 @@ namespace SingledOutAndroid
 			profilePhoto.DrawingCacheEnabled = false;
 
 			// Perform sequential comparison and if different set profile picture to new one.
-			if (user.ProfilePicture == null || user.ProfilePicture.SequenceEqual (byteArray)) {
+			if (user.ProfilePicture == null || !user.ProfilePicture.SequenceEqual (byteArray)) {
 				user.ProfilePicture = byteArray;
 				isDirty = true;
 			}
+
+//			var profileAgeEdit = (EditText)FindViewById (Resource.Id.profileAgeEdit);
+//			if (profileAgeEdit != null) {
+//				var profileAge = (TextView)this.FindViewById (Resource.Id.profileAge);
+//				if (profileAge != null) {
+//					profileAge.Visibility = ViewStates.Visible;
+//					int ageOut;
+//					user.Age = int.TryParse(profileAgeEdit.Text, out ageOut) ? ageOut : int.Parse(profileAge.Text);
+//					profileAge.SetText (user.Age.ToString(), TextView.BufferType.Normal);
+//					profileAgeEdit.Visibility = ViewStates.Gone;
+//					if (profileAgeEdit.Text != profileAge.Text) {
+//						isDirty = true;
+//					}
+//				}
+//			}
 
 			if (isDirty) {
 				// Start progress indicator.

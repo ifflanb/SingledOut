@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace MobileSpace.Helpers
 {
 	public class RestHelper
-    {
+	{
 		SecurityHelper _securityHelper;
 		HttpClient _httpClient;
 
@@ -208,5 +208,5 @@ namespace MobileSpace.Helpers
 
 			return response;
 		}
-    }
+	}
 }

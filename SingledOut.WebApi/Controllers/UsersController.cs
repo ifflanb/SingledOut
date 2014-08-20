@@ -93,9 +93,11 @@ namespace SingledOut.WebApi.Controllers
         {
             try
             {
-                var updatedUser = _userModelFactory.Parse(userModel);
-
-                if(updatedUser == null) Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read user from body");
+                // Get user to update.
+                if (userModel == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read user from body");
+                }
 
                 var originalUser = _userRepository.GetUser(userModel.ID);
 
@@ -103,8 +105,9 @@ namespace SingledOut.WebApi.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.NotModified, "User is not found");
                 }
-                updatedUser.ID = userModel.ID;
 
+                var updatedUser = _userModelFactory.ParseUpdate(originalUser, userModel);
+                
                 if(_userRepository.Update(originalUser, updatedUser) > 0)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, _userModelFactory.Create(updatedUser));

@@ -11,5 +11,7 @@ namespace SingledOut.WebApi.Interfaces
         IEnumerable<UserModel> Create(IEnumerable<User> users);
 
         User Parse(UserModel model);
+
+        User ParseUpdate(User user, UserModel userModel);
     }
 }
