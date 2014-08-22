@@ -84,6 +84,12 @@ namespace SingledOut.Repository
 
         public int DeleteUserLocation(int id)
         {
+            var user = _ctx.Users.SingleOrDefault(o => o.UserLocationID == id);
+            if (user != null)
+            {
+                user.UserLocationID = null;
+                user.UserLocation = null;
+            }
             var userLocation = GetUserLocation(id);
             _ctx.UserLocations.Remove(userLocation);
             return SaveAll();

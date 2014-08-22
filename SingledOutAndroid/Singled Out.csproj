@@ -62,9 +62,6 @@
     <Reference Include="SingledOut.SearchParameters">
       <HintPath>..\SingledOut.SearchParameters\bin\Debug\SingledOut.SearchParameters.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>packages\Newtonsoft.Json.6.0.3\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Facebook">
       <HintPath>..\..\GitHub\monodroid-samples\Facebook\Xamarin.Facebook\bin\Debug\Xamarin.Facebook.dll</HintPath>
     </Reference>
@@ -78,6 +75,9 @@
       <HintPath>ThirdParty\Xamarin.Controls.RangeSlider.Android.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.6.0.4\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -101,6 +101,7 @@
     <Compile Include="Classes\UserLocationsFlat.cs" />
     <Compile Include="Adapters\GroupsListAdapter.cs" />
     <Compile Include="Classes\RoundImageView.cs" />
+    <Compile Include="Animations\Animations.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -200,6 +201,8 @@
     <AndroidResource Include="Resources\drawable\blankperson.png" />
     <AndroidResource Include="Resources\drawable\edit.png" />
     <AndroidResource Include="Resources\drawable\save.png" />
+    <AndroidResource Include="Resources\drawable\gallery.png" />
+    <AndroidResource Include="Resources\drawable\shake.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />
@@ -207,6 +210,7 @@
     <Folder Include="Google\" />
     <Folder Include="Classes\" />
     <Folder Include="Adapters\" />
+    <Folder Include="Animations\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Terms.html" />

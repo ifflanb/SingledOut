@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using SingledOut.Data;
 using SingledOut.Model;
 using SingledOut.Repository;
@@ -84,6 +87,11 @@ namespace SingledOut.WebApi.Controllers
         public int UpdateUserLocation(UserLocation originalUserLocation, UserLocation updatedUserLocation)
         {
             return _userLocationsRepository.Update(originalUserLocation, updatedUserLocation);
+        }
+
+        public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
+        {
+            return base.ExecuteAsync(controllerContext, cancellationToken);
         }
 
         [SingledOutAuthorization]

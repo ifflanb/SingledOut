@@ -31,6 +31,7 @@ using Android.Database;
 using Android.Graphics.Drawables;
 using Java.IO;
 using System.IO;
+using Android.Provider;
 
 namespace SingledOutAndroid
 {
@@ -60,6 +61,19 @@ namespace SingledOutAndroid
 		private ViewFlipper _viewFlipper;
 		private bool isStartingUp = false;
 		private RoundImageView _profilePhoto;
+		private ModeEnum Mode;
+		private ImageView _btnEditSaveProfile;
+		private ImageView _btnChangeProfilePicture;
+		private Animations _animations;
+
+		/// <summary>
+		/// Mode enum.
+		/// </summary>
+		private enum ModeEnum
+		{
+			Edit = 1,
+			Normal = 2
+		}
 
 		/// <summary>
 		/// Gets or sets the button checkin.
@@ -93,9 +107,10 @@ namespace SingledOutAndroid
 			IsActionBarVisible = true;
 
 			SetContentView (Resource.Layout.CheckIn);
+			this.Window.SetSoftInputMode (SoftInput.AdjustPan);
 
 			_uriCreator = new UriCreator(Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
-
+			_animations = new Animations (this);
 			_distanceSlider = (SeekBar)FindViewById (Resource.Id.distanceslider);
 
 			// Instantiate the helpers.
@@ -133,6 +148,12 @@ namespace SingledOutAndroid
 			// Find checkin button.
 			_btnCheckin = (Button)FindViewById (Resource.Id.btnCheckin);
 			_btnCheckin.Click += btnCheckin_OnClick;
+
+			_btnEditSaveProfile = (ImageView)FindViewById (Resource.Id.btnEditSaveProfile);
+			_btnEditSaveProfile.Click += OnProfileEditSaveClick;
+
+			_btnChangeProfilePicture = (ImageView)FindViewById (Resource.Id.btnChangeProfilePicture);
+			_btnChangeProfilePicture.Click += ProfilePhotoEditOnClick;
 
 			// Show welcome back message.
 			if (LastActivity == "Login" || LastActivity == "SplashPage") {
@@ -172,6 +193,7 @@ namespace SingledOutAndroid
 		/// <param name="e">E.</param>
 		protected void MapMarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
 		{
+
 			if (_mapHelper.IsGroupMarker (CurrentUser.ID, e.P0)) {
 				ShowMarkerGroups (e.P0);
 			}
@@ -504,10 +526,13 @@ namespace SingledOutAndroid
 			try
 			{
 				// Perform the database delete.
-				response = _restHelper.DeleteAsync (uri);
-
-				if (!response.IsSuccessStatusCode) {
-					ShowNotificationBox ("An error occurred!");
+				if(userLocationID != null)
+				{
+					response = _restHelper.DeleteAsync (uri);
+				
+					if (!response.IsSuccessStatusCode) {
+						ShowNotificationBox ("An error occurred!");
+					}
 				}
 			}
 			catch(Exception ex) {
@@ -515,7 +540,7 @@ namespace SingledOutAndroid
 				// Log error.
 			}
 
-			if (response.StatusCode == HttpStatusCode.OK) {
+			if (response != null && response.StatusCode == HttpStatusCode.OK) {
 
 				SetUserPreference ("UserLocationID", string.Empty);
 			}
@@ -664,100 +689,212 @@ namespace SingledOutAndroid
 				}
 				break;
 
-			case "profile": 
-				var btnSaveProfile = (Button)this.FindViewById (Resource.Id.btnSaveProfile);
-				btnSaveProfile.Click += OnProfileSaveClick;
+			case "profile":
+				Mode = ModeEnum.Normal;
+				SetControlsToCurrentMode ();
 
 				_viewFlipper.DisplayedChild = 3;
 
 				if (_individualTab != null) {
 					ActionBar.RemoveTab (_individualTab);
 				}
-
-					if (CurrentUser != null) 
-					{
-						var isFacebookUser = !string.IsNullOrEmpty(CurrentUser.FacebookUserName);
-
-						var profilePhotoEdit = (ImageView)this.FindViewById (Resource.Id.profileEditPhoto);
-						if (profilePhotoEdit != null && !isFacebookUser) {
-							profilePhotoEdit.Visibility = ViewStates.Visible;
-							profilePhotoEdit.Click += ProfilePhotoEditOnClick;
-						}
-						var profileName = (TextView)this.FindViewById (Resource.Id.profileName);
-						if (profileName != null) {
-							profileName.SetText (string.Concat (CurrentUser.FirstName, " ", CurrentUser.Surname), TextView.BufferType.Normal);							
-						}
-						var profileNameEdit = (ImageView)this.FindViewById (Resource.Id.profileEditName);
-						if (profileNameEdit != null && !isFacebookUser) {
-							profileNameEdit.Visibility = ViewStates.Visible;
-						}
-						var profileAge = (TextView)this.FindViewById (Resource.Id.profileAge);
-						if (profileAge != null) {
-							profileAge.SetText (CurrentUser.Age.ToString (), TextView.BufferType.Normal);							
-						}
-						var profileEditAge = (ImageView)this.FindViewById (Resource.Id.profileEditAge);
-						if (profileEditAge != null && !isFacebookUser) {
-							profileEditAge.Visibility = ViewStates.Visible;
-							profileEditAge.Click += ProfileEditAgeClick;
-						}
-						var profileGender = (TextView)this.FindViewById (Resource.Id.profileGender);
-						if (profileGender != null) {
-							profileGender.SetText (CurrentUser.Sex, TextView.BufferType.Normal);							
-						}
-						var profileEditGender = (ImageView)this.FindViewById (Resource.Id.profileEditGender);
-						if (profileEditGender != null && !isFacebookUser) {
-							profileEditGender.Visibility = ViewStates.Visible;
-						}
-						var profileInterests = (TextView)this.FindViewById (Resource.Id.profileInterests);
-						if (profileInterests != null) {
-							profileInterests.SetText (CurrentUser.Interests, TextView.BufferType.Normal);							
-						}	
-						var profileInterestsEdit = (ImageView)this.FindViewById (Resource.Id.profileInterestsEdit);
-						if (profileInterestsEdit != null && !isFacebookUser) {
-							profileInterestsEdit.Visibility = ViewStates.Visible;
-						}
-						_profilePhoto = (RoundImageView)this.FindViewById (Resource.Id.profilePhoto);
-					if (_profilePhoto != null) {
-						if (isFacebookUser) {
-							if (!string.IsNullOrEmpty (CurrentUser.FacebookPhotoUrl)) {
-								var task = FactoryStartNew<Bitmap> (() => GetImageFromUrl (CurrentUser.FacebookPhotoUrl));
-
-								if (task != null) {
-									// await so that this task will run in the background.
-									await task;
-									_profilePhoto.SetImageBitmap (task.Result);
-								}
-							} else {
-								_profilePhoto.SetImageResource (Resource.Drawable.blankperson);
-							}
-						} else {
-							if(CurrentUser.ProfilePicture != null && CurrentUser.ProfilePicture.Length > 0)
-							{
-								var bmp = BitmapFactory.DecodeByteArray(CurrentUser.ProfilePicture, 0, CurrentUser.ProfilePicture.Length);
-								_profilePhoto.SetImageBitmap (bmp);
-							}
-							else {
-								_profilePhoto.SetImageResource (Resource.Drawable.blankperson);
-							}
-						}
-
-						_profilePhoto.BringToFront ();
-					}
-					}
-					break;					
+				break;					
 			}
 		}
 
-		protected void ProfileEditAgeClick(object sender, EventArgs e)
+		/// <summary>
+		/// Populates the view controls.
+		/// </summary>
+		private async void PopulateViewControls()
 		{
-			var profileAgeEdit = (EditText)FindViewById (Resource.Id.profileAgeEdit);
+		if (CurrentUser != null) 
+		{
+			var isFacebookUser = !string.IsNullOrEmpty(CurrentUser.FacebookUserName);
 
-			if (profileAgeEdit != null) {
-				profileAgeEdit.Visibility = ViewStates.Visible;
-				var profileAge = (TextView)this.FindViewById (Resource.Id.profileAge);
-				if (profileAge != null) {
-					profileAgeEdit.SetText (profileAge.Text, TextView.BufferType.Normal);
-					profileAge.Visibility = ViewStates.Gone;
+			var profilePhotoEdit = (ImageView)FindViewById (Resource.Id.profileEditPhoto);
+			if (profilePhotoEdit != null && !isFacebookUser) {							
+				profilePhotoEdit.Click += ProfilePhotoEditOnClick;
+			}
+			var profileName = (TextView)FindViewById (Resource.Id.profileName);
+			if (profileName != null) {
+				profileName.SetText (string.Concat (CurrentUser.FirstName, " ", CurrentUser.Surname), TextView.BufferType.Normal);							
+			}
+
+			var profileAge = (TextView)FindViewById (Resource.Id.profileAge);
+			if (profileAge != null) {
+				profileAge.SetText (CurrentUser.Age.ToString (), TextView.BufferType.Normal);							
+			}
+
+			var profileGender = (TextView)FindViewById (Resource.Id.profileGender);
+			if (profileGender != null) {
+				profileGender.SetText (CurrentUser.Sex, TextView.BufferType.Normal);							
+			}
+
+			var profileInterests = (TextView)FindViewById (Resource.Id.profileInterests);
+			if (profileInterests != null) {
+				profileInterests.SetText (CurrentUser.Interests, TextView.BufferType.Normal);							
+			}							
+
+			_profilePhoto = (RoundImageView)FindViewById (Resource.Id.profilePhoto);
+			if (_profilePhoto != null) {
+				if (isFacebookUser) {
+					if (!string.IsNullOrEmpty (CurrentUser.FacebookPhotoUrl)) {
+						var task = FactoryStartNew<Bitmap> (() => GetImageFromUrl (CurrentUser.FacebookPhotoUrl));
+
+						if (task != null) {
+							// await so that this task will run in the background.
+							await task;
+							_profilePhoto.SetImageBitmap (task.Result);
+						}
+					} else {
+						_profilePhoto.SetImageResource (Resource.Drawable.blankperson);
+					}
+				} else {
+					if(CurrentUser.ProfilePicture != null && CurrentUser.ProfilePicture.Length > 0)
+					{
+						var bmp = BitmapFactory.DecodeByteArray(CurrentUser.ProfilePicture, 0, CurrentUser.ProfilePicture.Length);
+						_profilePhoto.SetImageBitmap (bmp);
+					}
+					else {
+						_profilePhoto.SetImageResource (Resource.Drawable.blankperson);
+					}
+				}
+
+				_profilePhoto.BringToFront ();
+			}
+			}
+		}
+
+		/// <summary>
+		/// Profiles the edit.
+		/// </summary>
+		protected void ProfileEdit()
+		{
+			Mode = ModeEnum.Edit;
+			SetControlsToCurrentMode ();
+		}
+
+		/// <summary>
+		/// Profiles the save.
+		/// </summary>
+		protected async void ProfileSave()
+		{
+			// Start progress indicator.
+			_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Saving user profile", "Please wait ...");
+
+			try {
+				// Create task to login to Singled Out.
+				var task = FactoryStartNew<HttpResponseMessage> (() => UpdateProfile ());
+				if (task != null) {
+					// await so that this task will run in the background.
+					await task;
+
+					// Return here after login has completed.
+					if (task.Result.StatusCode == HttpStatusCode.OK) {
+						// Get json from response message.
+						var result = task.Result.Content.ReadAsStringAsync ().Result;
+						var json = JsonObject.Parse (result).ToString ().Replace ("{{", "{").Replace ("}}", "}");
+						// Deserialize the Json.
+						var returnUserModel = JsonConvert.DeserializeObject<UserModel> (json);
+
+						// Save the updated user to the preference.
+						SetUserPreference ("SingledOutUser", json);
+						ShowNotificationBox ("Profile updated.");
+					}
+					else if (task.Result.StatusCode == HttpStatusCode.Unauthorized) 
+					{
+						ShowNotificationBox ("You are not logged in.");
+					} 	
+					else if (task.Result.StatusCode == HttpStatusCode.NotModified)
+					{
+						ShowNotificationBox ("Nothing to update.");
+					}
+					else
+					{
+						ShowNotificationBox (GetStringRes (Resource.String.exceptionUnknown));
+					}
+				} 
+			} catch (Exception ex) {
+				ShowNotificationBox (GetStringRes (Resource.String.exceptionUnknown));
+			}
+
+			_uiHelper.HideProgressDialog ();
+			Mode = ModeEnum.Normal;
+			SetControlsToCurrentMode ();
+		}
+
+		/// <summary>
+		/// Populates the edit controls.
+		/// </summary>
+		private void PopulateEditControls()
+		{
+			var user = CurrentUser;
+
+			var txtFirstName = (EditText)FindViewById (Resource.Id.txtFirstName);
+			if (txtFirstName != null) {
+				txtFirstName.Text = user.FirstName;
+			}
+
+			var txtSurname = (EditText)FindViewById (Resource.Id.txtSurname);
+			if (txtSurname != null) {
+				txtSurname.Text = user.Surname;
+			}
+
+			var txtEmail = (EditText)FindViewById (Resource.Id.txtEmail);
+			if (txtEmail != null) {
+				txtEmail.Text  = user.Email;
+			}
+
+			var txtAge = (EditText)FindViewById (Resource.Id.txtAge);
+			if (txtAge != null) {
+				txtAge.Text = user.Age.ToString();
+			}
+
+			var rbGender = (RadioGroup)FindViewById (Resource.Id.rbGender);
+			if (rbGender != null) {
+				rbGender.Check (user.Sex.ToLower () == "male" ? Resource.Id.radio_male : Resource.Id.radio_female);
+			}
+
+			var txtInterests = (EditText)FindViewById (Resource.Id.txtInterests);
+			if (txtInterests != null) {
+				txtInterests.Text = user.Interests;
+				txtInterests.SetSingleLine(false);
+				txtInterests.SetLines(14);
+				txtInterests.SetMinLines(13);
+				txtInterests.SetMaxLines(15);
+			}
+		}
+
+		/// <summary>
+		/// Sets the edit save button mode.
+		/// </summary>
+		/// <param name="mode">Mode.</param>
+		private void SetControlsToCurrentMode()
+		{
+			var profileEdit = (RelativeLayout)FindViewById (Resource.Id.profileEdit);
+			var profileView = (RelativeLayout)FindViewById (Resource.Id.profileView);
+			var checkInProfileView = (LinearLayout)FindViewById (Resource.Id.checkInProfileView);
+			
+				if (_btnEditSaveProfile != null) {
+				switch (Mode)
+				{
+				case ModeEnum.Edit:
+					_btnEditSaveProfile.SetImageResource (Resource.Drawable.save); 
+					_btnChangeProfilePicture.Visibility = ViewStates.Visible;
+					profileView.Visibility = ViewStates.Gone;
+					profileEdit.Visibility = ViewStates.Visible;
+					PopulateEditControls ();
+					checkInProfileView.SetBackgroundColor(Color.ParseColor("#97C7DE"));
+						break;
+
+				case ModeEnum.Normal:
+					_btnEditSaveProfile.SetImageResource (Resource.Drawable.edit);
+					_btnChangeProfilePicture.Visibility = ViewStates.Gone;
+					profileView.Visibility = ViewStates.Visible;
+					profileEdit.Visibility = ViewStates.Gone;
+					PopulateViewControls ();
+					checkInProfileView.SetBackgroundColor(Color.ParseColor("#ffffff"));
+						break;
 				}
 			}
 		}
@@ -767,72 +904,19 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
-		protected async void OnProfileSaveClick(object sender, EventArgs e)
+		protected void OnProfileEditSaveClick(object sender, EventArgs e)
 		{
-			// Get the current user.
-			var user = CurrentUser;
-			var isDirty = false;
-
-			// Get the profile picture currently selected.
-			var profilePhoto = (RoundImageView)this.FindViewById (Resource.Id.profilePhoto);
-			profilePhoto.BuildDrawingCache(true);
-			Bitmap bitmap = profilePhoto.GetDrawingCache(true);  
-			var bos = new MemoryStream();  
-			bitmap.Compress(Android.Graphics.Bitmap.CompressFormat.Jpeg,100,bos); 
-			byte[] byteArray = bos.ToArray(); 
-			profilePhoto.DrawingCacheEnabled = false;
-
-			// Perform sequential comparison and if different set profile picture to new one.
-			if (user.ProfilePicture == null || !user.ProfilePicture.SequenceEqual (byteArray)) {
-				user.ProfilePicture = byteArray;
-				isDirty = true;
-			}
-
-//			var profileAgeEdit = (EditText)FindViewById (Resource.Id.profileAgeEdit);
-//			if (profileAgeEdit != null) {
-//				var profileAge = (TextView)this.FindViewById (Resource.Id.profileAge);
-//				if (profileAge != null) {
-//					profileAge.Visibility = ViewStates.Visible;
-//					int ageOut;
-//					user.Age = int.TryParse(profileAgeEdit.Text, out ageOut) ? ageOut : int.Parse(profileAge.Text);
-//					profileAge.SetText (user.Age.ToString(), TextView.BufferType.Normal);
-//					profileAgeEdit.Visibility = ViewStates.Gone;
-//					if (profileAgeEdit.Text != profileAge.Text) {
-//						isDirty = true;
-//					}
-//				}
-//			}
-
-			if (isDirty) {
-				// Start progress indicator.
-				_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Saving user profile", "Please wait ...");
-
-				try {
-					// Create task to login to Singled Out.
-					var task = FactoryStartNew<HttpResponseMessage> (() => UpdateProfile (user));
-					if (task != null) {
-						// await so that this task will run in the background.
-						await task;
-
-						// Return here after login has completed.
-						if (task.Result.StatusCode == HttpStatusCode.OK) {
-							// Get json from response message.
-							var result = task.Result.Content.ReadAsStringAsync ().Result;
-							var json = JsonObject.Parse (result).ToString ().Replace ("{{", "{").Replace ("}}", "}");
-							// Deserialize the Json.
-							var returnUserModel = JsonConvert.DeserializeObject<UserModel> (json);
-
-							// Save the updated user to the preference.
-							SetUserPreference ("SingledOutUser", json);
-						}
-					} else if (task.Result.StatusCode == HttpStatusCode.Unauthorized) {
-						ShowNotificationBox ("Profile was not updated.");
+			if (_btnEditSaveProfile != null) {
+				if (Mode == ModeEnum.Edit) {
+					View view = this.CurrentFocus;
+					if (view != null)
+					{
+						_uiHelper.HideKeyboard (view, this);
 					}
-				} catch (Exception ex) {
-					ShowNotificationBox (GetString (Resource.String.exceptionUnknown));
+					ProfileSave ();
+				} else {
+					ProfileEdit ();
 				}
-
-				_uiHelper.HideProgressDialog ();
 			}
 		}
 
@@ -841,15 +925,94 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <returns>The profile.</returns>
 		/// <param name="user">User.</param>
-		private HttpResponseMessage UpdateProfile(UserModel user)
+		private HttpResponseMessage UpdateProfile()
 		{
-			var uriCreator = new UriCreator (Resources.GetString(Resource.String.apihost), Resources.GetString(Resource.String.apipath));
-			var uri = uriCreator.User (Resources.GetString (Resource.String.apiurlusers));
-			var response = _restHelper.PutAsync (uri, user);
+			// Get the current user.
+			var user = CurrentUser;
+			var isDirty = false;
+
+			// Get the profile picture currently selected.
+			var profilePhoto = (RoundImageView)FindViewById (Resource.Id.profilePhoto);
+			var drawable = (BitmapDrawable) profilePhoto.Drawable;
+			var bitmap = drawable.Bitmap;
+
+			byte[] byteArray = null;
+			using (var ms = new MemoryStream())
+			{
+				bitmap.Compress (Android.Graphics.Bitmap.CompressFormat.Png, 100, ms);
+				byteArray = ms.ToArray(); 			
+			
+				// Perform sequential comparison and if different set profile picture to new one.
+				if (user.ProfilePicture == null || !user.ProfilePicture.SequenceEqual (byteArray)) {
+					user.ProfilePicture = byteArray;
+					isDirty = true;
+				}
+			}
+
+			var txtFirstName = (EditText)FindViewById (Resource.Id.txtFirstName);
+			if (txtFirstName != null) {
+				if (user.FirstName != txtFirstName.Text) {
+					isDirty = true;
+					user.FirstName = txtFirstName.Text;
+				}
+			}
+
+			var txtSurname = (EditText)FindViewById (Resource.Id.txtSurname);
+			if (txtSurname != null) {
+				if (user.Surname != txtSurname.Text) {
+					isDirty = true;
+					user.Surname = txtSurname.Text;
+				}
+			}
+
+			var txtEmail = (EditText)FindViewById (Resource.Id.txtEmail);
+			if (txtEmail != null) {
+				if (user.Email != txtEmail.Text) {
+					isDirty = true;
+					user.Email = txtEmail.Text;
+				}
+			}
+
+			var txtAge = (EditText)FindViewById (Resource.Id.txtAge);
+			if (txtAge != null) {
+				int ageOut;
+				var age = int.TryParse(txtAge.Text, out ageOut) ? ageOut : int.Parse(txtAge.Text);
+				if (age != user.Age) 
+				{
+					isDirty = true;
+					user.Age = age;
+				}
+			}
+
+			var rbGender = (RadioGroup)FindViewById (Resource.Id.rbGender);
+			if (rbGender != null) {
+				var currentGenderID = user.Sex.ToLower() == "male" ? Resource.Id.radio_male : Resource.Id.radio_female;
+				if (currentGenderID != rbGender.CheckedRadioButtonId) {
+					isDirty = true;
+					user.Sex =  rbGender.CheckedRadioButtonId == Resource.Id.radio_male ? "male" : "female";
+				}
+			}
+
+			var txtInterests = (EditText)FindViewById (Resource.Id.txtInterests);
+			if (txtInterests != null) {
+				if (user.Interests != txtInterests.Text) {
+					isDirty = true;
+					user.Interests = txtInterests.Text;
+				}
+			}
+
+			HttpResponseMessage response = null;
+
+			if (isDirty) {
+				var uriCreator = new UriCreator (Resources.GetString (Resource.String.apihost), Resources.GetString (Resource.String.apipath));
+				var uri = uriCreator.User (Resources.GetString (Resource.String.apiurlusers));
+				response = _restHelper.PutAsync (uri, user);
+			} else {
+				response = new HttpResponseMessage (HttpStatusCode.NotModified);
+			}
 			return response;
 		}
 
-		public static readonly int PickImageId = 1000;
 		/// <summary>
 		/// Profiles the photo edit on click.
 		/// </summary>
@@ -857,12 +1020,16 @@ namespace SingledOutAndroid
 		/// <param name="e">E.</param>
 		protected void ProfilePhotoEditOnClick(object sender, EventArgs e)
 		{
-			Intent = new Intent();
-			Intent.SetType("image/*");
-			Intent.SetAction(Intent.ActionGetContent);
-			StartActivityForResult(Intent.CreateChooser(Intent, "Select Profile Picture"), PickImageId);
+			var imageIntent = new Intent ();
+			imageIntent.SetType ("image/*");
+			imageIntent.SetAction (Intent.ActionGetContent);
+			StartActivityForResult (Intent.CreateChooser (imageIntent, "Select photo"), 0);
+
+
+			//StartActivityForResult(Intent.CreateChooser(Intent, "Select Profile Picture"), PickImageId);
 		}
 
+		public static readonly int PickImageId = 1000;
 		/// <param name="requestCode">The integer request code originally supplied to
 		///  startActivityForResult(), allowing you to identify who this
 		///  result came from.</param>
@@ -877,11 +1044,20 @@ namespace SingledOutAndroid
 		/// </summary>
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
-			if ((requestCode == PickImageId) && (resultCode == Result.Ok) && (data != null))
-			{
-				Android.Net.Uri uri = data.Data;
-				_profilePhoto.SetImageURI(uri);			
+			base.OnActivityResult (requestCode, resultCode, data);
+
+			if (resultCode == Result.Ok) {
+				var bitmap = MediaStore.Images.Media.GetBitmap(this.ContentResolver, data.Data);
+				bitmap = Bitmap.CreateScaledBitmap (bitmap, 100, 100, false);
+				_profilePhoto.SetImageBitmap (bitmap);
 			}
+
+
+//			if ((requestCode == PickImageId) && (resultCode == Result.Ok) && (data != null))
+//			{
+//				Android.Net.Uri uri = data.Data;
+//				_profilePhoto.SetImageURI(uri);			
+//			}
 		}
 
 		/// <summary>
@@ -913,6 +1089,8 @@ namespace SingledOutAndroid
 		/// <param name="eventArgs">Event arguments.</param>
 		protected void btnCheckin_OnClick(object sender, EventArgs eventArgs)
 		{
+			_animations.ShakeView (Resource.Id.btnCheckin);
+
 			if (!_mapHelper.UserHasMarker(CurrentUser.ID)) {
 				// Start progress indicator.
 				_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Finding places near you", "Please wait ...");

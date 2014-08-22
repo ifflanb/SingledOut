@@ -183,19 +183,28 @@
             android:id="@+id/checkInProfileView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#97C7DE">
             <RelativeLayout
                 android:id="@+id/checkInProfileUpperView"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:background="@drawable/individualviewgradient">
+                android:background="@drawable/individualviewgradient"
+                android:padding="5dp">
                 <SingledOutAndroid.RoundImageView
                     android:id="@+id/profilePhoto"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:scaleType="centerInside"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp" />
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+                <ImageView
+                    android:id="@+id/btnEditSaveProfile"
+                    android:drawableLeft="@drawable/edit"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/edit" />
                 <ImageView
                     android:id="@+id/profileEditPhoto"
                     android:layout_width="wrap_content"
@@ -206,7 +215,16 @@
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone" />
+                <ImageView
+                    android:id="@+id/btnChangeProfilePicture"
+                    android:drawableLeft="@drawable/gallery"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/gallery"
                     android:visibility="gone" />
                 <TextView
                     android:id="@+id/profileName"
@@ -216,155 +234,112 @@
                     android:layout_below="@+id/profilePhoto"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true" />
-                <ImageView
-                    android:id="@+id/profileEditName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:src="@drawable/edit"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:visibility="visible"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="10dp" />
             </RelativeLayout>
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:useDefaultMargins="true"
-                android:alignmentMode="alignBounds"
-                android:columnOrderPreserved="false"
-                android:columnCount="4"
-                android:rowCount="4"
-                android:background="#EEEEEE">
+            <RelativeLayout
+                android:id="@+id/profileView"
+                style="@style/childlayout"
+                android:padding="5dp">
                 <TextView
                     android:id="@+id/profileAgeLabel"
                     android:layout_gravity="left"
                     android:textSize="14dp"
                     android:text="Age:"
-                    android:layout_row="0"
-                    android:layout_column="0"
-                    android:layout_rowSpan="1"
-                    android:layout_columnSpan="1" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/profileAge"
-                    android:textSize="14dp"
-                    android:textColor="#007FFF"
-                    android:layout_row="0"
-                    android:layout_column="1"
                     android:text="41"
-                    android:layout_rowSpan="1"
-                    android:layout_columnSpan="1"
-                    android:layout_gravity="left" />
-                <EditText
-                    android:id="@+id/profileAgeEdit"
-                    android:hint="Select Age"
-                    android:textColor="#007FFF"
-                    style="@style/edittextnumber"
-                    android:layout_row="0"
-                    android:layout_column="1"
-                    android:layout_rowSpan="1"
-                    android:layout_columnSpan="1"
-                    android:layout_gravity="left"
-                    android:visibility="gone" />
-                <ImageView
-                    android:id="@+id/profileEditAge"
-                    android:src="@drawable/edit"
-                    android:layout_gravity="right"
-                    android:layout_row="0"
-                    android:layout_column="3"
-                    android:layout_rowSpan="1"
-                    android:layout_columnSpan="1" />
+                    android:layout_below="@+id/profileAgeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:textColor="#000000" />
                 <TextView
                     android:id="@+id/profileGenderLabel"
-                    android:layout_gravity="left"
-                    android:textSize="14dp"
-                    android:background="#EEEEEE"
                     android:text="Gender:"
-                    android:layout_weight="1"
-                    android:layout_row="1"
-                    android:layout_rowSpan="1"
-                    android:layout_column="0"
-                    android:layout_columnSpan="1" />
+                    android:textSize="14dp"
+                    android:layout_below="@+id/profileAge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/profileGender"
-                    android:layout_gravity="left"
-                    android:textSize="14dp"
-                    android:textColor="#007FFF"
-                    android:layout_weight="3"
                     android:text="Male"
-                    android:layout_row="1"
-                    android:layout_rowSpan="1"
-                    android:layout_column="1"
-                    android:layout_columnSpan="1" />
-                <ImageView
-                    android:id="@+id/profileEditGender"
-                    android:src="@drawable/edit"
-                    android:layout_gravity="right"
-                    android:layout_weight="1"
-                    android:layout_row="1"
-                    android:layout_rowSpan="1"
-                    android:layout_column="3"
-                    android:layout_columnSpan="1" />
+                    android:layout_below="@+id/profileGenderLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:textColor="#000000" />
                 <TextView
                     android:id="@+id/profileInterestsLabel"
-                    android:textSize="14dp"
-                    android:background="#EEEEEE"
                     android:text="Interests:"
-                    android:layout_gravity="left"
-                    android:layout_row="2"
-                    android:layout_rowSpan="1"
-                    android:layout_column="0"
-                    android:layout_columnSpan="1" />
+                    android:textSize="14dp"
+                    android:layout_below="@+id/profileGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/profileInterests"
                     android:textSize="14dp"
-                    android:textColor="#007FFF"
-                    android:layout_gravity="left"
                     android:text="My interests are. rugby, tennis, PC gaming, XBox etc etc etc."
-                    android:layout_row="2"
-                    android:layout_rowSpan="1"
-                    android:layout_column="1"
-                    android:layout_columnSpan="2"
-                    android:layout_width="160dp" />
-                <ImageView
-                    android:id="@+id/profileInterestsEdit"
-                    android:layout_gravity="right"
-                    android:src="@drawable/edit"
-                    android:layout_row="2"
-                    android:layout_rowSpan="1"
-                    android:layout_column="3"
-                    android:layout_columnSpan="1" />
-                <TextView
-                    android:id="@+id/profileDummy1"
-                    android:layout_gravity="left"
-                    android:layout_weight="1"
-                    android:layout_row="3"
-                    android:layout_rowSpan="1"
-                    android:layout_column="0"
-                    android:layout_columnSpan="1" />
-                <TextView
-                    android:id="@+id/profileDummy2"
-                    android:textSize="14dp"
-                    android:layout_weight="3"
-                    android:layout_row="3"
-                    android:layout_rowSpan="1"
-                    android:layout_column="1"
-                    android:layout_columnSpan="1"
-                    android:layout_gravity="left" />
-                <Button
-                    android:id="@+id/btnSaveProfile"
-                    android:drawableLeft="@drawable/save"
-                    android:text="   Save   "
-                    android:background="#33B5E5"
-                    android:layout_weight="1"
-                    android:layout_gravity="right|bottom"
-                    android:layout_row="3"
-                    android:layout_rowSpan="1"
-                    android:layout_column="2"
-                    android:layout_columnSpan="2"
-                    android:paddingLeft="15dp" />
-            </GridLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profileInterestsLabel"
+                    android:textColor="#000000" />
+            </RelativeLayout>
+            <ScrollView
+                android:id="@+id/profileViewScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:id="@+id/profileEdit"
+                    android:visibility="gone"
+                    style="@style/childlayout"
+                    android:background="#97C7DE"
+                    android:padding="5dp">
+                    <EditText
+                        android:id="@+id/txtFirstName"
+                        android:hint="First name"
+                        style="@style/edittextcapstart"
+                        android:textColorHint="#FFFFFF" />
+                    <EditText
+                        android:id="@+id/txtSurname"
+                        android:hint="Surname"
+                        android:layout_below="@+id/txtFirstName"
+                        style="@style/edittextcapstart"
+                        android:textColorHint="#FFFFFF" />
+                    <EditText
+                        android:id="@+id/txtEmail"
+                        android:hint="Email Address"
+                        android:layout_below="@+id/txtSurname"
+                        style="@style/edittextemail"
+                        android:textColorHint="#FFFFFF" />
+                    <EditText
+                        android:id="@+id/txtAge"
+                        android:hint="Select Age"
+                        android:layout_below="@+id/txtEmail"
+                        style="@style/edittextnumber"
+                        android:textColorHint="#FFFFFF" />
+                    <RadioGroup
+                        android:id="@+id/rbGender"
+                        android:layout_below="@+id/txtAge"
+                        style="@style/radiogroup">
+                        <RadioButton
+                            android:id="@+id/radio_male"
+                            android:text="@string/male"
+                            style="@style/radiobutton" />
+                        <RadioButton
+                            android:id="@+id/radio_female"
+                            android:text="@string/female"
+                            style="@style/radiobutton" />
+                    </RadioGroup>
+                    <EditText
+                        android:id="@+id/txtInterests"
+                        android:hint="Interests"
+                        android:gravity="left|top"
+                        android:layout_below="@+id/rbGender"
+                        style="@style/edittext"
+                        android:textColorHint="#FFFFFF" />
+                </RelativeLayout>
+            </ScrollView>
         </LinearLayout>
     </ViewFlipper>
     <SlidingDrawer
@@ -373,12 +348,12 @@
         android:content="@+id/contentLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:topOffset="250dp"
         android:orientation="vertical"
-        android:animateOnClick="true"
-        android:allowSingleTap="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="30dp"
+        android:topOffset="250dp"
+        android:allowSingleTap="true"
+        android:animateOnClick="true">
         <TextView
             android:text=""
             android:id="@+id/dummy"
@@ -395,7 +370,7 @@
                 android:id="@+id/tableRow1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dip">
+                android:paddingBottom="5dp">
                 <TextView
                     android:text="Gender"
                     android:id="@+id/gendertosee"

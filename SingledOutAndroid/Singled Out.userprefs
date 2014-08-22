@@ -1,17 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CheckIn.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs">
     <Files>
-      <File FileName="CheckIn.cs" Line="75" Column="75" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" Line="1" Column="1" />
+      <File FileName="..\MobileSpace.Helpers\UIHelper.cs" Line="4" Column="4" />
+      <File FileName="Resources\drawable\shake.xml" Line="33" Column="33" />
+      <File FileName="Animations\Animations.cs" Line="1" Column="1" />
+      <File FileName="MapHelper.cs" Line="28" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="139" column="103" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="133" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="832" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="829" column="1" />
-      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" line="791" column="1" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="137" column="103" />
+      <Breakpoint file="C:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Login.cs" line="131" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
@@ -21,6 +22,7 @@
     <Watch file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="454" offsetX="914" offsetY="7248" expression="MapUserData[1]" liveUpdate="False" />
     <Watch file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="454" offsetX="914" offsetY="7248" expression="MapUserData[1]" liveUpdate="False" />
     <Watch file="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\MapHelper.cs" line="416" offsetX="900" offsetY="6640" expression="usersAtLocation" liveUpdate="False" />
+    <Watch file="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\RestHelper.cs" line="83" offsetX="522" offsetY="1312" expression="cont" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <DisabledProjects>
     <String>..\CSS.UIHelper\MobileSpace.Helpers.csproj</String>

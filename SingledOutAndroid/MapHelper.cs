@@ -17,6 +17,7 @@ using SingledOut.Model;
 using Java.Util;
 using MobileSpace.Helpers;
 using Java.Net;
+using Android.Animation;
 
 namespace SingledOutAndroid
 {
@@ -40,7 +41,8 @@ namespace SingledOutAndroid
 		/// <param name="userID">User I.</param>
 		public bool UserHasMarker (int userID)
 		{
-			return MapUserData.Any (o => o.UserID == userID && o.MapMarker != null); 
+			var hasMarker = MapUserData.Any (o => o.UserID == userID && o.MapMarker != null);
+			return hasMarker;
 		}
 
 		/// <summary>
@@ -351,7 +353,7 @@ namespace SingledOutAndroid
 					Surname = c.Surname,
 					UserID = c.ID,
 					Age = c.Age,
-					Sex = c.Sex,
+					Sex = c.Sex.ToLower(),
 					ProfilePicture = c.FacebookPhotoUrl,
 					Latitude = c.UserLocation != null ? c.UserLocation.Latitude : (double?)null,
 					Longitude = c.UserLocation != null ? c.UserLocation.Longitude : (double?)null,
@@ -527,7 +529,7 @@ namespace SingledOutAndroid
 		{
 			var markerOptions = new MarkerOptions();
 	
-			markerOptions.SetPosition(new LatLng(latitude, longitude));
+			//markerOptions.SetPosition(new LatLng(latitude, longitude));
 			var markerIconID = GetMarkerIcon (true, latitude, longitude);
 
 			// Find out if there is already a map pin at the users location (other users).
@@ -541,9 +543,24 @@ namespace SingledOutAndroid
 				// Set the marker icon with number of users there.
 				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, markerIconID , totalPeopleAtLocation)));
 
-				// Add the marker to the map.
+
+				// finalLatLng is known
+				var proj = _map.Projection;
+				var finalLatLng = new LatLng (latitude, longitude);
+				var location = proj.ToScreenLocation (finalLatLng);
+				// We will start 35dp above the final position
+				location.Offset (0, -35);
+				var startLatLng = proj.FromScreenLocation (location);
+
+				markerOptions.SetPosition (startLatLng);
+
 				var marker = _map.AddMarker (markerOptions);
-			
+				var evaluator = new LatLngEvaluator ();
+				var objectAnimat = ObjectAnimator.OfObject (marker, "position", evaluator, startLatLng, finalLatLng);
+				objectAnimat.SetDuration (1000);
+				objectAnimat.SetInterpolator (new Android.Views.Animations.BounceInterpolator ());
+				objectAnimat.Start ();
+
 				// Update the store of users with the map marker ID for those in a group.
 				AddMapMarker (latitude, longitude, marker, userID);
 			} 
@@ -588,6 +605,7 @@ namespace SingledOutAndroid
 		}
 
 
+
 		/// <param name="location">The new location, as a Location object.</param>
 		/// <summary>
 		/// Called when the location has changed.
@@ -620,5 +638,16 @@ namespace SingledOutAndroid
 		/// <value>The location.</value>
 		public Location Location { get;	set; }
 	}	
+
+	class LatLngEvaluator : Java.Lang.Object, ITypeEvaluator
+	{
+		public Java.Lang.Object Evaluate (float fraction, Java.Lang.Object startValue, Java.Lang.Object endValue)
+		{
+			var start = (LatLng)startValue;
+			var end = (LatLng)endValue;
+			return new LatLng (start.Latitude + fraction * (end.Latitude - start.Latitude),
+				start.Longitude + fraction * (end.Longitude - start.Longitude));
+		}
+	}
 }
 

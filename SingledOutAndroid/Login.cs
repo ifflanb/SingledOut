@@ -32,7 +32,6 @@ namespace SingledOutAndroid
 		private RestHelper _restHelper;
 		private TextView _lblForgottenPassword;
 		private UIHelper _uiHelper;
-		ProgressBar _spinner;
 
 		public Login ()
 		{
@@ -96,8 +95,7 @@ namespace SingledOutAndroid
 			_uiHelper.HideKeyboard (_txtPassword, this);
 
 			// Start progress indicator.
-			_spinner = (ProgressBar)FindViewById(Resource.Id.progressSpinner);
-			_spinner.Visibility = ViewStates.Visible;
+			_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Logging in", "Please wait ...");
 
 			try
 			{
@@ -137,11 +135,11 @@ namespace SingledOutAndroid
 			catch (Exception ex)
 			{
 				_validationHelper.SetValidationMessage (_lblValidation, GetString(Resource.String.exceptionUnknown));			
-				_spinner.Visibility = ViewStates.Gone;
+				_uiHelper.HideProgressDialog ();
 			}
 
 			// Stop progress indicator.
-			_spinner.Visibility = ViewStates.Gone;	
+			_uiHelper.HideProgressDialog ();
 		}
 
 		/// <summary>

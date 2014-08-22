@@ -81,12 +81,12 @@ namespace MobileSpace.Helpers
 		/// </summary>
 		/// <param name="editText">Edit text.</param>
 		/// <param name="activity">Activity.</param>
-		public void HideKeyboard(EditText editText, Activity activity)
+		public void HideKeyboard(View view, Activity activity)
 		{
 			InputMethodManager imm = (InputMethodManager) activity.GetSystemService(Context.InputMethodService);
 			if (imm != null) {
 				// only will trigger it if no physical keyboard is open
-				imm.HideSoftInputFromWindow(editText.WindowToken, 0);
+				imm.HideSoftInputFromWindow(view.WindowToken, 0);
 			}
 		}
 

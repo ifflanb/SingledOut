@@ -116,7 +116,7 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <returns>To be added.</returns>
 		/// <param name="stringResource">String resource.</param>
-		public string GetString (int stringResource)
+		public string GetStringRes (int stringResource)
 		{
 			return Resources.GetString (stringResource);
 		}

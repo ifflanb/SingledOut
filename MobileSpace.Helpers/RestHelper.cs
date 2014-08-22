@@ -73,7 +73,7 @@ namespace MobileSpace.Helpers
 		public HttpResponseMessage PutAsync(string uri, object data)
 		{
 			var json = JsonConvert.SerializeObject (data);
-			HttpResponseMessage response;
+			HttpResponseMessage response = null;
 
 			HttpContent cont = new StringContent(json);
 			cont.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -84,12 +84,19 @@ namespace MobileSpace.Helpers
 			}
 			catch (AggregateException ex)
 			{
-				throw ex;
+				if (ex != null) {
+					throw ex;
+				}
 			}
 			catch (WebException ex)
 			{
-				throw ex;
+				if (ex != null) {
+					throw ex;
+				}
 			}   
+			catch (Exception ex) {
+				throw ex;
+			}
 			return response;
 		}
 

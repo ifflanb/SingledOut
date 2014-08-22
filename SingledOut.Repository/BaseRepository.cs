@@ -19,9 +19,8 @@ namespace SingledOut.Repository
             {
                 result = _ctx.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
                 throw;
             }
             return result;
