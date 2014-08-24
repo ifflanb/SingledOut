@@ -12,6 +12,7 @@ using Android.Views.InputMethods;
 using Android.Views.Animations;
 using Android.Graphics.Drawables;
 using Android.Graphics;
+using System.Net.Http;
 
 namespace MobileSpace.Helpers
 {
@@ -50,6 +51,28 @@ namespace MobileSpace.Helpers
 			_progressDialog.SetTitle (title);
 			_progressDialog.SetMessage (message);
 			_progressDialog.Show();
+		}
+
+		/// <summary>
+		/// Gets the image from URL.
+		/// </summary>
+		/// <returns>The image from URL.</returns>
+		/// <param name="url">URL.</param>
+		public Bitmap GetImageFromUrl(string url)
+		{
+			using(var client = new HttpClient())
+			{
+				var msg = client.GetAsync(url);
+				if (msg.Result.IsSuccessStatusCode)
+				{
+					using(var stream = msg.Result.Content.ReadAsStreamAsync())
+					{
+						﻿var bitmap = BitmapFactory.DecodeStreamAsync(stream.Result);
+						return bitmap.Result;
+					}
+				}
+			}
+			return null;
 		}
 
 		/// <summary>

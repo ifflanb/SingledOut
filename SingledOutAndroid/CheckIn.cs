@@ -442,6 +442,8 @@ namespace SingledOutAndroid
 		/// <param name="e">E.</param>
 		protected void FilterClick(object sender, EventArgs e)
 		{
+			_animations.ShakeView (Resource.Id.btnFilter);
+
 			CloseSlidingDrawer ();
 		}
 
@@ -641,6 +643,7 @@ namespace SingledOutAndroid
 			case "list":
 				_viewFlipper.DisplayedChild = 1;
 				RemoveDynamicTabs ();
+				PopulateOtherUsersListTab();
 				break;
 			case "user":
 				_viewFlipper.DisplayedChild = 2;
@@ -675,7 +678,7 @@ namespace SingledOutAndroid
 					var individualPhoto = (RoundImageView)this.FindViewById (Resource.Id.individualPhoto);
 					if (individualPhoto != null) {
 						if (!string.IsNullOrEmpty (user.ProfilePicture)) {
-							var task = FactoryStartNew<Bitmap> (() => GetImageFromUrl (user.ProfilePicture));
+							var task = FactoryStartNew<Bitmap> (() => _uiHelper.GetImageFromUrl (user.ProfilePicture));
 							if (task != null) {
 								// await so that this task will run in the background.
 								await task;
@@ -699,6 +702,28 @@ namespace SingledOutAndroid
 					ActionBar.RemoveTab (_individualTab);
 				}
 				break;					
+			}
+		}
+
+		/// <summary>
+		/// Populates the other users list tab.
+		/// </summary>
+		private void PopulateOtherUsersListTab()
+		{
+			var users = _mapHelper.GetOtherUsers (CurrentUser.ID);
+
+			//Create our adapter and populate with list of Google place objects.
+			var otherUsersListViewAdapter = new GroupsListAdapter(this){
+				CustomListItemID = Resource.Layout.GroupUserItem,
+				CustomListItemNameID = Resource.Id.itemname,
+				CustomListItemPhoto = Resource.Id.userphoto,
+				CustomListItemAgeID = Resource.Id.age,
+				CustomListItemDistanceID = Resource.Id.distance,
+				items = users};
+
+			var otherUsersListView = (ListView)FindViewById (Resource.Id.otherUsersListView);
+			if (otherUsersListView != null) {
+				otherUsersListView.Adapter = otherUsersListViewAdapter;
 			}
 		}
 
@@ -739,7 +764,7 @@ namespace SingledOutAndroid
 			if (_profilePhoto != null) {
 				if (isFacebookUser) {
 					if (!string.IsNullOrEmpty (CurrentUser.FacebookPhotoUrl)) {
-						var task = FactoryStartNew<Bitmap> (() => GetImageFromUrl (CurrentUser.FacebookPhotoUrl));
+							var task = FactoryStartNew<Bitmap> (() => _uiHelper.GetImageFromUrl (CurrentUser.FacebookPhotoUrl));
 
 						if (task != null) {
 							// await so that this task will run in the background.
@@ -906,6 +931,8 @@ namespace SingledOutAndroid
 		/// <param name="e">E.</param>
 		protected void OnProfileEditSaveClick(object sender, EventArgs e)
 		{
+			_animations.ShakeView (Resource.Id.btnEditSaveProfile);
+
 			if (_btnEditSaveProfile != null) {
 				if (Mode == ModeEnum.Edit) {
 					View view = this.CurrentFocus;
@@ -1020,6 +1047,8 @@ namespace SingledOutAndroid
 		/// <param name="e">E.</param>
 		protected void ProfilePhotoEditOnClick(object sender, EventArgs e)
 		{
+			_animations.ShakeView (Resource.Id.btnChangeProfilePicture);
+
 			var imageIntent = new Intent ();
 			imageIntent.SetType ("image/*");
 			imageIntent.SetAction (Intent.ActionGetContent);
@@ -1060,27 +1089,7 @@ namespace SingledOutAndroid
 //			}
 		}
 
-		/// <summary>
-		/// Gets the image from URL.
-		/// </summary>
-		/// <returns>The image from URL.</returns>
-		/// <param name="url">URL.</param>
-		private Bitmap GetImageFromUrl(string url)
-		{
-			using(var client = new HttpClient())
-			{
-				var msg = client.GetAsync(url);
-				if (msg.Result.IsSuccessStatusCode)
-				{
-					using(var stream = msg.Result.Content.ReadAsStreamAsync())
-					{
-						﻿var bitmap = BitmapFactory.DecodeStreamAsync(stream.Result);
-						return bitmap.Result;
-					}
-				}
-			}
-			return null;
-		}
+
 
 		/// <summary>
 		/// Checkin on click.

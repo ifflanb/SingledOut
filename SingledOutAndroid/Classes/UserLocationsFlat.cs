@@ -28,6 +28,8 @@ namespace SingledOutAndroid
 
 		public string ProfilePicture { get; set; }
 
+		public byte[] ProfilePictureByteArray { get; set; }
+
 		public string Interests { get; set; }
 
 		public Marker MapMarker { get; set; }

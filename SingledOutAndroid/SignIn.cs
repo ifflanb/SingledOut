@@ -126,7 +126,7 @@ namespace SingledOutAndroid
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
 		private void SingledOutRegistration(object sender, EventArgs e)
-		{	
+		{
 			SwipeLeftActivity = typeof(Registration);
 			SwipeLeft();
 		}

@@ -102,6 +102,7 @@
     <Compile Include="Adapters\GroupsListAdapter.cs" />
     <Compile Include="Classes\RoundImageView.cs" />
     <Compile Include="Animations\Animations.cs" />
+    <Compile Include="Adapters\OtherUsersListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

@@ -355,6 +355,7 @@ namespace SingledOutAndroid
 					Age = c.Age,
 					Sex = c.Sex.ToLower(),
 					ProfilePicture = c.FacebookPhotoUrl,
+					ProfilePictureByteArray = c.ProfilePicture,
 					Latitude = c.UserLocation != null ? c.UserLocation.Latitude : (double?)null,
 					Longitude = c.UserLocation != null ? c.UserLocation.Longitude : (double?)null,
 					PlaceName = c.UserLocation != null ? (!string.IsNullOrEmpty(c.UserLocation.PlaceName) ? Truncate(c.UserLocation.PlaceName, 10) : "an unknown place")  : "an unknown place"
@@ -461,6 +462,19 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Gets the other users.
+		/// </summary>
+		/// <returns>The other users.</returns>
+		/// <param name="loggedInUserID">Logged in user I.</param>
+		public List<UserLocationsFlat> GetOtherUsers(int loggedInUserID)
+		{
+			var users = MapUserData.Where(o => o.UserID != loggedInUserID)
+				.Select(o => o).ToList(); 
+
+			return users;
+		}
+
+		/// <summary>
 		/// Determines whether this instance is a group marker.
 		/// </summary>
 		/// <returns><c>true</c> if this instance is group marker the specified marker; otherwise, <c>false</c>.</returns>
@@ -532,6 +546,16 @@ namespace SingledOutAndroid
 			//markerOptions.SetPosition(new LatLng(latitude, longitude));
 			var markerIconID = GetMarkerIcon (true, latitude, longitude);
 
+			// finalLatLng
+			var proj = _map.Projection;
+			var finalLatLng = new LatLng (latitude, longitude);
+			var location = proj.ToScreenLocation (finalLatLng);
+			// We will start 35dp above the final position
+			location.Offset (0, -35);
+			var startLatLng = proj.FromScreenLocation (location);
+			markerOptions.SetPosition (startLatLng);
+			var isUserMapMarker = false;
+
 			// Find out if there is already a map pin at the users location (other users).
 			var count = MapUserData.Count (o => o.Latitude == latitude && o.Longitude == longitude && o.UserID != userID);
 			if (count > 0) {
@@ -542,27 +566,7 @@ namespace SingledOutAndroid
 				markerOptions.SetTitle (string.Format ("You are at {0} with {1} other people", Truncate(placeName, 10), count));
 				// Set the marker icon with number of users there.
 				markerOptions.InvokeIcon (BitmapDescriptorFactory.FromBitmap (WriteTextOnDrawable (context, markerIconID , totalPeopleAtLocation)));
-
-
-				// finalLatLng is known
-				var proj = _map.Projection;
-				var finalLatLng = new LatLng (latitude, longitude);
-				var location = proj.ToScreenLocation (finalLatLng);
-				// We will start 35dp above the final position
-				location.Offset (0, -35);
-				var startLatLng = proj.FromScreenLocation (location);
-
-				markerOptions.SetPosition (startLatLng);
-
-				var marker = _map.AddMarker (markerOptions);
-				var evaluator = new LatLngEvaluator ();
-				var objectAnimat = ObjectAnimator.OfObject (marker, "position", evaluator, startLatLng, finalLatLng);
-				objectAnimat.SetDuration (1000);
-				objectAnimat.SetInterpolator (new Android.Views.Animations.BounceInterpolator ());
-				objectAnimat.Start ();
-
-				// Update the store of users with the map marker ID for those in a group.
-				AddMapMarker (latitude, longitude, marker, userID);
+				isUserMapMarker = false;
 			} 
 			else 
 			{				
@@ -575,11 +579,9 @@ namespace SingledOutAndroid
 				// If the user already has a pin on the map remove it.
 				RemoveMarker(context, userID);
 
-				// Add new pin to map and store the marker in variable.
-				var marker = _map.AddMarker (markerOptions);
-
 				// Update the store of users with the map marker ID for this user.
-				AddUserMapMarker (userID, marker);
+				isUserMapMarker = true;
+
 			}
 
 
@@ -601,7 +603,22 @@ namespace SingledOutAndroid
 			_map.AnimateCamera (cu);
 
 			_map.MoveCamera (cu2);
-			_map.AnimateCamera (cu2);			
+			_map.AnimateCamera (cu2);		
+
+
+			var marker = _map.AddMarker (markerOptions);
+			var evaluator = new LatLngEvaluator ();
+			var objectAnimat = ObjectAnimator.OfObject (marker, "position", evaluator, startLatLng, finalLatLng);
+			objectAnimat.SetDuration (1000);
+			objectAnimat.SetInterpolator (new Android.Views.Animations.BounceInterpolator ());
+			objectAnimat.Start ();
+
+			// Update the store of users with the map marker ID for those in a group.
+			if (isUserMapMarker) {
+				AddUserMapMarker (userID, marker);
+			} else {
+				AddMapMarker (latitude, longitude, marker, userID);
+			}
 		}
 
 

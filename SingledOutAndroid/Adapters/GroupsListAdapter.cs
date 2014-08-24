@@ -4,6 +4,9 @@ using Android.App;
 using System.Collections.Generic;
 using SingledOut.Model;
 using Android.Views;
+using Android.Graphics;
+using System.Threading.Tasks;
+using MobileSpace.Helpers;
 
 namespace SingledOutAndroid.Adapters
 {
@@ -119,6 +122,18 @@ namespace SingledOutAndroid.Adapters
 					parent,
 					false)) as LinearLayout;
 
+			var populatedView = PopulateView(view, item);
+
+			//Finally return the view
+			return populatedView;
+		}
+
+		/// <summary>
+		/// Populates the view.
+		/// </summary>
+		/// <param name="view">View.</param>
+		private LinearLayout PopulateView(LinearLayout view, UserLocationsFlat item)
+		{
 			//Find references to each subview in the list item's view
 			var imageItem = view.FindViewById(CustomListItemPhoto) as ImageView;
 			var name = view.FindViewById(CustomListItemNameID) as TextView;
@@ -126,12 +141,28 @@ namespace SingledOutAndroid.Adapters
 			var distance = view.FindViewById (CustomListItemDistanceID) as TextView;
 
 			//Assign this item's values to the various subviews
-			imageItem.SetImageResource(Resource.Drawable.individual);
+			if (!string.IsNullOrEmpty (item.ProfilePicture)) {
+				var uiHelper = new UIHelper ();
+				var bitmap = uiHelper.GetImageFromUrl (item.ProfilePicture);
+
+				if (bitmap != null) {
+					imageItem.SetImageBitmap (bitmap);
+				}
+			} else {
+				imageItem.SetImageResource (Resource.Drawable.blankperson);
+			}
+
+			if (item.ProfilePictureByteArray != null) {
+				var bmp = BitmapFactory.DecodeByteArray(item.ProfilePictureByteArray, 0, item.ProfilePictureByteArray.Length);
+				imageItem.SetImageBitmap (bmp);
+			}
+			if (string.IsNullOrEmpty (item.ProfilePicture) && item.ProfilePictureByteArray == null) {
+				imageItem.SetImageResource (Resource.Drawable.individual);
+			}
 			name.SetText (string.Format("{0} {1}", item.FirstName, item.Surname.Substring(0,1)), TextView.BufferType.Normal);
 			age.SetText("age: " + item.Age.ToString() + " (" + item.Sex + ")", TextView.BufferType.Normal);
 			distance.SetText("within 200m", TextView.BufferType.Normal);
 
-			//Finally return the view
 			return view;
 		}
 
