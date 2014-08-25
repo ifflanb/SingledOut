@@ -358,7 +358,8 @@ namespace SingledOutAndroid
 					ProfilePictureByteArray = c.ProfilePicture,
 					Latitude = c.UserLocation != null ? c.UserLocation.Latitude : (double?)null,
 					Longitude = c.UserLocation != null ? c.UserLocation.Longitude : (double?)null,
-					PlaceName = c.UserLocation != null ? (!string.IsNullOrEmpty(c.UserLocation.PlaceName) ? Truncate(c.UserLocation.PlaceName, 10) : "an unknown place")  : "an unknown place"
+					PlaceName = c.UserLocation != null ? (!string.IsNullOrEmpty(c.UserLocation.PlaceName) ? Truncate(c.UserLocation.PlaceName, 10) : "an unknown place")  : "an unknown place",
+					DistanceFromUser = c.DistanceFromUser
 				}).ToList ();
 
 				var allUsersExceptLoggedInUser = (from o in MapUserData where o.UserID != currentUserID select o);

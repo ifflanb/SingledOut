@@ -1,10 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Adapters\GroupsListAdapter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs">
     <Files>
-      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" Line="1" Column="1" />
-      <File FileName="Adapters\GroupsListAdapter.cs" Line="1" Column="1" />
-      <File FileName="..\MobileSpace.Helpers\UIHelper.cs" Line="1" Column="1" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\CheckIn.cs" Line="35" Column="35" />
+      <File FileName="Adapters\GroupsListAdapter.cs" Line="75" Column="75" />
+      <File FileName="MapHelper.cs" Line="15" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

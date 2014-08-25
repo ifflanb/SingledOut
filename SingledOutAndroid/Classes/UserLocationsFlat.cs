@@ -33,6 +33,8 @@ namespace SingledOutAndroid
 		public string Interests { get; set; }
 
 		public Marker MapMarker { get; set; }
+
+		public double? DistanceFromUser { get; set; }
 	}
 }
 

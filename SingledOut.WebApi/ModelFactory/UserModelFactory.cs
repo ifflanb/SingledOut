@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Web;
 using SingledOut.Data;
 using SingledOut.Model;
 using SingledOut.Repository;
+using SingledOut.SearchParameters;
 using SingledOut.Services.Interfaces;
-using SingledOut.Services.Services;
 using SingledOut.WebApi.Interfaces;
 
 namespace SingledOut.WebApi.ModelFactory
@@ -39,7 +41,7 @@ namespace SingledOut.WebApi.ModelFactory
         /// </summary>
         /// <param name="users"></param>
         /// <returns></returns>
-        public IEnumerable<UserModel> Create(IEnumerable<User> users)
+        public IEnumerable<UserModel> Create(IEnumerable<User> users, UsersSearchParameters sp)
         {
             var userModels = new List<UserModel>();
 
@@ -49,23 +51,49 @@ namespace SingledOut.WebApi.ModelFactory
                     {
                         ID = user.ID,
                         Age = user.Age,
-                        FirstName = user.FirstName,
-                        Surname = user.Surname,
+                        FirstName = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(user.FirstName),
+                        Surname = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(user.Surname),
                         FacebookAccessToken = user.FacebookAccessToken,
                         FacebookUserName = user.FacebookUserName,
                         FacebookPhotoUrl = HttpUtility.UrlDecode(user.FacebookPhotoUrl),
-                        Sex = user.Sex,
+                        Sex = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(user.Sex),
                         CreatedDate = user.CreatedDate,
                         UpdateDate = user.UpdateDate,
-                        Email = user.Email,
+                        Email = user.Email.ToLower(),
                         AuthToken = (Guid)user.AuthToken,
                         UserLocation = user.UserLocation != null ? _userLocationModelFactory.Create(user.UserLocation) : null,
                         Interests = user.Interests,
-                        ProfilePicture = user.ProfilePicture
+                        ProfilePicture = user.ProfilePicture,
+                        DistanceFromUser = user.UserLocation != null && sp.UserLatitude.HasValue && sp.UserLongitude.HasValue ? GetDistanceFromLatLonInKm((double)sp.UserLatitude, (double)sp.UserLongitude, user.UserLocation.Latitude, user.UserLocation.Longitude) : (double?)null
                     });
             }
 
+            userModels = userModels.OrderBy(o => o.DistanceFromUser).ThenBy(x => x.FirstName).ToList();
+
             return userModels;
+        }
+
+        private double GetDistanceFromLatLonInKm(double lat1,
+                                 double lon1,
+                                 double lat2,
+                                 double lon2)
+        {
+            var R = 6371d; // Radius of the earth in km
+            var dLat = Deg2Rad(lat2 - lat1);  // deg2rad below
+            var dLon = Deg2Rad(lon2 - lon1);
+            var a =
+              Math.Sin(dLat / 2d) * Math.Sin(dLat / 2d) +
+              Math.Cos(Deg2Rad(lat1)) * Math.Cos(Deg2Rad(lat2)) *
+              Math.Sin(dLon / 2d) * Math.Sin(dLon / 2d);
+            var c = 2d * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1d - a));
+            var d = R * c; // Distance in km
+            d = Math.Round(d, 2);
+            return d;
+        }
+
+        private double Deg2Rad(double deg)
+        {
+            return deg * (Math.PI / 180d);
         }
 
         public UserModel Create(User user)

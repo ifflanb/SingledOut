@@ -20,6 +20,22 @@ namespace SingledOutAndroid.Adapters
 		public List<UserLocationsFlat> items;
 
 		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="SingledOutAndroid.Adapters.GroupsListAdapter"/> display
+		/// place name.
+		/// </summary>
+		/// <value><c>true</c> if display place name; otherwise, <c>false</c>.</value>
+		public bool DisplayPlaceName { get;	set; }
+
+		/// <summary>
+		/// Gets or sets the custom list place name I.
+		/// </summary>
+		/// <value>The custom list place name I.</value>
+		public int CustomListPlaceNameID {
+			get;
+			set;
+		}
+
+		/// <summary>
 		/// Gets or sets the custom list item I.
 		/// </summary>
 		/// <value>The custom list item I.</value>
@@ -139,6 +155,11 @@ namespace SingledOutAndroid.Adapters
 			var name = view.FindViewById(CustomListItemNameID) as TextView;
 			var age = view.FindViewById (CustomListItemAgeID) as TextView;
 			var distance = view.FindViewById (CustomListItemDistanceID) as TextView;
+			var placeName = view.FindViewById (CustomListPlaceNameID) as TextView;
+
+			if (DisplayPlaceName) {
+				placeName.Text = "is @ " + item.PlaceName;
+			}
 
 			//Assign this item's values to the various subviews
 			if (!string.IsNullOrEmpty (item.ProfilePicture)) {
@@ -157,11 +178,12 @@ namespace SingledOutAndroid.Adapters
 				imageItem.SetImageBitmap (bmp);
 			}
 			if (string.IsNullOrEmpty (item.ProfilePicture) && item.ProfilePictureByteArray == null) {
-				imageItem.SetImageResource (Resource.Drawable.individual);
+				imageItem.SetImageResource (Resource.Drawable.blankperson);
 			}
-			name.SetText (string.Format("{0} {1}", item.FirstName, item.Surname.Substring(0,1)), TextView.BufferType.Normal);
-			age.SetText("age: " + item.Age.ToString() + " (" + item.Sex + ")", TextView.BufferType.Normal);
-			distance.SetText("within 200m", TextView.BufferType.Normal);
+			name.Text = string.Format("{0} {1}", item.FirstName, item.Surname.Substring(0,1));
+			age.Text = "Age: " + item.Age.ToString() + " (" + item.Sex + ")";
+			var distanceText = item.DistanceFromUser.HasValue ? string.Format("Distance: {0} km", item.DistanceFromUser) : "unknown distance";
+			distance.Text = distanceText;
 
 			return view;
 		}

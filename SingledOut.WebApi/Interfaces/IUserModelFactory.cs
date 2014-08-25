@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SingledOut.Data;
 using SingledOut.Model;
+using SingledOut.SearchParameters;
 
 namespace SingledOut.WebApi.Interfaces
 {
@@ -8,7 +9,7 @@ namespace SingledOut.WebApi.Interfaces
     {
         UserModel Create(User user);
 
-        IEnumerable<UserModel> Create(IEnumerable<User> users);
+        IEnumerable<UserModel> Create(IEnumerable<User> users, UsersSearchParameters sp);
 
         User Parse(UserModel model);
 

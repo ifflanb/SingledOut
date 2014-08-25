@@ -65,6 +65,8 @@ namespace SingledOutAndroid
 		private ImageView _btnEditSaveProfile;
 		private ImageView _btnChangeProfilePicture;
 		private Animations _animations;
+		private ListView _otherUsersListView;
+		private GroupsListAdapter _otherUsersListViewAdapter;
 
 		/// <summary>
 		/// Mode enum.
@@ -176,14 +178,19 @@ namespace SingledOutAndroid
 
 			isStartingUp = false;
 
-			// Now call the method to get the other users that are around.
-			DisplayOtherUsers ();
-
 			var btnApply = (Button)FindViewById (Resource.Id.btnApply);
 			btnApply.Click += BtnApplyClick;
 
 			// Set the map marker click event.
 			_mapHelper.Map.MarkerClick += MapMarkerClick;
+
+			_otherUsersListView = (ListView)FindViewById (Resource.Id.otherUsersListView);
+			if (_otherUsersListView != null) {
+				_otherUsersListView.ItemClick += OtherUsersListViewItemClick;
+			}
+
+			// Start the location manager.
+			_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
 		}
 
 		/// <summary>
@@ -287,6 +294,7 @@ namespace SingledOutAndroid
 
 			//Create our adapter and populate with list of Google place objects.
 			_groupsAdapter = new GroupsListAdapter(this){
+				DisplayPlaceName = false,
 				CustomListItemID = Resource.Layout.GroupUserItem,
 				CustomListItemNameID = Resource.Id.itemname,
 				CustomListItemPhoto = Resource.Id.userphoto,
@@ -332,6 +340,22 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Others the users list view item click.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
+		protected void OtherUsersListViewItemClick(object sender, AdapterView.ItemClickEventArgs e)
+		{
+			e.View.SetBackgroundColor (Color.AliceBlue);
+
+			// Get the user from the selected tab.
+			var user = _otherUsersListViewAdapter.GetItemAtPosition (e.Position);
+
+			// Add individual tab.
+			AddIndividalTabAndSelect (user);
+		}
+
+		/// <summary>
 		/// List view item click.
 		/// </summary>
 		/// <param name="sender">Sender.</param>
@@ -347,7 +371,9 @@ namespace SingledOutAndroid
 			AddIndividalTabAndSelect (user);
 
 			// Close the dialog.
-			_groupsAlertDialog.Dismiss ();
+			if (_groupsAlertDialog.IsShowing) {
+				_groupsAlertDialog.Dismiss ();
+			}
 		}
 
 		protected void BtnApplyClick(object sender, EventArgs e)
@@ -389,6 +415,7 @@ namespace SingledOutAndroid
 		private async Task<List<UserModel>> GetOtherUsers()
 		{
 			List<UserModel> userModelList = null;
+			var user = CurrentUser;
 
 			var rgGender = (RadioGroup)FindViewById (Resource.Id.rgGender);
 			var gender = GenderEnum.Both;
@@ -409,7 +436,9 @@ namespace SingledOutAndroid
 				AgeFrom = (int)_ageSlider.LeftValue,
 				AgeTo = (int)_ageSlider.RightValue,
 				Distance = _distanceSlider.Progress,
-				Sex = gender
+				Sex = gender,
+				UserLatitude = _currentLocation.Latitude,
+				UserLongitude = _currentLocation.Longitude
 			};
 
 			// Create task to get other users.
@@ -713,7 +742,9 @@ namespace SingledOutAndroid
 			var users = _mapHelper.GetOtherUsers (CurrentUser.ID);
 
 			//Create our adapter and populate with list of Google place objects.
-			var otherUsersListViewAdapter = new GroupsListAdapter(this){
+			_otherUsersListViewAdapter = new GroupsListAdapter(this){
+				DisplayPlaceName = true,
+				CustomListPlaceNameID = Resource.Id.placename,
 				CustomListItemID = Resource.Layout.GroupUserItem,
 				CustomListItemNameID = Resource.Id.itemname,
 				CustomListItemPhoto = Resource.Id.userphoto,
@@ -723,7 +754,7 @@ namespace SingledOutAndroid
 
 			var otherUsersListView = (ListView)FindViewById (Resource.Id.otherUsersListView);
 			if (otherUsersListView != null) {
-				otherUsersListView.Adapter = otherUsersListViewAdapter;
+				otherUsersListView.Adapter = _otherUsersListViewAdapter;
 			}
 		}
 
@@ -1080,16 +1111,7 @@ namespace SingledOutAndroid
 				bitmap = Bitmap.CreateScaledBitmap (bitmap, 100, 100, false);
 				_profilePhoto.SetImageBitmap (bitmap);
 			}
-
-
-//			if ((requestCode == PickImageId) && (resultCode == Result.Ok) && (data != null))
-//			{
-//				Android.Net.Uri uri = data.Data;
-//				_profilePhoto.SetImageURI(uri);			
-//			}
 		}
-
-
 
 		/// <summary>
 		/// Checkin on click.
@@ -1105,8 +1127,9 @@ namespace SingledOutAndroid
 				_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Finding places near you", "Please wait ...");
 
 				_btnCheckin.Enabled = false;
-				// Start the location manager.
-				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
+//				// Start the location manager.
+//				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
+				DisplayGooglePlaces ();
 			} 
 			else {
 				_mapHelper.RemoveMarker (this, CurrentUser.ID);
@@ -1128,15 +1151,21 @@ namespace SingledOutAndroid
 		protected async void LocationUpdated(object sender, LocationUpdatedEventArgs e)
 		{
 			_currentLocation = e.Location;
-			if (_currentLocation == null)
-			{
+			if (_currentLocation == null) {
 				ShowNotificationBox ("Could not determine your location");
-			}
-			else
-			{
+			} else {
 				// Stop the location listener.
-				_mapHelper.StopLocationListener();
+				_mapHelper.StopLocationListener ();
 
+				// Now call the method to get the other users that are around.
+				DisplayOtherUsers ();
+			}
+		}
+
+		private async void DisplayGooglePlaces()
+		{
+			if(_currentLocation != null)
+			{
 				// Make request to Google Places API to find places near here.
 				var googleApiNearbyPlacesUri = Resources.GetString (Resource.String.googleapiurinearbyplaces);
 				var placeTypes = Resources.GetString (Resource.String.googleapiplacetypes);
@@ -1206,7 +1235,7 @@ namespace SingledOutAndroid
 					}
 				} else 
 				{
-					ShowNotificationBox ("An error occurred!");
+					ShowNotificationBox ("Could not determine your location.");
 				}
 			}
 			// Hide progress dialog.

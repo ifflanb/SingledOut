@@ -29,10 +29,10 @@ namespace SingledOut.WebApi.Controllers
             try
             {
                 var users = _userRepository.Search(sp).ToList();
-
+                
                 if (users.Any())
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, _userModelFactory.Create(users));
+                    return Request.CreateResponse(HttpStatusCode.OK, _userModelFactory.Create(users, sp));
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, new List<UserModel>());
             }

@@ -575,133 +575,136 @@ namespace SingledOutAndroid
 			public const int line = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int listview = 2130837593;
+			public const int ListItemBorder = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int listviewselector = 2130837594;
+			public const int listview = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int logonopin = 2130837595;
+			public const int listviewselector = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int logopin = 2130837596;
+			public const int logonopin = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int logopindialog = 2130837597;
+			public const int logopin = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int malemarker = 2130837598;
+			public const int logopindialog = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int mapmarkerdialogblue = 2130837599;
+			public const int malemarker = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int menu = 2130837600;
+			public const int mapmarkerdialogblue = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int mobilespacelogo = 2130837601;
+			public const int menu = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int notificationbox = 2130837602;
+			public const int mobilespacelogo = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int party = 2130837603;
+			public const int notificationbox = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int party1 = 2130837604;
+			public const int party = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int places = 2130837605;
+			public const int party1 = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int radiooff = 2130837606;
+			public const int places = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int radioofffocused = 2130837607;
+			public const int radiooff = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int radiooffpressed = 2130837608;
+			public const int radioofffocused = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int radioon = 2130837609;
+			public const int radiooffpressed = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int radioondisabledfocused = 2130837610;
+			public const int radioon = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int radioonfocused = 2130837611;
+			public const int radioondisabledfocused = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public const int radioonpressed = 2130837612;
+			public const int radioonfocused = 2130837612;
 			
 			// aapt resource value: 0x7f02006d
-			public const int refresh = 2130837613;
+			public const int radioonpressed = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int roundedbutton = 2130837614;
+			public const int refresh = 2130837614;
 			
 			// aapt resource value: 0x7f02006f
-			public const int roundedbuttondark = 2130837615;
+			public const int roundedbutton = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public const int roundedlayout = 2130837616;
+			public const int roundedbuttondark = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public const int save = 2130837617;
+			public const int roundedlayout = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int settings = 2130837618;
+			public const int save = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int shake = 2130837619;
+			public const int settings = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int share2 = 2130837620;
+			public const int shake = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int singledoutlogin = 2130837621;
+			public const int share2 = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int singledoutloginclicked = 2130837622;
+			public const int singledoutlogin = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int singledoutlogo = 2130837623;
+			public const int singledoutloginclicked = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int singledoutregister = 2130837624;
+			public const int singledoutlogo = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int singledoutsignin = 2130837625;
+			public const int singledoutregister = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int slide_in_left = 2130837626;
+			public const int singledoutsignin = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int slide_out_left = 2130837627;
+			public const int slide_in_left = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int SlideDownAnimation = 2130837628;
+			public const int slide_out_left = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int SlideUpAnimation = 2130837629;
+			public const int SlideDownAnimation = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int slidingdrawer = 2130837630;
+			public const int SlideUpAnimation = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int textcolour = 2130837631;
+			public const int slidingdrawer = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int tick = 2130837632;
+			public const int textcolour = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int twitterlogin = 2130837633;
+			public const int tick = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int usermarker = 2130837634;
+			public const int twitterlogin = 2130837634;
 			
 			// aapt resource value: 0x7f020083
-			public const int validationBox = 2130837635;
+			public const int usermarker = 2130837635;
+			
+			// aapt resource value: 0x7f020084
+			public const int validationBox = 2130837636;
 			
 			static Drawable()
 			{
@@ -716,14 +719,14 @@ namespace SingledOutAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0600a7
-			public const int about = 2131099815;
+			// aapt resource value: 0x7f0600a8
+			public const int about = 2131099816;
 			
-			// aapt resource value: 0x7f06009d
-			public const int actionbarmenuMenu = 2131099805;
+			// aapt resource value: 0x7f06009e
+			public const int actionbarmenuMenu = 2131099806;
 			
-			// aapt resource value: 0x7f060074
-			public const int age = 2131099764;
+			// aapt resource value: 0x7f060075
+			public const int age = 2131099765;
 			
 			// aapt resource value: 0x7f060041
 			public const int ageslider = 2131099713;
@@ -740,8 +743,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060049
 			public const int btnCheckin = 2131099721;
 			
-			// aapt resource value: 0x7f060085
-			public const int btnCreateAccount = 2131099781;
+			// aapt resource value: 0x7f060086
+			public const int btnCreateAccount = 2131099782;
 			
 			// aapt resource value: 0x7f060023
 			public const int btnEditSaveProfile = 2131099683;
@@ -752,14 +755,14 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f06006f
 			public const int btnForgottenPassword = 2131099759;
 			
-			// aapt resource value: 0x7f06007d
-			public const int btnLogin = 2131099773;
+			// aapt resource value: 0x7f06007e
+			public const int btnLogin = 2131099774;
 			
-			// aapt resource value: 0x7f0600a4
-			public const int calendar = 2131099812;
+			// aapt resource value: 0x7f0600a5
+			public const int calendar = 2131099813;
 			
-			// aapt resource value: 0x7f06008c
-			public const int checkBox1 = 2131099788;
+			// aapt resource value: 0x7f06008d
+			public const int checkBox1 = 2131099789;
 			
 			// aapt resource value: 0x7f060046
 			public const int checkInBottomBar = 2131099718;
@@ -791,11 +794,11 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f06004c
 			public const int checkincontainerlayout = 2131099724;
 			
-			// aapt resource value: 0x7f06008e
-			public const int childlayout1 = 2131099790;
+			// aapt resource value: 0x7f06008f
+			public const int childlayout1 = 2131099791;
 			
-			// aapt resource value: 0x7f060083
-			public const int chkTermsCondition = 2131099779;
+			// aapt resource value: 0x7f060084
+			public const int chkTermsCondition = 2131099780;
 			
 			// aapt resource value: 0x7f06004f
 			public const int com_facebook_login_activity_progress_bar = 2131099727;
@@ -854,8 +857,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060060
 			public const int com_facebook_usersettingsfragment_profile_name = 2131099744;
 			
-			// aapt resource value: 0x7f06008d
-			public const int containerlayout = 2131099789;
+			// aapt resource value: 0x7f06008e
+			public const int containerlayout = 2131099790;
 			
 			// aapt resource value: 0x7f06003a
 			public const int contentLayout = 2131099706;
@@ -863,8 +866,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060062
 			public const int customlistitemlayout = 2131099746;
 			
-			// aapt resource value: 0x7f060075
-			public const int distance = 2131099765;
+			// aapt resource value: 0x7f060076
+			public const int distance = 2131099766;
 			
 			// aapt resource value: 0x7f060043
 			public const int distanceslider = 2131099715;
@@ -884,8 +887,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060068
 			public const int ellipse = 2131099752;
 			
-			// aapt resource value: 0x7f06008b
-			public const int facebooklogin = 2131099787;
+			// aapt resource value: 0x7f06008c
+			public const int facebooklogin = 2131099788;
 			
 			// aapt resource value: 0x7f06006d
 			public const int forgottenPasswordDescription = 2131099757;
@@ -902,23 +905,23 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f06003b
 			public const int gendertosee = 2131099707;
 			
-			// aapt resource value: 0x7f0600a2
-			public const int globe = 2131099810;
-			
-			// aapt resource value: 0x7f060077
-			public const int groupsDescription = 2131099767;
+			// aapt resource value: 0x7f0600a3
+			public const int globe = 2131099811;
 			
 			// aapt resource value: 0x7f060078
-			public const int groupsuserslist = 2131099768;
+			public const int groupsDescription = 2131099768;
+			
+			// aapt resource value: 0x7f060079
+			public const int groupsuserslist = 2131099769;
 			
 			// aapt resource value: 0x7f060070
 			public const int groupuseritemlayout = 2131099760;
 			
-			// aapt resource value: 0x7f0600a6
-			public const int help = 2131099814;
+			// aapt resource value: 0x7f0600a7
+			public const int help = 2131099815;
 			
-			// aapt resource value: 0x7f060076
-			public const int hidUserID = 2131099766;
+			// aapt resource value: 0x7f060077
+			public const int hidUserID = 2131099767;
 			
 			// aapt resource value: 0x7f060072
 			public const int horizontalText = 2131099762;
@@ -926,8 +929,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060004
 			public const int hybrid = 2131099652;
 			
-			// aapt resource value: 0x7f060091
-			public const int imageView1 = 2131099793;
+			// aapt resource value: 0x7f060092
+			public const int imageView1 = 2131099794;
 			
 			// aapt resource value: 0x7f060063
 			public const int imageitem = 2131099747;
@@ -974,11 +977,11 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060066
 			public const int latitude = 2131099750;
 			
-			// aapt resource value: 0x7f06007e
-			public const int lblForgottenPassword = 2131099774;
+			// aapt resource value: 0x7f06007f
+			public const int lblForgottenPassword = 2131099775;
 			
-			// aapt resource value: 0x7f060084
-			public const int lblTermsConditions = 2131099780;
+			// aapt resource value: 0x7f060085
+			public const int lblTermsConditions = 2131099781;
 			
 			// aapt resource value: 0x7f06006c
 			public const int lblValidation = 2131099756;
@@ -989,14 +992,14 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f06004b
 			public const int listView = 2131099723;
 			
-			// aapt resource value: 0x7f0600a3
-			public const int listview = 2131099811;
+			// aapt resource value: 0x7f0600a4
+			public const int listview = 2131099812;
 			
-			// aapt resource value: 0x7f06007b
-			public const int loginDescription = 2131099771;
+			// aapt resource value: 0x7f06007c
+			public const int loginDescription = 2131099772;
 			
-			// aapt resource value: 0x7f060090
-			public const int logonopin = 2131099792;
+			// aapt resource value: 0x7f060091
+			public const int logonopin = 2131099793;
 			
 			// aapt resource value: 0x7f060067
 			public const int longitude = 2131099751;
@@ -1004,11 +1007,11 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f06000b
 			public const int map = 2131099659;
 			
-			// aapt resource value: 0x7f0600a0
-			public const int menu = 2131099808;
+			// aapt resource value: 0x7f0600a1
+			public const int menu = 2131099809;
 			
-			// aapt resource value: 0x7f060088
-			public const int noAccountYet = 2131099784;
+			// aapt resource value: 0x7f060089
+			public const int noAccountYet = 2131099785;
 			
 			// aapt resource value: 0x7f060000
 			public const int none = 2131099648;
@@ -1019,8 +1022,8 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060008
 			public const int notification = 2131099656;
 			
-			// aapt resource value: 0x7f06008a
-			public const int orHere = 2131099786;
+			// aapt resource value: 0x7f06008b
+			public const int orHere = 2131099787;
 			
 			// aapt resource value: 0x7f06000d
 			public const int otherUsersListView = 2131099661;
@@ -1028,17 +1031,20 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f06005e
 			public const int picker_subtitle = 2131099742;
 			
-			// aapt resource value: 0x7f06008f
-			public const int pin = 2131099791;
+			// aapt resource value: 0x7f060090
+			public const int pin = 2131099792;
 			
-			// aapt resource value: 0x7f06007f
-			public const int placesDescription = 2131099775;
+			// aapt resource value: 0x7f060074
+			public const int placename = 2131099764;
 			
 			// aapt resource value: 0x7f060080
-			public const int placeslist = 2131099776;
+			public const int placesDescription = 2131099776;
 			
-			// aapt resource value: 0x7f0600a1
-			public const int profile = 2131099809;
+			// aapt resource value: 0x7f060081
+			public const int placeslist = 2131099777;
+			
+			// aapt resource value: 0x7f0600a2
+			public const int profile = 2131099810;
 			
 			// aapt resource value: 0x7f060029
 			public const int profileAge = 2131099689;
@@ -1097,11 +1103,11 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f06003e
 			public const int rbWomen = 2131099710;
 			
-			// aapt resource value: 0x7f06009f
-			public const int refresh = 2131099807;
+			// aapt resource value: 0x7f0600a0
+			public const int refresh = 2131099808;
 			
-			// aapt resource value: 0x7f060081
-			public const int registerDescription = 2131099777;
+			// aapt resource value: 0x7f060082
+			public const int registerDescription = 2131099778;
 			
 			// aapt resource value: 0x7f06003c
 			public const int rgGender = 2131099708;
@@ -1112,26 +1118,26 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f06005d
 			public const int search_box = 2131099741;
 			
-			// aapt resource value: 0x7f0600a5
-			public const int settings = 2131099813;
+			// aapt resource value: 0x7f0600a6
+			public const int settings = 2131099814;
 			
-			// aapt resource value: 0x7f06009e
-			public const int share = 2131099806;
-			
-			// aapt resource value: 0x7f060086
-			public const int signinTitle = 2131099782;
-			
-			// aapt resource value: 0x7f06007a
-			public const int signincontainerinnerlayout = 2131099770;
-			
-			// aapt resource value: 0x7f060079
-			public const int signincontainerlayout = 2131099769;
+			// aapt resource value: 0x7f06009f
+			public const int share = 2131099807;
 			
 			// aapt resource value: 0x7f060087
-			public const int singledoutlogin = 2131099783;
+			public const int signinTitle = 2131099783;
 			
-			// aapt resource value: 0x7f060089
-			public const int singledoutregister = 2131099785;
+			// aapt resource value: 0x7f06007b
+			public const int signincontainerinnerlayout = 2131099771;
+			
+			// aapt resource value: 0x7f06007a
+			public const int signincontainerlayout = 2131099770;
+			
+			// aapt resource value: 0x7f060088
+			public const int singledoutlogin = 2131099784;
+			
+			// aapt resource value: 0x7f06008a
+			public const int singledoutregister = 2131099786;
 			
 			// aapt resource value: 0x7f060038
 			public const int slidingDrawer = 2131099704;
@@ -1154,29 +1160,29 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060003
 			public const int terrain = 2131099651;
 			
-			// aapt resource value: 0x7f060092
-			public const int textItem = 2131099794;
-			
-			// aapt resource value: 0x7f060095
-			public const int tutorial1 = 2131099797;
+			// aapt resource value: 0x7f060093
+			public const int textItem = 2131099795;
 			
 			// aapt resource value: 0x7f060096
-			public const int tutorial1Description = 2131099798;
-			
-			// aapt resource value: 0x7f060094
-			public const int tutorial1childlayout = 2131099796;
-			
-			// aapt resource value: 0x7f060093
-			public const int tutorial1containerlayout = 2131099795;
-			
-			// aapt resource value: 0x7f060098
-			public const int tutorial2 = 2131099800;
-			
-			// aapt resource value: 0x7f060099
-			public const int tutorial2Description = 2131099801;
+			public const int tutorial1 = 2131099798;
 			
 			// aapt resource value: 0x7f060097
-			public const int tutorial2childlayout = 2131099799;
+			public const int tutorial1Description = 2131099799;
+			
+			// aapt resource value: 0x7f060095
+			public const int tutorial1childlayout = 2131099797;
+			
+			// aapt resource value: 0x7f060094
+			public const int tutorial1containerlayout = 2131099796;
+			
+			// aapt resource value: 0x7f060099
+			public const int tutorial2 = 2131099801;
+			
+			// aapt resource value: 0x7f06009a
+			public const int tutorial2Description = 2131099802;
+			
+			// aapt resource value: 0x7f060098
+			public const int tutorial2childlayout = 2131099800;
 			
 			// aapt resource value: 0x7f060033
 			public const int txtAge = 2131099699;
@@ -1193,11 +1199,11 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060037
 			public const int txtInterests = 2131099703;
 			
-			// aapt resource value: 0x7f06007c
-			public const int txtPassword = 2131099772;
+			// aapt resource value: 0x7f06007d
+			public const int txtPassword = 2131099773;
 			
-			// aapt resource value: 0x7f060082
-			public const int txtRepeatPassword = 2131099778;
+			// aapt resource value: 0x7f060083
+			public const int txtRepeatPassword = 2131099779;
 			
 			// aapt resource value: 0x7f060031
 			public const int txtSurname = 2131099697;
@@ -1211,14 +1217,14 @@ namespace SingledOutAndroid
 			// aapt resource value: 0x7f060009
 			public const int viewFlipper = 2131099657;
 			
+			// aapt resource value: 0x7f06009d
+			public const int welcomeDescription = 2131099805;
+			
 			// aapt resource value: 0x7f06009c
-			public const int welcomeDescription = 2131099804;
+			public const int welcomeTitle = 2131099804;
 			
 			// aapt resource value: 0x7f06009b
-			public const int welcomeTitle = 2131099803;
-			
-			// aapt resource value: 0x7f06009a
-			public const int welcomechildlayout = 2131099802;
+			public const int welcomechildlayout = 2131099803;
 			
 			static Id()
 			{

@@ -34,5 +34,7 @@ namespace SingledOut.Model
         public string Interests { get; set; }
 
         public byte[] ProfilePicture { get; set; }
+
+        public double? DistanceFromUser { get; set; }
     }
 }

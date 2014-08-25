@@ -102,7 +102,6 @@
     <Compile Include="Adapters\GroupsListAdapter.cs" />
     <Compile Include="Classes\RoundImageView.cs" />
     <Compile Include="Animations\Animations.cs" />
-    <Compile Include="Adapters\OtherUsersListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -204,6 +203,7 @@
     <AndroidResource Include="Resources\drawable\save.png" />
     <AndroidResource Include="Resources\drawable\gallery.png" />
     <AndroidResource Include="Resources\drawable\shake.xml" />
+    <AndroidResource Include="Resources\drawable\ListItemBorder.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />
