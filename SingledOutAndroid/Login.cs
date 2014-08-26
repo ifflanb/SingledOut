@@ -119,6 +119,7 @@ namespace SingledOutAndroid
 						if (string.IsNullOrEmpty(GetUserPreference ("SingledOutEmail"))) {
 							SetUserPreference ("SingledOutEmail", returnUserModel.Email);
 							SetUserPreference ("SingledOutUser", json);
+							SetUserPreference ("UserLocationID", returnUserModel.UserLocationID.ToString());
 							SetUserPreference ("UserID", returnUserModel.ID.ToString());
 							AuthenticationToken = returnUserModel.AuthToken.ToString();
 						} 				

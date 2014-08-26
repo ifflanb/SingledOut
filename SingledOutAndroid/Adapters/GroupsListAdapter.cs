@@ -162,22 +162,12 @@ namespace SingledOutAndroid.Adapters
 			}
 
 			//Assign this item's values to the various subviews
-			if (!string.IsNullOrEmpty (item.ProfilePicture)) {
-				var uiHelper = new UIHelper ();
-				var bitmap = uiHelper.GetImageFromUrl (item.ProfilePicture);
-
-				if (bitmap != null) {
-					imageItem.SetImageBitmap (bitmap);
-				}
-			} else {
-				imageItem.SetImageResource (Resource.Drawable.blankperson);
-			}
-
 			if (item.ProfilePictureByteArray != null) {
-				var bmp = BitmapFactory.DecodeByteArray(item.ProfilePictureByteArray, 0, item.ProfilePictureByteArray.Length);
+				var bmp = BitmapFactory.DecodeByteArray (item.ProfilePictureByteArray, 0, item.ProfilePictureByteArray.Length);
 				imageItem.SetImageBitmap (bmp);
 			}
-			if (string.IsNullOrEmpty (item.ProfilePicture) && item.ProfilePictureByteArray == null) {
+			else
+			{ 
 				imageItem.SetImageResource (Resource.Drawable.blankperson);
 			}
 			name.Text = string.Format("{0} {1}", item.FirstName, item.Surname.Substring(0,1));

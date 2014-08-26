@@ -133,6 +133,9 @@ namespace SingledOutAndroid
 			// Get the map fragment.
 			MapFragment mapfragment = (MapFragment)this.FragmentManager.FindFragmentById(Resource.Id.map);
 
+			// Remove the current user location.
+			RemoveCurrentUserLocation ();
+
 			// Create map helper.
 			_mapHelper = new MapHelper (this);
 
@@ -379,13 +382,25 @@ namespace SingledOutAndroid
 		protected void BtnApplyClick(object sender, EventArgs e)
 		{
 			CloseSlidingDrawer ();
-			DisplayOtherUsers ();
+
+			if (ActionBar.SelectedTab == _mapTab) 
+			{
+				DisplayOtherUsers (TabPosition.Map);
+			}
+			if(ActionBar.SelectedTab == _listViewTab)
+			{
+				DisplayOtherUsers (TabPosition.ListView);
+			}
+			if (ActionBar.SelectedTab == _individualTab || ActionBar.SelectedTab == _profileTab) {
+				_mapTab.Select ();
+				DisplayOtherUsers (TabPosition.Map);
+			}
 		}
 
 		/// <summary>
 		/// Displays the other users.
 		/// </summary>
-		private async void DisplayOtherUsers()
+		private async void DisplayOtherUsers(TabPosition display)
 		{
 			if (!isStartingUp) {
 				_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Finding other users", "Please wait ...");
@@ -402,8 +417,14 @@ namespace SingledOutAndroid
 					double? currentUserLongitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLongitude")) ? double.Parse(GetUserPreference ("CurrentUserLongitude")) : (double?)null;
 					int currentUserID = int.Parse (GetUserPreference ("UserID"));
 
-					_mapHelper.SetOtherUserMarkers (this, userModelList, 16, currentUserLatitude, currentUserLongitude, currentUserID);
-
+					// Update the local map user data store.
+					_mapHelper.UpdateMapdUserData (userModelList, currentUserID);
+					if (display == TabPosition.Map) {
+						_mapHelper.SetOtherUserMarkers (this, userModelList, 16, currentUserLatitude, currentUserLongitude, currentUserID);
+					}
+					if (display == TabPosition.ListView) {
+						PopulateOtherUsersListTab();
+					}
 				}
 				_uiHelper.HideProgressDialog ();
 			}
@@ -662,7 +683,7 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
-		public async void OnTabSelected (object sender, ActionBar.TabEventArgs e)
+		public void OnTabSelected (object sender, ActionBar.TabEventArgs e)
 		{
 			switch (((ActionBar.Tab)sender).Text.ToLower()) {
 			case "map":
@@ -706,14 +727,12 @@ namespace SingledOutAndroid
 					}
 					var individualPhoto = (RoundImageView)this.FindViewById (Resource.Id.individualPhoto);
 					if (individualPhoto != null) {
-						if (!string.IsNullOrEmpty (user.ProfilePicture)) {
-							var task = FactoryStartNew<Bitmap> (() => _uiHelper.GetImageFromUrl (user.ProfilePicture));
-							if (task != null) {
-								// await so that this task will run in the background.
-								await task;
-								individualPhoto.SetImageBitmap (task.Result);
-							}
-						} else {
+						if(user.ProfilePictureByteArray != null && user.ProfilePictureByteArray.Length > 0)
+						{
+							var bmp = BitmapFactory.DecodeByteArray(user.ProfilePictureByteArray, 0, user.ProfilePictureByteArray.Length);
+							individualPhoto.SetImageBitmap (bmp);
+						}
+						else {
 							individualPhoto.SetImageResource (Resource.Drawable.blankperson);
 						}
 						individualPhoto.BringToFront ();
@@ -792,20 +811,8 @@ namespace SingledOutAndroid
 			}							
 
 			_profilePhoto = (RoundImageView)FindViewById (Resource.Id.profilePhoto);
-			if (_profilePhoto != null) {
-				if (isFacebookUser) {
-					if (!string.IsNullOrEmpty (CurrentUser.FacebookPhotoUrl)) {
-							var task = FactoryStartNew<Bitmap> (() => _uiHelper.GetImageFromUrl (CurrentUser.FacebookPhotoUrl));
-
-						if (task != null) {
-							// await so that this task will run in the background.
-							await task;
-							_profilePhoto.SetImageBitmap (task.Result);
-						}
-					} else {
-						_profilePhoto.SetImageResource (Resource.Drawable.blankperson);
-					}
-				} else {
+			if (_profilePhoto != null) 
+				{				
 					if(CurrentUser.ProfilePicture != null && CurrentUser.ProfilePicture.Length > 0)
 					{
 						var bmp = BitmapFactory.DecodeByteArray(CurrentUser.ProfilePicture, 0, CurrentUser.ProfilePicture.Length);
@@ -815,9 +822,7 @@ namespace SingledOutAndroid
 						_profilePhoto.SetImageResource (Resource.Drawable.blankperson);
 					}
 				}
-
-				_profilePhoto.BringToFront ();
-			}
+				_profilePhoto.BringToFront ();			
 			}
 		}
 
@@ -1122,24 +1127,41 @@ namespace SingledOutAndroid
 		{
 			_animations.ShakeView (Resource.Id.btnCheckin);
 
-			if (!_mapHelper.UserHasMarker(CurrentUser.ID)) {
+//			if (!_mapHelper.UserHasMarker(CurrentUser.ID)) 
+//			{
+			var userLocationID = GetUserPreference ("UserLocationID");
+			if(string.IsNullOrEmpty(userLocationID))
+			{
 				// Start progress indicator.
 				_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Finding places near you", "Please wait ...");
 
 				_btnCheckin.Enabled = false;
-//				// Start the location manager.
-//				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
+				// Display the Google Places dialog.
 				DisplayGooglePlaces ();
 			} 
-			else {
+			else 
+			{
+					// Remove the current user location.
+					RemoveCurrentUserLocation();
+
+					// Set the name and image on the checkin button.
+					_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
+					_btnCheckin.Text = "Join in";
+			}
+		}
+
+		/// <summary>
+		/// Removes the current user location.
+		/// </summary>
+		private void RemoveCurrentUserLocation()
+		{
+			// Get the saved user location Id.
+			var userLocationID = GetUserPreference ("UserLocationID");
+			if (!string.IsNullOrEmpty(userLocationID)) {
 				_mapHelper.RemoveMarker (this, CurrentUser.ID);
 
 				// Remove the user location from the database.
 				RemoveUserLocation ();
-
-				// Set the name and image on the checkin button.
-				_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
-				_btnCheckin.Text = "Join in";
 			}
 		}
 
@@ -1148,7 +1170,7 @@ namespace SingledOutAndroid
 		/// </summary>
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
-		protected async void LocationUpdated(object sender, LocationUpdatedEventArgs e)
+		protected void LocationUpdated(object sender, LocationUpdatedEventArgs e)
 		{
 			_currentLocation = e.Location;
 			if (_currentLocation == null) {
@@ -1158,7 +1180,7 @@ namespace SingledOutAndroid
 				_mapHelper.StopLocationListener ();
 
 				// Now call the method to get the other users that are around.
-				DisplayOtherUsers ();
+				DisplayOtherUsers (TabPosition.Map);
 			}
 		}
 

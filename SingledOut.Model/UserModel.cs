@@ -19,6 +19,8 @@ namespace SingledOut.Model
 
         public string FacebookPhotoUrl { get; set; }
 
+        public int? UserLocationID { get; set; }
+
         public UserLocationModel UserLocation { get; set; }
 
         public IEnumerable<UserQuestionModel> UserQuestions { get; set; }

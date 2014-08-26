@@ -41,7 +41,10 @@ namespace SingledOutAndroid
 		/// <param name="userID">User I.</param>
 		public bool UserHasMarker (int userID)
 		{
-			var hasMarker = MapUserData.Any (o => o.UserID == userID && o.MapMarker != null);
+			var hasMarker = false;
+			if (MapUserData != null && MapUserData.Any (o => o.UserID == userID && o.MapMarker != null)) {
+				hasMarker = true;
+			}
 			return hasMarker;
 		}
 
@@ -285,9 +288,9 @@ namespace SingledOutAndroid
 			var markers = MapUserData.Where (o => o.Latitude == latitude && o.Longitude == longitude).ToList ();
 
 			foreach (var m in markers) {
-				if (m.MapMarker == null) {
+				//if (m.MapMarker == null) {
 					m.MapMarker = marker;
-				}
+				//}
 			}
 		}
 
@@ -322,6 +325,31 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Updates the mapd user data.
+		/// </summary>
+		/// <param name="userModels">User models.</param>
+		public void UpdateMapdUserData(List<UserModel> userModels, int currentUserID)
+		{
+			if (userModels != null) {
+				// Store the user data in a public property.
+				MapUserData = (from c in userModels
+				               select new UserLocationsFlat {
+					IsLoggedOnUser = c.ID == currentUserID ? true : false,
+					FirstName = c.FirstName,
+					Surname = c.Surname,
+					UserID = c.ID,
+					Age = c.Age,
+					Sex = c.Sex.ToLower (),					
+					ProfilePictureByteArray = c.ProfilePicture,
+					Latitude = c.UserLocation != null ? c.UserLocation.Latitude : (double?)null,
+					Longitude = c.UserLocation != null ? c.UserLocation.Longitude : (double?)null,
+					PlaceName = c.UserLocation != null ? (!string.IsNullOrEmpty (c.UserLocation.PlaceName) ? Truncate (c.UserLocation.PlaceName, 10) : "an unknown place") : "an unknown place",
+					DistanceFromUser = c.DistanceFromUser
+				}).ToList ();
+			}
+		}
+
+		/// <summary>
 		/// Sets the other user markers.
 		/// </summary>
 		/// <param name="context">Context.</param>
@@ -345,23 +373,10 @@ namespace SingledOutAndroid
 
 			// Check if there are other users.
 			if (users != null) {
-				// Store the user data in a public property.
-				MapUserData = (from c in users
-				               select new UserLocationsFlat {
-					IsLoggedOnUser = c.ID == currentUserID ? true : false,
-					FirstName = c.FirstName,
-					Surname = c.Surname,
-					UserID = c.ID,
-					Age = c.Age,
-					Sex = c.Sex.ToLower(),
-					ProfilePicture = c.FacebookPhotoUrl,
-					ProfilePictureByteArray = c.ProfilePicture,
-					Latitude = c.UserLocation != null ? c.UserLocation.Latitude : (double?)null,
-					Longitude = c.UserLocation != null ? c.UserLocation.Longitude : (double?)null,
-					PlaceName = c.UserLocation != null ? (!string.IsNullOrEmpty(c.UserLocation.PlaceName) ? Truncate(c.UserLocation.PlaceName, 10) : "an unknown place")  : "an unknown place",
-					DistanceFromUser = c.DistanceFromUser
-				}).ToList ();
+				// Update the local map user data store.
+				//UpdateMapdUserData (users, currentUserID);
 
+				// Get all data except for the current logged in user.
 				var allUsersExceptLoggedInUser = (from o in MapUserData where o.UserID != currentUserID select o);
 
 				// Group the users by lat long.
@@ -522,7 +537,7 @@ namespace SingledOutAndroid
 				}
 				// Are all people at the location male?
 				else if (usersAtLocation.Where (o => o.Sex == "male").Count () == usersAtLocation.Count ()) {
-					mapMarkerDrawableID = Resource.Drawable.femalemarker;
+					mapMarkerDrawableID = Resource.Drawable.malemarker;
 				} 
 			}
 
@@ -582,19 +597,14 @@ namespace SingledOutAndroid
 
 				// Update the store of users with the map marker ID for this user.
 				isUserMapMarker = true;
-
 			}
 
-
-			var padding = 80; // offset from edges of the map in pixels
-			
+			var padding = 80; // offset from edges of the map in pixels			
 			var builder = new LatLngBounds.Builder();
 			builder.Include(markerOptions.Position);
 			var bounds = builder.Build();
-
 			var cameraPositionBuilder = new CameraPosition.Builder();				
-			cameraPositionBuilder.Zoom (_userZoomLevel);				
-
+			cameraPositionBuilder.Zoom (_userZoomLevel);
 			cameraPositionBuilder.Target(new LatLng (latitude, longitude));
 
 			var cu = CameraUpdateFactory.NewLatLngBounds(bounds, padding);
@@ -604,8 +614,7 @@ namespace SingledOutAndroid
 			_map.AnimateCamera (cu);
 
 			_map.MoveCamera (cu2);
-			_map.AnimateCamera (cu2);		
-
+			_map.AnimateCamera (cu2);	
 
 			var marker = _map.AddMarker (markerOptions);
 			var evaluator = new LatLngEvaluator ();

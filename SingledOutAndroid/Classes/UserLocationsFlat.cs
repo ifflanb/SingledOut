@@ -26,8 +26,6 @@ namespace SingledOutAndroid
 
 		public string PlaceName { get; set; }
 
-		public string ProfilePicture { get; set; }
-
 		public byte[] ProfilePictureByteArray { get; set; }
 
 		public string Interests { get; set; }

@@ -62,6 +62,7 @@ namespace SingledOut.WebApi.ModelFactory
                         Email = user.Email.ToLower(),
                         AuthToken = (Guid)user.AuthToken,
                         UserLocation = user.UserLocation != null ? _userLocationModelFactory.Create(user.UserLocation) : null,
+                        UserLocationID = user.UserLocationID,
                         Interests = user.Interests,
                         ProfilePicture = user.ProfilePicture,
                         DistanceFromUser = user.UserLocation != null && sp.UserLatitude.HasValue && sp.UserLongitude.HasValue ? GetDistanceFromLatLonInKm((double)sp.UserLatitude, (double)sp.UserLongitude, user.UserLocation.Latitude, user.UserLocation.Longitude) : (double?)null
@@ -73,6 +74,14 @@ namespace SingledOut.WebApi.ModelFactory
             return userModels;
         }
 
+        /// <summary>
+        /// Gets the distance between 2 lat long points.
+        /// </summary>
+        /// <param name="lat1"></param>
+        /// <param name="lon1"></param>
+        /// <param name="lat2"></param>
+        /// <param name="lon2"></param>
+        /// <returns></returns>
         private double GetDistanceFromLatLonInKm(double lat1,
                                  double lon1,
                                  double lat2,
@@ -91,10 +100,16 @@ namespace SingledOut.WebApi.ModelFactory
             return d;
         }
 
+        /// <summary>
+        /// Converts Degrees to Rads.
+        /// </summary>
+        /// <param name="deg"></param>
+        /// <returns></returns>
         private double Deg2Rad(double deg)
         {
             return deg * (Math.PI / 180d);
         }
+
 
         public UserModel Create(User user)
         {
@@ -113,7 +128,8 @@ namespace SingledOut.WebApi.ModelFactory
                 Email = user.Email,
                 AuthToken = (Guid)user.AuthToken,
                 Interests = user.Interests,
-                ProfilePicture = user.ProfilePicture
+                ProfilePicture = user.ProfilePicture,
+                UserLocationID = user.UserLocationID
                 //Password = user.Password
                 //UserQuestions = _userQuestionModelFactory.Create(user.UserQuestions),
                 //UserLocations = _userLocationModelFactory.Create(user.UserLocations),
@@ -141,7 +157,8 @@ namespace SingledOut.WebApi.ModelFactory
                     Password = model.Password ,
                     AuthToken = model.AuthToken,
                     Interests = model.Interests,
-                    ProfilePicture = model.ProfilePicture
+                    ProfilePicture = model.ProfilePicture,
+                    UserLocationID = model.UserLocationID
                     //!string.IsNullOrEmpty(model.Password) ? _security.CreateHash(model.Password) : string.Empty
                     //UserQuestions = _userQuestionRepository.GetUserQuestion(model.UserQuestions.)
                     //CourseTutor = _repo.GetTutor(model.Tutor.Id)

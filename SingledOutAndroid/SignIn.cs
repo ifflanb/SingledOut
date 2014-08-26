@@ -24,6 +24,8 @@ using System.Globalization;
 using Newtonsoft.Json.Linq;
 using Org.Json;
 using Java.Net;
+using Java.IO;
+using System.IO;
 
 namespace SingledOutAndroid
 {
@@ -276,6 +278,7 @@ namespace SingledOutAndroid
 									owner.AuthenticationToken = returnUserModel.AuthToken.ToString();
 									owner.SetUserPreference ("FacebookPhoto", returnUserModel.FacebookPhotoUrl);
 									owner.SetUserPreference ("UserID", returnUserModel.ID.ToString ());
+									owner.SetUserPreference ("UserLocationID", returnUserModel.UserLocationID.ToString());
 									owner.AuthenticationToken = returnUserModel.AuthToken.ToString ();
 								} 
 
@@ -333,6 +336,11 @@ namespace SingledOutAndroid
 					age = CalculateAge (birthdate);
 				}
 
+				byte[] photoByteArray = null;
+				if (!string.IsNullOrEmpty (facebookPhotoUrl)) {
+					photoByteArray = GetByteArrayFromUrl (facebookPhotoUrl);
+				}
+
 				var userModel = new UserModel {
 					FirstName = user.GetString("first_name"),
 					Surname = user.GetString("last_name"),
@@ -343,7 +351,7 @@ namespace SingledOutAndroid
 					UpdateDate = DateTime.UtcNow,
 					Age = age > 0 ? (int)age : (int?)null,
 					Email = user.GetString("email"),
-					FacebookPhotoUrl = Android.Net.Uri.Encode(facebookPhotoUrl)
+					ProfilePicture = photoByteArray
 				};					
 
 				// Instantiate a Uri Creator.
@@ -353,6 +361,43 @@ namespace SingledOutAndroid
 				// Save the details.
 				var response = restHelper.PostAsync(uri , userModel);
 				return response;
+			}
+		}
+
+		/// <summary>
+		/// Gets the byte array from URL.
+		/// </summary>
+		/// <param name="url">URL.</param>
+		private static byte[] GetByteArrayFromUrl(string url)
+		{
+			var bitmap = GetBitmapFromURL (url);
+
+			byte[] byteArray = null;
+			using (var ms = new MemoryStream())
+			{
+				bitmap.Compress (Android.Graphics.Bitmap.CompressFormat.Png, 100, ms);
+				byteArray = ms.ToArray(); 	
+			}
+			return byteArray;
+		}
+
+		/// <summary>
+		/// Gets the bitmap from UR.
+		/// </summary>
+		/// <returns>The bitmap from UR.</returns>
+		/// <param name="src">Source.</param>
+		private static Bitmap GetBitmapFromURL(String src) {
+			try {
+				var url = new URL(src);
+				var connection = (HttpURLConnection) url.OpenConnection();
+				connection.DoInput = true ;
+				connection.Connect();
+				var input = connection.InputStream;
+				var myBitmap = BitmapFactory.DecodeStream(input);
+				return myBitmap;
+			} catch (Java.IO.IOException e) {
+				// Log exception
+				return null;
 			}
 		}
 
