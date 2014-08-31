@@ -76,6 +76,30 @@
                 android:layout_below="@+id/checkInIndividualView"
                 android:background="#EEEEEE">
                 <TableRow
+                    android:id="@+id/tableRow0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:padding="5dp">
+                    <TextView
+                        android:id="@+id/individualCurrentLocationLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:textSize="14dp"
+                        android:background="#EEEEEE"
+                        android:gravity="center_vertical"
+                        android:text="Location:"
+                        android:paddingRight="5dp" />
+                    <TextView
+                        android:id="@+id/individualCurrentLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textSize="14dp"
+                        android:textColor="#007FFF"
+                        android:gravity="center_vertical" />
+                </TableRow>
+                <TableRow
                     android:id="@+id/tableRow1"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
@@ -88,7 +112,8 @@
                         android:textSize="14dp"
                         android:background="#EEEEEE"
                         android:gravity="center_vertical"
-                        android:text="Age:" />
+                        android:text="Age:"
+                        android:paddingRight="5dp" />
                     <TextView
                         android:id="@+id/individualAge"
                         android:layout_width="match_parent"
@@ -111,7 +136,8 @@
                         android:textSize="14dp"
                         android:background="#EEEEEE"
                         android:gravity="center_vertical"
-                        android:text="Gender:" />
+                        android:text="Gender:"
+                        android:paddingRight="5dp" />
                     <TextView
                         android:id="@+id/individualGender"
                         android:layout_width="match_parent"
@@ -135,7 +161,8 @@
                         android:textSize="14dp"
                         android:background="#EEEEEE"
                         android:gravity="center_vertical"
-                        android:text="Distance:" />
+                        android:text="Distance:"
+                        android:paddingRight="5dp" />
                     <TextView
                         android:id="@+id/individualDistance"
                         android:layout_width="match_parent"
@@ -158,7 +185,8 @@
                         android:textSize="14dp"
                         android:background="#EEEEEE"
                         android:gravity="center_vertical"
-                        android:text="Interests:" />
+                        android:text="Interests:"
+                        android:paddingRight="5dp" />
                     <TextView
                         android:id="@+id/individualInterests"
                         android:layout_width="match_parent"
@@ -368,6 +396,7 @@
                     style="@style/descriptiontext"
                     android:layout_width="wrap_content"
                     android:textColor="#ffffff"
+                    android:paddingLeft="5dp"
                     android:layout_gravity="left|center_vertical" />
                 <RadioGroup
                     android:id="@+id/rgGender"
@@ -423,7 +452,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dip">
                 <TextView
-                    android:text="Within 100M"
+                    android:text="Within 500M"
                     android:id="@+id/distancetosee"
                     style="@style/descriptiontext"
                     android:layout_width="match_parent"
@@ -434,8 +463,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/distanceslider"
                     android:layout_gravity="center_vertical"
-                    android:max="1000"
-                    android:progress="100"
+                    android:max="5000"
+                    android:progress="500"
                     android:paddingRight="10dp"
                     android:layout_marginRight="10dp" />
             </TableRow>
@@ -460,7 +489,7 @@
                     android:gravity="center"
                     android:layout_gravity="right"
                     android:background="#33B5E5"
-                    android:paddingLeft="15dp" />
+                    android:paddingLeft="5dp" />
             </TableRow>
         </TableLayout>
     </SlidingDrawer>

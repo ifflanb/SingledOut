@@ -141,7 +141,7 @@ namespace MobileSpace.Helpers
 		/// <param name="iconResourceID">Icon resource I.</param>
 		/// <param name="okButton">If set to <c>true</c> ok button.</param>
 		/// <param name="cancelButton">If set to <c>true</c> cancel button.</param>
-		public AlertDialog BuildAlertDialog(IListAdapter adapter, bool useFastSearchForListView, bool cancelableOnTouchOutside, int layoutID, int textItemID, Activity activity, string title, int iconResourceID,int listViewID)
+		public AlertDialog BuildAlertDialog(IListAdapter adapter, bool useFastSearchForListView, bool cancelableOnTouchOutside, int layoutID, int textItemID, Activity activity, string title, int iconResourceID,int listViewID, int listViewAnimationID)
 		{
 			AlertDialog.Builder builder = new AlertDialog.Builder (activity);
 
@@ -163,6 +163,12 @@ namespace MobileSpace.Helpers
 				listView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
 					OnListViewItemClick (sender, e);
 				};
+
+				var animation = AnimationUtils.LoadAnimation (activity, listViewAnimationID);
+				animation.Duration = 500;
+				listView.Animation = animation;
+
+				listView.StartAnimation (animation);
 			}
 
 			return dialog;

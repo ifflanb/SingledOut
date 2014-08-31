@@ -80,6 +80,59 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Gets or sets the current user latitude.
+		/// </summary>
+		/// <value>The current user latitude.</value>
+		public double? CurrentUserLatitude
+		{
+			set {
+				SetUserPreference ("CurrentUserLatitude", value.ToString());
+			}
+			get{
+				var currentUserLatitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLatitude")) ? double.Parse(GetUserPreference ("CurrentUserLatitude")) : (double?)null;
+				return currentUserLatitude;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the current user longitude.
+		/// </summary>
+		/// <value>The current user longitude.</value>
+		public double? CurrentUserLongitude
+		{
+			set {
+				SetUserPreference ("CurrentUserLongitude", value.ToString());
+			}
+			get{
+				var currentUserLongitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLongitude")) ? double.Parse(GetUserPreference ("CurrentUserLongitude")) : (double?)null;
+				return currentUserLongitude;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the current user longitude.
+		/// </summary>
+		/// <value>The current user longitude.</value>
+		public bool IsUserVisible
+		{
+			set {
+				SetUserPreference ("IsUserVisible", value.ToString());
+			}
+			get{
+				var isUserVisible = false;
+				if(!string.IsNullOrEmpty(GetUserPreference ("IsUserVisible")))
+				{
+					var visible = false;
+					if (bool.TryParse (GetUserPreference ("IsUserVisible"), out visible)) {
+						isUserVisible = visible;
+					}
+				} 
+
+				return isUserVisible;
+			}
+		}
+
+		/// <summary>
 		/// Gets or sets a value indicating whether this <see cref="SingledOutAndroid.BaseActivity"/> show action bar tabs.
 		/// </summary>
 		/// <value><c>true</c> if show action bar tabs; otherwise, <c>false</c>.</value>

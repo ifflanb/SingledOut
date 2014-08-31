@@ -46,7 +46,6 @@ namespace SingledOutAndroid
 		private ActionBar.Tab _listViewTab;
 		private ActionBar.Tab _individualTab;
 		private ActionBar.Tab _profileTab;
-		private Location _currentLocation;
 		private UriCreator _googleApiUriCreator;
 		private RestHelper _restHelper;
 		private GooglePlacesResponse _placesFound;
@@ -67,6 +66,16 @@ namespace SingledOutAndroid
 		private Animations _animations;
 		private ListView _otherUsersListView;
 		private GroupsListAdapter _otherUsersListViewAdapter;
+		private LocationUpdateForEnum _locationUpdateForEnum;
+
+		/// <summary>
+		/// Location update for enum.
+		/// </summary>
+		private enum LocationUpdateForEnum
+		{
+			General = 0,
+			Checkin = 1
+		}
 
 		/// <summary>
 		/// Mode enum.
@@ -193,6 +202,7 @@ namespace SingledOutAndroid
 			}
 
 			// Start the location manager.
+			_locationUpdateForEnum = LocationUpdateForEnum.General;
 			_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
 		}
 
@@ -309,7 +319,7 @@ namespace SingledOutAndroid
 
 			// Add dialog with places found list.
 			_groupsAlertDialog = null;
-			_groupsAlertDialog = _uiHelper.BuildAlertDialog (_groupsAdapter, true, true, Resource.Layout.groupusers, Resource.Layout.TextViewItem, this, string.Format("Users at {0}", placeName), Resource.Drawable.individual, Resource.Id.groupsuserslist);
+			_groupsAlertDialog = _uiHelper.BuildAlertDialog (_groupsAdapter, true, true, Resource.Layout.groupusers, Resource.Layout.TextViewItem, this, string.Format("Users at {0}", placeName), Resource.Drawable.individual, Resource.Id.groupsuserslist, Resource.Drawable.push_up_in);
 
 			// Add cancel button and event.
 			_groupsAlertDialog.SetButton ("Cancel", (s, evt) => {
@@ -413,18 +423,28 @@ namespace SingledOutAndroid
 
 					var userModelList = task.Result;
 
-					double? currentUserLatitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLatitude")) ? double.Parse(GetUserPreference ("CurrentUserLatitude")) : (double?)null;
-					double? currentUserLongitude = !string.IsNullOrEmpty(GetUserPreference ("CurrentUserLongitude")) ? double.Parse(GetUserPreference ("CurrentUserLongitude")) : (double?)null;
-					int currentUserID = int.Parse (GetUserPreference ("UserID"));
+					if (userModelList != null) {
+						int currentUserID = int.Parse (GetUserPreference ("UserID"));
 
-					// Update the local map user data store.
-					_mapHelper.UpdateMapdUserData (userModelList, currentUserID);
-					if (display == TabPosition.Map) {
-						_mapHelper.SetOtherUserMarkers (this, userModelList, 16, currentUserLatitude, currentUserLongitude, currentUserID);
+						// Update the local map user data store.
+						_mapHelper.UpdateMapUserData (userModelList, currentUserID);
+						if (display == TabPosition.Map) {
+							_mapHelper.SetOtherUserMarkers (this, userModelList, 16, CurrentUserLatitude, CurrentUserLongitude, CurrentUser, IsUserVisible);
+						}
+
+						if (display == TabPosition.ListView) {
+							PopulateOtherUsersListTab ();
+						}
 					}
-					if (display == TabPosition.ListView) {
-						PopulateOtherUsersListTab();
+					else
+					{			
+						_mapHelper.Map.Clear ();
+						_mapHelper.MapUserData = null;
+						_mapHelper.AddUserToMapUserData (CurrentUser);
+						ShowNotificationBox ("No users found in this area", true);
 					}
+				} else {
+					ShowNotificationBox ("No users found in this area", true);
 				}
 				_uiHelper.HideProgressDialog ();
 			}
@@ -458,8 +478,8 @@ namespace SingledOutAndroid
 				AgeTo = (int)_ageSlider.RightValue,
 				Distance = _distanceSlider.Progress,
 				Sex = gender,
-				UserLatitude = _currentLocation.Latitude,
-				UserLongitude = _currentLocation.Longitude
+				UserLatitude = (double)CurrentUserLatitude,
+				UserLongitude = (double)CurrentUserLongitude
 			};
 
 			// Create task to get other users.
@@ -555,8 +575,8 @@ namespace SingledOutAndroid
 					var returnnModel = JsonConvert.DeserializeObject<UserLocationModel> (json);
 
 					SetUserPreference ("UserLocationID", returnnModel.ID.ToString());
-					SetUserPreference ("UserLatitude", returnnModel.Latitude.ToString());
-					SetUserPreference ("UserLongitude", returnnModel.Longitude.ToString());
+					CurrentUserLatitude = returnnModel.Latitude;
+					CurrentUserLongitude = returnnModel.Longitude;
 					SetUserPreference ("UserPlaceName", returnnModel.PlaceName);
 				}
 			}
@@ -583,12 +603,12 @@ namespace SingledOutAndroid
 					response = _restHelper.DeleteAsync (uri);
 				
 					if (!response.IsSuccessStatusCode) {
-						ShowNotificationBox ("An error occurred!");
+						ShowNotificationBox ("An error occurred!", true);
 					}
 				}
 			}
 			catch(Exception ex) {
-				ShowNotificationBox ("An error occurred!");
+				ShowNotificationBox ("An error occurred!", true);
 				// Log error.
 			}
 
@@ -638,19 +658,26 @@ namespace SingledOutAndroid
 			// Get the Google Place object for the item selected
 			var googlePlace = _adapter.GetItemAtPosition (e.Position);
 
-			// Add a marker for the users position.
-			_mapHelper.SetUserMarker (this, googlePlace.Latitude, googlePlace.Longitude, googlePlace.Name, CurrentUser.ID); 
+			IsUserVisible = true;
 
-			SetUserPreference ("CurrentUserLatitude", googlePlace.Latitude.ToString ());
-			SetUserPreference ("CurrentUserLongitude", googlePlace.Longitude.ToString ());
+			// Add a marker for the users position.
+			_mapHelper.SetUserMarker (this, googlePlace.Latitude, googlePlace.Longitude, googlePlace.Name, CurrentUser); 
+
+			// Save the location to the database.
+			SaveUserLocation (googlePlace);
+
+			// Update preferences with new location coordinates.
+			CurrentUserLatitude = googlePlace.Latitude;
+			CurrentUserLongitude = googlePlace.Longitude;
+		
+			// Repopulate other users.
+			DisplayOtherUsers (TabPosition.Map);
 
 			// Set checkin button to 'Hide me'
 			BtnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide,0, 0, 0);
 			BtnCheckin.Text = "Hide Me!";
-
-			// Save the location to the database.
-			SaveUserLocation (googlePlace);
 		}
+
 
 		/// <summary>
 		/// Adds the places.
@@ -707,23 +734,27 @@ namespace SingledOutAndroid
 				{
 					var individualName = (TextView)this.FindViewById (Resource.Id.individualName);
 					if (individualName != null) {
-						individualName.SetText (string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1)), TextView.BufferType.Normal);							
+						individualName.Text = string.Concat (user.FirstName, " ", user.Surname.Substring (0, 1));	
+					}
+					var individualCurrentLocation = (TextView)this.FindViewById (Resource.Id.individualCurrentLocation);
+					if (individualCurrentLocation != null) {
+						individualCurrentLocation.Text = user.PlaceName;							
 					}
 					var individualAge = (TextView)this.FindViewById (Resource.Id.individualAge);
 					if (individualAge != null) {
-						individualAge.SetText (user.Age.ToString (), TextView.BufferType.Normal);							
+						individualAge.Text = user.Age.ToString ();							
 					}
 					var individualGender = (TextView)this.FindViewById (Resource.Id.individualGender);
 					if (individualGender != null) {
-						individualGender.SetText (user.Sex, TextView.BufferType.Normal);							
+						individualGender.Text = user.Sex;							
 					}
 					var individualDistance = (TextView)this.FindViewById (Resource.Id.individualDistance);
 					if (individualDistance != null) {
-						individualDistance.SetText ("200m", TextView.BufferType.Normal);							
+						individualDistance.Text = user.DistanceFromUser.HasValue ? user.DistanceFromUser.Value.ToString() + " km" : "distance unknown";							
 					}
 					var individualInterests = (TextView)this.FindViewById (Resource.Id.individualInterests);
 					if (individualInterests != null) {
-						individualInterests.SetText (user.Interests, TextView.BufferType.Normal);							
+						individualInterests.Text  = user.Interests;							
 					}
 					var individualPhoto = (RoundImageView)this.FindViewById (Resource.Id.individualPhoto);
 					if (individualPhoto != null) {
@@ -759,21 +790,29 @@ namespace SingledOutAndroid
 		private void PopulateOtherUsersListTab()
 		{
 			var users = _mapHelper.GetOtherUsers (CurrentUser.ID);
+			if (users != null) {
+				//Create our adapter and populate with list of Google place objects.
+				_otherUsersListViewAdapter = new GroupsListAdapter (this) {
+					DisplayPlaceName = true,
+					CustomListPlaceNameID = Resource.Id.placename,
+					CustomListItemID = Resource.Layout.GroupUserItem,
+					CustomListItemNameID = Resource.Id.itemname,
+					CustomListItemPhoto = Resource.Id.userphoto,
+					CustomListItemAgeID = Resource.Id.age,
+					CustomListItemDistanceID = Resource.Id.distance,
+					items = users
+				};
 
-			//Create our adapter and populate with list of Google place objects.
-			_otherUsersListViewAdapter = new GroupsListAdapter(this){
-				DisplayPlaceName = true,
-				CustomListPlaceNameID = Resource.Id.placename,
-				CustomListItemID = Resource.Layout.GroupUserItem,
-				CustomListItemNameID = Resource.Id.itemname,
-				CustomListItemPhoto = Resource.Id.userphoto,
-				CustomListItemAgeID = Resource.Id.age,
-				CustomListItemDistanceID = Resource.Id.distance,
-				items = users};
+				var otherUsersListView = (ListView)FindViewById (Resource.Id.otherUsersListView);
+				if (otherUsersListView != null) {
+					otherUsersListView.Adapter = _otherUsersListViewAdapter;
 
-			var otherUsersListView = (ListView)FindViewById (Resource.Id.otherUsersListView);
-			if (otherUsersListView != null) {
-				otherUsersListView.Adapter = _otherUsersListViewAdapter;
+					var animation = AnimationUtils.LoadAnimation (this, Resource.Drawable.push_up_in);
+					animation.Duration = 500;
+					otherUsersListView.Animation = animation;
+
+					otherUsersListView.StartAnimation (animation);
+				}
 			}
 		}
 
@@ -860,23 +899,23 @@ namespace SingledOutAndroid
 
 						// Save the updated user to the preference.
 						SetUserPreference ("SingledOutUser", json);
-						ShowNotificationBox ("Profile updated.");
+						ShowNotificationBox ("Profile updated.", true);
 					}
 					else if (task.Result.StatusCode == HttpStatusCode.Unauthorized) 
 					{
-						ShowNotificationBox ("You are not logged in.");
+						ShowNotificationBox ("You are not logged in.", true);
 					} 	
 					else if (task.Result.StatusCode == HttpStatusCode.NotModified)
 					{
-						ShowNotificationBox ("Nothing to update.");
+						ShowNotificationBox ("Nothing to update.", true);
 					}
 					else
 					{
-						ShowNotificationBox (GetStringRes (Resource.String.exceptionUnknown));
+						ShowNotificationBox (GetStringRes (Resource.String.exceptionUnknown), true);
 					}
 				} 
 			} catch (Exception ex) {
-				ShowNotificationBox (GetStringRes (Resource.String.exceptionUnknown));
+				ShowNotificationBox (GetStringRes (Resource.String.exceptionUnknown), true);
 			}
 
 			_uiHelper.HideProgressDialog ();
@@ -1127,26 +1166,42 @@ namespace SingledOutAndroid
 		{
 			_animations.ShakeView (Resource.Id.btnCheckin);
 
-//			if (!_mapHelper.UserHasMarker(CurrentUser.ID)) 
-//			{
+			// Start the location manager.
+			if (_btnCheckin.Text == "Join in") {
+				_locationUpdateForEnum = LocationUpdateForEnum.Checkin;
+				_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
+			} else {
+				JoinIn ();
+			}
+		}
+
+		/// <summary>
+		/// Joins the user in.
+		/// </summary>
+		private void JoinIn()
+		{
 			var userLocationID = GetUserPreference ("UserLocationID");
 			if(string.IsNullOrEmpty(userLocationID))
 			{
 				// Start progress indicator.
 				_uiHelper.DisplayProgressDialog (this, Resource.Style.CustomDialogTheme, "Finding places near you", "Please wait ...");
 
+				// Disable the checkin button.
 				_btnCheckin.Enabled = false;
+
 				// Display the Google Places dialog.
 				DisplayGooglePlaces ();
 			} 
 			else 
 			{
-					// Remove the current user location.
-					RemoveCurrentUserLocation();
+				// Remove the current user location.
+				RemoveCurrentUserLocation();
 
-					// Set the name and image on the checkin button.
-					_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
-					_btnCheckin.Text = "Join in";
+				// Set the name and image on the checkin button.
+				_btnCheckin.SetCompoundDrawablesWithIntrinsicBounds(Resource.Drawable.hide, 0, 0, 0);
+				_btnCheckin.Text = "Join in";
+
+				IsUserVisible = false;
 			}
 		}
 
@@ -1172,21 +1227,32 @@ namespace SingledOutAndroid
 		/// <param name="e">E.</param>
 		protected void LocationUpdated(object sender, LocationUpdatedEventArgs e)
 		{
-			_currentLocation = e.Location;
-			if (_currentLocation == null) {
-				ShowNotificationBox ("Could not determine your location");
+			if (e.Location == null) {
+				ShowNotificationBox ("Could not determine your location", true);
 			} else {
+				// Save current location.
+				CurrentUserLatitude = e.Location.Latitude;
+				CurrentUserLongitude = e.Location.Longitude;
+
 				// Stop the location listener.
 				_mapHelper.StopLocationListener ();
 
-				// Now call the method to get the other users that are around.
-				DisplayOtherUsers (TabPosition.Map);
+				if (_locationUpdateForEnum == LocationUpdateForEnum.General) {
+					// Now call the method to get the other users that are around.
+					DisplayOtherUsers (TabPosition.Map);
+				}
+				if (_locationUpdateForEnum == LocationUpdateForEnum.Checkin) {
+					JoinIn ();
+				}
 			}
 		}
 
+		/// <summary>
+		/// Displays the google places.
+		/// </summary>
 		private async void DisplayGooglePlaces()
 		{
-			if(_currentLocation != null)
+			if(CurrentUserLatitude.HasValue)
 			{
 				// Make request to Google Places API to find places near here.
 				var googleApiNearbyPlacesUri = Resources.GetString (Resource.String.googleapiurinearbyplaces);
@@ -1196,8 +1262,8 @@ namespace SingledOutAndroid
 				var uri = _googleApiUriCreator.GooglePlaceApiNearbyPlaces (
 					googleApiNearbyPlacesUri,
 					GoogleApiKey,
-					_currentLocation.Latitude,
-					_currentLocation.Longitude,
+					(double)CurrentUserLatitude,
+					(double)CurrentUserLongitude,
 					5000,
 					placeTypes);
 
@@ -1236,7 +1302,7 @@ namespace SingledOutAndroid
 
 							// Add dialog with places found list.
 							_alertDialog = null;
-							_alertDialog = _uiHelper.BuildAlertDialog (_adapter, true, true, Resource.Layout.NearbyPlaces, Resource.Layout.TextViewItem, this, "Places found near you", Resource.Drawable.places, Resource.Id.placeslist);
+							_alertDialog = _uiHelper.BuildAlertDialog (_adapter, true, true, Resource.Layout.NearbyPlaces, Resource.Layout.TextViewItem, this, "Places found near you", Resource.Drawable.places, Resource.Id.placeslist, Resource.Drawable.push_up_in);
 
 							_uiHelper.OnListViewItemClick += ListViewItemClick;
 
@@ -1257,7 +1323,7 @@ namespace SingledOutAndroid
 					}
 				} else 
 				{
-					ShowNotificationBox ("Could not determine your location.");
+					ShowNotificationBox ("Could not determine your location.", true);
 				}
 			}
 			// Hide progress dialog.

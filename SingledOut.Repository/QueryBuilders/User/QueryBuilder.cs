@@ -66,7 +66,7 @@ namespace SingledOut.Repository.QueryBuilders.User
                                     Math.Sin(ToRadians(90 - (double) sp.UserLatitude))*
                                     Math.Sin(ToRadians(90 - ul.Latitude))*
                                     Math.Cos(ToRadians((double) sp.UserLongitude - ul.Longitude)))*EarthsRadius <=
-                        (int) sp.Distance
+                        ((double) sp.Distance / 1000)
                     select u).AsQueryable();
             }
 

@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <TextView
-        android:text="List View stuff goes here"
+        android:text="No users in range."
         android:id="@+id/listView"
         android:layout_width="wrap_content"
         style="@style/titletext" />

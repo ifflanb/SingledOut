@@ -204,6 +204,11 @@
     <AndroidResource Include="Resources\drawable\gallery.png" />
     <AndroidResource Include="Resources\drawable\shake.xml" />
     <AndroidResource Include="Resources\drawable\ListItemBorder.xml" />
+    <AndroidResource Include="Resources\drawable\fade_in.xml" />
+    <AndroidResource Include="Resources\drawable\push_left_in.xml" />
+    <AndroidResource Include="Resources\drawable\slide_top_to_bottom.xml" />
+    <AndroidResource Include="Resources\drawable\slide_in_top.xml" />
+    <AndroidResource Include="Resources\drawable\push_up_in.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\raw\" />

@@ -158,7 +158,8 @@ namespace SingledOutAndroid.Adapters
 			var placeName = view.FindViewById (CustomListPlaceNameID) as TextView;
 
 			if (DisplayPlaceName) {
-				placeName.Text = "is @ " + item.PlaceName;
+				var place = item.PlaceName.Length > 10 ? item.PlaceName.Substring(0, 10) : item.PlaceName;
+				placeName.Text = "is @ " + place ;
 			}
 
 			//Assign this item's values to the various subviews
@@ -172,7 +173,7 @@ namespace SingledOutAndroid.Adapters
 			}
 			name.Text = string.Format("{0} {1}", item.FirstName, item.Surname.Substring(0,1));
 			age.Text = "Age: " + item.Age.ToString() + " (" + item.Sex + ")";
-			var distanceText = item.DistanceFromUser.HasValue ? string.Format("Distance: {0} km", item.DistanceFromUser) : "unknown distance";
+			var distanceText = item.DistanceFromUser.HasValue ? string.Format("Distance: {0} km", item.DistanceFromUser) : "distance unknown";
 			distance.Text = distanceText;
 
 			return view;

@@ -49,6 +49,35 @@ namespace SingledOutAndroid
 		}
 
 		/// <summary>
+		/// Adds the user to map user data.
+		/// </summary>
+		/// <param name="userModel">User model.</param>
+		public void AddUserToMapUserData(UserModel userModel)
+		{
+			if (MapUserData == null) {
+				MapUserData = new List<UserLocationsFlat> ();
+			}
+
+			var user = MapUserData.SingleOrDefault (o => o.UserID == userModel.ID);
+			if (user != null) {
+				// Remove the user before re-adding.
+				MapUserData.Remove (user);
+			}
+
+			// Add the user.
+			MapUserData.Add (new UserLocationsFlat {
+				Age=userModel.Age,
+				FirstName=userModel.FirstName,
+				Surname=userModel.Surname,
+				Sex=userModel.Sex,
+				Interests=userModel.Interests,
+				IsLoggedOnUser=true,
+				ProfilePictureByteArray=userModel.ProfilePicture,
+				UserID=userModel.ID
+			});
+		}
+
+		/// <summary>
 		/// Gets or sets the map user data.
 		/// </summary>
 		/// <value>The map user data.</value>
@@ -328,7 +357,7 @@ namespace SingledOutAndroid
 		/// Updates the mapd user data.
 		/// </summary>
 		/// <param name="userModels">User models.</param>
-		public void UpdateMapdUserData(List<UserModel> userModels, int currentUserID)
+		public void UpdateMapUserData(List<UserModel> userModels, int currentUserID)
 		{
 			if (userModels != null) {
 				// Store the user data in a public property.
@@ -343,7 +372,7 @@ namespace SingledOutAndroid
 					ProfilePictureByteArray = c.ProfilePicture,
 					Latitude = c.UserLocation != null ? c.UserLocation.Latitude : (double?)null,
 					Longitude = c.UserLocation != null ? c.UserLocation.Longitude : (double?)null,
-					PlaceName = c.UserLocation != null ? (!string.IsNullOrEmpty (c.UserLocation.PlaceName) ? Truncate (c.UserLocation.PlaceName, 10) : "an unknown place") : "an unknown place",
+					PlaceName = c.UserLocation != null ? (!string.IsNullOrEmpty (c.UserLocation.PlaceName) ? c.UserLocation.PlaceName : "an unknown place") : "an unknown place",
 					DistanceFromUser = c.DistanceFromUser
 				}).ToList ();
 			}
@@ -363,7 +392,8 @@ namespace SingledOutAndroid
 			int? zoomLevel,
 			double? currentUserLatitude,
 			double? currentUserLongitude,
-			int currentUserID
+			UserModel currentUser,
+			bool isUserVisible
 			)
 		{
 			// Reset the map to clear markers.
@@ -377,7 +407,7 @@ namespace SingledOutAndroid
 				//UpdateMapdUserData (users, currentUserID);
 
 				// Get all data except for the current logged in user.
-				var allUsersExceptLoggedInUser = (from o in MapUserData where o.UserID != currentUserID select o);
+				var allUsersExceptLoggedInUser = (from o in MapUserData where o.UserID != currentUser.ID select o);
 
 				// Group the users by lat long.
 				var groupedUserLocations = (from t in allUsersExceptLoggedInUser
@@ -413,7 +443,7 @@ namespace SingledOutAndroid
 				}
 
 				// Add the individuals (not in the same location as others).
-				foreach (var user in users.Where(o => o.ID != currentUserID)) {
+				foreach (var user in users.Where(o => o.ID != currentUser.ID)) {
 					if (user.UserLocation != null) {
 						var markerOptions = new MarkerOptions ();
 						var latLng = new LatLng (user.UserLocation.Latitude, user.UserLocation.Longitude);
@@ -437,14 +467,14 @@ namespace SingledOutAndroid
 			}
 
 			// Current user is available.
-			if (currentUserLatitude.HasValue && currentUserLongitude.HasValue) {
+			if (currentUserLatitude.HasValue && currentUserLongitude.HasValue && isUserVisible) {
 				var placeName = " at an unknown location";
-				var loggedInUser = users.SingleOrDefault (o => o.ID == currentUserID);
+				var loggedInUser = users.SingleOrDefault (o => o.ID == currentUser.ID);
 				if (loggedInUser != null && loggedInUser.UserLocation != null) {
-					placeName = Truncate(loggedInUser.UserLocation.PlaceName, 10);
+					placeName = loggedInUser.UserLocation.PlaceName;
 				}
 
-				SetUserMarker (context, currentUserLatitude.Value, currentUserLongitude.Value, placeName, currentUserID);
+				SetUserMarker (context, currentUserLatitude.Value, currentUserLongitude.Value, placeName, currentUser);
 			} 
 			else 
 			{
@@ -484,9 +514,11 @@ namespace SingledOutAndroid
 		/// <param name="loggedInUserID">Logged in user I.</param>
 		public List<UserLocationsFlat> GetOtherUsers(int loggedInUserID)
 		{
-			var users = MapUserData.Where(o => o.UserID != loggedInUserID)
-				.Select(o => o).ToList(); 
-
+			List<UserLocationsFlat> users = null;
+			if (MapUserData != null) {
+				users = MapUserData.Where (o => o.UserID != loggedInUserID)
+				.Select (o => o).ToList (); 
+			}
 			return users;
 		}
 
@@ -555,7 +587,7 @@ namespace SingledOutAndroid
 			double latitude,
 			double longitude,
 			string placeName,
-			int userID)
+			UserModel userModel)
 		{
 			var markerOptions = new MarkerOptions();
 	
@@ -573,7 +605,7 @@ namespace SingledOutAndroid
 			var isUserMapMarker = false;
 
 			// Find out if there is already a map pin at the users location (other users).
-			var count = MapUserData.Count (o => o.Latitude == latitude && o.Longitude == longitude && o.UserID != userID);
+			var count = MapUserData.Count (o => o.Latitude == latitude && o.Longitude == longitude && o.UserID != userModel.ID);
 			if (count > 0) {
 				// Remove the existing marker.
 				RemoveMarker (latitude, longitude);
@@ -593,7 +625,7 @@ namespace SingledOutAndroid
 				markerOptions.InvokeIcon(BitmapDescriptorFactory.FromResource(markerIconID));
 
 				// If the user already has a pin on the map remove it.
-				RemoveMarker(context, userID);
+				RemoveMarker(context, userModel.ID);
 
 				// Update the store of users with the map marker ID for this user.
 				isUserMapMarker = true;
@@ -623,11 +655,13 @@ namespace SingledOutAndroid
 			objectAnimat.SetInterpolator (new Android.Views.Animations.BounceInterpolator ());
 			objectAnimat.Start ();
 
+			AddUserToMapUserData (userModel);
+
 			// Update the store of users with the map marker ID for those in a group.
 			if (isUserMapMarker) {
-				AddUserMapMarker (userID, marker);
+				AddUserMapMarker (userModel.ID, marker);
 			} else {
-				AddMapMarker (latitude, longitude, marker, userID);
+				AddMapMarker (latitude, longitude, marker, userModel.ID);
 			}
 		}
 
