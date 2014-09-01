@@ -441,10 +441,10 @@ namespace SingledOutAndroid
 						_mapHelper.Map.Clear ();
 						_mapHelper.MapUserData = null;
 						_mapHelper.AddUserToMapUserData (CurrentUser);
-						ShowNotificationBox ("No users found in this area", true);
+						ShowNotificationBox ("Nobody found in this area", true);
 					}
 				} else {
-					ShowNotificationBox ("No users found in this area", true);
+					ShowNotificationBox ("Nobody found in this area", true);
 				}
 				_uiHelper.HideProgressDialog ();
 			}
@@ -548,7 +548,7 @@ namespace SingledOutAndroid
 		private void SetDistanceRangeText(object sender, SeekBar.ProgressChangedEventArgs e)
 		{
 			var distancetosee = (TextView)FindViewById (Resource.Id.distancetosee);
-			distancetosee.Text = String.Format ("Within {0}M", e.Progress);
+			distancetosee.Text = String.Format ("Within {0}m", e.Progress);
 		}
 
 		/// <summary>

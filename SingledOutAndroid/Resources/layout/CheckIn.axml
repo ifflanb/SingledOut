@@ -136,7 +136,7 @@
                         android:textSize="14dp"
                         android:background="#EEEEEE"
                         android:gravity="center_vertical"
-                        android:text="Gender:"
+                        android:text="Sex:"
                         android:paddingRight="5dp" />
                     <TextView
                         android:id="@+id/individualGender"
@@ -275,7 +275,7 @@
                     android:textColor="#007FFF" />
                 <TextView
                     android:id="@+id/profileGenderLabel"
-                    android:text="Gender:"
+                    android:text="Sex:"
                     android:textSize="14dp"
                     android:layout_below="@+id/profileAge"
                     android:layout_width="match_parent"
@@ -369,7 +369,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="35dp"
         android:topOffset="250dp"
         android:allowSingleTap="true"
         android:animateOnClick="true">
@@ -384,27 +384,36 @@
             android:layout_height="wrap_content"
             android:background="#7F7F7F"
             android:gravity="center"
-            android:alpha="1">
+            android:alpha="1"
+            android:weightSum="4"
+            android:orientation="vertical">
             <TableRow
                 android:id="@+id/tableRow1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="5dp">
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:paddingBottom="5dp"
+                android:layout_weight="1"
+                android:weightSum="1">
                 <TextView
-                    android:text="Gender"
+                    android:text="Sex"
                     android:id="@+id/gendertosee"
                     style="@style/descriptiontext"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0px"
                     android:textColor="#ffffff"
                     android:paddingLeft="5dp"
-                    android:layout_gravity="left|center_vertical" />
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:layout_weight="0.3" />
                 <RadioGroup
                     android:id="@+id/rgGender"
                     style="@style/radiogroup"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="15dp"
-                    android:paddingRight="10dp">
+                    android:layout_width="0px"
+                    android:paddingRight="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.7"
+                    android:gravity="center_vertical">
                     <RadioButton
                         style="@style/radiobutton"
                         android:text="Men  "
@@ -424,72 +433,98 @@
             </TableRow>
             <TableRow
                 android:id="@+id/tableRow2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip">
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:padding="5dip"
+                android:layout_weight="1"
+                android:weightSum="1">
                 <TextView
                     android:text="Age {0} to {1}"
                     android:id="@+id/agetosee"
                     style="@style/descriptiontext"
-                    android:layout_width="match_parent"
+                    android:layout_width="0px"
                     android:textColor="#ffffff"
-                    android:layout_gravity="left|center_horizontal" />
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center_vertical"
+                    android:layout_weight="0.3" />
                 <rangeslider.RangeSliderView
                     android:id="@+id/ageslider"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
                     min_value="15"
                     max_value="100"
                     left_value="20"
                     right_value="80"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp"
-                    android:paddingRight="10dp" />
+                    android:paddingRight="10dp"
+                    android:layout_weight="0.7" />
             </TableRow>
             <TableRow
                 android:id="@+id/tableRow3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip">
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:weightSum="1">
                 <TextView
-                    android:text="Within 500M"
+                    android:text="Within 500m"
                     android:id="@+id/distancetosee"
                     style="@style/descriptiontext"
-                    android:layout_width="match_parent"
+                    android:layout_width="0px"
                     android:textColor="#ffffff"
-                    android:layout_gravity="left|center_horizontal" />
+                    android:gravity="left|center_vertical"
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3" />
                 <SeekBar
-                    android:layout_width="match_parent"
+                    android:layout_width="0px"
                     android:layout_height="wrap_content"
                     android:id="@+id/distanceslider"
                     android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
                     android:max="5000"
                     android:progress="500"
                     android:paddingRight="10dp"
-                    android:layout_marginRight="10dp" />
+                    android:layout_weight="0.7" />
             </TableRow>
             <TableRow
                 android:id="@+id/tableRow4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip">
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:padding="5dip"
+                android:layout_weight="1"
+                android:weightSum="1">
                 <TextView
                     android:text=""
                     android:id="@+id/dummyText"
                     style="@style/descriptiontext"
-                    android:layout_width="match_parent"
-                    android:layout_gravity="left|center_horizontal" />
+                    android:layout_width="0px"
+                    android:layout_gravity="left"
+                    android:gravity="left|center_vertical"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3" />
+                <TextView
+                    android:text=""
+                    android:id="@+id/dummyText"
+                    style="@style/descriptiontext"
+                    android:layout_gravity="left"
+                    android:gravity="left|center_vertical"
+                    android:layout_weight="0.3"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent" />
                 <Button
                     android:id="@+id/btnApply"
                     android:drawableLeft="@drawable/tick"
-                    android:text="Apply Filter"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:paddingRight="31dp"
+                    android:text="Apply"
+                    android:layout_height="40dp"
+                    android:layout_width="0px"
                     android:gravity="center"
-                    android:layout_gravity="right"
                     android:background="#33B5E5"
-                    android:paddingLeft="5dp" />
+                    android:paddingLeft="15dp"
+                    android:paddingRight="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.4" />
             </TableRow>
         </TableLayout>
     </SlidingDrawer>
