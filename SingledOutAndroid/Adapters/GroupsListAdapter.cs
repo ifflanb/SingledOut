@@ -159,7 +159,7 @@ namespace SingledOutAndroid.Adapters
 
 			if (DisplayPlaceName) {
 				var place = item.PlaceName.Length > 10 ? item.PlaceName.Substring(0, 10) : item.PlaceName;
-				placeName.Text = "is @ " + place ;
+				placeName.Text = "@ " + place ;
 			}
 
 			//Assign this item's values to the various subviews

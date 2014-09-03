@@ -14,6 +14,11 @@ namespace SingledOut.Data
     
     public partial class User
     {
+        public User()
+        {
+            this.UserPreferences = new HashSet<UserPreference>();
+        }
+    
         public int ID { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
@@ -36,5 +41,6 @@ namespace SingledOut.Data
         public virtual UserAnswer UserAnswer { get; set; }
         public virtual UserLocation UserLocation { get; set; }
         public virtual UserQuestion UserQuestion { get; set; }
+        public virtual ICollection<UserPreference> UserPreferences { get; set; }
     }
 }

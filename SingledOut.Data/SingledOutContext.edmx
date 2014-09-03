@@ -55,6 +55,17 @@
           <Property Name="UpdateDate" Type="datetime" Nullable="false" />
           <Property Name="PlaceName" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserPreferences">
+          <Key>
+            <PropertyRef Name="UserPreferencesID" />
+          </Key>
+          <Property Name="UserPreferencesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="6" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Distance" Type="int" />
+          <Property Name="DisplayProfilePicture" Type="bit" />
+        </EntityType>
         <EntityType Name="UserQuestions">
           <Key>
             <PropertyRef Name="ID" />
@@ -70,18 +81,18 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Surname" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Sex" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="FacebookAccessToken" Type="nvarchar(max)" />
-          <Property Name="FacebookUserName" Type="nvarchar" MaxLength="255" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="FacebookAccessToken" Type="nvarchar" MaxLength="255" />
+          <Property Name="FacebookUserName" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdateDate" Type="datetime" Nullable="false" />
           <Property Name="UserAnswerID" Type="int" />
           <Property Name="UserLocationID" Type="int" />
           <Property Name="UserQuestionID" Type="int" />
-          <Property Name="Password" Type="nvarchar" MaxLength="255" />
-          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="Password" Type="nvarchar" MaxLength="30" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="AuthToken" Type="uniqueidentifier" />
           <Property Name="Age" Type="int" />
           <Property Name="FacebookPhotoUrl" Type="nvarchar" MaxLength="1000" />
@@ -124,6 +135,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserPreferences_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserPreferences" Type="Self.UserPreferences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserPreferences">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="uspGetUsersByDistance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Latitude" Type="float" Mode="In" />
           <Parameter Name="Longitude" Type="float" Mode="In" />
@@ -135,6 +158,7 @@
           <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserAnswers" EntityType="Self.UserAnswers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLocations" EntityType="Self.UserLocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPreferences" EntityType="Self.UserPreferences" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserQuestions" EntityType="Self.UserQuestions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_Users_dbo_UserAnswers_UserAnswerID" Association="Self.FK_dbo_Users_dbo_UserAnswers_UserAnswerID">
@@ -148,6 +172,10 @@
           <AssociationSet Name="FK_dbo_Users_dbo_UserQuestions_UserQuestionID" Association="Self.FK_dbo_Users_dbo_UserQuestions_UserQuestionID">
             <End Role="UserQuestions" EntitySet="UserQuestions" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPreferences_Users" Association="Self.FK_UserPreferences_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPreferences" EntitySet="UserPreferences" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -222,18 +250,18 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Surname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Sex" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FacebookAccessToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FacebookUserName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FacebookAccessToken" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FacebookUserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserAnswerID" Type="Int32" />
           <Property Name="UserLocationID" Type="Int32" />
           <Property Name="UserQuestionID" Type="Int32" />
-          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AuthToken" Type="Guid" />
           <Property Name="Age" Type="Int32" />
           <Property Name="FacebookPhotoUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -242,6 +270,7 @@
           <NavigationProperty Name="UserQuestion" Relationship="Self.FK_dbo_Users_dbo_UserQuestions_UserQuestionID" FromRole="Users" ToRole="UserQuestions" />
           <Property Name="Interests" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="ProfilePicture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="UserPreferences" Relationship="SingledOutModel.FK_UserPreferences_Users" FromRole="User" ToRole="UserPreference" />
         </EntityType>
         <Association Name="FK_dbo_Users_dbo_UserAnswers_UserAnswerID">
           <End Role="UserAnswers" Type="Self.UserAnswer" Multiplicity="0..1" />
@@ -304,6 +333,11 @@
             <Parameter Name="Longitude" Mode="In" Type="Double" />
             <Parameter Name="Distance" Mode="In" Type="Double" />
           </FunctionImport>
+          <EntitySet Name="UserPreferences" EntityType="SingledOutModel.UserPreference" />
+          <AssociationSet Name="FK_UserPreferences_Users" Association="SingledOutModel.FK_UserPreferences_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserPreference" EntitySet="UserPreferences" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="uspGetUsersByDistance_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -313,6 +347,30 @@
           <Property Type="Double" Name="Latitude" Nullable="false" />
           <Property Type="Double" Name="Longitude" Nullable="false" />
         </ComplexType>
+        <EntityType Name="UserPreference">
+          <Key>
+            <PropertyRef Name="UserPreferencesID" />
+          </Key>
+          <Property Name="UserPreferencesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Distance" Type="Int32" />
+          <Property Name="DisplayProfilePicture" Type="Boolean" />
+          <NavigationProperty Name="User" Relationship="SingledOutModel.FK_UserPreferences_Users" FromRole="UserPreference" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserPreferences_Users">
+          <End Type="SingledOutModel.User" Role="User" Multiplicity="1" />
+          <End Type="SingledOutModel.UserPreference" Role="UserPreference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserPreference">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -420,6 +478,18 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="UserPreferences">
+            <EntityTypeMapping TypeName="SingledOutModel.UserPreference">
+              <MappingFragment StoreEntitySet="UserPreferences">
+                <ScalarProperty Name="DisplayProfilePicture" ColumnName="DisplayProfilePicture" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserPreferencesID" ColumnName="UserPreferencesID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

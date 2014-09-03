@@ -122,7 +122,7 @@ namespace MobileSpace.Helpers
 		public ActionBar.Tab AddActionBarTab(Activity activity, int tabNameResId, int tabIconDrawResId)
 		{
 			ActionBar.Tab tab = activity.ActionBar.NewTab();
-			tab.SetText(activity.Resources.GetString(tabNameResId));
+			tab.SetText("\t" + activity.Resources.GetString(tabNameResId));
 			tab.SetIcon(tabIconDrawResId);
 			tab.TabSelected += (object sender, ActionBar.TabEventArgs e) => 
 			{

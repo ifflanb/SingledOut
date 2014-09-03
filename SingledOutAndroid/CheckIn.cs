@@ -35,7 +35,7 @@ using Android.Provider;
 
 namespace SingledOutAndroid
 {
-	[Activity (Label = "Check-In")]
+	[Activity (Label = "Join In")]
 	public class CheckIn : BaseActivity
 	{
 		private LocationManager _locationManager;
@@ -68,6 +68,8 @@ namespace SingledOutAndroid
 		private GroupsListAdapter _otherUsersListViewAdapter;
 		private LocationUpdateForEnum _locationUpdateForEnum;
 
+		#region enums
+
 		/// <summary>
 		/// Location update for enum.
 		/// </summary>
@@ -99,12 +101,17 @@ namespace SingledOutAndroid
 			}
 		}
 
+		/// <summary>
+		/// Tab position.
+		/// </summary>
 		private enum TabPosition
 		{
 			Map = 0,
 			ListView = 1,
 			Individual = 2
 		}
+
+		#endregion
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -188,6 +195,8 @@ namespace SingledOutAndroid
 
 			_distanceSlider.ProgressChanged += SetDistanceRangeText;
 
+			SetInitialFilterPreferences ();
+
 			isStartingUp = false;
 
 			var btnApply = (Button)FindViewById (Resource.Id.btnApply);
@@ -204,6 +213,15 @@ namespace SingledOutAndroid
 			// Start the location manager.
 			_locationUpdateForEnum = LocationUpdateForEnum.General;
 			_locationManager = _mapHelper.InitializeLocationManager (true, 2000, 10);
+		}
+
+		/// <summary>
+		/// Sets the initial filter preferences.
+		/// </summary>
+		private void SetInitialFilterPreferences()
+		{
+			var rbBoth = (RadioButton)FindViewById (Resource.Id.rbBoth);
+			rbBoth.Checked = true;
 		}
 
 		/// <summary>
@@ -240,6 +258,9 @@ namespace SingledOutAndroid
 
 			if (item.TitleFormatted != null) {
 				switch (item.TitleFormatted.ToString ().ToLower ()) {
+				case "refresh":
+					Refresh ();
+					break;
 				case "profile":
 					AddProfileTabAndSelect ();
 					break;
@@ -393,6 +414,14 @@ namespace SingledOutAndroid
 		{
 			CloseSlidingDrawer ();
 
+			Refresh ();
+		}
+
+		/// <summary>
+		/// Refresh this users.
+		/// </summary>
+		private void Refresh()
+		{
 			if (ActionBar.SelectedTab == _mapTab) 
 			{
 				DisplayOtherUsers (TabPosition.Map);
@@ -713,16 +742,16 @@ namespace SingledOutAndroid
 		public void OnTabSelected (object sender, ActionBar.TabEventArgs e)
 		{
 			switch (((ActionBar.Tab)sender).Text.ToLower()) {
-			case "map":
+			case "\t" + "map":
 				_viewFlipper.DisplayedChild = 0;
 				RemoveDynamicTabs ();
 				break;
-			case "list":
+			case "\t" + "list":
 				_viewFlipper.DisplayedChild = 1;
 				RemoveDynamicTabs ();
 				PopulateOtherUsersListTab();
 				break;
-			case "user":
+			case "\t" + "user":
 				_viewFlipper.DisplayedChild = 2;
 
 				if (_profileTab != null) {
@@ -771,7 +800,7 @@ namespace SingledOutAndroid
 				}
 				break;
 
-			case "profile":
+			case "\t" + "profile":
 				Mode = ModeEnum.Normal;
 				SetControlsToCurrentMode ();
 

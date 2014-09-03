@@ -48,7 +48,11 @@ namespace SingledOut.WebApi
                 routeTemplate: "api/userlocations/DeleteUserLocation/{id}",
                 defaults: new { controller = "UserLocations", action = "DeleteUserLocation" });
 
-            
+            config.Routes.MapHttpRoute(
+                name: "UserPreferences",
+                routeTemplate: "api/userpreferences/{userPreferenceModel}",
+                defaults: new { controller = "UserPreferences", userPreferenceModel = RouteParameter.Optional });
+
            // var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
            // jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 

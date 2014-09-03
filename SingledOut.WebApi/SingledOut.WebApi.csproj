@@ -134,6 +134,7 @@
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\UserAnswersController.cs" />
     <Compile Include="Controllers\UserLocationsController.cs" />
+    <Compile Include="Controllers\UserPreferencesController.cs" />
     <Compile Include="Controllers\UserQuestionsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\UsersSearchController.cs" />
@@ -147,12 +148,14 @@
     <Compile Include="Interfaces\IUserAnswerModelFactory.cs" />
     <Compile Include="Interfaces\IUserLocationModelFactory.cs" />
     <Compile Include="Interfaces\IUserModelFactory.cs" />
+    <Compile Include="Interfaces\IUserPreferenceModelFactory.cs" />
     <Compile Include="Interfaces\IUserQuestionModelFactory.cs" />
     <Compile Include="ModelFactory\AnswerModelFactory.cs" />
     <Compile Include="ModelFactory\QuestionModelFactory.cs" />
     <Compile Include="ModelFactory\UserAnswerModelFactory.cs" />
     <Compile Include="ModelFactory\UserLocationModelFactory.cs" />
     <Compile Include="ModelFactory\UserModelFactory.cs" />
+    <Compile Include="ModelFactory\UserPreferenceModelFactory.cs" />
     <Compile Include="ModelFactory\UserQuestionModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SingledOutControllerSelector.cs" />

@@ -82,6 +82,9 @@
     <Compile Include="UserLocation.cs">
       <DependentUpon>SingledOutContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserPreference.cs">
+      <DependentUpon>SingledOutContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="UserQuestion.cs">
       <DependentUpon>SingledOutContext.tt</DependentUpon>
     </Compile>

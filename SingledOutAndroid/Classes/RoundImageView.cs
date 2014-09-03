@@ -41,11 +41,17 @@ namespace SingledOutAndroid
 
 			int w = Width, h = Height;
 
-			Bitmap roundBitmap = getCroppedBitmap(bitmap, w);
+			Bitmap roundBitmap = GetCroppedBitmap(bitmap, w);
 			canvas.DrawBitmap(roundBitmap, 0, 0, null);
 		}
 
-		public static Bitmap getCroppedBitmap(Bitmap bmp, int radius) {
+		/// <summary>
+		/// Gets the cropped bitmap.
+		/// </summary>
+		/// <returns>The cropped bitmap.</returns>
+		/// <param name="bmp">Bmp.</param>
+		/// <param name="radius">Radius.</param>
+		public static Bitmap GetCroppedBitmap(Bitmap bmp, int radius) {
 			Bitmap sbmp;
 
 			if (bmp.Width != radius || bmp.Height != radius) {
@@ -60,7 +66,6 @@ namespace SingledOutAndroid
 				Bitmap.Config.Argb8888);
 			Canvas canvas = new Canvas(output);
 
-			//int color = 0xffa19774;
 			Paint paint = new Paint();
 			Rect rect = new Rect(0, 0, radius, radius);
 

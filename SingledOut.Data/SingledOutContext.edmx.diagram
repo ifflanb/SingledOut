@@ -15,6 +15,8 @@
         <AssociationConnector Association="SingledOutModel.FK_dbo_Users_dbo_UserAnswers_UserAnswerID" ManuallyRouted="false" />
         <AssociationConnector Association="SingledOutModel.FK_dbo_Users_dbo_UserLocations_UserLocationID" ManuallyRouted="false" />
         <AssociationConnector Association="SingledOutModel.FK_dbo_Users_dbo_UserQuestions_UserQuestionID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SingledOutModel.UserPreference" Width="1.5" PointX="5.375" PointY="4.75" />
+        <AssociationConnector Association="SingledOutModel.FK_UserPreferences_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -34,6 +34,7 @@ namespace SingledOut.Data
         public virtual DbSet<UserLocation> UserLocations { get; set; }
         public virtual DbSet<UserQuestion> UserQuestions { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserPreference> UserPreferences { get; set; }
     
         public virtual ObjectResult<uspGetUsersByDistance_Result> uspGetUsersByDistance(Nullable<double> latitude, Nullable<double> longitude, Nullable<double> distance)
         {

@@ -1,10 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.FA34NW903113" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CheckIn.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Classes\RoundImageView.cs">
     <Files>
-      <File FileName="CheckIn.cs" Line="4" Column="4" />
-      <File FileName="MapHelper.cs" Line="1" Column="1" />
-      <File FileName="c:\Users\Ben\Documents\SingledOut\MobileSpace.Helpers\UIHelper.cs" Line="1" Column="1" />
+      <File FileName="CheckIn.cs" Line="39" Column="39" />
+      <File FileName="c:\Users\Ben\Documents\SingledOut\SingledOutAndroid\Classes\RoundImageView.cs" Line="47" Column="47" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
